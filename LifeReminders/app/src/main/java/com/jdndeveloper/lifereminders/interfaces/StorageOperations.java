@@ -1,5 +1,8 @@
 package com.jdndeveloper.lifereminders.interfaces;
 
+import com.jdndeveloper.lifereminders.lifestyle.LifeStyle;
+import com.jdndeveloper.lifereminders.notification.Notification;
+
 import java.util.List;
 
 /**
