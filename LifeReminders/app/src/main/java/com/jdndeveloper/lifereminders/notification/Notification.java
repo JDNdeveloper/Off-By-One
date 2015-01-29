@@ -2,6 +2,7 @@ package com.jdndeveloper.lifereminders.notification;
 
 /**
  * Created by jgemig on 1/27/2015.
+ * Modified by Jayden Navarro on 1/28/2015.
  */
 public class Notification {
 
