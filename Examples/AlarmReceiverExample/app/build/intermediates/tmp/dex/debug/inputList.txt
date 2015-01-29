@@ -1,0 +1,5 @@
+C:\Users\Josh Innis\Desktop\AlarmReceiverExample\app\build\intermediates\classes\debug
+C:\Users\Josh Innis\Desktop\AlarmReceiverExample\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-b89037c2d72d08f88fb1ffb2a284929e3feae652.jar
+C:\Users\Josh Innis\Desktop\AlarmReceiverExample\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-853743288f3fccc28f99ea4028d04a92d0e097a9.jar
+C:\Users\Josh Innis\Desktop\AlarmReceiverExample\app\build\intermediates\pre-dexed\debug\classes-1d1e7db85979c630c443b099aace343a42207c3a.jar
+C:\Users\Josh Innis\Desktop\AlarmReceiverExample\app\build\intermediates\pre-dexed\debug\classes-013d3a294e453c6600985b5876c90e51bc9e5bf6.jar
