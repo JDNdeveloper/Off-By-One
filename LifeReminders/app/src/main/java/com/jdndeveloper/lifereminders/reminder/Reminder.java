@@ -11,7 +11,7 @@ public class Reminder {
     private String reminderKey = "reminder_default_key";
     private String reminderName = "reminder default name";
     private boolean enabled = false;
-    private List<String> notificationKeys = new ArrayList<String>();
+    private List<String> notificationKeys;
 
     public Reminder(){}
 
