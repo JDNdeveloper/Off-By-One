@@ -4,6 +4,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 /**
