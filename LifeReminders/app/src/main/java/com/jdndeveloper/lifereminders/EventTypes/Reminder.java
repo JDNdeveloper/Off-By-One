@@ -8,16 +8,11 @@ import java.util.List;
  */
 public class Reminder extends AbstractBaseEvent {
 
-
     private List<String> notificationKeys = new ArrayList<String>();
 
-    private String name = "DEFAULT REMINDER NAME"; //notification doesn't use this
-    private String key = "REMINDER_DEFAULT_KEY";
-    private boolean enabled = true;
-
-
-    public Reminder() {}
-
+    public Reminder() {
+        super("DEFAULT REMINDER NAME", "DEFAULT_REMINDER_KEY", false);
+    }
 
     public List<String> getNotificationKeys() {
         return notificationKeys;

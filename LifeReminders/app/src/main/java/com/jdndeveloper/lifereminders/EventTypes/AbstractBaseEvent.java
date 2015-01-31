@@ -13,8 +13,8 @@ public abstract class AbstractBaseEvent {
     private String key = "ABSTRACT KEY";
     private boolean enabled = false;
 
-    public void AbstractBaseEvent(){};
-    public void AbstractBaseEvent(String name, String key, boolean enabled){
+    public AbstractBaseEvent(){};
+    public AbstractBaseEvent(String name, String key, boolean enabled){
         this.name = name;
         this.key = key;
         this.enabled = enabled;
