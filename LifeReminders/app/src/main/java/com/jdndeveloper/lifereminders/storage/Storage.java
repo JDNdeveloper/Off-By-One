@@ -15,7 +15,7 @@ import java.util.List;
 public class Storage implements StorageInterface {
     private static Storage ourInstance = new Storage();
 
-    public static Storage getInstance() {
+    public static StorageInterface getInstance() {
         return ourInstance;
     }
 
