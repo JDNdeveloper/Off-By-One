@@ -2,7 +2,7 @@ package com.jdndeveloper.lifereminders.storage;
 
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
-import com.jdndeveloper.lifereminders.interfaces.StorageOperations;
+import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by jgemig on 1/27/2015.
  */
-public class Storage implements StorageOperations {
+public class Storage implements StorageInterface {
     private static Storage ourInstance = new Storage();
 
     public static Storage getInstance() {

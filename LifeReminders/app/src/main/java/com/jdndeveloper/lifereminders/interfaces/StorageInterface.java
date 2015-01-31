@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by jgemig on 1/27/2015.
  */
-public interface StorageOperations {
+public interface StorageInterface {
 
     // getters
     Lifestyle getLifeStyle(String key);
