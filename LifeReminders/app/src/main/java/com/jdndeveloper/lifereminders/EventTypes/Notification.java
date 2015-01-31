@@ -6,9 +6,9 @@ package com.jdndeveloper.lifereminders.EventTypes;
  */
 public class Notification extends AbstractBaseEvent {
 
-    String name = "DEFAULT NOTIFICATION NAME"; //notification doesn't use this
-    String key = "NOTIFICATION_DEFAULT_KEY";
-    boolean enabled = true;
+    private String name = "DEFAULT NOTIFICATION NAME"; //notification doesn't use this
+    private String key = "NOTIFICATION_DEFAULT_KEY";
+    private boolean enabled = true;
 
     Action action;
 

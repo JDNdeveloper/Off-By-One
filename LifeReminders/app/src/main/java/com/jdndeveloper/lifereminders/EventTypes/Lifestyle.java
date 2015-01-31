@@ -9,9 +9,9 @@ public class Lifestyle extends AbstractBaseEvent {
 
     private List<String> lifestyleNotifications;
 
-    String name = "DEFAULT LIFESTYLE NAME"; //notification doesn't use this
-    String key = "LIFESTYLE_DEFAULT_KEY";
-    boolean enabled = true;
+    private String name = "DEFAULT LIFESTYLE NAME"; //notification doesn't use this
+    private String key = "LIFESTYLE_DEFAULT_KEY";
+    private boolean enabled = true;
 
     public Lifestyle() {}
 

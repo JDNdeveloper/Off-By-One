@@ -11,9 +11,9 @@ public class Reminder extends AbstractBaseEvent {
 
     private List<String> notificationKeys = new ArrayList<String>();
 
-    String name = "DEFAULT REMINDER NAME"; //notification doesn't use this
-    String key = "REMINDER_DEFAULT_KEY";
-    boolean enabled = true;
+    private String name = "DEFAULT REMINDER NAME"; //notification doesn't use this
+    private String key = "REMINDER_DEFAULT_KEY";
+    private boolean enabled = true;
 
 
     public Reminder() {}
