@@ -15,11 +15,11 @@ public class Lifestyle extends AbstractBaseEvent {
         super("DEFAULT LIFESTYLE NAME", "DEFAULT_LIFESTYLE_KEY", false);
     }
 
-    public List<String> getLifestyleReminders() {
+    public List<String> getReminders() {
         return lifestyleReminders;
     }
 
-    public void setLifestyleReminders(List<String> lifestyleNotificationsArg) {
+    public void setReminders(List<String> lifestyleNotificationsArg) {
         this.lifestyleReminders = lifestyleNotificationsArg;
     }
 
