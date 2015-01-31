@@ -1,36 +1,80 @@
 package com.jdndeveloper.lifereminders.storage;
 
-import com.jdndeveloper.lifereminders.lifestyle.LifeStyle;
-import com.jdndeveloper.lifereminders.notification.Notification;
-import com.jdndeveloper.lifereminders.interfaces.StorageOperations;
+import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
+import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by jgemig on 1/27/2015.
  */
-public class Storage implements StorageOperations {
+public class Storage implements StorageInterface {
     private static Storage ourInstance = new Storage();
 
-    public static Storage getInstance() {
+    public static StorageInterface getInstance() {
         return ourInstance;
     }
 
     private Storage() {
     }
 
+    // temporary fake lifestyle
+    String All_LifeStyles = "LifeStyle_01,LifeStyle_02";
+
+    String LifeStyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+    String LifeStyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+
+    String Reminder_01 = "Scrum Meeting,true,Notification_01,Notification_02,Notification_03";
+
+    String Notification_01 = "time,action";
+    String Notification_02 = "time,action";
+    String Notification_03 = "time,action";
+
+    private List<String> toArrayList(String string){
+        return new ArrayList<String>(Arrays.asList(string.split("\\s*,\\s*")));
+    }
     @Override
-    public LifeStyle getLifeStyle(String key) {
+    public Lifestyle getLifeStyle(String key) {
         // temporary
-        LifeStyle lifeStyle = new LifeStyle();
-        ArrayList<String> lifeStyleNotifications = new ArrayList<String>();
-        lifeStyleNotifications.add("notification_01");
-        lifeStyleNotifications.add("notification_02");
-        lifeStyleNotifications.add("notification_03");
-        lifeStyleNotifications.add("notification_04");
-        lifeStyle.setLifeStyleNotifications(lifeStyleNotifications);
-        return lifeStyle;
+        List<String> encodedLifeStyle = toArrayList(key);
+        Lifestyle lifestyle = new Lifestyle();
+        // temp
+        lifestyle.setKey(key);
+        int index = 0;
+        lifestyle.setName(encodedLifeStyle.get(index++));
+        lifestyle.setEnabled(Boolean.valueOf(encodedLifeStyle.get(index++)));
+
+        ArrayList<String> reminderKeys = new ArrayList<String>();
+        while (index < encodedLifeStyle.size()) {
+            reminderKeys.add(encodedLifeStyle.get(index++));
+        }
+        // needs to be set to Reminder - not Notification
+     //   lifestyle.setLifestyleReminders(reminderKeys);
+        lifestyle.setReminders(reminderKeys);
+        return lifestyle;
+    }
+
+    @Override
+    public Reminder getReminder(String key) {
+        // temporary
+        List<String> encodedReminder = toArrayList(key);
+        Reminder reminder = new Reminder();
+        // temp
+        reminder.setKey(key);
+        int index = 0;
+        reminder.setName(encodedReminder.get(index++));
+        reminder.setEnabled(Boolean.valueOf(encodedReminder.get(index++)));
+
+        ArrayList<String> notificationKeys = new ArrayList<String>();
+        while (index < encodedReminder.size()){
+            notificationKeys.add(encodedReminder.get(index++));
+        }
+        reminder.setNotificationKeys(notificationKeys);
+        return reminder;
     }
 
     @Override
@@ -66,7 +110,7 @@ public class Storage implements StorageOperations {
     }
 
     @Override
-    public boolean replaceLifeStyle(LifeStyle lifeStyle, String key) {
+    public boolean replaceLifeStyle(Lifestyle lifestyle, String key) {
 
         return false;
     }
@@ -78,14 +122,19 @@ public class Storage implements StorageOperations {
     }
 
     @Override
-    public String newLifeStyle(LifeStyle lifeStyle) {
+    public Lifestyle getNewLifeStyle() {
 
-        return "new_dummy_lifestyle_key";
+        return new Lifestyle();
     }
 
     @Override
-    public String newNotification(Notification notification) {
+    public Reminder getNewReminder(){
+        return new Reminder();
+    }
 
-        return "new_dummy_notification_key";
+    @Override
+    public Notification getNewNotification() {
+
+        return new Notification();
     }
 }

@@ -15,8 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 
 public class MainActivity extends ActionBarActivity
@@ -135,6 +139,19 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+            ListView listView = (ListView) rootView.findViewById(R.id.listView);
+//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    selectItem(position);
+//                }
+//            });
+            listView.setAdapter(new ArrayAdapter<String>(
+                    getActivity(),
+                    android.R.layout.simple_list_item_activated_1,
+                    android.R.id.text1, Storage.getInstance().getAllKeys()
+                    ));
             return rootView;
         }
 
