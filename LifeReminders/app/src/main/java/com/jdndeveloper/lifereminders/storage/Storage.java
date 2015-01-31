@@ -43,9 +43,9 @@ public class Storage implements StorageOperations {
         List<String> encodedLifeStyle = toArrayList(key);
         Lifestyle lifestyle = new Lifestyle();
         // temp
-        lifestyle.setLifeStyleKey(key);
+        lifestyle.setKey(key);
         int index = 0;
-        lifestyle.setLifeStyleName(encodedLifeStyle.get(index++));
+        lifestyle.setName(encodedLifeStyle.get(index++));
         lifestyle.setEnabled(Boolean.valueOf(encodedLifeStyle.get(index++)));
 
         ArrayList<String> reminderKeys = new ArrayList<String>();
@@ -53,7 +53,7 @@ public class Storage implements StorageOperations {
             reminderKeys.add(encodedLifeStyle.get(index++));
         }
         // needs to be set to Reminder - not Notification
-        lifestyle.setLifeStyleNotifications(reminderKeys);
+        lifestyle.setLifestyleNotifications(reminderKeys);
         return lifestyle;
     }
 
@@ -63,9 +63,9 @@ public class Storage implements StorageOperations {
         List<String> encodedReminder = toArrayList(key);
         Reminder reminder = new Reminder();
         // temp
-        reminder.setReminderKey(key);
+        reminder.setKey(key);
         int index = 0;
-        reminder.setReminderName(encodedReminder.get(index++));
+        reminder.setName(encodedReminder.get(index++));
         reminder.setEnabled(Boolean.valueOf(encodedReminder.get(index++)));
 
         ArrayList<String> notificationKeys = new ArrayList<String>();
