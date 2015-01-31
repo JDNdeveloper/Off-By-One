@@ -18,7 +18,7 @@ public class NotificationTester {
         //runDaysOfTheWeekTest(notification);
         //runEveryBlankDaysTest(notification);
         //runNotificationTest(context, notification);
-        //alarmTester(context, notification);
+        alarmTester(context, notification);
     }
 
     private void runDaysOfTheWeekTest(Notification notification) {
@@ -66,7 +66,7 @@ public class NotificationTester {
         notification.sendNotification(context, "Testing 123", "8:00 am");
     }
 
-    public void alarmTester(Context context, Notification notification) {
+    private void alarmTester(Context context, Notification notification) {
         Calendar newCalendar = Calendar.getInstance();
         newCalendar.add(Calendar.MINUTE, 1);
         newCalendar.set(Calendar.SECOND, 00);
