@@ -8,21 +8,21 @@ package com.jdndeveloper.lifereminders.EventTypes;
  * This is the base class that Lifestyle, Reminder, and Notification all extend
  */
 public abstract class AbstractBaseEvent {
+
     // these need to be overridden by concrete class and are purposely defined to catch bugs
     private String name = "ABSTRACT NAME"; //notification doesn't use this
-    private String key = "ABSTRACT KEY";
+    private String key = "ABSTRACT_KEY";
     private boolean enabled = false;
 
-    public AbstractBaseEvent(){};
     public AbstractBaseEvent(String name, String key, boolean enabled){
         this.name = name;
         this.key = key;
         this.enabled = enabled;
     }
+
     public String getName() { //notification class doesn't use this
         return name;
     }
-
     public void setName(String newName) { //notification class doesn't use this
         name = newName;
     }
