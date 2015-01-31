@@ -17,11 +17,11 @@ public class Lifestyle extends AbstractBaseEvent {
 
     public Lifestyle() {}
 
-    public List<String> getLifestyleNotifications() {
+    public List<String> getLifestyleReminders() {
         return lifestyleNotifications;
     }
 
-    public void setLifestyleNotifications(List<String> lifestyleNotifications) {
+    public void setLifestyleReminders(List<String> lifestyleNotifications) {
         this.lifestyleNotifications = lifestyleNotifications;
     }
 
