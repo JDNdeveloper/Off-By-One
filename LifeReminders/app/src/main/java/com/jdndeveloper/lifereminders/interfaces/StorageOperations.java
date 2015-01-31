@@ -1,8 +1,8 @@
 package com.jdndeveloper.lifereminders.interfaces;
 
-import com.jdndeveloper.lifereminders.lifestyle.LifeStyle;
-import com.jdndeveloper.lifereminders.notification.Notification;
-import com.jdndeveloper.lifereminders.reminder.Reminder;
+import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public interface StorageOperations {
 
     // getters
-    LifeStyle getLifeStyle(String key);
+    Lifestyle getLifeStyle(String key);
     Reminder getReminder(String key);
     Notification getNotification(String key);
 
@@ -22,11 +22,11 @@ public interface StorageOperations {
     List<String> getAllKeys();
 
     // updaters - they return a boolean status
-    boolean replaceLifeStyle(LifeStyle lifeStyle, String key);
+    boolean replaceLifeStyle(Lifestyle lifestyle, String key);
     boolean replaceNotification(Notification notification, String key);
 
     // creation - they return an object of said type
-    LifeStyle getNewLifeStyle();
+    Lifestyle getNewLifeStyle();
     Reminder getNewReminder();
     Notification getNewNotification();
 }

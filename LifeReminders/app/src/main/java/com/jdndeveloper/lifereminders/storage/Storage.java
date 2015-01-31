@@ -1,9 +1,9 @@
 package com.jdndeveloper.lifereminders.storage;
 
-import com.jdndeveloper.lifereminders.lifestyle.LifeStyle;
-import com.jdndeveloper.lifereminders.notification.Notification;
+import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.interfaces.StorageOperations;
-import com.jdndeveloper.lifereminders.reminder.Reminder;
+import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,23 +38,23 @@ public class Storage implements StorageOperations {
         return new ArrayList<String>(Arrays.asList(string.split("\\s*,\\s*")));
     }
     @Override
-    public LifeStyle getLifeStyle(String key) {
+    public Lifestyle getLifeStyle(String key) {
         // temporary
         List<String> encodedLifeStyle = toArrayList(key);
-        LifeStyle lifeStyle = new LifeStyle();
+        Lifestyle lifestyle = new Lifestyle();
         // temp
-        lifeStyle.setLifeStyleKey(key);
+        lifestyle.setLifeStyleKey(key);
         int index = 0;
-        lifeStyle.setLifeStyleName(encodedLifeStyle.get(index++));
-        lifeStyle.setEnabled(Boolean.valueOf(encodedLifeStyle.get(index++)));
+        lifestyle.setLifeStyleName(encodedLifeStyle.get(index++));
+        lifestyle.setEnabled(Boolean.valueOf(encodedLifeStyle.get(index++)));
 
         ArrayList<String> reminderKeys = new ArrayList<String>();
         while (index < encodedLifeStyle.size()) {
             reminderKeys.add(encodedLifeStyle.get(index++));
         }
         // needs to be set to Reminder - not Notification
-        lifeStyle.setLifeStyleNotifications(reminderKeys);
-        return lifeStyle;
+        lifestyle.setLifeStyleNotifications(reminderKeys);
+        return lifestyle;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class Storage implements StorageOperations {
     }
 
     @Override
-    public boolean replaceLifeStyle(LifeStyle lifeStyle, String key) {
+    public boolean replaceLifeStyle(Lifestyle lifestyle, String key) {
 
         return false;
     }
@@ -121,9 +121,9 @@ public class Storage implements StorageOperations {
     }
 
     @Override
-    public LifeStyle getNewLifeStyle() {
+    public Lifestyle getNewLifeStyle() {
 
-        return new LifeStyle();
+        return new Lifestyle();
     }
 
     @Override
