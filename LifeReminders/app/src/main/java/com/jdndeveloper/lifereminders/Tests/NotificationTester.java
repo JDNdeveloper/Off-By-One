@@ -18,7 +18,7 @@ public class NotificationTester {
         //runDaysOfTheWeekTest(notification);
         //runEveryBlankDaysTest(notification);
         //runNotificationTest(context, notification);
-        alarmTester(context, notification);
+        //alarmTester(context, notification);
     }
 
     private void runDaysOfTheWeekTest(Notification notification) {
