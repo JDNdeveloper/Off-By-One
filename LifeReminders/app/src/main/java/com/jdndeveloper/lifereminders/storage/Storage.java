@@ -53,7 +53,8 @@ public class Storage implements StorageInterface {
             reminderKeys.add(encodedLifeStyle.get(index++));
         }
         // needs to be set to Reminder - not Notification
-        lifestyle.setLifestyleReminders(reminderKeys);
+     //   lifestyle.setLifestyleReminders(reminderKeys);
+        lifestyle.setReminders(reminderKeys);
         return lifestyle;
     }
 
