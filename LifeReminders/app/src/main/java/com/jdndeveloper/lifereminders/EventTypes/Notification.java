@@ -29,7 +29,7 @@ public class Notification extends AbstractBaseEvent {
     private int repeatEveryBlankDays; //1 means daily, 2 means once every two days, ...
     private boolean repeatEveryBlankDaysEnabled;
 
-
+    //sets everything to defaults
     public Notification() {
         super("DEFAULT NOTIFICATION NAME", "DEFAULT_NOTIFICATION_KEY", true);
 
@@ -44,7 +44,8 @@ public class Notification extends AbstractBaseEvent {
         calendar = Calendar.getInstance();
     }
 
-    //returns null if non-repeating, sets calendar to next day that repeats and returns it
+    //returns original calendar if non-repeating, sets calendar to next day that repeats
+    //and returns it.
     public Calendar getNextNotificationTime() {
         if (repeatDaysEnabled) {
             do {
@@ -58,10 +59,12 @@ public class Notification extends AbstractBaseEvent {
         return calendar;
     }
 
+    //Sends a notifications with the given title and text
     public void sendNotification(Context context, String title, String text) {
         action.sendCorrectNotification(context, title, text);
     }
 
+    //sets an alarm for the current scheduled time of the notification
     public void setAlarm(Context context) {
         //Setup the intent, it must be a pending intent
         Intent myIntent = new Intent(context, AlarmReceiver.class);
