@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Lifestyle extends AbstractBaseEvent {
 
-    private List<String> lifestyleNotifications;
+    private List<String> notifications;
 
     private String name = "DEFAULT LIFESTYLE NAME"; //notification doesn't use this
     private String key = "LIFESTYLE_DEFAULT_KEY";
@@ -18,11 +18,11 @@ public class Lifestyle extends AbstractBaseEvent {
     public Lifestyle() {}
 
     public List<String> getLifestyleReminders() {
-        return lifestyleNotifications;
+        return notifications;
     }
 
     public void setLifestyleReminders(List<String> lifestyleNotifications) {
-        this.lifestyleNotifications = lifestyleNotifications;
+        this.notifications = lifestyleNotifications;
     }
 
     /* addReminder(): Function that will add the key to the new reminder
@@ -30,7 +30,7 @@ public class Lifestyle extends AbstractBaseEvent {
             * Return: none
             */
     public void addReminder(String reminderKey) {
-        lifestyleNotifications.add(reminderKey);
+        notifications.add(reminderKey);
     }
     /* removeReminder(): Function that will remove the reminder ID from the lifestyleNotifications
         * Arguments: Reminder ID. The ID of the reminder
@@ -38,12 +38,12 @@ public class Lifestyle extends AbstractBaseEvent {
         */
     public void removeReminder(String reminderID) {
         //Scan through the arraylist
-        for(int i = 0; i < this.lifestyleNotifications.size(); i++ ){
+        for(int i = 0; i < this.notifications.size(); i++ ){
             //Check if the ID is in that item in Arraylist
-            if (this.lifestyleNotifications.get(i).equals(reminderID)) {
+            if (this.notifications.get(i).equals(reminderID)) {
                 //If it is fond, remove the item in Arraylist and just get out of the function.
                 //The rest outside the for loop is some error debugging info.
-                this.lifestyleNotifications.remove(i);
+                this.notifications.remove(i);
                 return;
             }
         }
@@ -52,8 +52,8 @@ public class Lifestyle extends AbstractBaseEvent {
                 "lifestyleNotifications does not have reminderID\nredminerID = %s\n", reminderID);
         //Print contents in arraylist
         System.err.println("Lifestyle Notifications Arraylist");
-        for (int j = 0; j < this.lifestyleNotifications.size(); j++) {
-            System.err.printf("%d: %s\n", j, lifestyleNotifications.get(j));
+        for (int j = 0; j < this.notifications.size(); j++) {
+            System.err.printf("%d: %s\n", j, notifications.get(j));
         }
     }
 }
