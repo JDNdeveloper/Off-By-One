@@ -14,7 +14,7 @@ public class Notification extends AbstractBaseEvent {
     private boolean enabled = true;
 
     private Action action;
-    private CalendarEvent calendar;
+    private Calendar calendar;
 
     private boolean repeating = false;
 
@@ -27,12 +27,12 @@ public class Notification extends AbstractBaseEvent {
         action = new Action();
         repeatDays = new boolean[7];
         repeatEveryBlankDays = 0;
-        calendar = new CalendarEvent();
+        calendar = Calendar.getInstance();
     }
 
-    public CalendarEvent getNextNotification() { //returns null if non-repeating
+    public Calendar getNextNotification() { //returns null if non-repeating
         if (!repeating) return null;
-        return new CalendarEvent();
+        return Calendar.getInstance();
     }
 
     public Action getAction() {
@@ -43,11 +43,11 @@ public class Notification extends AbstractBaseEvent {
         action = newAction;
     }
 
-    public CalendarEvent getTime() {
+    public Calendar getTime() {
         return calendar;
     }
 
-    public void setTime(CalendarEvent newCalendar) {
+    public void setTime(Calendar newCalendar) {
         calendar = newCalendar;
     }
 
