@@ -1,12 +1,11 @@
 package com.jdndeveloper.lifereminders.EventTypes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by jgemig on 1/27/2015.
  */
-public class Lifestyle extends BaseEvent {
+public class Lifestyle extends AbstractBaseEvent {
 
     private List<String> lifestyleNotifications;
 

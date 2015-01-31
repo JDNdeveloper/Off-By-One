@@ -7,7 +7,7 @@ package com.jdndeveloper.lifereminders.EventTypes;
 /**
  * This is the base class that Lifestyle, Reminder, and Notification all extend
  */
-public abstract class BaseEvent {
+public abstract class AbstractBaseEvent {
     private String name; //notification doesn't use this
     private String key;
     private boolean enabled;

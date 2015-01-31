@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by jgemig on 1/27/2015.
  */
-public class Reminder extends BaseEvent {
+public class Reminder extends AbstractBaseEvent {
 
 
     private List<String> notificationKeys = new ArrayList<String>();
