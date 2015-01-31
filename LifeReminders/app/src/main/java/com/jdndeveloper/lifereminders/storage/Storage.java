@@ -3,8 +3,10 @@ package com.jdndeveloper.lifereminders.storage;
 import com.jdndeveloper.lifereminders.lifestyle.LifeStyle;
 import com.jdndeveloper.lifereminders.notification.Notification;
 import com.jdndeveloper.lifereminders.interfaces.StorageOperations;
+import com.jdndeveloper.lifereminders.reminder.Reminder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,17 +22,58 @@ public class Storage implements StorageOperations {
     private Storage() {
     }
 
+    // temporary fake lifestyle
+    String All_LifeStyles = "LifeStyle_01,LifeStyle_02";
+
+    String LifeStyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+    String LifeStyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+
+    String Reminder_01 = "Scrum Meeting,true,Notification_01,Notification_02,Notification_03";
+
+    String Notification_01 = "time,action";
+    String Notification_02 = "time,action";
+    String Notification_03 = "time,action";
+
+    private List<String> toArrayList(String string){
+        return new ArrayList<String>(Arrays.asList(string.split("\\s*,\\s*")));
+    }
     @Override
     public LifeStyle getLifeStyle(String key) {
         // temporary
+        List<String> encodedLifeStyle = toArrayList(key);
         LifeStyle lifeStyle = new LifeStyle();
-        ArrayList<String> lifeStyleNotifications = new ArrayList<String>();
-        lifeStyleNotifications.add("notification_01");
-        lifeStyleNotifications.add("notification_02");
-        lifeStyleNotifications.add("notification_03");
-        lifeStyleNotifications.add("notification_04");
-        lifeStyle.setLifeStyleNotifications(lifeStyleNotifications);
+        // temp
+        lifeStyle.setLifeStyleKey(key);
+        int index = 0;
+        lifeStyle.setLifeStyleName(encodedLifeStyle.get(index++));
+        lifeStyle.setEnabled(Boolean.valueOf(encodedLifeStyle.get(index++)));
+
+        ArrayList<String> reminderKeys = new ArrayList<String>();
+        while (index < encodedLifeStyle.size()) {
+            reminderKeys.add(encodedLifeStyle.get(index++));
+        }
+        // needs to be set to Reminder - not Notification
+        lifeStyle.setLifeStyleNotifications(reminderKeys);
         return lifeStyle;
+    }
+
+    @Override
+    public Reminder getReminder(String key) {
+        // temporary
+        List<String> encodedReminder = toArrayList(key);
+        Reminder reminder = new Reminder();
+        // temp
+        reminder.setReminderKey(key);
+        int index = 0;
+        reminder.setReminderName(encodedReminder.get(index++));
+        reminder.setEnabled(Boolean.valueOf(encodedReminder.get(index++)));
+
+        ArrayList<String> notificationKeys = new ArrayList<String>();
+        while (index < encodedReminder.size()){
+            notificationKeys.add(encodedReminder.get(index++));
+        }
+        reminder.setNotificationKeys(notificationKeys);
+        return reminder;
     }
 
     @Override
@@ -78,14 +121,19 @@ public class Storage implements StorageOperations {
     }
 
     @Override
-    public String newLifeStyle(LifeStyle lifeStyle) {
+    public LifeStyle getNewLifeStyle() {
 
-        return "new_dummy_lifestyle_key";
+        return new LifeStyle();
     }
 
     @Override
-    public String newNotification(Notification notification) {
+    public Reminder getNewReminder(){
+        return new Reminder();
+    }
 
-        return "new_dummy_notification_key";
+    @Override
+    public Notification getNewNotification() {
+
+        return new Notification();
     }
 }
