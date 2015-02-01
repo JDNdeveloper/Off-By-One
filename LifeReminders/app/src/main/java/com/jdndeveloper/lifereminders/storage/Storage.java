@@ -31,13 +31,13 @@ public class Storage implements StorageInterface {
     // test set for unit tests
     String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
     String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
-    String Failed_Notification_01 = "";
-    String Failed_Action_01 = "";
+    String Failed_Notification_01 = "Failed Notification,false";
+    String Failed_Action_01 = "Failed Action,false";
 
     String Test_Lifestyle_01 = "Test Lifestyle 01,false,Test_Reminder_01";
     String Test_Reminder_01 = "Test Reminder 01,false,Test_Notification_01";
-    String Test_Notification_01 = "";
-    String Test_Action_01 = "";
+    String Test_Notification_01 = "Test Notification,false";
+    String Test_Action_01 = "Test Action,false";
 
     String LifeStyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
     String LifeStyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
@@ -51,12 +51,21 @@ public class Storage implements StorageInterface {
     private List<String> toArrayList(String string){
         return new ArrayList<String>(Arrays.asList(string.split("\\,")));
     }
+    private String retrieveKey(String key){
+        if (key != null){
+            if (key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
+            if (key.contentEquals("Test_Reminder_01")) return Test_Reminder_01;
+            if (key.contentEquals("Test_Notification_01")) return Test_Notification_01;
+            if (key.contentEquals("Test_Action_01")) return Test_Action_01;
+        }
+        return null;
+    }
     @Override
     public Lifestyle getLifestyle(String key) {
         // temporary
         List<String> encodedLifeStyle;
-        if (key.contentEquals("Test_Lifestyle_01")) {
-            encodedLifeStyle = toArrayList(Test_Lifestyle_01);
+        if (retrieveKey(key) != null) {
+            encodedLifeStyle = toArrayList(retrieveKey(key));
         }
         else {
             encodedLifeStyle = toArrayList(Failed_Lifestyle_01);
@@ -81,8 +90,8 @@ public class Storage implements StorageInterface {
     public Reminder getReminder(String key) {
         // temporary
         List<String> encodedReminder;
-        if (key.contentEquals("Test_Reminder_01")) {
-            encodedReminder = toArrayList(Test_Reminder_01);
+        if (retrieveKey(key) != null) {
+            encodedReminder = toArrayList(retrieveKey(key));
         }
         else {
             encodedReminder = toArrayList(Failed_Reminder_01);
