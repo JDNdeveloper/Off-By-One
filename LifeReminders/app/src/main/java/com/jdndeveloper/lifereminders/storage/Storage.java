@@ -31,13 +31,13 @@ public class Storage implements StorageInterface {
     // test set for unit tests
     String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
     String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
-    String Failed_Notification_01 = "";
-    String Failed_Action_01 = "";
+    String Failed_Notification_01 = "Failed Notification,false";
+    String Failed_Action_01 = "Failed Action,false";
 
     String Test_Lifestyle_01 = "Test Lifestyle 01,false,Test_Reminder_01";
     String Test_Reminder_01 = "Test Reminder 01,false,Test_Notification_01";
-    String Test_Notification_01 = "";
-    String Test_Action_01 = "";
+    String Test_Notification_01 = "Test Notification,false";
+    String Test_Action_01 = "Test Action,false";
 
     String LifeStyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
     String LifeStyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
@@ -51,27 +51,37 @@ public class Storage implements StorageInterface {
     private List<String> toArrayList(String string){
         return new ArrayList<String>(Arrays.asList(string.split("\\,")));
     }
+    private String retrieveKey(String key, String type){
+        if (key != null && type != null){
+            if (!key.contains(type)) return null;
+            if (key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
+            if (key.contentEquals("Test_Reminder_01")) return Test_Reminder_01;
+            if (key.contentEquals("Test_Notification_01")) return Test_Notification_01;
+            if (key.contentEquals("Test_Action_01")) return Test_Action_01;
+        }
+        return null;
+    }
     @Override
     public Lifestyle getLifestyle(String key) {
         // temporary
-        List<String> encodedLifeStyle;
-        if (key.contentEquals("Test_Lifestyle_01")) {
-            encodedLifeStyle = toArrayList(Test_Lifestyle_01);
+        List<String> decodedString;
+        if (retrieveKey(key, "Lifestyle") != null) {
+            decodedString = toArrayList(retrieveKey(key, "Lifestyle"));
         }
         else {
-            encodedLifeStyle = toArrayList(Failed_Lifestyle_01);
+            decodedString = toArrayList(Failed_Lifestyle_01);
         }
 
         Lifestyle lifestyle = new Lifestyle();
         // temp
         lifestyle.setKey(key);
         int index = 0;
-        lifestyle.setName(encodedLifeStyle.get(index++));
-        lifestyle.setEnabled(Boolean.valueOf(encodedLifeStyle.get(index++)));
+        lifestyle.setName(decodedString.get(index++));
+        lifestyle.setEnabled(Boolean.valueOf(decodedString.get(index++)));
 
         ArrayList<String> reminderKeys = new ArrayList<String>();
-        while (index < encodedLifeStyle.size()) {
-            reminderKeys.add(encodedLifeStyle.get(index++));
+        while (index < decodedString.size()) {
+            reminderKeys.add(decodedString.get(index++));
         }
         lifestyle.setReminders(reminderKeys);
         return lifestyle;
@@ -80,24 +90,24 @@ public class Storage implements StorageInterface {
     @Override
     public Reminder getReminder(String key) {
         // temporary
-        List<String> encodedReminder;
-        if (key.contentEquals("Test_Reminder_01")) {
-            encodedReminder = toArrayList(Test_Reminder_01);
+        List<String> decodedString;
+        if (retrieveKey(key, "Reminder") != null) {
+            decodedString = toArrayList(retrieveKey(key, "Reminder"));
         }
         else {
-            encodedReminder = toArrayList(Failed_Reminder_01);
+            decodedString = toArrayList(Failed_Reminder_01);
         }
 
         Reminder reminder = new Reminder();
         // temp
         reminder.setKey(key);
         int index = 0;
-        reminder.setName(encodedReminder.get(index++));
-        reminder.setEnabled(Boolean.valueOf(encodedReminder.get(index++)));
+        reminder.setName(decodedString.get(index++));
+        reminder.setEnabled(Boolean.valueOf(decodedString.get(index++)));
 
         ArrayList<String> notificationKeys = new ArrayList<String>();
-        while (index < encodedReminder.size()){
-            notificationKeys.add(encodedReminder.get(index++));
+        while (index < decodedString.size()){
+            notificationKeys.add(decodedString.get(index++));
         }
         reminder.setNotificationKeys(notificationKeys);
         return reminder;
@@ -105,8 +115,17 @@ public class Storage implements StorageInterface {
 
     @Override
     public Notification getNotification(String key) {
+        List<String> decodedString;
+        if (retrieveKey(key, "Notification") != null) {
+            decodedString = toArrayList(retrieveKey(key, "Notification"));
+        }
+        else {
+            decodedString = toArrayList(Failed_Notification_01);
+        }
+
         Notification notification = new Notification();
         notification.setKey(key);
+        notification.setName(decodedString.get(0));
         return notification;
     }
 

@@ -152,7 +152,7 @@ public class MainActivity extends ActionBarActivity
 //                }
 //            });
             Lifestyle lifestyle = Storage.getInstance().getLifestyle("Test_Lifestyle_01");
-            Reminder reminder = Storage.getInstance().getReminder("Test_Reminder_02");
+            Reminder reminder = Storage.getInstance().getReminder("Test_Reminder_01");
 
             List<String> list = reminder.getNotificationKeys();
             list.add(reminder.getKey());
