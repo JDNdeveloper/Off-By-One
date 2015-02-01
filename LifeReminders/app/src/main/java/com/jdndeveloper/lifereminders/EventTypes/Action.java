@@ -14,7 +14,7 @@ import com.jdndeveloper.lifereminders.phone.Phone;
 /**
  * Created by Jayden Navarro on 1/30/2015.
  */
-public class Action {
+public class Action extends AbstractBaseEvent {
     private boolean notificationBar;
 
     private boolean vibrate;
@@ -26,6 +26,8 @@ public class Action {
 
 
     public Action() {
+        super("DEFAULT ACTION NAME", "DEFAULT_ACTION_KEY", true);
+
         notificationBar = true;
 
         vibrate = false;
