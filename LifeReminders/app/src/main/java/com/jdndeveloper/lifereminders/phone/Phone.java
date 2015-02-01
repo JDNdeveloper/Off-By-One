@@ -1,5 +1,13 @@
 package com.jdndeveloper.lifereminders.phone;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+
+import com.jdndeveloper.lifereminders.MainActivity;
+import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.interfaces.PhoneInterface;
 
 /**
@@ -11,9 +19,12 @@ import com.jdndeveloper.lifereminders.interfaces.PhoneInterface;
  *      Phone.getInstance().playDefaultNotificationSound();
  */
 public class Phone implements PhoneInterface{
+    private static Context context;
+
     private static Phone ourInstance = new Phone();
 
-    public static PhoneInterface getInstance() {
+    public static PhoneInterface getInstance(Context newContext) {
+        context = newContext;
         return ourInstance;
     }
 
@@ -45,12 +56,40 @@ public class Phone implements PhoneInterface{
     }
 
     @Override
-    public void sendMessageToNotificationBar(String message) {
+    public void sendMessageToNotificationBar(String title, String message) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.lifereminders_app)
+                        .setContentTitle(title)
+                        .setContentText(message);
 
+
+        mBuilder.setAutoCancel(true);
+
+        Intent resultIntent = new Intent(context, MainActivity.class);
+        // Because clicking the notification opens a new ("special") activity, there's
+        // no need to create an artificial back stack.
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        context,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_CANCEL_CURRENT //can be changed later
+                );
+
+
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        // Sets an ID for the notification
+        int mNotificationId = 001;
+        // Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr =
+                (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 
     @Override
     public void flashCameraLight() {
-
     }
 }

@@ -37,13 +37,13 @@ public class NotificationTester {
 
         Log.i("NotifTest", Integer.toString(notification.getTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.getNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.getNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.getNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.getNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
     }
 
     private void runEveryBlankDaysTest(Notification notification) {
@@ -53,20 +53,20 @@ public class NotificationTester {
 
         Log.i("NotifTest", Integer.toString(notification.getTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.getNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.getNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.getNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.getNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
     }
 
     private void runNotificationTest(Context context, Notification notification) {
         notification.sendNotification(context, "Testing 123", "8:00 am");
     }
 
-    public void alarmTester(Context context, Notification notification) {
+    private void alarmTester(Context context, Notification notification) {
         Calendar newCalendar = Calendar.getInstance();
         newCalendar.add(Calendar.MINUTE, 1);
         newCalendar.set(Calendar.SECOND, 00);

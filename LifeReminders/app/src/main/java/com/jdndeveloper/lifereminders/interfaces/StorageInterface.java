@@ -1,5 +1,6 @@
 package com.jdndeveloper.lifereminders.interfaces;
 
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
@@ -13,9 +14,10 @@ import java.util.List;
 public interface StorageInterface {
 
     // getters
-    Lifestyle getLifeStyle(String key);
+    Lifestyle getLifestyle(String key);
     Reminder getReminder(String key);
     Notification getNotification(String key);
+    Action getAction(String key);
 
     List<String> getCurrentAlarmKeys();
 
@@ -30,4 +32,5 @@ public interface StorageInterface {
     Lifestyle getNewLifeStyle();
     Reminder getNewReminder();
     Notification getNewNotification();
+    Action getNewAction();
 }

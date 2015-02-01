@@ -20,7 +20,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.storage.Storage;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity
@@ -147,11 +151,19 @@ public class MainActivity extends ActionBarActivity
 //                    selectItem(position);
 //                }
 //            });
+            Lifestyle lifestyle = Storage.getInstance().getLifestyle("Test_Lifestyle_01");
+            Reminder reminder = Storage.getInstance().getReminder("Test_Reminder_02");
+
+            List<String> list = reminder.getNotificationKeys();
+            list.add(reminder.getKey());
+            list.add(reminder.getName());
+//            list.add(((Boolean)lifestyle.isEnabled()).toString());
+
             listView.setAdapter(new ArrayAdapter<String>(
                     getActivity(),
                     android.R.layout.simple_list_item_activated_1,
-                    android.R.id.text1, Storage.getInstance().getAllKeys()
-                    ));
+                    android.R.id.text1, list
+            ));
             return rootView;
         }
 

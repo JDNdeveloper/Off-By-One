@@ -46,14 +46,25 @@ public class Notification extends AbstractBaseEvent {
 
     //returns original calendar if non-repeating, sets calendar to next day that repeats
     //and returns it.
-    public Calendar getNextNotificationTime() {
+    public Calendar makeNextNotificationTime() {
+
         if (repeatDaysEnabled) {
             do {
-                //might not loop back around to the first day of week
                 calendar.add(Calendar.DAY_OF_WEEK, 1);
             } while (!repeatDays.contains(calendar.get(Calendar.DAY_OF_WEEK)));
         } else if (repeatEveryBlankDaysEnabled) {
             calendar.add(Calendar.DAY_OF_WEEK, repeatEveryBlankDays);
+        }
+
+        return calendar;
+    }
+
+    //Sets initial calendar to instance event will happen, only for repeatDays
+    public Calendar makeInitialCorrectDay() {
+        if (!repeatDaysEnabled) return null;
+
+        while (!repeatDays.contains(calendar.get(Calendar.DAY_OF_WEEK))) {
+            calendar.add(Calendar.DAY_OF_WEEK, 1);
         }
 
         return calendar;
