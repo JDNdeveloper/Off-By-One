@@ -1,5 +1,8 @@
 package com.jdndeveloper.lifereminders.storage;
 
+import android.util.Log;
+
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
@@ -25,6 +28,17 @@ public class Storage implements StorageInterface {
     // temporary fake lifestyle
     String All_LifeStyles = "LifeStyle_01,LifeStyle_02";
 
+    // test set for unit tests
+    String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
+    String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
+    String Failed_Notification_01 = "";
+    String Failed_Action_01 = "";
+
+    String Test_Lifestyle_01 = "Test Lifestyle 01,false,Test_Reminder_01";
+    String Test_Reminder_01 = "Test Reminder 01,false,Test_Notification_01";
+    String Test_Notification_01 = "";
+    String Test_Action_01 = "";
+
     String LifeStyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
     String LifeStyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
 
@@ -35,12 +49,19 @@ public class Storage implements StorageInterface {
     String Notification_03 = "time,action";
 
     private List<String> toArrayList(String string){
-        return new ArrayList<String>(Arrays.asList(string.split("\\s*,\\s*")));
+        return new ArrayList<String>(Arrays.asList(string.split("\\,")));
     }
     @Override
-    public Lifestyle getLifeStyle(String key) {
+    public Lifestyle getLifestyle(String key) {
         // temporary
-        List<String> encodedLifeStyle = toArrayList(key);
+        List<String> encodedLifeStyle;
+        if (key.contentEquals("Test_Lifestyle_01")) {
+            encodedLifeStyle = toArrayList(Test_Lifestyle_01);
+        }
+        else {
+            encodedLifeStyle = toArrayList(Failed_Lifestyle_01);
+        }
+
         Lifestyle lifestyle = new Lifestyle();
         // temp
         lifestyle.setKey(key);
@@ -52,8 +73,6 @@ public class Storage implements StorageInterface {
         while (index < encodedLifeStyle.size()) {
             reminderKeys.add(encodedLifeStyle.get(index++));
         }
-        // needs to be set to Reminder - not Notification
-     //   lifestyle.setLifestyleReminders(reminderKeys);
         lifestyle.setReminders(reminderKeys);
         return lifestyle;
     }
@@ -61,7 +80,14 @@ public class Storage implements StorageInterface {
     @Override
     public Reminder getReminder(String key) {
         // temporary
-        List<String> encodedReminder = toArrayList(key);
+        List<String> encodedReminder;
+        if (key.contentEquals("Test_Reminder_01")) {
+            encodedReminder = toArrayList(Test_Reminder_01);
+        }
+        else {
+            encodedReminder = toArrayList(Failed_Reminder_01);
+        }
+
         Reminder reminder = new Reminder();
         // temp
         reminder.setKey(key);
@@ -79,8 +105,14 @@ public class Storage implements StorageInterface {
 
     @Override
     public Notification getNotification(String key) {
+        Notification notification = new Notification();
+        notification.setKey(key);
+        return notification;
+    }
 
-        return new Notification();
+    @Override
+    public Action getAction(String key) {
+        return new Action();
     }
 
     @Override
@@ -136,5 +168,10 @@ public class Storage implements StorageInterface {
     public Notification getNewNotification() {
 
         return new Notification();
+    }
+
+    @Override
+    public Action getNewAction() {
+        return null;
     }
 }
