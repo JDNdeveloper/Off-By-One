@@ -9,9 +9,10 @@ public final class Constant {
     public final static int VIBRATION_MEDIUM = 500;
     public final static int VIBRATION_LONG = 1000;
 
-    public final static String NOTIFICATION_TEST_KEY = "Test_Notification_01";
 
     public final static String LIFESTYLE_TEST_KEY = "Test_Lifestyle_01";
+    
+    public final static String NOTIFICATION_TEST_KEY = "Test_Notification_01";
 
     public final static String REMINDER_TEST_KEY = "Test_Reminder_01";
 
