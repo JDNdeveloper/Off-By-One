@@ -194,22 +194,24 @@ public class Storage implements StorageInterface {
     @Override
     public Lifestyle getNewLifeStyle() {
 
-        return new Lifestyle();
+        return getLifestyle(Constants.LIFESTYLE_TEST_KEY);
     }
 
     @Override
     public Reminder getNewReminder(){
-        return new Reminder();
+
+        return getReminder(Constants.REMINDER_TEST_KEY);
     }
 
     @Override
     public Notification getNewNotification() {
 
-        return new Notification();
+        return getNotification(Constants.NOTIFICATION_TEST_KEY);
     }
 
     @Override
     public Action getNewAction() {
-        return null;
+
+        return getAction(Constants.ACTION_TEST_KEY);
     }
 }
