@@ -68,7 +68,7 @@ public class NotificationTester {
     }
 
     private void runNotificationTest(Context context, Notification notification) {
-        notification.sendNotification(context, "Testing 123", "8:00 am");
+        notification.sendNotification(context);
     }
 
     private void alarmTester(Context context, Notification notification) {
