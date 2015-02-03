@@ -19,7 +19,7 @@ public class ReminderTester {
 
     public void runTest() {
         Reminder reminder1 = Storage.getInstance().getReminder(Constants.REMINDER_TEST_KEY);
-        Log.d("", "Before Individual Addition: \n" + reminder1.toString());
+        Log.d("RemTest", "Before Individual Addition: \n" + reminder1.toString());
 
         //attempt to add list with less than 10 "keys"
         String tempString = "";
@@ -30,7 +30,7 @@ public class ReminderTester {
         }
         //should properly add.
         reminder1.setNotificationKeys(notificationTest);
-        Log.d("", "After Individual Addition: \n" + reminder1.toString());
+        Log.d("RemTest", "After Individual Addition: \n" + reminder1.toString());
 
         notificationTest.clear();
 
@@ -47,7 +47,7 @@ public class ReminderTester {
 
     public void runTest2() {
         Reminder reminder2 = Storage.getInstance().getReminder(Constants.REMINDER_TEST_KEY);
-        Log.d("", "Before Addition: \n" + reminder2.toString());
+        Log.d("RemTest", "Before Addition: \n" + reminder2.toString());
         //attempt to add list with more than 10 "keys"
         String tempString = "";
         List<String> notificationTest = new ArrayList<String>();
@@ -63,7 +63,7 @@ public class ReminderTester {
 
     public void runTest3() {
         Reminder reminder3 = Storage.getInstance().getReminder(Constants.REMINDER_TEST_KEY);
-        Log.d("", "Before Addition: \n" + reminder3.toString());
+        Log.d("RemTest", "Before Addition: \n" + reminder3.toString());
 
         //attempt to add list with less than 10 "keys"
         String tempString = "";
@@ -74,7 +74,7 @@ public class ReminderTester {
         }
         //should properly add.
         reminder3.setNotificationKeys(notificationTest);
-        Log.d("", "After Addition: \n" + reminder3.toString());
+        Log.d("RemTest", "After Addition: \n" + reminder3.toString());
 
     }
 
