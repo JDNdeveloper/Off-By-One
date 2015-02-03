@@ -5,29 +5,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
-import com.jdndeveloper.lifereminders.EventTypes.Reminder;
-import com.jdndeveloper.lifereminders.storage.Storage;
-
-import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity
+public class SprintPresentation extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -43,7 +30,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sprint_presentation);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -92,7 +79,7 @@ public class MainActivity extends ActionBarActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.sprint_one_presentation, menu);
             restoreActionBar();
             return true;
         }
@@ -142,35 +129,14 @@ public class MainActivity extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-            ListView listView = (ListView) rootView.findViewById(R.id.listView);
-//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    selectItem(position);
-//                }
-//            });
-            Lifestyle lifestyle = Storage.getInstance().getLifestyle("Test_Lifestyle_01");
-            Reminder reminder = Storage.getInstance().getReminder(Constants.REMINDER_TEST_KEY);
-
-            List<String> list = reminder.getNotificationKeys();
-            list.add(reminder.getKey());
-            list.add(reminder.getName());
-//            list.add(((Boolean)lifestyle.isEnabled()).toString());
-
-            listView.setAdapter(new ArrayAdapter<String>(
-                    getActivity(),
-                    android.R.layout.simple_list_item_activated_1,
-                    android.R.id.text1, list
-            ));
+            View rootView = inflater.inflate(R.layout.fragment_sprint_presentation, container, false);
             return rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
+            ((SprintPresentation) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }

@@ -2,6 +2,7 @@ package com.jdndeveloper.lifereminders.storage;
 
 import android.util.Log;
 
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
@@ -54,10 +55,15 @@ public class Storage implements StorageInterface {
     private String retrieveKey(String key, String type){
         if (key != null && type != null){
             if (!key.contains(type)) return null;
-            if (key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
-            if (key.contentEquals("Test_Reminder_01")) return Test_Reminder_01;
-            if (key.contentEquals("Test_Notification_01")) return Test_Notification_01;
-            if (key.contentEquals("Test_Action_01")) return Test_Action_01;
+//            if (key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
+//            if (key.contentEquals("Test_Reminder_01")) return Test_Reminder_01;
+//            if (key.contentEquals("Test_Notification_01")) return Test_Notification_01;
+//            if (key.contentEquals("Test_Action_01")) return Test_Action_01;
+
+            if (key == Constants.LIFESTYLE_TEST_KEY) return Test_Lifestyle_01;
+            if (key == Constants.REMINDER_TEST_KEY) return Test_Reminder_01;
+            if (key == Constants.NOTIFICATION_TEST_KEY) return Test_Notification_01;
+            if (key == Constants.ACTION_TEST_KEY) return Test_Action_01;
         }
         return null;
     }
@@ -126,12 +132,25 @@ public class Storage implements StorageInterface {
         Notification notification = new Notification();
         notification.setKey(key);
         notification.setName(decodedString.get(0));
+        notification.setEnabled(Boolean.valueOf(decodedString.get(1)));
         return notification;
     }
 
     @Override
     public Action getAction(String key) {
-        return new Action();
+        List<String> decodedString;
+        if (retrieveKey(key, "Action") != null) {
+            decodedString = toArrayList(retrieveKey(key, "Action"));
+        }
+        else {
+            decodedString = toArrayList(Failed_Action_01);
+        }
+
+        Action action = new Action();
+        action.setKey(key);
+        action.setName(decodedString.get(0));
+        action.setEnabled(Boolean.valueOf(decodedString.get(1)));
+        return action;
     }
 
     @Override
@@ -175,22 +194,24 @@ public class Storage implements StorageInterface {
     @Override
     public Lifestyle getNewLifeStyle() {
 
-        return new Lifestyle();
+        return getLifestyle(Constants.LIFESTYLE_TEST_KEY);
     }
 
     @Override
     public Reminder getNewReminder(){
-        return new Reminder();
+
+        return getReminder(Constants.REMINDER_TEST_KEY);
     }
 
     @Override
     public Notification getNewNotification() {
 
-        return new Notification();
+        return getNotification(Constants.NOTIFICATION_TEST_KEY);
     }
 
     @Override
     public Action getNewAction() {
-        return null;
+
+        return getAction(Constants.ACTION_TEST_KEY);
     }
 }

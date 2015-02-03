@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.jdndeveloper.lifereminders.AlarmRecieverAndService.AlarmReceiver;
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.Utilities.CalendarEvent;
+import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,8 +23,11 @@ import java.util.Calendar;
  */
 public class Notification extends AbstractBaseEvent {
 
-    private Action action;
     private Calendar calendar;
+
+    private String lifestyleContainerKey;
+    private String reminderContainerKey;
+    private String actionKey;
 
     private ArrayList<Integer> repeatDays; //Uses Calendar static day values
     private boolean repeatDaysEnabled;
@@ -32,8 +38,6 @@ public class Notification extends AbstractBaseEvent {
     //sets everything to defaults
     public Notification() {
         super("DEFAULT NOTIFICATION NAME", "DEFAULT_NOTIFICATION_KEY", true);
-
-        action = new Action();
 
         repeatDays = new ArrayList<Integer>(7);
         repeatDaysEnabled = false;
@@ -72,13 +76,16 @@ public class Notification extends AbstractBaseEvent {
 
     //Sends a notifications with the given title and text
     public void sendNotification(Context context, String title, String text) {
-        action.sendCorrectNotification(context, title, text);
+        Storage.getInstance().getAction(Constants.ACTION_TEST_KEY).sendCorrectNotification(context, title, text);
     }
 
     //sets an alarm for the current scheduled time of the notification
     public void setAlarm(Context context) {
         //Setup the intent, it must be a pending intent
         Intent myIntent = new Intent(context, AlarmReceiver.class);
+
+        myIntent.putExtra("NOTIF_KEY", this.getKey()); //Josh, use getExtras to retrieve this
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent,0);
 
         //Create the AlarmManager
@@ -88,13 +95,12 @@ public class Notification extends AbstractBaseEvent {
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-    public Action getAction() {
-        return action;
+    public String getActionKey() {
+        return actionKey;
     }
 
-    public void setAction(Action newAction) {
-        if (newAction == null) return;
-        action = newAction;
+    public void setActionKey(String newActionKey) {
+        actionKey = newActionKey;
     }
 
     public Calendar getTime() {
@@ -144,6 +150,22 @@ public class Notification extends AbstractBaseEvent {
 
     public boolean isRepeating() {
         return (repeatDaysEnabled || repeatEveryBlankDaysEnabled);
+    }
+
+    public String getLifestyleContainerKey() {
+        return lifestyleContainerKey;
+    }
+
+    public void setLifestyleContainerKey(String lifestyleContainerKey) {
+        this.lifestyleContainerKey = lifestyleContainerKey;
+    }
+
+    public String getReminderContainerKey() {
+        return reminderContainerKey;
+    }
+
+    public void setReminderContainerKey(String reminderContainerKey) {
+        this.reminderContainerKey = reminderContainerKey;
     }
 
 }
