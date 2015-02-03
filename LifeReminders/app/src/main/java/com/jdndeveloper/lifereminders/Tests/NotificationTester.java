@@ -16,7 +16,7 @@ public class NotificationTester {
 
     public void runTest(Context context) {
         Notification notification = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
-        notification.setAction(Storage.getInstance().getAction(Constants.ACTION_TEST_KEY));
+        notification.setActionKey(Constants.ACTION_TEST_KEY);
 
         //Arbitrary change
 

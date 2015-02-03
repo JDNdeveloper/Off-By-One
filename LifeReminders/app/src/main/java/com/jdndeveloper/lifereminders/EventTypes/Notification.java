@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.jdndeveloper.lifereminders.AlarmRecieverAndService.AlarmReceiver;
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.Utilities.CalendarEvent;
@@ -22,8 +23,11 @@ import java.util.Calendar;
  */
 public class Notification extends AbstractBaseEvent {
 
-    private Action action;
     private Calendar calendar;
+
+    private String lifestyleContainerKey;
+    private String reminderContainerKey;
+    private String actionKey;
 
     private ArrayList<Integer> repeatDays; //Uses Calendar static day values
     private boolean repeatDaysEnabled;
@@ -72,7 +76,7 @@ public class Notification extends AbstractBaseEvent {
 
     //Sends a notifications with the given title and text
     public void sendNotification(Context context, String title, String text) {
-        action.sendCorrectNotification(context, title, text);
+        Storage.getInstance().getAction(Constants.ACTION_TEST_KEY).sendCorrectNotification(context, title, text);
     }
 
     //sets an alarm for the current scheduled time of the notification
@@ -91,13 +95,12 @@ public class Notification extends AbstractBaseEvent {
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-    public Action getAction() {
-        return action;
+    public String getActionKey() {
+        return actionKey;
     }
 
-    public void setAction(Action newAction) {
-        if (newAction == null) return;
-        action = newAction;
+    public void setActionKey(String newActionKey) {
+        actionKey = newActionKey;
     }
 
     public Calendar getTime() {
@@ -147,6 +150,22 @@ public class Notification extends AbstractBaseEvent {
 
     public boolean isRepeating() {
         return (repeatDaysEnabled || repeatEveryBlankDaysEnabled);
+    }
+
+    public String getLifestyleContainerKey() {
+        return lifestyleContainerKey;
+    }
+
+    public void setLifestyleContainerKey(String lifestyleContainerKey) {
+        this.lifestyleContainerKey = lifestyleContainerKey;
+    }
+
+    public String getReminderContainerKey() {
+        return reminderContainerKey;
+    }
+
+    public void setReminderContainerKey(String reminderContainerKey) {
+        this.reminderContainerKey = reminderContainerKey;
     }
 
 }
