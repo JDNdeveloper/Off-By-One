@@ -13,35 +13,37 @@ public class Reminder extends AbstractBaseEvent {
     private static final int maxNotifications = 10;
 
     //list holding notification keys
-    private List<String> notificationKeys = new ArrayList<String>();
+    private List<String> notificationKeys;
 
-
+    //default constructor
     public Reminder() {
         super("DEFAULT REMINDER NAME", "DEFAULT_REMINDER_KEY", false);
+        this.notificationKeys = new ArrayList<String>();
     }
-
+    //custom constructor
     public Reminder(String name, String key, boolean enabled) {
         super(name,key,enabled);
+        this.notificationKeys = new ArrayList<String>();
+
     }
 
 
-    //simple getter
+    //returns list of notification keys
     public List<String> getNotificationKeys() {
         return notificationKeys;
     }
 
 
 
-
+    //clears previous notification list and populates it with new one
     public void setNotificationKeys(ArrayList<String> notificationKey){
         //empties previous list
         this.notificationKeys.clear();
 
         if(notificationKey.size()<=10) {
-            //new List's size is in requirements
-            for (int i = 0; i < notificationKey.size(); i++) {
-                this.notificationKeys.add(notificationKey.get(i));
-            }
+            //soft copy of list
+                this.notificationKeys = notificationKey;
+
         }else{
 
             //List passed through as parameter is too large to copy
@@ -50,7 +52,7 @@ public class Reminder extends AbstractBaseEvent {
 
     }
 
-
+    //allows movement of particular keys.
     public void rearrangeNotifications(String notificationID, int index){
 
         if(this.notificationKeys.size()==0){
@@ -82,7 +84,7 @@ public class Reminder extends AbstractBaseEvent {
 
 
 
-
+    //inserts notifications
     public void addNotification(String notificationID) {
         if(this.notificationKeys.size()<10){
             this.notificationKeys.add(notificationID);
@@ -93,7 +95,7 @@ public class Reminder extends AbstractBaseEvent {
 
 
 
-
+    //removes particular notifications
     public void removeNotification(String notificationID) {
         if(this.notificationKeys.size()==0){
             System.err.printf("attempted to removeNotification %s on an empty list\n", notificationID);
@@ -116,7 +118,7 @@ public class Reminder extends AbstractBaseEvent {
     }
 
 
-
+    //tostring that returns a string with content in reminder
     public String toString(){
         String obString = "Reminder name: " + this.getName() +"\nkey: "
                 + this.getKey() +"\nenabled: " + this.isEnabled();
