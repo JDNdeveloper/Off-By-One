@@ -36,7 +36,7 @@ public class Reminder extends AbstractBaseEvent {
 
 
     //clears previous notification list and populates it with new one
-    public void setNotificationKeys(ArrayList<String> notificationKey){
+    public void setNotificationKeys(List<String> notificationKey){
         //empties previous list
         this.notificationKeys.clear();
 
