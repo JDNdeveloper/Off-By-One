@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.interfaces.PhoneInterface;
@@ -31,7 +32,7 @@ public class Action extends AbstractBaseEvent {
         notificationBar = true;
 
         vibrate = false;
-        vibrateDuration = 100;
+        vibrateDuration = Constants.VIBRATION_MEDIUM;
         notificationSound = false;
         ringtoneSound = false;
         cameraLight = false;

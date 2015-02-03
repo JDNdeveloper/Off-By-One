@@ -10,6 +10,8 @@ import com.jdndeveloper.lifereminders.AlarmRecieverAndService.AlarmReceiver;
 import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.Utilities.CalendarEvent;
+import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,8 +34,6 @@ public class Notification extends AbstractBaseEvent {
     //sets everything to defaults
     public Notification() {
         super("DEFAULT NOTIFICATION NAME", "DEFAULT_NOTIFICATION_KEY", true);
-
-        action = new Action();
 
         repeatDays = new ArrayList<Integer>(7);
         repeatDaysEnabled = false;
@@ -79,6 +79,9 @@ public class Notification extends AbstractBaseEvent {
     public void setAlarm(Context context) {
         //Setup the intent, it must be a pending intent
         Intent myIntent = new Intent(context, AlarmReceiver.class);
+
+        myIntent.putExtra("NOTIF_KEY", this.getKey()); //Josh, use getExtras to retrieve this
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent,0);
 
         //Create the AlarmManager

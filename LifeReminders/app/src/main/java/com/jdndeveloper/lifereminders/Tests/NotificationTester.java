@@ -3,7 +3,9 @@ package com.jdndeveloper.lifereminders.Tests;
 import android.content.Context;
 import android.util.Log;
 
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.Calendar;
 
@@ -13,7 +15,8 @@ import java.util.Calendar;
 public class NotificationTester {
 
     public void runTest(Context context) {
-        Notification notification = new Notification();
+        Notification notification = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
+        notification.setAction(Storage.getInstance().getAction(Constants.ACTION_TEST_KEY));
 
         //runDaysOfTheWeekTest(notification);
         //runEveryBlankDaysTest(notification);
