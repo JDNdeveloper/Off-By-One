@@ -30,7 +30,7 @@
             android:enabled="true" />
 
         <activity
-            android:name=".SprintOnePresentation"
+            android:name=".SprintPresentation"
             android:label="@string/title_activity_sprint_one_presentation" >
         </activity>
     </application>
