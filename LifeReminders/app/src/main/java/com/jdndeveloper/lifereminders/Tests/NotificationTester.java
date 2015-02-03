@@ -18,6 +18,8 @@ public class NotificationTester {
         Notification notification = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
         notification.setAction(Storage.getInstance().getAction(Constants.ACTION_TEST_KEY));
 
+        //Arbitrary change
+
         //runDaysOfTheWeekTest(notification);
         //runEveryBlankDaysTest(notification);
         //runNotificationTest(context, notification);
