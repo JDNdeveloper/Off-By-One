@@ -9,3 +9,9 @@ Examples/AlarmReceiverExample/.idea/vcs.xml
 Examples/AlarmReceiverExample/.idea/workspace.xml
 LifeReminders/.idea/misc.xml
 LifeReminders/.idea/vcs.xml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
