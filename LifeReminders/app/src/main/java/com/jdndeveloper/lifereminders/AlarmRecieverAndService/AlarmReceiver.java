@@ -3,8 +3,11 @@ package com.jdndeveloper.lifereminders.AlarmRecieverAndService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 /**
  * Created by Josh Innis on 1/27/2015.
@@ -16,7 +19,22 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         //Intent service = new Intent(context, AlarmService.class);
         //context.startService(service);
-        Notification n = new Notification();
+
+        String notifKey = intent.getStringExtra("NOTIF_KEY");
+
+        Log.i("AlarmReceiver", notifKey);
+
+        Notification n = Storage.getInstance().getNotification(notifKey);
+
+
+        //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
+
+        n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+        n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+        n.setActionKey(Constants.ACTION_TEST_KEY);
+
+        ///END OF TEMPORARY
+
         n.sendNotification(context);
     }
 }

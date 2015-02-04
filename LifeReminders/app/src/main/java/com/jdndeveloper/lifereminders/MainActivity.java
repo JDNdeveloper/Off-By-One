@@ -61,18 +61,19 @@ public class MainActivity extends ActionBarActivity
 
         //what we're going to do is schedule an alarm to go off in 1 minute, and push a notification
         Notification testNotif = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
-Log.e("MainActivity", "onCreate name [" + testNotif.getName() + "]");
-Log.e("MainActivity", "onCreate key [" + testNotif.getKey() + "]");
+        //Log.e("MainActivity", "onCreate name [" + testNotif.getName() + "]");
+        //Log.e("MainActivity", "onCreate key [" + testNotif.getKey() + "]");
         testNotif.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
-Log.e("MainActivity", "onCreate lifestyle container key [" + testNotif.getLifestyleContainerKey() + "]");
+        //Log.e("MainActivity", "onCreate lifestyle container key [" + testNotif.getLifestyleContainerKey() + "]");
         testNotif.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
-Log.e("MainActivity", "onCreate reminder container key [" + testNotif.getReminderContainerKey() + "]");
+        //Log.e("MainActivity", "onCreate reminder container key [" + testNotif.getReminderContainerKey() + "]");
         testNotif.setActionKey(Constants.ACTION_TEST_KEY);
-Log.e("MainActivity", "onCreate name [" + testNotif.getActionKey() + "]");
+        //Log.e("MainActivity", "onCreate name [" + testNotif.getActionKey() + "]");
 
         Calendar cal = Calendar.getInstance();
 
         cal.add(Calendar.MINUTE, 1);
+        //cal.add(Calendar.SECOND, 10);
         cal.set(Calendar.SECOND, 0);
 
 
