@@ -29,10 +29,6 @@
             android:name=".AlarmRecieverAndService.AlarmService"
             android:enabled="true" />
 
-        <activity
-            android:name=".SprintPresentation"
-            android:label="@string/title_activity_sprint_one_presentation" >
-        </activity>
     </application>
 
 </manifest>
