@@ -21,9 +21,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -53,6 +55,26 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        //code for the Sprint 1 presentation!
+
+        //what we're going to do is schedule an alarm to go off in 1 minute, and push a notification
+        Notification testNotif = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
+
+        testNotif.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+        testNotif.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+        testNotif.setActionKey(Constants.ACTION_TEST_KEY);
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.add(Calendar.MINUTE, 1);
+        cal.set(Calendar.SECOND, 0);
+
+
+        testNotif.setTime(cal);
+        testNotif.setAlarm(this);
+
+        //End of Sprint 1 Presentation Plan
     }
 
     @Override
