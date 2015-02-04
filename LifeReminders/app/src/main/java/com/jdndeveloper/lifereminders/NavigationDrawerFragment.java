@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
@@ -89,8 +90,11 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer2, container, false);
+        RelativeLayout mDrawerRelativeLayout = (RelativeLayout) inflater.inflate(
+                R.layout.fragment_navigation_drawer, container, false);
+        mDrawerListView = (ListView) mDrawerRelativeLayout.findViewById(R.id.listView1);
+//        mDrawerListView = (ListView) inflater.inflate(
+//                R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,8 +113,9 @@ public class NavigationDrawerFragment extends Fragment {
                         "Section 5",
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        mDrawerListView.setBackgroundColor(0xff202020);
-        return mDrawerListView;
+//        mDrawerListView.setBackgroundColor(0xff202020);
+//        return mDrawerListView;
+        return mDrawerRelativeLayout;
     }
 
     public boolean isDrawerOpen() {
