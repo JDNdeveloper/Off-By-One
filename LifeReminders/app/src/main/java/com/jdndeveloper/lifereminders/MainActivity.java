@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -60,10 +61,14 @@ public class MainActivity extends ActionBarActivity
 
         //what we're going to do is schedule an alarm to go off in 1 minute, and push a notification
         Notification testNotif = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
-
+Log.e("MainActivity", "onCreate name [" + testNotif.getName() + "]");
+Log.e("MainActivity", "onCreate key [" + testNotif.getKey() + "]");
         testNotif.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+Log.e("MainActivity", "onCreate lifestyle container key [" + testNotif.getLifestyleContainerKey() + "]");
         testNotif.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+Log.e("MainActivity", "onCreate reminder container key [" + testNotif.getReminderContainerKey() + "]");
         testNotif.setActionKey(Constants.ACTION_TEST_KEY);
+Log.e("MainActivity", "onCreate name [" + testNotif.getActionKey() + "]");
 
         Calendar cal = Calendar.getInstance();
 
