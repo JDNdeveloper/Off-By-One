@@ -36,6 +36,13 @@ public class AlarmReceiver extends BroadcastReceiver {
         ///END OF TEMPORARY
 
         n.sendNotification(context);
+
+        //set next alarm - Uncomment to add set next alarm functionality
+        //n.makeNextNotificationTime();
+        //n.setAlarm(context);
+
+        //Uncomment after storage is working - tell storage to save the new notification time
+        //Storage.getInstance().replaceNotification(n, n.getKey());
     }
 }
 
