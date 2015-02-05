@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,9 +22,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -53,6 +56,31 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        //code for the Sprint 1 presentation!
+
+        //what we're going to do is schedule an alarm to go off in 1 minute, and push a notification
+        Notification testNotif = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
+        //Log.e("MainActivity", "onCreate name [" + testNotif.getName() + "]");
+        //Log.e("MainActivity", "onCreate key [" + testNotif.getKey() + "]");
+        testNotif.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+        //Log.e("MainActivity", "onCreate lifestyle container key [" + testNotif.getLifestyleContainerKey() + "]");
+        testNotif.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+        //Log.e("MainActivity", "onCreate reminder container key [" + testNotif.getReminderContainerKey() + "]");
+        testNotif.setActionKey(Constants.ACTION_TEST_KEY);
+        //Log.e("MainActivity", "onCreate name [" + testNotif.getActionKey() + "]");
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.add(Calendar.MINUTE, 1);
+        //cal.add(Calendar.SECOND, 10);
+        cal.set(Calendar.SECOND, 0);
+
+
+        testNotif.setTime(cal);
+        testNotif.setAlarm(this);
+
+        //End of Sprint 1 Presentation Plan
     }
 
     @Override
@@ -67,10 +95,10 @@ public class MainActivity extends ActionBarActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = "Lifestyles";
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = "Reminders";
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
@@ -107,9 +135,9 @@ public class MainActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -151,6 +179,7 @@ public class MainActivity extends ActionBarActivity
 //                    selectItem(position);
 //                }
 //            });
+            List<String> lifestyles = Storage.getInstance().getAllLifestyles();
             Lifestyle lifestyle = Storage.getInstance().getLifestyle("Test_Lifestyle_01");
             Reminder reminder = Storage.getInstance().getReminder(Constants.REMINDER_TEST_KEY);
 
@@ -162,7 +191,7 @@ public class MainActivity extends ActionBarActivity
             listView.setAdapter(new ArrayAdapter<String>(
                     getActivity(),
                     android.R.layout.simple_list_item_activated_1,
-                    android.R.id.text1, list
+                    android.R.id.text1, lifestyles
             ));
             return rootView;
         }
