@@ -28,7 +28,7 @@ public class Storage implements StorageInterface {
     }
 
     // temporary fake lifestyle
-    String All_LifeStyles = "LifeStyle_01,LifeStyle_02,LifeStyle_03";
+    String All_Lifestyles = "Lifestyle_01,Lifestyle_02,Lifestyle_03";
 
     // test set for unit tests
     String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
@@ -41,9 +41,9 @@ public class Storage implements StorageInterface {
     String Test_Notification_01 = "Test Notification,false";
     String Test_Action_01 = "Test Action,false";
 
-    String LifeStyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
-    String LifeStyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
-    String LifeStyle_03 = "Vacation,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+    String Lifestyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+    String Lifestyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+    String Lifestyle_03 = "Vacation,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
 
     String Reminder_01 = "Scrum Meeting,true,Notification_01,Notification_02,Notification_03";
 
@@ -62,6 +62,10 @@ public class Storage implements StorageInterface {
             if (key == Constants.REMINDER_TEST_KEY) return Test_Reminder_01;
             if (key == Constants.NOTIFICATION_TEST_KEY) return Test_Notification_01;
             if (key == Constants.ACTION_TEST_KEY) return Test_Action_01;
+
+            if (key == "Lifestyle_01") return Lifestyle_01;
+            if (key == "Lifestyle_02") return Lifestyle_02;
+            if (key == "Lifestyle_03") return Lifestyle_03;
         }
         return null;
     }
@@ -154,7 +158,7 @@ public class Storage implements StorageInterface {
 
     @Override
     public List<String> getAllLifestyles() {
-        return toArrayList(All_LifeStyles);
+        return toArrayList(All_Lifestyles);
     }
 
     @Override
