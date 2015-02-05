@@ -3,19 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff202020">
+    android:background="#ff202020"
+    android:layout_margin="4dp">
 
 <ListView
     android:id="@+id/listView1"
+    android:layout_marginTop="30dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_above="@+id/checkbox" android:choiceMode="singleChoice"
+    android:layout_above="@+id/settings" android:choiceMode="singleChoice"
     android:divider="@android:color/transparent" android:dividerHeight="0dp"
     tools:context=".NavigationDrawerFragment" />
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/settings"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/settings_small"/>
 </RelativeLayout>

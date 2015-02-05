@@ -95,10 +95,10 @@ public class MainActivity extends ActionBarActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = "Lifestyles";
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = "Reminders";
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
@@ -179,6 +179,7 @@ public class MainActivity extends ActionBarActivity
 //                    selectItem(position);
 //                }
 //            });
+            List<String> lifestyles = Storage.getInstance().getAllLifestyles();
             Lifestyle lifestyle = Storage.getInstance().getLifestyle("Test_Lifestyle_01");
             Reminder reminder = Storage.getInstance().getReminder(Constants.REMINDER_TEST_KEY);
 
@@ -190,7 +191,7 @@ public class MainActivity extends ActionBarActivity
             listView.setAdapter(new ArrayAdapter<String>(
                     getActivity(),
                     android.R.layout.simple_list_item_activated_1,
-                    android.R.id.text1, list
+                    android.R.id.text1, lifestyles
             ));
             return rootView;
         }
