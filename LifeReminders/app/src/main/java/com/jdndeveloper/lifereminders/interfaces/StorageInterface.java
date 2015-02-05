@@ -13,22 +13,25 @@ import java.util.List;
  */
 public interface StorageInterface {
 
-    // getters
+    // get all getters
+    List<String> getAllLifestyles();
+    List<String> getAllReminders();
+    List<String> getAllKeys();
+    List<String> getCurrentAlarmKeys();
+
+    // single getters
     Lifestyle getLifestyle(String key);
     Reminder getReminder(String key);
     Notification getNotification(String key);
     Action getAction(String key);
 
-    List<String> getCurrentAlarmKeys();
-
-    // for debugging
-    List<String> getAllKeys();
-
-    // updaters - they return a boolean status
+    // single updaters - they return a boolean status
     boolean replaceLifeStyle(Lifestyle lifestyle, String key);
+    boolean replaceReminder(Reminder reminder, String key);
     boolean replaceNotification(Notification notification, String key);
+    boolean replaceAction(Action action, String key);
 
-    // creation - they return an object of said type
+    // single creation - they return an object of said type
     Lifestyle getNewLifeStyle();
     Reminder getNewReminder();
     Notification getNewNotification();

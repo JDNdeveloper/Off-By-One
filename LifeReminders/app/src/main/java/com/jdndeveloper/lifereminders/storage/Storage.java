@@ -9,6 +9,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Storage implements StorageInterface {
     }
 
     // temporary fake lifestyle
-    String All_LifeStyles = "LifeStyle_01,LifeStyle_02";
+    String All_LifeStyles = "LifeStyle_01,LifeStyle_02,LifeStyle_03";
 
     // test set for unit tests
     String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
@@ -42,6 +43,7 @@ public class Storage implements StorageInterface {
 
     String LifeStyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
     String LifeStyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+    String LifeStyle_03 = "Vacation,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
 
     String Reminder_01 = "Scrum Meeting,true,Notification_01,Notification_02,Notification_03";
 
@@ -52,14 +54,10 @@ public class Storage implements StorageInterface {
     private List<String> toArrayList(String string){
         return new ArrayList<String>(Arrays.asList(string.split("\\,")));
     }
+
     private String retrieveKey(String key, String type){
         if (key != null && type != null){
             if (!key.contains(type)) return null;
-//            if (key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
-//            if (key.contentEquals("Test_Reminder_01")) return Test_Reminder_01;
-//            if (key.contentEquals("Test_Notification_01")) return Test_Notification_01;
-//            if (key.contentEquals("Test_Action_01")) return Test_Action_01;
-
             if (key == Constants.LIFESTYLE_TEST_KEY) return Test_Lifestyle_01;
             if (key == Constants.REMINDER_TEST_KEY) return Test_Reminder_01;
             if (key == Constants.NOTIFICATION_TEST_KEY) return Test_Notification_01;
@@ -67,6 +65,7 @@ public class Storage implements StorageInterface {
         }
         return null;
     }
+
     @Override
     public Lifestyle getLifestyle(String key) {
         // temporary
@@ -154,6 +153,16 @@ public class Storage implements StorageInterface {
     }
 
     @Override
+    public List<String> getAllLifestyles() {
+        return toArrayList(All_LifeStyles);
+    }
+
+    @Override
+    public List<String> getAllReminders() {
+        return null;
+    }
+
+    @Override
     public List<String> getCurrentAlarmKeys() {
         // temporary
         ArrayList<String> currentAlarmKeys = new ArrayList<String>();
@@ -188,6 +197,16 @@ public class Storage implements StorageInterface {
     @Override
     public boolean replaceNotification(Notification notification, String key) {
 
+        return false;
+    }
+
+    @Override
+    public boolean replaceReminder(Reminder reminder, String key) {
+        return false;
+    }
+
+    @Override
+    public boolean replaceAction(Action action, String key) {
         return false;
     }
 
