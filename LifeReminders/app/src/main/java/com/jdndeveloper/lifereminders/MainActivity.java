@@ -106,7 +106,7 @@ public class MainActivity extends ActionBarActivity
                 mTitle = "Reminders";
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = "Notifications";
                 break;
         }
     }
@@ -192,20 +192,20 @@ public class MainActivity extends ActionBarActivity
                 default:
                     return rootView;
             }
-
+            //http://www.colourlovers.com/palette/3643955/Cleaning_In_Sydney
             if (abstractBaseEvents.get(0) instanceof Lifestyle) {
                 listView.setAdapter(new LifestyleAdapter(getActivity(),
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.lifestyle_row, abstractBaseEvents
                 ));
-                rootView.setBackgroundColor(0xffBDF1DB);
+                rootView.setBackgroundColor(0x90BDF1DB);
             }
             if (abstractBaseEvents.get(0) instanceof Reminder){
                 listView.setAdapter(new ReminderAdapter(getActivity(),
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.reminder_row, abstractBaseEvents
                 ));
-                rootView.setBackgroundColor(0xffE1F1BD);
+                rootView.setBackgroundColor(0x90E1F1BD);
             }
 
             if (abstractBaseEvents.get(0) instanceof Notification){
@@ -213,7 +213,7 @@ public class MainActivity extends ActionBarActivity
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.notification_row, abstractBaseEvents
                 ));
-                rootView.setBackgroundColor(0xffBDE2F1);
+                rootView.setBackgroundColor(0x90BDE2F1);
             }
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

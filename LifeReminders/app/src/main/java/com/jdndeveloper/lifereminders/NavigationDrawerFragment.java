@@ -106,8 +106,7 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         "Lifestyles",
                         "Reminders",
-                        "Notifications",
-                        "Actions"
+                        "Notifications"
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerRelativeLayout;
