@@ -98,7 +98,10 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Creates ActionBar object
         ActionBar actionBar = getActionBar();
+
+        //Places logo in top right of ActionBar
         actionBar.setDisplayOptions(actionBar.getDisplayOptions()
                 | ActionBar.DISPLAY_SHOW_CUSTOM);
         ImageButton buttonView = new ImageButton(actionBar.getThemedContext());
@@ -112,28 +115,51 @@ public class NavigationDrawerFragment extends Fragment {
         buttonView.setLayoutParams(layoutParams);
         buttonView.setBackgroundColor(Color.TRANSPARENT);
         actionBar.setCustomView(buttonView);
+        //End of placing logo
 
+        //CREATE ONCLICK LISTENER FOR LOGO HERE, should open an ABOUT page
+
+        //Sets initial action bar background to Lifestyle Action Bar Background
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.life_action_background)));
 
         RelativeLayout mDrawerRelativeLayout = (RelativeLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView = (ListView) mDrawerRelativeLayout.findViewById(R.id.listView1);
 
+        //creates final ActionBar object to use to set colors below
         final ActionBar bar = getActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.life_action_background)));
+
+        //creates final nav bar layout object
+        final RelativeLayout navBarLayout = (RelativeLayout) mDrawerRelativeLayout.findViewById(
+                R.id.navDrawer);
+
+        //sets initial nav bar background to Lifestyle background
+        //navBarLayout.setBackgroundColor(
+        //        getResources().getColor(R.color.life_action_background));
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //sets Action Bar and Nav Bar background color based on what is selected in nav bar
                 if (id == 0) {
                     bar.setBackgroundDrawable(new ColorDrawable(
                             getResources().getColor(R.color.life_action_background)));
+                    //navBarLayout.setBackgroundColor(
+                    //        getResources().getColor(R.color.life_action_background));
                 } else if (id == 1) {
                     bar.setBackgroundDrawable(new ColorDrawable(
                             getResources().getColor(R.color.rem_action_background)));
+                    //navBarLayout.setBackgroundColor(
+                    //        getResources().getColor(R.color.rem_action_background));
                 } else if (id == 2) {
                     bar.setBackgroundDrawable(new ColorDrawable(
                             getResources().getColor(R.color.notif_action_background)));
+                    //navBarLayout.setBackgroundColor(
+                    //        getResources().getColor(R.color.notif_action_background));
                 }
+                //End of background setting
+
                 selectItem(position);
             }
         });

@@ -3,5 +3,4 @@
     <item android:state_activated="true" android:drawable="@color/nav_bar_color" />
     <item android:state_selected="true" android:drawable="@color/nav_bar_color" />
     <item android:state_pressed="true" android:drawable="@color/gray" />
-    <item android:drawable="@color/dark_gray" />
 </selector>
