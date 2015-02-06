@@ -198,14 +198,14 @@ public class MainActivity extends ActionBarActivity
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.lifestyle_row, abstractBaseEvents
                 ));
-                rootView.setBackgroundColor(0x90BDF1DB);
+                rootView.setBackgroundColor(getResources().getColor(R.color.life_background));
             }
             if (abstractBaseEvents.get(0) instanceof Reminder){
                 listView.setAdapter(new ReminderAdapter(getActivity(),
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.reminder_row, abstractBaseEvents
                 ));
-                rootView.setBackgroundColor(0x90E1F1BD);
+                rootView.setBackgroundColor(getResources().getColor(R.color.rem_background));
             }
 
             if (abstractBaseEvents.get(0) instanceof Notification){
@@ -213,7 +213,7 @@ public class MainActivity extends ActionBarActivity
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.notification_row, abstractBaseEvents
                 ));
-                rootView.setBackgroundColor(0x90BDE2F1);
+                rootView.setBackgroundColor(getResources().getColor(R.color.notif_background));
             }
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
