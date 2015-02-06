@@ -1,5 +1,8 @@
 package com.jdndeveloper.lifereminders;
 
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -11,6 +14,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,8 +24,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -90,19 +98,50 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(actionBar.getDisplayOptions()
+                | ActionBar.DISPLAY_SHOW_CUSTOM);
+        ImageButton buttonView = new ImageButton(actionBar.getThemedContext());
+        buttonView.setScaleType(ImageView.ScaleType.CENTER);
+        buttonView.setImageResource(R.drawable.lifereminders_app);
+        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT
+                | Gravity.CENTER_VERTICAL);
+        layoutParams.rightMargin = 0;
+        buttonView.setLayoutParams(layoutParams);
+        buttonView.setBackgroundColor(Color.TRANSPARENT);
+        actionBar.setCustomView(buttonView);
+
+
         RelativeLayout mDrawerRelativeLayout = (RelativeLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView = (ListView) mDrawerRelativeLayout.findViewById(R.id.listView1);
+
+        final ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.life_action_background)));
+
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (id == 0) {
+                    bar.setBackgroundDrawable(new ColorDrawable(
+                            getResources().getColor(R.color.life_action_background)));
+                } else if (id == 1) {
+                    bar.setBackgroundDrawable(new ColorDrawable(
+                            getResources().getColor(R.color.rem_action_background)));
+                } else if (id == 2) {
+                    bar.setBackgroundDrawable(new ColorDrawable(
+                            getResources().getColor(R.color.notif_action_background)));
+                }
                 selectItem(position);
             }
         });
+
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
+                R.layout.simple_activated_list,
+                R.id.navText,
                 new String[]{
                         "Lifestyles",
                         "Reminders",
