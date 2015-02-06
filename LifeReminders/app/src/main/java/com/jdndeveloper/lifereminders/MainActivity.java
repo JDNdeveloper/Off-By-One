@@ -21,11 +21,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
+import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
+import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -151,7 +156,6 @@ public class MainActivity extends ActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -164,35 +168,61 @@ public class MainActivity extends ActionBarActivity
             return fragment;
         }
 
-        public PlaceholderFragment() {
-        }
+        public PlaceholderFragment() {}
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
             ListView listView = (ListView) rootView.findViewById(R.id.listView);
-//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    selectItem(position);
-//                }
-//            });
-            List<String> lifestyles = Storage.getInstance().getAllLifestyles();
-            Lifestyle lifestyle = Storage.getInstance().getLifestyle("Test_Lifestyle_01");
-            Reminder reminder = Storage.getInstance().getReminder(Constants.REMINDER_TEST_KEY);
 
-            List<String> list = reminder.getNotificationKeys();
-            list.add(reminder.getKey());
-            list.add(reminder.getName());
-//            list.add(((Boolean)lifestyle.isEnabled()).toString());
+            final List<? extends AbstractBaseEvent> abstractBaseEvents;
 
-            listView.setAdapter(new ArrayAdapter<String>(
-                    getActivity(),
-                    android.R.layout.simple_list_item_activated_1,
-                    android.R.id.text1, lifestyles
-            ));
+            switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)){
+                case 1:
+                    abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                    break;
+                case 2:
+                    abstractBaseEvents = Storage.getInstance().getAllReminders();
+                    break;
+                case 3:
+                    abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                    break;
+                default:
+                    return rootView;
+            }
+
+            if (abstractBaseEvents.get(0) instanceof Lifestyle) {
+                listView.setAdapter(new LifestyleAdapter(getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.lifestyle_row, abstractBaseEvents
+                ));
+                rootView.setBackgroundColor(0xffBDF1DB);
+            }
+            if (abstractBaseEvents.get(0) instanceof Reminder){
+                listView.setAdapter(new ReminderAdapter(getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.reminder_row, abstractBaseEvents
+                ));
+                rootView.setBackgroundColor(0xffE1F1BD);
+            }
+
+            if (abstractBaseEvents.get(0) instanceof Notification){
+                listView.setAdapter(new NotificationAdapter(getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.notification_row, abstractBaseEvents
+                ));
+                rootView.setBackgroundColor(0xffBDE2F1);
+            }
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.e("MainActivity", "onCreateView onItem "
+                            + ((AbstractBaseEvent) abstractBaseEvents.get(position)).getKey());
+                }
+            });
             return rootView;
         }
 

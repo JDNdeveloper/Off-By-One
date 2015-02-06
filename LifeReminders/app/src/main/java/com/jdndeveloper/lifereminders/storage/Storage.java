@@ -28,7 +28,12 @@ public class Storage implements StorageInterface {
     }
 
     // temporary fake lifestyle
-    String All_Lifestyles = "Lifestyle_01,Lifestyle_02,Lifestyle_03";
+    String All_Lifestyles = "Lifestyle_01,Lifestyle_02,Lifestyle_03," +
+            "Test_Lifestyle_01,Failed_Lifestyle_01";
+    String All_Reminders = "Reminder_01,Reminder_02,Reminder_03,Reminder_04," +
+            "Test_Reminder_01,Failed_Reminder_01";
+    String All_Notifications = "Notification_01,Notification_02,Notification_03" +
+            ",Test_Notification_01,Failed_Notification_01";
 
     // test set for unit tests
     String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
@@ -46,10 +51,13 @@ public class Storage implements StorageInterface {
     String Lifestyle_03 = "Vacation,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
 
     String Reminder_01 = "Scrum Meeting,true,Notification_01,Notification_02,Notification_03";
+    String Reminder_02 = "Potty Break,true,Notification_01,Notification_02,Notification_03";
+    String Reminder_03 = "Time out,true,Notification_01,Notification_02,Notification_03";
+    String Reminder_04 = "Stuff,true,Notification_01,Notification_02,Notification_03";
 
-    String Notification_01 = "time,action";
-    String Notification_02 = "time,action";
-    String Notification_03 = "time,action";
+    String Notification_01 = "Notification 1,true,time,action";
+    String Notification_02 = "Notification 2,true,time,action";
+    String Notification_03 = "Notification 3,false,time,action";
 
     private List<String> toArrayList(String string){
         return new ArrayList<String>(Arrays.asList(string.split("\\,")));
@@ -58,16 +66,55 @@ public class Storage implements StorageInterface {
     private String retrieveKey(String key, String type){
         if (key != null && type != null){
             if (!key.contains(type)) return null;
-            if (key == Constants.LIFESTYLE_TEST_KEY) return Test_Lifestyle_01;
-            if (key == Constants.REMINDER_TEST_KEY) return Test_Reminder_01;
-            if (key == Constants.NOTIFICATION_TEST_KEY) return Test_Notification_01;
+            if (key == Constants.LIFESTYLE_TEST_KEY ||
+                    key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
+            if (key == Constants.REMINDER_TEST_KEY ||
+                    key.contentEquals("Test_Reminder_01")) return Test_Reminder_01;
+            if (key == Constants.NOTIFICATION_TEST_KEY ||
+                    key.contentEquals("Test_Notification_01")) return Test_Notification_01;
             if (key == Constants.ACTION_TEST_KEY) return Test_Action_01;
 
-            if (key == "Lifestyle_01") return Lifestyle_01;
-            if (key == "Lifestyle_02") return Lifestyle_02;
-            if (key == "Lifestyle_03") return Lifestyle_03;
+            if (key.contentEquals("Lifestyle_01")) return Lifestyle_01;
+            if (key.contentEquals("Lifestyle_02")) return Lifestyle_02;
+            if (key.contentEquals("Lifestyle_03")) return Lifestyle_03;
+            if (key.contentEquals("Failed_Lifestyle_01")) return Failed_Lifestyle_01;
+
+            if (key.contentEquals("Reminder_01")) return Reminder_01;
+            if (key.contentEquals("Reminder_02")) return Reminder_02;
+            if (key.contentEquals("Reminder_03")) return Reminder_03;
+            if (key.contentEquals("Reminder_04")) return Reminder_04;
+            if (key.contentEquals("Failed_Reminder_01")) return Failed_Reminder_01;
+
+            if (key.contentEquals("Notification_01")) return Notification_01;
+            if (key.contentEquals("Notification_02")) return Notification_02;
+            if (key.contentEquals("Notification_03")) return Notification_03;
+            if (key.contentEquals("Failed_Notification_01")) return Failed_Notification_01;
         }
         return null;
+    }
+
+    @Override
+    public List<Lifestyle> getAllLifestyles() {
+        List<Lifestyle> lifestyles = new ArrayList<Lifestyle>();
+        for(String lifestyle : toArrayList(All_Lifestyles))
+            lifestyles.add(getLifestyle(lifestyle));
+        return lifestyles;
+    }
+
+    @Override
+    public List<Reminder> getAllReminders() {
+        List<Reminder> reminders = new ArrayList<Reminder>();
+        for(String reminder : toArrayList(All_Reminders))
+            reminders.add(getReminder(reminder));
+        return reminders;
+    }
+
+    @Override
+    public List<Notification> getAllNotifications() {
+        List<Notification> notifications = new ArrayList<Notification>();
+        for(String notification : toArrayList(All_Notifications))
+            notifications.add(getNotification(notification));
+        return notifications;
     }
 
     @Override
@@ -154,16 +201,6 @@ public class Storage implements StorageInterface {
         action.setName(decodedString.get(0));
         action.setEnabled(Boolean.valueOf(decodedString.get(1)));
         return action;
-    }
-
-    @Override
-    public List<String> getAllLifestyles() {
-        return toArrayList(All_Lifestyles);
-    }
-
-    @Override
-    public List<String> getAllReminders() {
-        return null;
     }
 
     @Override
