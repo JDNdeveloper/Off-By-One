@@ -1,5 +1,6 @@
 package com.jdndeveloper.lifereminders;
 
+import android.app.Dialog;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -106,18 +108,32 @@ public class NavigationDrawerFragment extends Fragment {
                 | ActionBar.DISPLAY_SHOW_CUSTOM);
         ImageButton buttonView = new ImageButton(actionBar.getThemedContext());
         buttonView.setScaleType(ImageView.ScaleType.CENTER);
+        buttonView.setAdjustViewBounds(true);
+        buttonView.setMaxHeight(150); //scales the logo
         buttonView.setImageResource(R.drawable.lifereminders_app);
         ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT
                 | Gravity.CENTER_VERTICAL);
-        layoutParams.rightMargin = 0;
+        layoutParams.rightMargin = 10;
         buttonView.setLayoutParams(layoutParams);
         buttonView.setBackgroundColor(Color.TRANSPARENT);
         actionBar.setCustomView(buttonView);
         //End of placing logo
 
-        //CREATE ONCLICK LISTENER FOR LOGO HERE, should open an ABOUT page
+        //Long click on logo opens about page
+        buttonView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // custom dialog
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.about);
+
+                dialog.show();
+                return true;
+            }
+        });
 
         //Sets initial action bar background to Lifestyle Action Bar Background
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.life_action_background)));
@@ -157,8 +173,8 @@ public class NavigationDrawerFragment extends Fragment {
                             getResources().getColor(R.color.notif_action_background)));
                     //navBarLayout.setBackgroundColor(
                     //        getResources().getColor(R.color.notif_action_background));
+                    //End of background setting
                 }
-                //End of background setting
 
                 selectItem(position);
             }
