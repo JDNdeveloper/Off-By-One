@@ -30,9 +30,9 @@
     <color name="old_rem_background">#d0ede1</color>
     <color name="old_notif_background">#f2e6ec</color>
 
-    <color name="life_background">#ffe3f0f5</color>
+    <color name="life_background">#f7f7f7</color>
     <color name="rem_background">#ffe3f0f5</color>
-    <color name="notif_background">#ffe3f0f5</color>
+    <color name="notif_background">#E8E8E8</color>
 
     <color name="nav_bar_color">#9e0022</color>
 
