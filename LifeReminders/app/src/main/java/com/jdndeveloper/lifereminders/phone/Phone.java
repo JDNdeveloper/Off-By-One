@@ -59,7 +59,7 @@ public class Phone implements PhoneInterface{
     public void sendMessageToNotificationBar(String title, String message) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.lifereminders_app)
+                        .setSmallIcon(R.drawable.ic_action_notificationicon)
                         .setContentTitle(title)
                         .setContentText(message);
 

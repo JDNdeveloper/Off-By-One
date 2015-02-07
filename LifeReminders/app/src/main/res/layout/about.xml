@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="265dp"
+    android:layout_height="300dp"
+    android:layout_gravity="top|center_vertical"
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <TextView android:id="@+id/section_label" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="300px"
+        android:layout_height="160px"
         android:id="@+id/icon"
         android:layout_gravity="top|center_vertical"
         android:nestedScrollingEnabled="true"
-        android:paddingBottom="20px"
+        android:paddingTop="40px"
+        android:paddingBottom="10px"
         android:src="@drawable/lifereminders_app" />
 
-    <EditText
+    <TextView
         android:layout_width="fill_parent"
         android:layout_height="100px"
         android:id="@+id/about_appname"
@@ -39,6 +38,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Contributors"
             android:textSize="22sp"
@@ -48,6 +49,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/textView3"
             android:text="Jayden Navarro" />
@@ -55,6 +58,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Kevin Cheng"
             android:id="@+id/textView4"
@@ -63,6 +68,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="John Gemignani"
             android:id="@+id/textView5" />
@@ -70,6 +77,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Josh Innis"
             android:id="@+id/textView2"
@@ -78,14 +87,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Alex Gonzalez"
             android:id="@+id/textView6" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView8" />
 
     </LinearLayout>
 
