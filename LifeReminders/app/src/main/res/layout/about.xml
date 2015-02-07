@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="265dp"
-    android:layout_height="290dp"
+    android:layout_height="300dp"
     android:layout_gravity="top|center_vertical"
     android:background="@android:color/white"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="144px"
+        android:layout_height="160px"
         android:id="@+id/icon"
         android:layout_gravity="top|center_vertical"
         android:nestedScrollingEnabled="true"
+        android:paddingTop="40px"
         android:paddingBottom="10px"
-        android:paddingTop="20px"
         android:src="@drawable/lifereminders_app" />
 
     <TextView
