@@ -20,8 +20,9 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="10dp"
+        android:background="@color/light_dark_gray"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/settings_small"/>
+        android:src="@drawable/ic_action_settings"/>
 
 </RelativeLayout>
