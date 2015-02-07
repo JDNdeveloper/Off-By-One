@@ -14,7 +14,7 @@
         android:nestedScrollingEnabled="true"
         android:paddingTop="40px"
         android:paddingBottom="10px"
-        android:src="@drawable/lifereminders_app" />
+        android:src="@drawable/app_logo" />
 
     <TextView
         android:layout_width="fill_parent"

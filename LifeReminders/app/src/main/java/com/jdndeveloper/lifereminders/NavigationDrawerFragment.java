@@ -110,7 +110,7 @@ public class NavigationDrawerFragment extends Fragment {
         buttonView.setScaleType(ImageView.ScaleType.CENTER);
         buttonView.setAdjustViewBounds(true);
         buttonView.setMaxHeight(150); //scales the logo
-        buttonView.setImageResource(R.drawable.lifereminders_app);
+        buttonView.setImageResource(R.drawable.app_logo);
         ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT
