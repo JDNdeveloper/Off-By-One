@@ -4,6 +4,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 
 import com.jdndeveloper.lifereminders.MainActivity;
@@ -65,6 +67,11 @@ public class Phone implements PhoneInterface{
 
 
         mBuilder.setAutoCancel(true);
+
+        //sets large icon to app logo
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.app_logo);
+        mBuilder.setLargeIcon(icon);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
         // Because clicking the notification opens a new ("special") activity, there's
