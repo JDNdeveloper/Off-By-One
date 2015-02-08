@@ -26,17 +26,20 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Notification n = Storage.getInstance().getNotification(notifKey);
 
+        /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
+        const value is called*/
+        if(n.isEnabled()) {
 
-        //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
+            //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
 
-        n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
-        n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
-        n.setActionKey(Constants.ACTION_TEST_KEY);
+            n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+            n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+            n.setActionKey(Constants.ACTION_TEST_KEY);
 
-        ///END OF TEMPORARY
+            ///END OF TEMPORARY
 
-        n.sendNotification(context);
-
+            n.sendNotification(context);
+        }
         //set next alarm - Uncomment to add set next alarm functionality
         //n.makeNextNotificationTime();
         //n.setAlarm(context);
