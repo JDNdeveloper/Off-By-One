@@ -28,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
         const value is called*/
-        //Josh, enabled does not work yet -Jayden
+        //Josh, enabled does not work yet. This always stops the notification currently. -Jayden
         //if(n.isEnabled()) {
 
             //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL

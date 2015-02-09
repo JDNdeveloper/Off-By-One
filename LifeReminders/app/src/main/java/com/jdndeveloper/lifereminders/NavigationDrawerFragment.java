@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -139,6 +140,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         //Sets initial action bar background to Lifestyle Action Bar Background
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.life_action_background)));
+        changeStatusBarColor(R.color.life_action_status_bar);
 
         RelativeLayout mDrawerRelativeLayout = (RelativeLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
@@ -163,16 +165,22 @@ public class NavigationDrawerFragment extends Fragment {
                 if (id == 0) {
                     bar.setBackgroundDrawable(new ColorDrawable(
                             getResources().getColor(R.color.life_action_background)));
+                    //Change status bar color
+                    changeStatusBarColor(R.color.life_action_status_bar);
                     //navBarLayout.setBackgroundColor(
                     //        getResources().getColor(R.color.life_action_background));
                 } else if (id == 1) {
                     bar.setBackgroundDrawable(new ColorDrawable(
                             getResources().getColor(R.color.rem_action_background)));
+                    //Change status bar color
+                    changeStatusBarColor(R.color.rem_action_status_bar);
                     //navBarLayout.setBackgroundColor(
                     //        getResources().getColor(R.color.rem_action_background));
                 } else if (id == 2) {
                     bar.setBackgroundDrawable(new ColorDrawable(
                             getResources().getColor(R.color.notif_action_background)));
+                    //Change status bar color
+                    changeStatusBarColor(R.color.notif_action_status_bar);
                     //navBarLayout.setBackgroundColor(
                     //        getResources().getColor(R.color.notif_action_background));
                     //End of background setting
@@ -197,6 +205,16 @@ public class NavigationDrawerFragment extends Fragment {
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+    }
+
+    //Changes status bar color if using API 21 or above
+    public void changeStatusBarColor(int colorID) {
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getActivity().getResources().getColor(colorID));
+        }
     }
 
     /**
