@@ -14,8 +14,9 @@ import java.util.List;
 public interface StorageInterface {
 
     // get all getters
-    List<String> getAllLifestyles();
-    List<String> getAllReminders();
+    List<Lifestyle> getAllLifestyles();
+    List<Reminder> getAllReminders();
+    List<Notification> getAllNotifications();
     List<String> getAllKeys();
     List<String> getCurrentAlarmKeys();
 

@@ -1,26 +1,39 @@
 package com.jdndeveloper.lifereminders;
 
+import android.app.Dialog;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -90,24 +103,101 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Creates ActionBar object
+        ActionBar actionBar = getActionBar();
+
+        //Places logo in top right of ActionBar
+        actionBar.setDisplayOptions(actionBar.getDisplayOptions()
+                | ActionBar.DISPLAY_SHOW_CUSTOM);
+        ImageButton buttonView = new ImageButton(actionBar.getThemedContext());
+        buttonView.setScaleType(ImageView.ScaleType.CENTER);
+        buttonView.setAdjustViewBounds(true);
+        buttonView.setMaxHeight(150); //scales the logo
+        buttonView.setImageResource(R.drawable.app_logo);
+        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT
+                | Gravity.CENTER_VERTICAL);
+        layoutParams.rightMargin = 10;
+        buttonView.setLayoutParams(layoutParams);
+        buttonView.setBackgroundColor(Color.TRANSPARENT);
+        actionBar.setCustomView(buttonView);
+        //End of placing logo
+
+        //Long click on logo opens about page
+        buttonView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // custom dialog
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.about);
+
+                dialog.show();
+                return true;
+            }
+        });
+
+        //Sets initial action bar background to Lifestyle Action Bar Background
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.life_action_background)));
+        changeStatusBarColor(R.color.life_action_status_bar);
+
         RelativeLayout mDrawerRelativeLayout = (RelativeLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView = (ListView) mDrawerRelativeLayout.findViewById(R.id.listView1);
+
+        //creates final ActionBar object to use to set colors below
+        final ActionBar bar = getActionBar();
+
+        //creates final nav bar layout object
+        final RelativeLayout navBarLayout = (RelativeLayout) mDrawerRelativeLayout.findViewById(
+                R.id.navDrawer);
+
+        //sets initial nav bar background to Lifestyle background
+        //navBarLayout.setBackgroundColor(
+        //        getResources().getColor(R.color.life_action_background));
+
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //sets Action Bar and Nav Bar background color based on what is selected in nav bar
+                if (id == 0) {
+                    bar.setBackgroundDrawable(new ColorDrawable(
+                            getResources().getColor(R.color.life_action_background)));
+                    //Change status bar color
+                    changeStatusBarColor(R.color.life_action_status_bar);
+                    //navBarLayout.setBackgroundColor(
+                    //        getResources().getColor(R.color.life_action_background));
+                } else if (id == 1) {
+                    bar.setBackgroundDrawable(new ColorDrawable(
+                            getResources().getColor(R.color.rem_action_background)));
+                    //Change status bar color
+                    changeStatusBarColor(R.color.rem_action_status_bar);
+                    //navBarLayout.setBackgroundColor(
+                    //        getResources().getColor(R.color.rem_action_background));
+                } else if (id == 2) {
+                    bar.setBackgroundDrawable(new ColorDrawable(
+                            getResources().getColor(R.color.notif_action_background)));
+                    //Change status bar color
+                    changeStatusBarColor(R.color.notif_action_status_bar);
+                    //navBarLayout.setBackgroundColor(
+                    //        getResources().getColor(R.color.notif_action_background));
+                    //End of background setting
+                }
+
                 selectItem(position);
             }
         });
+
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
+                R.layout.simple_activated_list,
+                R.id.navText,
                 new String[]{
                         "Lifestyles",
                         "Reminders",
-                        "Notifications",
-                        "Actions"
+                        "Notifications"
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerRelativeLayout;
@@ -115,6 +205,16 @@ public class NavigationDrawerFragment extends Fragment {
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+    }
+
+    //Changes status bar color if using API 21 or above
+    public void changeStatusBarColor(int colorID) {
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getActivity().getResources().getColor(colorID));
+        }
     }
 
     /**
@@ -131,35 +231,35 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 
+
+
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
-        mDrawerToggle = new ActionBarDrawerToggle(
-                getActivity(),                    /* host Activity */
-                mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
-                R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
-                R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
-        ) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                if (!isAdded()) {
-                    return;
-                }
 
-                getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+        //Lollipop Action Bar arrow three lines thing in top left
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) getView().findViewById(R.id.toolbar);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                getActivity(),                    // host Activity
+                mDrawerLayout,                    // DrawerLayout object
+                toolbar,             // nav drawer image to replace 'Up' caret
+                R.string.navigation_drawer_open,  // "open drawer" description for accessibility
+                R.string.navigation_drawer_close  // "close drawer" description for accessibility
+        ) {
+            public void onDrawerClosed(View view)
+            {
+                super.onDrawerClosed(view);
+                getActivity().invalidateOptionsMenu();
+                syncState();
             }
 
-            @Override
-            public void onDrawerOpened(View drawerView) {
+            public void onDrawerOpened(View drawerView)
+            {
                 super.onDrawerOpened(drawerView);
-                if (!isAdded()) {
-                    return;
-                }
+                getActivity().invalidateOptionsMenu();
 
                 if (!mUserLearnedDrawer) {
                     // The user manually opened the drawer; store this flag to prevent auto-showing
@@ -170,9 +270,10 @@ public class NavigationDrawerFragment extends Fragment {
                     sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
                 }
 
-                getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+                syncState();
             }
         };
+
 
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
         // per the navigation drawer design guidelines.
@@ -189,6 +290,9 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+
+
     }
 
     private void selectItem(int position) {
@@ -265,8 +369,12 @@ public class NavigationDrawerFragment extends Fragment {
     private void showGlobalContextActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
+
+        //uncomment to change ActionBar title when pulled out
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(R.string.app_name);
+        //actionBar.setTitle(Html.fromHtml("<font color=\""
+        //        + getResources().getColor(R.color.title_color) + "\">"
+        //        + getResources().getString(R.string.app_name) + "</font>"));
     }
 
     private ActionBar getActionBar() {
