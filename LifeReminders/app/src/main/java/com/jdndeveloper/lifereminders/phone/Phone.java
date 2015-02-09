@@ -6,11 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
+import android.os.Vibrator;
+import android.util.Log;
+import android.net.Uri;
 
 import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.interfaces.PhoneInterface;
+
+
 
 /**
  * Created by jgemig on 1/31/2015.
@@ -23,10 +30,19 @@ import com.jdndeveloper.lifereminders.interfaces.PhoneInterface;
 public class Phone implements PhoneInterface{
     private static Context context;
 
+    private static Vibrator v ;
+
+    private static Uri notification;
+    private static Ringtone r;
+
+
+
+
     private static Phone ourInstance = new Phone();
 
     public static PhoneInterface getInstance(Context newContext) {
         context = newContext;
+
         return ourInstance;
     }
 
@@ -44,21 +60,39 @@ public class Phone implements PhoneInterface{
 
     @Override
     public void vibratePhone(long durationMilli) {
+        v =  (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+        if(v.hasVibrator()) {
+
+            v.vibrate(durationMilli);
+            // v.cancel();
+        }else{
+            Log.d("Phone_Debug", "No vibrator hardware");
+        }
+
+
 
     }
 
     @Override
     public void playDefaultNotificationSound() {
-
+        notification  = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        r = RingtoneManager.getRingtone(context, notification);
+        r.play();
+        r.stop();
     }
 
     @Override
     public void playDefaultRingtoneSound() {
+        notification  = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        r = RingtoneManager.getRingtone(context, notification);
+        r.play();
+        r.stop();
 
     }
 
     @Override
     public void sendMessageToNotificationBar(String title, String message) {
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_action_notificationicon)
@@ -94,6 +128,8 @@ public class Phone implements PhoneInterface{
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         // Builds the notification and issues it.
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
+
+
     }
 
     @Override
