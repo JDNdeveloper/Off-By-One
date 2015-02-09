@@ -28,7 +28,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
         const value is called*/
-        if(n.isEnabled()) {
+        //Josh, enabled does not work yet -Jayden
+        //if(n.isEnabled()) {
 
             //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
 
@@ -39,7 +40,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             ///END OF TEMPORARY
 
             n.sendNotification(context);
-        }
+        //}
+
         //set next alarm - Uncomment to add set next alarm functionality
         //n.makeNextNotificationTime();
         //n.setAlarm(context);
