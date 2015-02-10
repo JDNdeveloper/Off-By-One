@@ -23,6 +23,7 @@ public class Action extends AbstractBaseEvent {
 
     private boolean notificationSound;
     private boolean ringtoneSound;
+    private long ringtoneDuration;
     private boolean cameraLight;
 
 
@@ -33,6 +34,7 @@ public class Action extends AbstractBaseEvent {
 
         vibrate = false;
         vibrateDuration = Constants.VIBRATION_MEDIUM;
+        ringtoneDuration = Constants.RINGTONE_MEDIUM;
         notificationSound = false;
         ringtoneSound = false;
         cameraLight = false;
@@ -49,7 +51,7 @@ public class Action extends AbstractBaseEvent {
 
         if (notificationSound) phone.playDefaultNotificationSound();
 
-        if (ringtoneSound) phone.playDefaultRingtoneSound();
+        if (ringtoneSound) phone.playDefaultRingtoneSound(ringtoneDuration);
 
         if (cameraLight) phone.flashCameraLight();
     }

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.os.Vibrator;
 import android.util.Log;
@@ -78,21 +79,32 @@ public class Phone implements PhoneInterface{
         notification  = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         r = RingtoneManager.getRingtone(context, notification);
         r.play();
-        r.stop();
+
     }
 
     @Override
-    public void playDefaultRingtoneSound() {
+    public void playDefaultRingtoneSound(long durationMilli) {
+
+
         notification  = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         r = RingtoneManager.getRingtone(context, notification);
         r.play();
-        r.stop();
 
+
+        Handler mHandler = new Handler();
+
+
+
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                r.stop();
+            }
+        }, durationMilli);
     }
 
     @Override
     public void sendMessageToNotificationBar(String title, String message) {
-
+        /*
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_action_notificationicon)
@@ -129,10 +141,11 @@ public class Phone implements PhoneInterface{
         // Builds the notification and issues it.
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
-
+        */
     }
 
     @Override
     public void flashCameraLight() {
     }
 }
+

@@ -9,6 +9,11 @@ public final class Constants {
     public final static int VIBRATION_MEDIUM = 500;
     public final static int VIBRATION_LONG = 1000;
 
+    public final static int RINGTONE_SHORT = 1000;
+    public final static int RINGTONE_MEDIUM = 5000;
+    public final static int RINGTONE_LONG = 10000;
+    public final static int RINGTONE_XL = 11000;
+
 
     public final static String LIFESTYLE_TEST_KEY = "Test_Lifestyle_01";
 
@@ -17,4 +22,14 @@ public final class Constants {
     public final static String REMINDER_TEST_KEY = "Test_Reminder_01";
 
     public final static String ACTION_TEST_KEY = "Test_Action_01";
+
+    // test set for unit tests
+    public final static String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
+    public final static String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
+    public final static String Failed_Notification_01 = "Failed Notification,false";
+    public final static String Failed_Action_01 = "Failed Action,false";
+
+
+
+
 }
