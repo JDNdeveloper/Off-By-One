@@ -30,9 +30,11 @@
     <color name="old_rem_background">#d0ede1</color>
     <color name="old_notif_background">#ffe3f0f5</color>
 
-    <color name="life_background">#FFFFFF</color>
-    <color name="rem_background">#FFFFFF</color>
-    <color name="notif_background">#ffe3f0f5</color>
+    <color name="frag_background">#E6E8ED</color>
+
+    <color name="life_background">@color/frag_background</color>
+    <color name="rem_background">@color/frag_background</color>
+    <color name="notif_background">@color/frag_background</color>
 
     <color name="nav_bar_color">#9e0022</color>
 

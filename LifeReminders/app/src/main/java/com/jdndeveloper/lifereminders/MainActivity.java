@@ -77,9 +77,9 @@ public class MainActivity extends ActionBarActivity
 
         Calendar cal = Calendar.getInstance();
 
-        cal.add(Calendar.MINUTE, 1);
-        //cal.add(Calendar.SECOND, 10);
-        cal.set(Calendar.SECOND, 0);
+        //cal.add(Calendar.MINUTE, 1);
+        cal.add(Calendar.SECOND, 10);
+        //cal.set(Calendar.SECOND, 0);
 
 
         testNotif.setTime(cal);
