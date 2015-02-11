@@ -24,8 +24,7 @@ public class Storage implements StorageInterface {
         return ourInstance;
     }
 
-    private Storage() {
-    }
+    private Storage() {}
 
     // temporary fake lifestyle
     String All_Lifestyles = "Lifestyle_01,Lifestyle_02,Lifestyle_03," +
