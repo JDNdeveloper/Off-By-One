@@ -21,7 +21,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
@@ -52,6 +54,31 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//        http://mvnrepository.com/artifact/com.google.code.gson/gson
+//        http://stackoverflow.com/questions/16608135/android-studio-add-jar-as-library
+//        https://www.youtube.com/watch?v=1MyBO9z7ojk
+//        http://stackoverflow.com/questions/16608135/android-studio-add-jar-as-library
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        Log.e("MainActivity", "onCreate json test begin");
+
+        Lifestyle lifestyle = new Lifestyle();
+        Reminder reminder = new Reminder();
+        Notification notification = new Notification();
+        Action action = new Action();
+
+        Gson gsonObject = new Gson();
+
+        Log.e("MainActivity", "onCreate gson test lifestyle [" + gsonObject.toJson(lifestyle) + "]");
+        Log.e("MainActivity", "onCreate gson test reminder [" + gsonObject.toJson(reminder) + "]");
+        Log.e("MainActivity", "onCreate gson test notification [" + gsonObject.toJson(notification) + "]");
+        Log.e("MainActivity", "onCreate gson test action [" + gsonObject.toJson(action) + "]");
+
+        Log.e("MainActivity", "onCreate json test end");
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
