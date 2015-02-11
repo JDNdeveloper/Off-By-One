@@ -104,7 +104,6 @@ public class Phone implements PhoneInterface{
 
     @Override
     public void sendMessageToNotificationBar(String title, String message) {
-        /*
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_action_notificationicon)
@@ -140,8 +139,6 @@ public class Phone implements PhoneInterface{
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         // Builds the notification and issues it.
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
-
-        */
     }
 
     @Override

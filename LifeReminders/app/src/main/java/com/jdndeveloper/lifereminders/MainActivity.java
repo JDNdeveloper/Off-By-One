@@ -55,6 +55,43 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mTitle = getTitle();
+
+        // Set up the drawer.
+        mNavigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
+
+        //code for the Sprint 1 presentation!
+
+        //what we're going to do is schedule an alarm to go off in 1 minute, and push a notification
+        Notification testNotif = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
+        //Log.e("MainActivity", "onCreate name [" + testNotif.getName() + "]");
+        //Log.e("MainActivity", "onCreate key [" + testNotif.getKey() + "]");
+        testNotif.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+        //Log.e("MainActivity", "onCreate lifestyle container key [" + testNotif.getLifestyleContainerKey() + "]");
+        testNotif.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+        //Log.e("MainActivity", "onCreate reminder container key [" + testNotif.getReminderContainerKey() + "]");
+        testNotif.setActionKey(Constants.ACTION_TEST_KEY);
+        //Log.e("MainActivity", "onCreate name [" + testNotif.getActionKey() + "]");
+
+        Calendar cal = Calendar.getInstance();
+
+        //cal.add(Calendar.MINUTE, 1);
+        cal.add(Calendar.SECOND, 10);
+        //cal.set(Calendar.SECOND, 0);
+
+
+        testNotif.setTime(cal);
+        testNotif.setAlarm(this);
+
+        //End of Sprint 1 Presentation Plan
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //        http://mvnrepository.com/artifact/com.google.code.gson/gson
 //        http://stackoverflow.com/questions/16608135/android-studio-add-jar-as-library
@@ -62,6 +99,7 @@ public class MainActivity extends ActionBarActivity
 //        http://stackoverflow.com/questions/16608135/android-studio-add-jar-as-library
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        /*
         Log.e("MainActivity", "onCreate json test begin");
 
         Lifestyle lifestyle = new Lifestyle();
@@ -91,42 +129,10 @@ public class MainActivity extends ActionBarActivity
         Log.e("MainActivity", "onCreate gson test action2 [" + gsonObject.toJson(action2) + "]");
 
         Log.e("MainActivity", "onCreate json test end");
+        */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        //code for the Sprint 1 presentation!
-
-        //what we're going to do is schedule an alarm to go off in 1 minute, and push a notification
-        Notification testNotif = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
-        //Log.e("MainActivity", "onCreate name [" + testNotif.getName() + "]");
-        //Log.e("MainActivity", "onCreate key [" + testNotif.getKey() + "]");
-        testNotif.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
-        //Log.e("MainActivity", "onCreate lifestyle container key [" + testNotif.getLifestyleContainerKey() + "]");
-        testNotif.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
-        //Log.e("MainActivity", "onCreate reminder container key [" + testNotif.getReminderContainerKey() + "]");
-        testNotif.setActionKey(Constants.ACTION_TEST_KEY);
-        //Log.e("MainActivity", "onCreate name [" + testNotif.getActionKey() + "]");
-
-        Calendar cal = Calendar.getInstance();
-
-        //cal.add(Calendar.MINUTE, 1);
-        cal.add(Calendar.SECOND, 10);
-        //cal.set(Calendar.SECOND, 0);
-
-
-        testNotif.setTime(cal);
-        testNotif.setAlarm(this);
-
-        //End of Sprint 1 Presentation Plan
     }
 
     @Override
