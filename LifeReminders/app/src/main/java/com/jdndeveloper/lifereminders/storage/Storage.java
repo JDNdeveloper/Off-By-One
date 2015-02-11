@@ -43,7 +43,7 @@ public class Storage implements StorageInterface {
 
     String Test_Lifestyle_01 = "Test Lifestyle 01,true,Test_Reminder_01";
     String Test_Reminder_01 = "Test Reminder 01,true,Test_Notification_01";
-    String Test_Notification_01 = "Test Notification,false";
+    String Test_Notification_01 = "Test Notification,true";
     String Test_Action_01 = "Test Action,true";
 
     String Lifestyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
