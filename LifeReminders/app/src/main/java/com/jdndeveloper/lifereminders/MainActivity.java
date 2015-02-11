@@ -99,7 +99,7 @@ public class MainActivity extends ActionBarActivity
 //        http://stackoverflow.com/questions/16608135/android-studio-add-jar-as-library
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        /*
+
         Log.e("MainActivity", "onCreate json test begin");
 
         Lifestyle lifestyle = new Lifestyle();
@@ -129,7 +129,7 @@ public class MainActivity extends ActionBarActivity
         Log.e("MainActivity", "onCreate gson test action2 [" + gsonObject.toJson(action2) + "]");
 
         Log.e("MainActivity", "onCreate json test end");
-        */
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
