@@ -48,8 +48,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
 
-
-
         //set next alarm - Uncomment to add set next alarm functionality
         //n.makeNextNotificationTime();
         //n.setAlarm(context);
