@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="140dp"
+    android:layout_gravity="top|center_vertical"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:id="@+id/add_new_lifestyle">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="New"
+        android:id="@+id/textView7"
+        android:layout_gravity="center_horizontal"
+        android:padding="10px" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/editText"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="20px"
+        android:paddingRight="20px" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/cancel" />
+
+        <View
+            android:layout_height="fill_parent"
+            android:layout_width="2dp"
+            android:background="@android:color/darker_gray"/>
+
+        <Button
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:id="@+id/ok" />
+    </LinearLayout>
+
+</LinearLayout>
