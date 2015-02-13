@@ -22,8 +22,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         String notifKey = intent.getStringExtra("NOTIF_KEY");
 
-        Log.i("AlarmReceiver", notifKey);
-
+        //Log.i("AlarmReceiver", notifKey);
+        if(notifKey == null){
+            Log.i("AlarmReceiver: ", "notifKey is null");
+        }else{
+            Log.i("AlarmReceiver: ", notifKey);
+        }
         Notification n = Storage.getInstance().getNotification(notifKey);
 
         /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
