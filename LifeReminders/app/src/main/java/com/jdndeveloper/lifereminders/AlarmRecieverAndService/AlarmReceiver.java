@@ -25,26 +25,27 @@ public class AlarmReceiver extends BroadcastReceiver {
         //Log.i("AlarmReceiver", notifKey);
         if(notifKey == null){
             Log.i("AlarmReceiver: ", "notifKey is null");
+
         }else{
             Log.i("AlarmReceiver: ", notifKey);
+            Notification n = Storage.getInstance().getNotification(notifKey);
+            /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
+            const value is called*/
+            if(n.isEnabled() && Constants.Failed_Notification_01 != notifKey) {
+                Log.i("AlarmReceiver: ", "Valid notification");
+                //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
+
+                n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+                n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+                n.setActionKey(Constants.ACTION_TEST_KEY);
+
+                ///END OF TEMPORARY
+
+                n.sendNotification(context);
+            }else{
+                Log.i("AlarmReceiver: ", "Invalid notification");
+            }
         }
-        Notification n = Storage.getInstance().getNotification(notifKey);
-
-        /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
-        const value is called*/
-        //Josh, enabled does not work yet. This always stops the notification currently. -Jayden
-        //if(n.isEnabled()) {
-
-            //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
-
-            n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
-            n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
-            n.setActionKey(Constants.ACTION_TEST_KEY);
-
-            ///END OF TEMPORARY
-
-            n.sendNotification(context);
-        //}
 
         //set next alarm - Uncomment to add set next alarm functionality
         //n.makeNextNotificationTime();
