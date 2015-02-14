@@ -27,6 +27,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.Utilities.GsonTest;
 import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
@@ -91,48 +92,8 @@ public class MainActivity extends ActionBarActivity
 
         //End of Sprint 1 Presentation Plan
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//        http://mvnrepository.com/artifact/com.google.code.gson/gson
-//        http://stackoverflow.com/questions/16608135/android-studio-add-jar-as-library
-//        https://www.youtube.com/watch?v=1MyBO9z7ojk
-//        http://stackoverflow.com/questions/16608135/android-studio-add-jar-as-library
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-        Log.e("MainActivity", "onCreate json test begin");
-
-        Lifestyle lifestyle = new Lifestyle();
-        Lifestyle lifestyle2 = Storage.getInstance().getNewLifeStyle();
-
-        Reminder reminder = new Reminder();
-        Reminder reminder2 = Storage.getInstance().getNewReminder();
-
-        Notification notification = new Notification();
-        Notification notification2 = Storage.getInstance().getNewNotification();
-
-        Action action = new Action();
-        Action action2 = Storage.getInstance().getNewAction();
-
-        Gson gsonObject = new Gson();
-
-        Log.e("MainActivity", "onCreate gson test lifestyle [" + gsonObject.toJson(lifestyle) + "]");
-        Log.e("MainActivity", "onCreate gson test lifestyle2 [" + gsonObject.toJson(lifestyle2) + "]");
-
-        Log.e("MainActivity", "onCreate gson test reminder [" + gsonObject.toJson(reminder) + "]");
-        Log.e("MainActivity", "onCreate gson test reminder2 [" + gsonObject.toJson(reminder2) + "]");
-
-        Log.e("MainActivity", "onCreate gson test notification [" + gsonObject.toJson(notification) + "]");
-        Log.e("MainActivity", "onCreate gson test notification2 [" + gsonObject.toJson(notification2) + "]");
-
-        Log.e("MainActivity", "onCreate gson test action [" + gsonObject.toJson(action) + "]");
-        Log.e("MainActivity", "onCreate gson test action2 [" + gsonObject.toJson(action2) + "]");
-
-        Log.e("MainActivity", "onCreate json test end");
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        // execute Gson test
+        GsonTest.test();
     }
 
     @Override
