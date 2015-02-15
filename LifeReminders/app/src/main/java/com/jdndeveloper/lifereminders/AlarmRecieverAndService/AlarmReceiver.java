@@ -22,32 +22,39 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         String notifKey = intent.getStringExtra("NOTIF_KEY");
 
-        Log.i("AlarmReceiver", notifKey);
+        //Log.i("AlarmReceiver", notifKey);
+        if(notifKey == null){
+            Log.i("AlarmReceiver", "notifKey is null");
 
-        Notification n = Storage.getInstance().getNotification(notifKey);
+        }else{
+            Log.i("AlarmReceiver", notifKey);
+            Notification n = Storage.getInstance().getNotification(notifKey);
+            /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
+            const value is called*/
+            if(n.isEnabled() && Constants.Failed_Notification_01 != notifKey) {
+                Log.i("AlarmReceiver", "Valid notification");
+                //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
 
-        /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
-        const value is called*/
-        //Josh, enabled does not work yet. This always stops the notification currently. -Jayden
-        //if(n.isEnabled()) {
+                n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+                n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+                n.setActionKey(Constants.ACTION_TEST_KEY);
 
-            //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
+                ///END OF TEMPORARY
 
-            n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
-            n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
-            n.setActionKey(Constants.ACTION_TEST_KEY);
+                n.sendNotification(context);
 
-            ///END OF TEMPORARY
+                //set next alarm - Uncomment to add set next alarm functionality
+                //n.makeNextNotificationTime();
+                //n.setAlarm(context);
 
-            n.sendNotification(context);
-        //}
+                //Uncomment after storage is working - tell storage to save the new notification time
+                //Storage.getInstance().replaceNotification(n, n.getKey());
+            }else{
+                Log.i("AlarmReceiver", "Invalid notification");
+            }
+        }
 
-        //set next alarm - Uncomment to add set next alarm functionality
-        //n.makeNextNotificationTime();
-        //n.setAlarm(context);
 
-        //Uncomment after storage is working - tell storage to save the new notification time
-        //Storage.getInstance().replaceNotification(n, n.getKey());
     }
 }
 

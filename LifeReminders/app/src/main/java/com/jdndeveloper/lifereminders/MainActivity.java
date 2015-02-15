@@ -21,10 +21,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.Utilities.GsonTest;
 import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
@@ -62,6 +65,8 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+
+
         //code for the Sprint 1 presentation!
 
         //what we're going to do is schedule an alarm to go off in 1 minute, and push a notification
@@ -86,6 +91,9 @@ public class MainActivity extends ActionBarActivity
         testNotif.setAlarm(this);
 
         //End of Sprint 1 Presentation Plan
+
+        // execute Gson test
+        GsonTest.test();
     }
 
     @Override

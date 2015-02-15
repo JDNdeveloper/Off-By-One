@@ -49,7 +49,16 @@ public class Notification extends AbstractBaseEvent {
         repeatEveryBlankDays = 0;
         repeatEveryBlankDaysEnabled = false;
 
-        calendar = Calendar.getInstance();
+        Calendar newCalendar = Calendar.getInstance();
+        newCalendar.set(Calendar.SECOND, 59);
+        newCalendar.set(Calendar.MINUTE, 59);
+        newCalendar.set(Calendar.HOUR_OF_DAY, 23);
+        newCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        newCalendar.set(Calendar.MONTH, 1);
+        newCalendar.set(Calendar.YEAR, 2000);
+
+        calendar = newCalendar;
+
     }
 
     //returns original calendar if non-repeating, sets calendar to next day that repeats

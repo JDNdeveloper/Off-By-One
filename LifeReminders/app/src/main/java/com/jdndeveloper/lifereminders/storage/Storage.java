@@ -9,7 +9,8 @@ import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
-import java.lang.reflect.Array;
+//import net.sf.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,8 +25,7 @@ public class Storage implements StorageInterface {
         return ourInstance;
     }
 
-    private Storage() {
-    }
+    private Storage() {}
 
     // temporary fake lifestyle
     String All_Lifestyles = "Lifestyle_01,Lifestyle_02,Lifestyle_03," +
@@ -41,10 +41,10 @@ public class Storage implements StorageInterface {
     String Failed_Notification_01 = "Failed Notification,false";
     String Failed_Action_01 = "Failed Action,false";
 
-    String Test_Lifestyle_01 = "Test Lifestyle 01,false,Test_Reminder_01";
-    String Test_Reminder_01 = "Test Reminder 01,false,Test_Notification_01";
-    String Test_Notification_01 = "Test Notification,false";
-    String Test_Action_01 = "Test Action,false";
+    String Test_Lifestyle_01 = "Test Lifestyle 01,true,Test_Reminder_01";
+    String Test_Reminder_01 = "Test Reminder 01,true,Test_Notification_01";
+    String Test_Notification_01 = "Test Notification,true";
+    String Test_Action_01 = "Test Action,true";
 
     String Lifestyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
     String Lifestyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";

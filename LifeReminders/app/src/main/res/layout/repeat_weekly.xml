@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Days"
+        android:id="@+id/repeatDays"
+        android:layout_gravity="center_horizontal"
+        android:textSize="40px" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="80px"
+            android:layout_height="wrap_content"
+            android:text="S"
+            android:id="@+id/repeatSunday"
+            android:clickable="true"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="80px"
+            android:layout_height="wrap_content"
+            android:text="M"
+            android:id="@+id/repeatMonday"
+            android:clickable="true"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="80px"
+            android:layout_height="wrap_content"
+            android:text="T"
+            android:id="@+id/repeatTuesday"
+            android:clickable="true"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="80px"
+            android:layout_height="wrap_content"
+            android:text="W"
+            android:id="@+id/repeatWednesday"
+            android:clickable="true"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="80px"
+            android:layout_height="wrap_content"
+            android:text="T"
+            android:id="@+id/repeatThrsday"
+            android:clickable="true"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="80px"
+            android:layout_height="wrap_content"
+            android:text="F"
+            android:id="@+id/repeatFriday"
+            android:clickable="true"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="80px"
+            android:layout_height="wrap_content"
+            android:text="S"
+            android:id="@+id/repeatSaturday"
+            android:clickable="true"
+            android:enabled="false" />
+    </LinearLayout>
+
+</LinearLayout>
