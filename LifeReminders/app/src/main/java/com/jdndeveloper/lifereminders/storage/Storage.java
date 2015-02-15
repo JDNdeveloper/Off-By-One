@@ -9,7 +9,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
-import net.sf.json.JSONObject;
+//import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
