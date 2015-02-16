@@ -1,4 +1,4 @@
-package com.jdndeveloper.lifereminders.Utilities;
+package com.jdndeveloper.lifereminders.Tests;
 
 import android.util.Log;
 
@@ -12,7 +12,7 @@ import com.jdndeveloper.lifereminders.storage.Storage;
 /**
  * Created by jgemig on 2/13/2015.
  */
-public class GsonTest {
+public class GsonTester {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //        http://mvnrepository.com/artifact/com.google.code.gson/gson
@@ -21,7 +21,7 @@ public class GsonTest {
 //        http://stackoverflow.com/questions/16608135/android-studio-add-jar-as-library
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public GsonTest() {
+    public GsonTester() {
     }
 
     public static void test() {
