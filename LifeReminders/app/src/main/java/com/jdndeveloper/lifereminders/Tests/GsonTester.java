@@ -9,6 +9,10 @@ import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 /**
  * Created by jgemig on 2/13/2015.
  */
@@ -32,10 +36,24 @@ public class GsonTester {
         Lifestyle lifestyle2 = Storage.getInstance().getNewLifeStyle();
 
         Reminder reminder = new Reminder();
+
+        ArrayList<String> L = new ArrayList<String>();
+        L.add("GSON_Test1");
+        L.add("GSON_Test2");
+
+        reminder.setNotificationKeys(L);
+
         Reminder reminder2 = Storage.getInstance().getNewReminder();
 
         Notification notification = new Notification();
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, 1);
+
+        notification.setTime(cal);
+
         Notification notification2 = Storage.getInstance().getNewNotification();
+
 
         Action action = new Action();
         Action action2 = Storage.getInstance().getNewAction();
@@ -82,11 +100,13 @@ public class GsonTester {
 
         Log.e("GsonTester","onCreate gson test reminderFromGson [" + reminderFromGson.getKey() + "]");
         Log.e("GsonTester","onCreate gson test reminderFromGson [" + reminderFromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test reminderFromGson [" + reminderFromGson.getNotificationKeys() + "]");
         Log.e("GsonTester","onCreate gson test reminder2FromGson [" + reminder2FromGson.getKey() + "]");
         Log.e("GsonTester","onCreate gson test reminder2FromGson [" + reminder2FromGson.getName() + "]");
 
         Log.e("GsonTester","onCreate gson test notificationFromGson [" + notificationFromGson.getKey() + "]");
         Log.e("GsonTester","onCreate gson test notificationFromGson [" + notificationFromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test notificationFromGson [" + notificationFromGson.getTime() + "]");
         Log.e("GsonTester","onCreate gson test notification2FromGson [" + notification2FromGson.getKey() + "]");
         Log.e("GsonTester","onCreate gson test notification2FromGson [" + notification2FromGson.getName() + "]");
 
