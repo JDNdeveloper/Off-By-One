@@ -54,17 +54,17 @@ public class GsonTester {
         String actionGson = gsonObject.toJson(action);
         String action2Gson = gsonObject.toJson(action2);
 
-        Log.e("MainActivity","onCreate gson test lifestyle [" + lifestyleGson + "]");
-        Log.e("MainActivity","onCreate gson test lifestyle2 [" + lifestyle2Gson + "]");
+        Log.e("GsonTester","onCreate gson test lifestyle [" + lifestyleGson + "]");
+        Log.e("GsonTester","onCreate gson test lifestyle2 [" + lifestyle2Gson + "]");
 
-        Log.e("MainActivity","onCreate gson test reminder [" + reminderGson + "]");
-        Log.e("MainActivity","onCreate gson test reminder2 [" + reminder2Gson + "]");
+        Log.e("GsonTester","onCreate gson test reminder [" + reminderGson + "]");
+        Log.e("GsonTester","onCreate gson test reminder2 [" + reminder2Gson + "]");
 
-        Log.e("MainActivity","onCreate gson test notification [" + notificationGson + "]");
-        Log.e("MainActivity","onCreate gson test notification2 [" + notification2Gson + "]");
+        Log.e("GsonTester","onCreate gson test notification [" + notificationGson + "]");
+        Log.e("GsonTester","onCreate gson test notification2 [" + notification2Gson + "]");
 
-        Log.e("MainActivity","onCreate gson test action [" + actionGson + "]");
-        Log.e("MainActivity","onCreate gson test action2 [" + action2Gson + "]");
+        Log.e("GsonTester","onCreate gson test action [" + actionGson + "]");
+        Log.e("GsonTester","onCreate gson test action2 [" + action2Gson + "]");
 
         Lifestyle lifestyleFromGson = gsonObject.fromJson(lifestyleGson, Lifestyle.class);
         Lifestyle lifestyle2FromGson = gsonObject.fromJson(lifestyle2Gson, Lifestyle.class);
@@ -75,26 +75,26 @@ public class GsonTester {
         Action actionFromGson = gsonObject.fromJson(actionGson, Action.class);
         Action action2FromGson = gsonObject.fromJson(action2Gson, Action.class);
 
-        Log.e("MainActivity","onCreate gson test lifestyleFromGson [" + lifestyleFromGson.getKey() + "]");
-        Log.e("MainActivity","onCreate gson test lifestyleFromGson [" + lifestyleFromGson.getName() + "]");
-        Log.e("MainActivity","onCreate gson test lifestyle2FromGson [" + lifestyle2FromGson.getKey() + "]");
-        Log.e("MainActivity","onCreate gson test lifestyle2FromGson [" + lifestyle2FromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test lifestyleFromGson [" + lifestyleFromGson.getKey() + "]");
+        Log.e("GsonTester","onCreate gson test lifestyleFromGson [" + lifestyleFromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test lifestyle2FromGson [" + lifestyle2FromGson.getKey() + "]");
+        Log.e("GsonTester","onCreate gson test lifestyle2FromGson [" + lifestyle2FromGson.getName() + "]");
 
-        Log.e("MainActivity","onCreate gson test reminderFromGson [" + reminderFromGson.getKey() + "]");
-        Log.e("MainActivity","onCreate gson test reminderFromGson [" + reminderFromGson.getName() + "]");
-        Log.e("MainActivity","onCreate gson test reminder2FromGson [" + reminder2FromGson.getKey() + "]");
-        Log.e("MainActivity","onCreate gson test reminder2FromGson [" + reminder2FromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test reminderFromGson [" + reminderFromGson.getKey() + "]");
+        Log.e("GsonTester","onCreate gson test reminderFromGson [" + reminderFromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test reminder2FromGson [" + reminder2FromGson.getKey() + "]");
+        Log.e("GsonTester","onCreate gson test reminder2FromGson [" + reminder2FromGson.getName() + "]");
 
-        Log.e("MainActivity","onCreate gson test notificationFromGson [" + notificationFromGson.getKey() + "]");
-        Log.e("MainActivity","onCreate gson test notificationFromGson [" + notificationFromGson.getName() + "]");
-        Log.e("MainActivity","onCreate gson test notification2FromGson [" + notification2FromGson.getKey() + "]");
-        Log.e("MainActivity","onCreate gson test notification2FromGson [" + notification2FromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test notificationFromGson [" + notificationFromGson.getKey() + "]");
+        Log.e("GsonTester","onCreate gson test notificationFromGson [" + notificationFromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test notification2FromGson [" + notification2FromGson.getKey() + "]");
+        Log.e("GsonTester","onCreate gson test notification2FromGson [" + notification2FromGson.getName() + "]");
 
-        Log.e("MainActivity","onCreate gson test actionFromGson [" + actionFromGson.getKey() + "]");
-        Log.e("MainActivity","onCreate gson test actionFromGson [" + actionFromGson.getName() + "]");
-        Log.e("MainActivity","onCreate gson test action2FromGson [" + action2FromGson.getKey() + "]");
-        Log.e("MainActivity","onCreate gson test action2FromGson [" + action2FromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test actionFromGson [" + actionFromGson.getKey() + "]");
+        Log.e("GsonTester","onCreate gson test actionFromGson [" + actionFromGson.getName() + "]");
+        Log.e("GsonTester","onCreate gson test action2FromGson [" + action2FromGson.getKey() + "]");
+        Log.e("GsonTester","onCreate gson test action2FromGson [" + action2FromGson.getName() + "]");
 
-        Log.e("MainActivity","onCreate json test end");
+        Log.e("GsonTester","onCreate json test end");
     }
 }
