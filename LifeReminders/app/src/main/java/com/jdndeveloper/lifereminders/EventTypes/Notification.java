@@ -4,14 +4,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 
 import com.jdndeveloper.lifereminders.AlarmRecieverAndService.AlarmReceiver;
 import com.jdndeveloper.lifereminders.Constants;
-import com.jdndeveloper.lifereminders.MainActivity;
-import com.jdndeveloper.lifereminders.R;
-import com.jdndeveloper.lifereminders.Utilities.CalendarEvent;
-import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.ArrayList;

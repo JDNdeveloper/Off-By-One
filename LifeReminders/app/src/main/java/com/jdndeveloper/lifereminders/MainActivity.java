@@ -5,11 +5,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,23 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
-import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
-import com.jdndeveloper.lifereminders.Utilities.GsonTest;
+import com.jdndeveloper.lifereminders.Tests.GsonTester;
 import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -93,7 +85,7 @@ public class MainActivity extends ActionBarActivity
         //End of Sprint 1 Presentation Plan
 
         // execute Gson test
-        GsonTest.test();
+        GsonTester.test();
     }
 
     @Override

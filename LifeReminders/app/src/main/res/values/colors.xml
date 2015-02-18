@@ -30,7 +30,8 @@
     <color name="old_rem_background">#d0ede1</color>
     <color name="old_notif_background">#ffe3f0f5</color>
 
-    <color name="frag_background">#E6E8ED</color>
+    <color name="old_frag_background">#E6E8ED</color>
+    <color name="frag_background">@color/white</color>
 
     <color name="life_background">@color/frag_background</color>
     <color name="rem_background">@color/frag_background</color>
