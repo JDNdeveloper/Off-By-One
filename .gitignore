@@ -10,6 +10,9 @@ Examples/AlarmReceiverExample/.idea/workspace.xml
 LifeReminders/.idea/misc.xml
 LifeReminders/.idea/vcs.xml
 LifeReminders/app/app.iml
+LifeReminders/.idea/modules.xml
+LifeReminders/LifeReminders.iml
+LifeReminders/libs/libs.iml
 .gradle
 /local.properties
 /.idea/workspace.xml
