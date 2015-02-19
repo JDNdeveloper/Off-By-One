@@ -18,8 +18,10 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
@@ -51,10 +53,19 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    private ImageButton tempButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tempButton = (ImageButton)findViewById(R.id.tempButton);
+
+
+
+
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);

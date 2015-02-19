@@ -19,7 +19,24 @@
         android:soundEffectsEnabled="true"
         android:cacheColorHint="#80ff0000">
         </ListView>
+    <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
+
+        <ImageButton
+            android:id="@+id/tempButton"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:tint="@android:color/white"
+            android:src="@android:drawable/ic_input_add"
+            android:background="@drawable/oval"
+            tools:ignore="RtLCompat"/>
+
+    </FrameLayout>
 
 
     <!-- will be used for adding buttons possibly later
