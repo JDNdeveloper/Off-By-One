@@ -1,15 +1,15 @@
 package com.jdndeveloper.lifereminders;
 
 import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,19 +24,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.jdndeveloper.lifereminders.EventActivities.LifeStyleActivity;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
-import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
-import com.jdndeveloper.lifereminders.Utilities.GsonTest;
+import com.jdndeveloper.lifereminders.Tests.GsonTester;
 import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -44,6 +42,8 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    /*Need to start an activity from a static context*/
+    public static Context context;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -79,7 +79,8 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-
+        //Needed to go to other Activities from a static context
+        context = this.getApplicationContext();
 
         //code for the Sprint 1 presentation!
 
@@ -107,9 +108,6 @@ public class MainActivity extends ActionBarActivity
         //End of Sprint 1 Presentation Plan
 
         // execute Gson test
-        GsonTest.test();
-
-
 
 
         tempButtonIB  = (ImageButton)findViewById(R.id.tempButton);
@@ -119,6 +117,9 @@ public class MainActivity extends ActionBarActivity
                 Toast.makeText(MainActivity.this,"Button Selected",Toast.LENGTH_SHORT).show();
             }
         });
+
+        GsonTester.test();
+
     }
 
     @Override
@@ -259,6 +260,21 @@ public class MainActivity extends ActionBarActivity
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Log.e("MainActivity", "onCreateView onItem "
                             + ((AbstractBaseEvent) abstractBaseEvents.get(position)).getKey());
+                    switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)) {
+                        //Go To Lifestyle Activity
+                        case 1:
+                            Intent myIntent = new Intent(context, LifeStyleActivity.class);
+                            startActivity(myIntent);
+                            break;
+                        //Go To Reminder Activity
+                        case 2:
+                            break;
+                        //Go To Notification Activity
+                        case 3:
+                            break;
+                        default:
+                            break;
+                    }
                 }
             });
             return rootView;
@@ -271,6 +287,4 @@ public class MainActivity extends ActionBarActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
-
 }
