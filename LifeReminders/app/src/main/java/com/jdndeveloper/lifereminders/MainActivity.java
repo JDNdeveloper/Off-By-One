@@ -60,15 +60,6 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
 
-
-
-
-
-
-
-
-
-
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -133,13 +124,13 @@ public class MainActivity extends ActionBarActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = "Lifestyles";
+                mTitle = "All Lifestyles";
                 break;
             case 2:
-                mTitle = "Reminders";
+                mTitle = "All Reminders";
                 break;
             case 3:
-                mTitle = "Notifications";
+                mTitle = "All Notifications";
                 break;
         }
     }
