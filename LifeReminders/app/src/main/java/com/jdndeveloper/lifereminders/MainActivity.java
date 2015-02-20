@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,14 +54,16 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
-    private ImageButton tempButton;
-
+    ImageButton tempButtonIB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tempButton = (ImageButton)findViewById(R.id.tempButton);
+
+
+
+
 
 
 
@@ -105,6 +108,17 @@ public class MainActivity extends ActionBarActivity
 
         // execute Gson test
         GsonTest.test();
+
+
+
+
+        tempButtonIB  = (ImageButton)findViewById(R.id.tempButton);
+        tempButtonIB.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(MainActivity.this,"Button Selected",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -150,6 +164,11 @@ public class MainActivity extends ActionBarActivity
         }
         return super.onCreateOptionsMenu(menu);
     }
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -252,5 +271,6 @@ public class MainActivity extends ActionBarActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
 
 }

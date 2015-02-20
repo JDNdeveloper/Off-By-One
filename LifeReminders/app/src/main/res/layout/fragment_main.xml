@@ -25,6 +25,7 @@
 
 
         <ImageButton
+            android:clickable="true"
             android:id="@+id/tempButton"
             android:layout_width="64dp"
             android:layout_height="64dp"
@@ -33,6 +34,8 @@
             android:layout_marginEnd="16dp"
             android:tint="@android:color/white"
             android:src="@android:drawable/ic_input_add"
+
+            android:scaleWidth="120%"
             android:background="@drawable/oval"
             tools:ignore="RtLCompat"/>
 
