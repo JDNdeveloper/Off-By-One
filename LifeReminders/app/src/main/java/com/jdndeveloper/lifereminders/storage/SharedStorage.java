@@ -77,9 +77,6 @@ public class SharedStorage {
             initializeFirstRun();
 //        }
     }
-    private List<String> toArrayList(String string){
-        return new ArrayList<String>(Arrays.asList(string.split("\\,")));
-    }
 
     String lifestyle_01 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_01\",\"name\":\"Happy Time\",\"enabled\":false}";
     String lifestyle_02 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_02\",\"name\":\"UCSC\",\"enabled\":true}";

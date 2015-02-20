@@ -123,16 +123,16 @@ public class Storage implements StorageInterface {
             return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
 
         // temporary
-        List<String> decodedString;
+//        List<String> decodedString;
 
-        if (retrieveKey(key, "Lifestyle") != null) {
-            decodedString = toArrayList(retrieveKey(key, "Lifestyle"));
-        } else {
+//        if (retrieveKey(key, "Lifestyle") != null) {
+//            decodedString = toArrayList(retrieveKey(key, "Lifestyle"));
+//        } else {
             String failedLifestyleGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Lifestyle_01");
             return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
 //            decodedString = toArrayList(Failed_Lifestyle_01);
-        }
-        Lifestyle lifestyle = new Lifestyle();
+//        }
+/*        Lifestyle lifestyle = new Lifestyle();
         // temp
         lifestyle.setKey(key);
         int index = 0;
@@ -144,8 +144,8 @@ public class Storage implements StorageInterface {
             reminderKeys.add(decodedString.get(index++));
         }
         lifestyle.setReminders(reminderKeys);
-        return lifestyle;
-    }
+        return null;
+*/    }
 
     @Override
     public Reminder getReminder(String key) {
