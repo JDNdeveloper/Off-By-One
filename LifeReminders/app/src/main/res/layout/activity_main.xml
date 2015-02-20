@@ -11,17 +11,19 @@
         android:background="#80ff00ff">
 
 
-        <ImageButton
-           android:id="@+id/tempButton"
-           android:layout_width="48dp"
-           android:layout_height="48dp"
-           android:layout_gravity="end|bottom"
-           android:layout_marginBottom="16dp"
-           android:layout_marginEnd="16dp"
-           android:tint="@android:color/white"
-           android:src="@android:drawable/ic_input_add"
-           android:background="@drawable/oval"
-           tools:ignore="RtLCompat"/>
+        <Button
+            android:id="@+id/tempbuttonadd"
+            android:clickable="true"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:tint="@android:color/white"
+            android:src="@android:drawable/ic_input_add"
+            android:background="@drawable/oval"
+            tools:ignore="RtLCompat"
+            android:cropToPadding="false" />
 
     </FrameLayout>
 

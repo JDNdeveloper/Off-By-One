@@ -19,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,11 +55,15 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    Button buttonlistner;
+
     ImageButton tempButtonIB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         SharedStorage.initializeInstance(this);
 
@@ -99,19 +104,24 @@ public class MainActivity extends ActionBarActivity
 
         //End of Sprint 1 Presentation Plan
 
+        buttonclick();
         // execute Gson test
-
-
-        tempButtonIB  = (ImageButton)findViewById(R.id.tempButton);
-        tempButtonIB.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Toast.makeText(MainActivity.this,"Button Selected",Toast.LENGTH_SHORT).show();
-            }
-        });
 
         GsonTester.test();
 
+    }
+
+    public void buttonclick() {
+        buttonlistner = (Button) findViewById(R.id.tempbuttonadd);
+
+        buttonlistner.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Log.v("blah", "blah blah");
+                Toast.makeText(MainActivity.this,
+                        "ImageButton is clicked!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
