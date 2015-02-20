@@ -22,14 +22,14 @@ import com.jdndeveloper.lifereminders.R;
 
 import com.jdndeveloper.lifereminders.R;
 
-public class LifeStyleActivity extends ActionBarActivity {
+public class LifestyleActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_life_style);
-
         setupActionBar();
+        changeStatusBarColor(R.color.life_action_status_bar);
     }
 
 
@@ -66,7 +66,7 @@ public class LifeStyleActivity extends ActionBarActivity {
     public void setupActionBar() {
         //Creates ActionBar object
         ActionBar actionBar = getSupportActionBar();
-
+        actionBar.setTitle("Lifestyle");
         //Places logo in top right of ActionBar
         actionBar.setDisplayOptions(actionBar.getDisplayOptions()
                 | ActionBar.DISPLAY_SHOW_CUSTOM);

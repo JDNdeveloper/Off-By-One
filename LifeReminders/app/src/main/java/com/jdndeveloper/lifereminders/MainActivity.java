@@ -1,7 +1,6 @@
 package com.jdndeveloper.lifereminders;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -19,7 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.jdndeveloper.lifereminders.EventActivities.LifeStyleActivity;
+import com.jdndeveloper.lifereminders.EventActivities.LifestyleActivity;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
@@ -231,7 +230,7 @@ public class MainActivity extends ActionBarActivity
                     switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)) {
                         //Go To Lifestyle Activity
                         case 1:
-                            Intent myIntent = new Intent(context, LifeStyleActivity.class);
+                            Intent myIntent = new Intent(context, LifestyleActivity.class);
                             startActivity(myIntent);
                             break;
                         //Go To Reminder Activity
