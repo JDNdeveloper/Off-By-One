@@ -31,7 +31,8 @@
             android:enabled="true" />
 
         <activity
-            android:name=".EventActivities.LifeStyleActivity"
+            android:name=".EventActivities.LifestyleActivity"
+            android:parentActivityName="com.jdndeveloper.lifereminders.MainActivity"
             android:label="@string/title_activity_life_style" >
         </activity>
     </application>
