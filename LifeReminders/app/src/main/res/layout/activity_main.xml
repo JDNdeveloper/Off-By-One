@@ -8,7 +8,22 @@
          space available using match_parent in both dimensions. -->
     <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80ff00ff"/>
+        android:background="#80ff00ff">
+
+
+        <ImageButton
+           android:id="@+id/tempButton"
+           android:layout_width="48dp"
+           android:layout_height="48dp"
+           android:layout_gravity="end|bottom"
+           android:layout_marginBottom="16dp"
+           android:layout_marginEnd="16dp"
+           android:tint="@android:color/white"
+           android:src="@android:drawable/ic_input_add"
+           android:background="@drawable/oval"
+           tools:ignore="RtLCompat"/>
+
+    </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right
@@ -17,6 +32,8 @@
          android:layout_gravity="left" instead. -->
     <!-- The drawer is given a fixed width in dp and extends the full height of
          the container. -->
+
+
     <fragment android:id="@+id/navigation_drawer"
         android:layout_width="@dimen/navigation_drawer_width" android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -24,3 +41,6 @@
         tools:layout="@layout/fragment_navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
+
+
+
