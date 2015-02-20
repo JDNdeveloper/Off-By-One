@@ -75,6 +75,17 @@ public class GsonTester {
         Log.e("GsonTester","onCreate gson test lifestyle [" + lifestyleGson + "]");
         Log.e("GsonTester","onCreate gson test lifestyle2 [" + lifestyle2Gson + "]");
 
+        Log.e("GsonTester","onCreate gson test lifestyle1 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Lifestyle_01"))+ "]");
+        Log.e("GsonTester","onCreate gson test lifestyle2 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Lifestyle_02"))+ "]");
+        Log.e("GsonTester","onCreate gson test lifestyle3 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Lifestyle_03"))+ "]");
+        Log.e("GsonTester","onCreate gson test Test_Lifestyle_01 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Test_Lifestyle_01"))+ "]");
+        Log.e("GsonTester","onCreate gson test Failed_Lifestyle_01 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Failed_Lifestyle_01"))+ "]");
+
         Log.e("GsonTester","onCreate gson test reminder [" + reminderGson + "]");
         Log.e("GsonTester","onCreate gson test reminder2 [" + reminder2Gson + "]");
 

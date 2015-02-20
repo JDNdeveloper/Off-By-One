@@ -2,14 +2,13 @@ package com.jdndeveloper.lifereminders.storage;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
-
-//import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,35 +19,34 @@ import java.util.List;
  */
 public class Storage implements StorageInterface {
     private static Storage ourInstance = new Storage();
+    private static Gson gsonObject = new Gson();
 
     public static StorageInterface getInstance() {
         return ourInstance;
     }
 
-    private Storage() {}
+    private static SharedStorage sharedStorageInstance = SharedStorage.getInstance();
+
+    private Storage() {
+
+    }
 
     // temporary fake lifestyle
-    String All_Lifestyles = "Lifestyle_01,Lifestyle_02,Lifestyle_03," +
-            "Test_Lifestyle_01,Failed_Lifestyle_01";
-    String All_Reminders = "Reminder_01,Reminder_02,Reminder_03,Reminder_04," +
-            "Test_Reminder_01,Failed_Reminder_01";
-    String All_Notifications = "Notification_01,Notification_02,Notification_03" +
-            ",Test_Notification_01,Failed_Notification_01";
 
     // test set for unit tests
-    String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
+//    String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
     String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
     String Failed_Notification_01 = "Failed Notification,false";
     String Failed_Action_01 = "Failed Action,false";
 
-    String Test_Lifestyle_01 = "Test Lifestyle 01,true,Test_Reminder_01";
+//    String Test_Lifestyle_01 = "Test Lifestyle 01,true,Test_Reminder_01";
     String Test_Reminder_01 = "Test Reminder 01,true,Test_Notification_01";
     String Test_Notification_01 = "Test Notification,true";
     String Test_Action_01 = "Test Action,true";
 
-    String Lifestyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
-    String Lifestyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
-    String Lifestyle_03 = "Vacation,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+//    String Lifestyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+//    String Lifestyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
+//    String Lifestyle_03 = "Vacation,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
 
     String Reminder_01 = "Scrum Meeting,true,Notification_01,Notification_02,Notification_03";
     String Reminder_02 = "Potty Break,true,Notification_01,Notification_02,Notification_03";
@@ -66,18 +64,18 @@ public class Storage implements StorageInterface {
     private String retrieveKey(String key, String type){
         if (key != null && type != null){
             if (!key.contains(type)) return null;
-            if (key == Constants.LIFESTYLE_TEST_KEY ||
-                    key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
+//            if (key == Constants.LIFESTYLE_TEST_KEY ||
+//                    key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
             if (key == Constants.REMINDER_TEST_KEY ||
                     key.contentEquals("Test_Reminder_01")) return Test_Reminder_01;
             if (key == Constants.NOTIFICATION_TEST_KEY ||
                     key.contentEquals("Test_Notification_01")) return Test_Notification_01;
             if (key == Constants.ACTION_TEST_KEY) return Test_Action_01;
 
-            if (key.contentEquals("Lifestyle_01")) return Lifestyle_01;
-            if (key.contentEquals("Lifestyle_02")) return Lifestyle_02;
-            if (key.contentEquals("Lifestyle_03")) return Lifestyle_03;
-            if (key.contentEquals("Failed_Lifestyle_01")) return Failed_Lifestyle_01;
+//            if (key.contentEquals("Lifestyle_01")) return Lifestyle_01;
+//            if (key.contentEquals("Lifestyle_02")) return Lifestyle_02;
+//            if (key.contentEquals("Lifestyle_03")) return Lifestyle_03;
+//            if (key.contentEquals("Failed_Lifestyle_01")) return Failed_Lifestyle_01;
 
             if (key.contentEquals("Reminder_01")) return Reminder_01;
             if (key.contentEquals("Reminder_02")) return Reminder_02;
@@ -96,7 +94,7 @@ public class Storage implements StorageInterface {
     @Override
     public List<Lifestyle> getAllLifestyles() {
         List<Lifestyle> lifestyles = new ArrayList<Lifestyle>();
-        for(String lifestyle : toArrayList(All_Lifestyles))
+        for(String lifestyle : toArrayList(sharedStorageInstance.getSharedPreferenceKey("all_lifestyles")))
             lifestyles.add(getLifestyle(lifestyle));
         return lifestyles;
     }
@@ -104,7 +102,7 @@ public class Storage implements StorageInterface {
     @Override
     public List<Reminder> getAllReminders() {
         List<Reminder> reminders = new ArrayList<Reminder>();
-        for(String reminder : toArrayList(All_Reminders))
+        for(String reminder : toArrayList(sharedStorageInstance.getSharedPreferenceKey("all_reminders")))
             reminders.add(getReminder(reminder));
         return reminders;
     }
@@ -112,22 +110,28 @@ public class Storage implements StorageInterface {
     @Override
     public List<Notification> getAllNotifications() {
         List<Notification> notifications = new ArrayList<Notification>();
-        for(String notification : toArrayList(All_Notifications))
+        for(String notification : toArrayList(sharedStorageInstance.getSharedPreferenceKey("all_notifications")))
             notifications.add(getNotification(notification));
         return notifications;
     }
 
     @Override
     public Lifestyle getLifestyle(String key) {
+        String lifestyleGsonString = sharedStorageInstance.getSharedPreferenceKey(key);
+
+        if (lifestyleGsonString != null)
+            return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
+
         // temporary
         List<String> decodedString;
+
         if (retrieveKey(key, "Lifestyle") != null) {
             decodedString = toArrayList(retrieveKey(key, "Lifestyle"));
+        } else {
+            String failedLifestyleGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Lifestyle_01");
+            return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
+//            decodedString = toArrayList(Failed_Lifestyle_01);
         }
-        else {
-            decodedString = toArrayList(Failed_Lifestyle_01);
-        }
-
         Lifestyle lifestyle = new Lifestyle();
         // temp
         lifestyle.setKey(key);
