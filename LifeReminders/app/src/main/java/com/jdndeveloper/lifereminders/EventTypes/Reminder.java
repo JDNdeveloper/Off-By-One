@@ -12,17 +12,21 @@ public class Reminder extends AbstractBaseEvent {
     //maximum number of notification
     private static final int maxNotifications = 10;
 
+    private String lifestyleContainerKey;
+
     //list holding notification keys
     private List<String> notificationKeys;
 
     //default constructor
     public Reminder() {
         super("DEFAULT REMINDER NAME", "DEFAULT_REMINDER_KEY", false);
+        lifestyleContainerKey = "DEFAULT_PARENT_LIFESTYLE_KEY";
         this.notificationKeys = new ArrayList<String>();
     }
     //custom constructor
     public Reminder(String name, String key, boolean enabled) {
         super(name,key,enabled);
+        lifestyleContainerKey = "DEFAULT_PARENT_LIFESTYLE_KEY";
         this.notificationKeys = new ArrayList<String>();
 
     }
