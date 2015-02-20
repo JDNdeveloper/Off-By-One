@@ -14,9 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventActivities.LifestyleActivity;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
@@ -48,10 +53,21 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    ImageButton tempButtonIB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
+
+
+
+
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -91,7 +107,18 @@ public class MainActivity extends ActionBarActivity
         //End of Sprint 1 Presentation Plan
 
         // execute Gson test
+
+
+        tempButtonIB  = (ImageButton)findViewById(R.id.tempButton);
+        tempButtonIB.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(MainActivity.this,"Button Selected",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         GsonTester.test();
+
     }
 
     @Override
@@ -137,6 +164,11 @@ public class MainActivity extends ActionBarActivity
         }
         return super.onCreateOptionsMenu(menu);
     }
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

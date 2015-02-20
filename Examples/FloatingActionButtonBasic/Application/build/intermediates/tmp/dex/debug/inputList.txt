@@ -1,7 +1,7 @@
-C:\Users\Kevin\AndroidStudioProjects\FloatingActionButtonBasic\Application\build\intermediates\classes\debug
-C:\Users\Kevin\AndroidStudioProjects\FloatingActionButtonBasic\Application\build\intermediates\pre-dexed\debug\internal_impl-21.0.2-45d1c814ba90f11590e5f1175e8dc2c3a4877d75.jar
-C:\Users\Kevin\AndroidStudioProjects\FloatingActionButtonBasic\Application\build\intermediates\pre-dexed\debug\support-annotations-21.0.2-24192093b12cd10fe8974220fdc9c9c286ef0c90.jar
-C:\Users\Kevin\AndroidStudioProjects\FloatingActionButtonBasic\Application\build\intermediates\pre-dexed\debug\classes-98cac2987085165b0e088af7c29a7cd3dab3da38.jar
-C:\Users\Kevin\AndroidStudioProjects\FloatingActionButtonBasic\Application\build\intermediates\pre-dexed\debug\classes-1d4f42efaca3bbb184fe10cbf36b403664e590bc.jar
-C:\Users\Kevin\AndroidStudioProjects\FloatingActionButtonBasic\Application\build\intermediates\pre-dexed\debug\internal_impl-21.0.2-d2d69c795fe8006c0640dace6c87dae018028938.jar
-C:\Users\Kevin\AndroidStudioProjects\FloatingActionButtonBasic\Application\build\intermediates\pre-dexed\debug\classes-79c77639995f5c48700fdad8ffa51d857b693c49.jar
+/Users/Alex/Off-By-One/Examples/FloatingActionButtonBasic/Application/build/intermediates/classes/debug
+/Users/Alex/Off-By-One/Examples/FloatingActionButtonBasic/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-04365b7bae5051d578201e4ee70770f843f78752.jar
+/Users/Alex/Off-By-One/Examples/FloatingActionButtonBasic/Application/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-530cdae947085088d19f737976c3509af9ae69b9.jar
+/Users/Alex/Off-By-One/Examples/FloatingActionButtonBasic/Application/build/intermediates/pre-dexed/debug/classes-613b36850eace946343d49f60ff4cba536dcb921.jar
+/Users/Alex/Off-By-One/Examples/FloatingActionButtonBasic/Application/build/intermediates/pre-dexed/debug/classes-a13ba2e49937a8ba9d9829f790f35a534e21a7a9.jar
+/Users/Alex/Off-By-One/Examples/FloatingActionButtonBasic/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-d13ce9a2d0c76e8688c43f4779369c9f873929bd.jar
+/Users/Alex/Off-By-One/Examples/FloatingActionButtonBasic/Application/build/intermediates/pre-dexed/debug/classes-d4a1413415f149600a67c33a42fa4612619d6344.jar
