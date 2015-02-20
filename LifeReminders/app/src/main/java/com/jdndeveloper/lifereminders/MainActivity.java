@@ -1,6 +1,9 @@
 package com.jdndeveloper.lifereminders;
 
 import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -16,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.jdndeveloper.lifereminders.EventActivities.LifeStyleActivity;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
@@ -33,6 +37,8 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    /*Need to start an activity from a static context*/
+    public static Context context;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -57,7 +63,8 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-
+        //Needed to go to other Activities from a static context
+        context = this.getApplicationContext();
 
         //code for the Sprint 1 presentation!
 
@@ -221,6 +228,21 @@ public class MainActivity extends ActionBarActivity
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Log.e("MainActivity", "onCreateView onItem "
                             + ((AbstractBaseEvent) abstractBaseEvents.get(position)).getKey());
+                    switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)) {
+                        //Go To Lifestyle Activity
+                        case 1:
+                            Intent myIntent = new Intent(context, LifeStyleActivity.class);
+                            startActivity(myIntent);
+                            break;
+                        //Go To Reminder Activity
+                        case 2:
+                            break;
+                        //Go To Notification Activity
+                        case 3:
+                            break;
+                        default:
+                            break;
+                    }
                 }
             });
             return rootView;
@@ -233,5 +255,4 @@ public class MainActivity extends ActionBarActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
 }
