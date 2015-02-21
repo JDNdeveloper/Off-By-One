@@ -35,27 +35,27 @@ public class Storage implements StorageInterface {
 
     // test set for unit tests
 //    String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
-    String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
-    String Failed_Notification_01 = "Failed Notification,false";
-    String Failed_Action_01 = "Failed Action,false";
+//    String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
+//    String Failed_Notification_01 = "Failed Notification,false";
+//    String Failed_Action_01 = "Failed Action,false";
 
 //    String Test_Lifestyle_01 = "Test Lifestyle 01,true,Test_Reminder_01";
-    String Test_Reminder_01 = "Test Reminder 01,true,Test_Notification_01";
-    String Test_Notification_01 = "Test Notification,true";
-    String Test_Action_01 = "Test Action,true";
+//    String Test_Reminder_01 = "Test Reminder 01,true,Test_Notification_01";
+//    String Test_Notification_01 = "Test Notification,true";
+//    String Test_Action_01 = "Test Action,true";
 
 //    String Lifestyle_01 = "Happy Time,false,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
 //    String Lifestyle_02 = "UCSC,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
 //    String Lifestyle_03 = "Vacation,true,Reminder_01,Reminder_02,Reminder_03,Reminder_04";
 
-    String Reminder_01 = "Scrum Meeting,true,Notification_01,Notification_02,Notification_03";
-    String Reminder_02 = "Potty Break,true,Notification_01,Notification_02,Notification_03";
-    String Reminder_03 = "Time out,true,Notification_01,Notification_02,Notification_03";
-    String Reminder_04 = "Stuff,true,Notification_01,Notification_02,Notification_03";
+//    String Reminder_01 = "Scrum Meeting,true,Notification_01,Notification_02,Notification_03";
+//    String Reminder_02 = "Potty Break,true,Notification_01,Notification_02,Notification_03";
+//    String Reminder_03 = "Time out,true,Notification_01,Notification_02,Notification_03";
+//    String Reminder_04 = "Stuff,true,Notification_01,Notification_02,Notification_03";
 
-    String Notification_01 = "Notification 1,true,time,action";
-    String Notification_02 = "Notification 2,true,time,action";
-    String Notification_03 = "Notification 3,false,time,action";
+//    String Notification_01 = "Notification 1,true,time,action";
+//    String Notification_02 = "Notification 2,true,time,action";
+//    String Notification_03 = "Notification 3,false,time,action";
 
     private List<String> toArrayList(String string){
         return new ArrayList<String>(Arrays.asList(string.split("\\,")));
@@ -66,27 +66,27 @@ public class Storage implements StorageInterface {
             if (!key.contains(type)) return null;
 //            if (key == Constants.LIFESTYLE_TEST_KEY ||
 //                    key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
-            if (key == Constants.REMINDER_TEST_KEY ||
-                    key.contentEquals("Test_Reminder_01")) return Test_Reminder_01;
-            if (key == Constants.NOTIFICATION_TEST_KEY ||
-                    key.contentEquals("Test_Notification_01")) return Test_Notification_01;
-            if (key == Constants.ACTION_TEST_KEY) return Test_Action_01;
+//            if (key == Constants.REMINDER_TEST_KEY ||
+//                    key.contentEquals("Test_Reminder_01")) return Test_Reminder_01;
+//            if (key == Constants.NOTIFICATION_TEST_KEY ||
+//                    key.contentEquals("Test_Notification_01")) return Test_Notification_01;
+//            if (key == Constants.ACTION_TEST_KEY) return Test_Action_01;
 
 //            if (key.contentEquals("Lifestyle_01")) return Lifestyle_01;
 //            if (key.contentEquals("Lifestyle_02")) return Lifestyle_02;
 //            if (key.contentEquals("Lifestyle_03")) return Lifestyle_03;
 //            if (key.contentEquals("Failed_Lifestyle_01")) return Failed_Lifestyle_01;
 
-            if (key.contentEquals("Reminder_01")) return Reminder_01;
-            if (key.contentEquals("Reminder_02")) return Reminder_02;
-            if (key.contentEquals("Reminder_03")) return Reminder_03;
-            if (key.contentEquals("Reminder_04")) return Reminder_04;
-            if (key.contentEquals("Failed_Reminder_01")) return Failed_Reminder_01;
+//            if (key.contentEquals("Reminder_01")) return Reminder_01;
+//            if (key.contentEquals("Reminder_02")) return Reminder_02;
+//            if (key.contentEquals("Reminder_03")) return Reminder_03;
+//            if (key.contentEquals("Reminder_04")) return Reminder_04;
+//            if (key.contentEquals("Failed_Reminder_01")) return Failed_Reminder_01;
 
-            if (key.contentEquals("Notification_01")) return Notification_01;
-            if (key.contentEquals("Notification_02")) return Notification_02;
-            if (key.contentEquals("Notification_03")) return Notification_03;
-            if (key.contentEquals("Failed_Notification_01")) return Failed_Notification_01;
+//            if (key.contentEquals("Notification_01")) return Notification_01;
+//            if (key.contentEquals("Notification_02")) return Notification_02;
+//            if (key.contentEquals("Notification_03")) return Notification_03;
+//            if (key.contentEquals("Failed_Notification_01")) return Failed_Notification_01;
         }
         return null;
     }
@@ -122,14 +122,17 @@ public class Storage implements StorageInterface {
         if (lifestyleGsonString != null)
             return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
 
+        String failedLifestyleGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Lifestyle_01");
+        return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
+
         // temporary
 //        List<String> decodedString;
 
 //        if (retrieveKey(key, "Lifestyle") != null) {
 //            decodedString = toArrayList(retrieveKey(key, "Lifestyle"));
 //        } else {
-            String failedLifestyleGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Lifestyle_01");
-            return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
+//            String failedLifestyleGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Lifestyle_01");
+//            return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
 //            decodedString = toArrayList(Failed_Lifestyle_01);
 //        }
 /*        Lifestyle lifestyle = new Lifestyle();
@@ -149,8 +152,16 @@ public class Storage implements StorageInterface {
 
     @Override
     public Reminder getReminder(String key) {
+        String reminderGsonString = sharedStorageInstance.getSharedPreferenceKey(key);
+
+        if (reminderGsonString != null)
+            return gsonObject.fromJson(reminderGsonString, Reminder.class);
+
+        String failedReminderGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Reminder_01");
+        return gsonObject.fromJson(failedReminderGsonString, Reminder.class);
+
         // temporary
-        List<String> decodedString;
+/*        List<String> decodedString;
         if (retrieveKey(key, "Reminder") != null) {
             decodedString = toArrayList(retrieveKey(key, "Reminder"));
         }
@@ -171,11 +182,19 @@ public class Storage implements StorageInterface {
         }
         reminder.setNotificationKeys(notificationKeys);
         return reminder;
-    }
+*/    }
 
     @Override
     public Notification getNotification(String key) {
-        List<String> decodedString;
+        String notificationGsonString = sharedStorageInstance.getSharedPreferenceKey(key);
+
+        if (notificationGsonString != null)
+            return gsonObject.fromJson(notificationGsonString, Notification.class);
+
+        String failedNotificationGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Reminder_01");
+        return gsonObject.fromJson(failedNotificationGsonString, Notification.class);
+
+/*        List<String> decodedString;
         if (retrieveKey(key, "Notification") != null) {
             decodedString = toArrayList(retrieveKey(key, "Notification"));
         }
@@ -188,11 +207,19 @@ public class Storage implements StorageInterface {
         notification.setName(decodedString.get(0));
         notification.setEnabled(Boolean.valueOf(decodedString.get(1)));
         return notification;
-    }
+*/    }
 
     @Override
     public Action getAction(String key) {
-        List<String> decodedString;
+        String actionGsonString = sharedStorageInstance.getSharedPreferenceKey(key);
+
+        if (actionGsonString != null)
+            return gsonObject.fromJson(actionGsonString, Action.class);
+
+        String failedActionGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Reminder_01");
+        return gsonObject.fromJson(failedActionGsonString, Action.class);
+
+/*        List<String> decodedString;
         if (retrieveKey(key, "Action") != null) {
             decodedString = toArrayList(retrieveKey(key, "Action"));
         }
@@ -205,7 +232,7 @@ public class Storage implements StorageInterface {
         action.setName(decodedString.get(0));
         action.setEnabled(Boolean.valueOf(decodedString.get(1)));
         return action;
-    }
+*/    }
 
     @Override
     public List<String> getCurrentAlarmKeys() {
