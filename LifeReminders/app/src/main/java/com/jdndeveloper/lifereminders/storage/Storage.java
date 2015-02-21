@@ -284,25 +284,75 @@ public class Storage implements StorageInterface {
 
     @Override
     public Lifestyle getNewLifeStyle() {
+        Lifestyle lifestyle = new Lifestyle();
 
-        return getLifestyle(Constants.LIFESTYLE_TEST_KEY);
+        String key = sharedStorageInstance.getNewLifestyleKey();
+
+        lifestyle.setName("New " + key);
+        lifestyle.setKey(key);
+        lifestyle.setEnabled(true);
+        lifestyle.setReminders(new ArrayList<String>());
+
+        return lifestyle;
     }
 
     @Override
     public Reminder getNewReminder(){
+        Reminder reminder = new Reminder();
 
-        return getReminder(Constants.REMINDER_TEST_KEY);
+        String key = sharedStorageInstance.getNewReminderKey();
+
+        reminder.setName("New " + key);
+        reminder.setKey(key);
+        reminder.setEnabled(true);
+        reminder.setNotificationKeys(new ArrayList<String>());
+
+        return reminder;
     }
 
     @Override
     public Notification getNewNotification() {
+        Notification notification = new Notification();
 
-        return getNotification(Constants.NOTIFICATION_TEST_KEY);
+        String key = sharedStorageInstance.getNewNotificationKey();
+
+        notification.setName("New " + key);
+        notification.setKey(key);
+        notification.setEnabled(true);
+
+        return notification;
     }
 
     @Override
     public Action getNewAction() {
+        Action action = new Action();
 
-        return getAction(Constants.ACTION_TEST_KEY);
+        String key = sharedStorageInstance.getNewActionKey();
+
+        action.setName("New " + key);
+        action.setKey(key);
+        action.setEnabled(true);
+
+        return action;
+    }
+
+    @Override
+    public void commitNewLifestyle(Lifestyle lifestyle) {
+        sharedStorageInstance.commitNewLifestyle(lifestyle);
+    }
+
+    @Override
+    public void commitNewReminder(Reminder reminder) {
+        sharedStorageInstance.commitNewReminder(reminder);
+    }
+
+    @Override
+    public void commitNewNotification(Notification notification) {
+
+    }
+
+    @Override
+    public void commitNewAction(Action action) {
+
     }
 }

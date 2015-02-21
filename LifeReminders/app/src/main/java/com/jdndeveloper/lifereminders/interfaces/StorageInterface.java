@@ -37,4 +37,9 @@ public interface StorageInterface {
     Reminder getNewReminder();
     Notification getNewNotification();
     Action getNewAction();
+
+    void commitNewLifestyle(Lifestyle lifestyle);
+    void commitNewReminder(Reminder reminder);
+    void commitNewNotification(Notification notification);
+    void commitNewAction(Action action);
 }

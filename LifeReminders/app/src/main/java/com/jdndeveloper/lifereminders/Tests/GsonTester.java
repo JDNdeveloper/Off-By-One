@@ -34,6 +34,7 @@ public class GsonTester {
 
         Lifestyle lifestyle = new Lifestyle();
         Lifestyle lifestyle2 = Storage.getInstance().getNewLifeStyle();
+        Storage.getInstance().commitNewLifestyle(lifestyle2);
 
         Reminder reminder = new Reminder();
 
@@ -44,6 +45,7 @@ public class GsonTester {
         reminder.setNotificationKeys(L);
 
         Reminder reminder2 = Storage.getInstance().getNewReminder();
+        Storage.getInstance().commitNewReminder(reminder2);
 
         Notification notification = new Notification();
 
@@ -74,7 +76,7 @@ public class GsonTester {
 
         Log.e("GsonTester","onCreate gson test lifestyle [" + lifestyleGson + "]");
         Log.e("GsonTester","onCreate gson test lifestyle2 [" + lifestyle2Gson + "]");
-
+/*
         Log.e("GsonTester","onCreate gson test lifestyle1 [" +
                 gsonObject.toJson(Storage.getInstance().getLifestyle("Lifestyle_01"))+ "]");
         Log.e("GsonTester","onCreate gson test lifestyle2 [" +
@@ -114,7 +116,7 @@ public class GsonTester {
                 gsonObject.toJson(Storage.getInstance().getAction("Test_Action_01"))+ "]");
         Log.e("GsonTester","onCreate gson test Failed_Action_01 [" +
                 gsonObject.toJson(Storage.getInstance().getAction("Failed_Action_01"))+ "]");
-
+*/
         Log.e("GsonTester","onCreate gson test reminder [" + reminderGson + "]");
         Log.e("GsonTester","onCreate gson test reminder2 [" + reminder2Gson + "]");
 

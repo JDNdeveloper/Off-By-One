@@ -8,10 +8,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
 /**
  * Created by jgemig on 2/16/2015.
@@ -29,7 +26,7 @@ public class SharedStorage {
         loadPreferences();
     }
 
-    public static final SharedStorage getInstance(){
+    protected static final SharedStorage getInstance(){
         return instance;
     }
 
@@ -49,6 +46,7 @@ public class SharedStorage {
         sharedPreferencePutString("all_lifestyles", All_Lifestyles);
         sharedPreferencePutString("all_reminders", All_Reminders);
         sharedPreferencePutString("all_notifications", All_Notifications);
+        sharedPreferencePutString("all_actions", All_Actions);
 
         sharedPreferencePutString("Lifestyle_01", lifestyle_01);
         sharedPreferencePutString("Lifestyle_02", lifestyle_02);
@@ -72,7 +70,75 @@ public class SharedStorage {
         sharedPreferencePutString("Test_Action_01", test_action_01);
         sharedPreferencePutString("Failed_Action_01", failed_action_01);
 
+        sharedPreferencePutInt("lifestyleIndex", 10);
+        sharedPreferencePutInt("reminderIndex", 10);
+        sharedPreferencePutInt("notificationIndex", 10);
+        sharedPreferencePutInt("actionIndex", 10);
+
         toastSaved("initializedFirstRun");
+    }
+
+    public String getNewLifestyleKey(){
+        int key = sharedPreferences.getInt("lifestyleIndex", -1);
+
+        if (key != -1) {
+            sharedPreferencePutInt("lifestyleIndex", ++key);
+            return ("Lifestyle_" + key);
+        }
+        return null;
+    }
+    public boolean commitNewLifestyle(Lifestyle lifestyle){
+        if (lifestyle == null) return false;
+
+        String key = lifestyle.getKey();
+        String all_lifestyles = getSharedPreferenceKey("all_lifestyles")
+                + "," + key;
+        sharedPreferencePutString("all_lifestyles", all_lifestyles);
+
+        String gsonString = gsonObject.toJson(lifestyle);
+        sharedPreferencePutString(key, gsonString);
+
+        return true;
+    }
+    public String getNewReminderKey(){
+        int key = sharedPreferences.getInt("reminderIndex", -1);
+
+        if (key != -1) {
+            sharedPreferencePutInt("reminderIndex", ++key);
+            return ("Reminder_" + key);
+        }
+        return null;
+    }
+    public boolean commitNewReminder(Reminder reminder){
+        if (reminder == null) return false;
+
+        String key = reminder.getKey();
+        String all_reminders = getSharedPreferenceKey("all_reminders")
+                + "," + key;
+        sharedPreferencePutString("all_reminders", all_reminders);
+
+        String gsonString = gsonObject.toJson(reminder);
+        sharedPreferencePutString(key, gsonString);
+
+        return true;
+    }
+    public String getNewNotificationKey(){
+        int key = sharedPreferences.getInt("notificationIndex", -1);
+
+        if (key != -1) {
+            sharedPreferencePutInt("notificationIndex", ++key);
+            return ("Notification_" + key);
+        }
+        return null;
+    }
+    public String getNewActionKey(){
+        int key = sharedPreferences.getInt("actionIndex", -1);
+
+        if (key != -1) {
+            sharedPreferencePutInt("actionIndex", ++key);
+            return ("Action_" + key);
+        }
+        return null;
     }
 
     public String getSharedPreferenceKey(String key){
@@ -82,16 +148,20 @@ public class SharedStorage {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value).commit();
     }
+    private void sharedPreferencePutInt(String key, int value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value).commit();
+    }
     private void loadPreferences(){
         // for the very first time the app is run and preferences haven't been inited yet.
-        if (sharedPreferences.getString("Failed_Action_01", null) == null ){
+        if (sharedPreferences.getInt("actionIndex", -1) == -1 )
             initializeFirstRun();
-        }
     }
 
     String All_Lifestyles = "Lifestyle_01,Lifestyle_02,Lifestyle_03,Test_Lifestyle_01,Failed_Lifestyle_01";
     String All_Reminders = "Reminder_01,Reminder_02,Reminder_03,Reminder_04,Test_Reminder_01,Failed_Reminder_01";
     String All_Notifications = "Notification_01,Notification_02,Notification_03,Test_Notification_01,Failed_Notification_01";
+    String All_Actions = "Test_Action_01,Failed_Action_01";
 
     String lifestyle_01 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_01\",\"name\":\"Happy Time\",\"enabled\":false}";
     String lifestyle_02 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_02\",\"name\":\"UCSC\",\"enabled\":true}";

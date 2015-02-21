@@ -63,8 +63,7 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
+        // we initialize shared preferences
         SharedStorage.initializeInstance(this);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -107,7 +106,7 @@ public class MainActivity extends ActionBarActivity
         buttonclick();
         // execute Gson test
 
-        GsonTester.test();
+        //GsonTester.test();
 
     }
 
