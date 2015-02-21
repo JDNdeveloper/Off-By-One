@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -38,6 +39,9 @@ public class LifestyleActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
         Toast.makeText(this, passedLifestyle.getName(), Toast.LENGTH_SHORT).show();
+
+        EditText editText = (EditText) findViewById(R.id.lifestyleName);
+        editText.setText(passedLifestyle.getName());
     }
 
 
