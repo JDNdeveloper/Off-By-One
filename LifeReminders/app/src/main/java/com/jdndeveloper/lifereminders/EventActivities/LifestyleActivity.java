@@ -17,12 +17,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.R;
 
 import com.jdndeveloper.lifereminders.R;
 
 public class LifestyleActivity extends ActionBarActivity {
+
+    private Lifestyle passedLifestyle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,10 @@ public class LifestyleActivity extends ActionBarActivity {
         setContentView(R.layout.activity_life_style);
         setupActionBar();
         changeStatusBarColor(R.color.life_action_status_bar);
+
+        // Josh - below is how to retrieve the passed lifestyle
+        passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
+        Toast.makeText(this, passedLifestyle.getName(), Toast.LENGTH_SHORT).show();
     }
 
 

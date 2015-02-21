@@ -265,14 +265,22 @@ public class MainActivity extends ActionBarActivity
                     switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)) {
                         //Go To Lifestyle Activity
                         case 1:
-                            Intent myIntent = new Intent(context, LifestyleActivity.class);
-                            startActivity(myIntent);
+                            Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
+                            Lifestyle lifestyle = (Lifestyle) abstractBaseEvents.get(position);
+                            lifestyleIntent.putExtra("Lifestyle", lifestyle);
+                            startActivity(lifestyleIntent);
                             break;
                         //Go To Reminder Activity
                         case 2:
+//                            Intent reminderIntent = new Intent(context, ReminderActivity.class);
+//                            Reminder reminder = (Reminder) abstractBaseEvents.get(position);
+//                            reminderIntent.putExtra("Reminder", reminder);
                             break;
                         //Go To Notification Activity
                         case 3:
+//                            Intent notificationIntent = new Intent(context, NotificationActivity.class);
+//                            Notification notification = (Notification) abstractBaseEvents.get(position);
+//                            notificationIntent.putExtra("Notification", notification);
                             break;
                         default:
                             break;
