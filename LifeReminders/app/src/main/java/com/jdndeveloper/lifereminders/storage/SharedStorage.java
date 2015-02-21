@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
@@ -87,19 +88,25 @@ public class SharedStorage {
         }
         return null;
     }
-    public boolean commitNewLifestyle(Lifestyle lifestyle){
-        if (lifestyle == null) return false;
+    public void commitNewLifestyle(Lifestyle lifestyle){
+        if (lifestyle == null) return;
 
         String key = lifestyle.getKey();
         String all_lifestyles = getSharedPreferenceKey("all_lifestyles")
                 + "," + key;
         sharedPreferencePutString("all_lifestyles", all_lifestyles);
 
-        String gsonString = gsonObject.toJson(lifestyle);
-        sharedPreferencePutString(key, gsonString);
-
-        return true;
+        saveAbstractBaseEvent(lifestyle);
     }
+
+    public void saveAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
+        if (abstractBaseEvent == null) return;
+
+        String key = abstractBaseEvent.getKey();
+        String gsonString = gsonObject.toJson(abstractBaseEvent);
+        sharedPreferencePutString(key, gsonString);
+    }
+
     public String getNewReminderKey(){
         int key = sharedPreferences.getInt("reminderIndex", -1);
 
@@ -109,6 +116,7 @@ public class SharedStorage {
         }
         return null;
     }
+
     public boolean commitNewReminder(Reminder reminder){
         if (reminder == null) return false;
 
@@ -122,6 +130,7 @@ public class SharedStorage {
 
         return true;
     }
+
     public String getNewNotificationKey(){
         int key = sharedPreferences.getInt("notificationIndex", -1);
 

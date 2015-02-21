@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.jdndeveloper.lifereminders.Constants;
+import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
@@ -61,9 +62,9 @@ public class Storage implements StorageInterface {
         return new ArrayList<String>(Arrays.asList(string.split("\\,")));
     }
 
-    private String retrieveKey(String key, String type){
-        if (key != null && type != null){
-            if (!key.contains(type)) return null;
+//    private String retrieveKey(String key, String type){
+//        if (key != null && type != null){
+//            if (!key.contains(type)) return null;
 //            if (key == Constants.LIFESTYLE_TEST_KEY ||
 //                    key.contentEquals("Test_Lifestyle_01")) return Test_Lifestyle_01;
 //            if (key == Constants.REMINDER_TEST_KEY ||
@@ -87,9 +88,9 @@ public class Storage implements StorageInterface {
 //            if (key.contentEquals("Notification_02")) return Notification_02;
 //            if (key.contentEquals("Notification_03")) return Notification_03;
 //            if (key.contentEquals("Failed_Notification_01")) return Failed_Notification_01;
-        }
-        return null;
-    }
+//        }
+//        return null;
+//    }
 
     @Override
     public List<Lifestyle> getAllLifestyles() {
@@ -159,30 +160,7 @@ public class Storage implements StorageInterface {
 
         String failedReminderGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Reminder_01");
         return gsonObject.fromJson(failedReminderGsonString, Reminder.class);
-
-        // temporary
-/*        List<String> decodedString;
-        if (retrieveKey(key, "Reminder") != null) {
-            decodedString = toArrayList(retrieveKey(key, "Reminder"));
-        }
-        else {
-            decodedString = toArrayList(Failed_Reminder_01);
-        }
-
-        Reminder reminder = new Reminder();
-        // temp
-        reminder.setKey(key);
-        int index = 0;
-        reminder.setName(decodedString.get(index++));
-        reminder.setEnabled(Boolean.valueOf(decodedString.get(index++)));
-
-        ArrayList<String> notificationKeys = new ArrayList<String>();
-        while (index < decodedString.size()){
-            notificationKeys.add(decodedString.get(index++));
-        }
-        reminder.setNotificationKeys(notificationKeys);
-        return reminder;
-*/    }
+    }
 
     @Override
     public Notification getNotification(String key) {
@@ -193,21 +171,7 @@ public class Storage implements StorageInterface {
 
         String failedNotificationGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Reminder_01");
         return gsonObject.fromJson(failedNotificationGsonString, Notification.class);
-
-/*        List<String> decodedString;
-        if (retrieveKey(key, "Notification") != null) {
-            decodedString = toArrayList(retrieveKey(key, "Notification"));
-        }
-        else {
-            decodedString = toArrayList(Failed_Notification_01);
-        }
-
-        Notification notification = new Notification();
-        notification.setKey(key);
-        notification.setName(decodedString.get(0));
-        notification.setEnabled(Boolean.valueOf(decodedString.get(1)));
-        return notification;
-*/    }
+    }
 
     @Override
     public Action getAction(String key) {
@@ -218,21 +182,7 @@ public class Storage implements StorageInterface {
 
         String failedActionGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Reminder_01");
         return gsonObject.fromJson(failedActionGsonString, Action.class);
-
-/*        List<String> decodedString;
-        if (retrieveKey(key, "Action") != null) {
-            decodedString = toArrayList(retrieveKey(key, "Action"));
-        }
-        else {
-            decodedString = toArrayList(Failed_Action_01);
-        }
-
-        Action action = new Action();
-        action.setKey(key);
-        action.setName(decodedString.get(0));
-        action.setEnabled(Boolean.valueOf(decodedString.get(1)));
-        return action;
-*/    }
+    }
 
     @Override
     public List<String> getCurrentAlarmKeys() {
@@ -261,24 +211,8 @@ public class Storage implements StorageInterface {
     }
 
     @Override
-    public boolean replaceLifeStyle(Lifestyle lifestyle, String key) {
-
-        return false;
-    }
-
-    @Override
-    public boolean replaceNotification(Notification notification, String key) {
-
-        return false;
-    }
-
-    @Override
-    public boolean replaceReminder(Reminder reminder, String key) {
-        return false;
-    }
-
-    @Override
-    public boolean replaceAction(Action action, String key) {
+    public boolean replaceAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent) {
+        sharedStorageInstance.saveAbstractBaseEvent(abstractBaseEvent);
         return false;
     }
 

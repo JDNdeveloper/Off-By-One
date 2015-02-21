@@ -1,5 +1,6 @@
 package com.jdndeveloper.lifereminders.interfaces;
 
+import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
@@ -27,10 +28,11 @@ public interface StorageInterface {
     Action getAction(String key);
 
     // single updaters - they return a boolean status
-    boolean replaceLifeStyle(Lifestyle lifestyle, String key);
-    boolean replaceReminder(Reminder reminder, String key);
-    boolean replaceNotification(Notification notification, String key);
-    boolean replaceAction(Action action, String key);
+//    boolean replaceLifeStyle(Lifestyle lifestyle);
+//    boolean replaceReminder(Reminder reminder);
+//    boolean replaceNotification(Notification notification);
+//    boolean replaceAction(Action action);
+    boolean replaceAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent);
 
     // single creation - they return an object of said type
     Lifestyle getNewLifeStyle();
