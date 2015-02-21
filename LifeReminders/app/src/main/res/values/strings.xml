@@ -15,5 +15,7 @@
 
     <string name="title_activity_life_style">LifeStyleActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_reminder">ReminderActivity</string>
+    <string name="title_activity_notification">NotificationActivity</string>
 
 </resources>

@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventActivities.LifestyleActivity;
+import com.jdndeveloper.lifereminders.EventActivities.NotificationActivity;
+import com.jdndeveloper.lifereminders.EventActivities.ReminderActivity;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
@@ -264,6 +266,7 @@ public class MainActivity extends ActionBarActivity
                     switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)) {
                         //Go To Lifestyle Activity
                         case 1:
+                            Log.e("Main Activity","newActivity Lifestyle");
                             Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
                             Lifestyle lifestyle = (Lifestyle) abstractBaseEvents.get(position);
                             lifestyleIntent.putExtra("Lifestyle", lifestyle);
@@ -271,17 +274,22 @@ public class MainActivity extends ActionBarActivity
                             break;
                         //Go To Reminder Activity
                         case 2:
-//                            Intent reminderIntent = new Intent(context, ReminderActivity.class);
-//                            Reminder reminder = (Reminder) abstractBaseEvents.get(position);
-//                            reminderIntent.putExtra("Reminder", reminder);
+                            Log.e("Main Activity","newActivity Reminder");
+                            Intent reminderIntent = new Intent(context, ReminderActivity.class);
+                            Reminder reminder = (Reminder) abstractBaseEvents.get(position);
+                            reminderIntent.putExtra("Reminder", reminder);
+                            startActivity(reminderIntent);
                             break;
                         //Go To Notification Activity
                         case 3:
-//                            Intent notificationIntent = new Intent(context, NotificationActivity.class);
-//                            Notification notification = (Notification) abstractBaseEvents.get(position);
-//                            notificationIntent.putExtra("Notification", notification);
+                            Log.e("Main Activity","newActivity Notification");
+                            Intent notificationIntent = new Intent(context, NotificationActivity.class);
+                            Notification notification = (Notification) abstractBaseEvents.get(position);
+                            notificationIntent.putExtra("Notification", notification);
+                            startActivity(notificationIntent);
                             break;
                         default:
+                            Log.e("Main Activity","newActivity Failed");
                             break;
                     }
                 }

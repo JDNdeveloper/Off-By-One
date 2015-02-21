@@ -32,8 +32,18 @@
 
         <activity
             android:name=".EventActivities.LifestyleActivity"
-            android:parentActivityName="com.jdndeveloper.lifereminders.MainActivity"
-            android:label="@string/title_activity_life_style" >
+            android:label="@string/title_activity_life_style"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".EventActivities.ReminderActivity"
+            android:label="@string/title_activity_reminder"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".EventActivities.NotificationActivity"
+            android:label="@string/title_activity_notification"
+            android:parentActivityName=".MainActivity" >
         </activity>
     </application>
 
