@@ -27,21 +27,13 @@ public interface StorageInterface {
     Notification getNotification(String key);
     Action getAction(String key);
 
-    // single updaters - they return a boolean status
-//    boolean replaceLifeStyle(Lifestyle lifestyle);
-//    boolean replaceReminder(Reminder reminder);
-//    boolean replaceNotification(Notification notification);
-//    boolean replaceAction(Action action);
+    // updater and commit - returns a boolean status
     boolean replaceAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent);
+    boolean commitAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent);
 
     // single creation - they return an object of said type
     Lifestyle getNewLifeStyle();
     Reminder getNewReminder();
     Notification getNewNotification();
     Action getNewAction();
-
-    void commitNewLifestyle(Lifestyle lifestyle);
-    void commitNewReminder(Reminder reminder);
-    void commitNewNotification(Notification notification);
-    void commitNewAction(Action action);
 }

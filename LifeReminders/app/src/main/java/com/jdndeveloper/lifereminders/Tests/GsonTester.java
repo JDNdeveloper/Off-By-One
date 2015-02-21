@@ -34,7 +34,7 @@ public class GsonTester {
 
         Lifestyle lifestyle = new Lifestyle();
         Lifestyle lifestyle2 = Storage.getInstance().getNewLifeStyle();
-        Storage.getInstance().commitNewLifestyle(lifestyle2);
+        Storage.getInstance().commitAbstractBaseEvent(lifestyle2);
 
         Reminder reminder = new Reminder();
 
@@ -45,7 +45,7 @@ public class GsonTester {
         reminder.setNotificationKeys(L);
 
         Reminder reminder2 = Storage.getInstance().getNewReminder();
-        Storage.getInstance().commitNewReminder(reminder2);
+        Storage.getInstance().commitAbstractBaseEvent(reminder2);
 
         Notification notification = new Notification();
 
@@ -55,7 +55,7 @@ public class GsonTester {
         notification.setTime(cal);
 
         Notification notification2 = Storage.getInstance().getNewNotification();
-
+        Storage.getInstance().commitAbstractBaseEvent(notification2);
 
         Action action = new Action();
         Action action2 = Storage.getInstance().getNewAction();

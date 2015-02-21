@@ -41,6 +41,11 @@ public class LifestyleAdapter extends ArrayAdapter{
         TextView rowTextView = (TextView) convertView.findViewById(R.id.rowLifestyleTextView);
         Switch theSwitch = (Switch) convertView.findViewById(R.id.enabledSwitchLifestyleRow);
 
+        // You need to null out the listener before you change the state of the checkbox. Otherwise,
+        // the previous listener will be fired off. Likewise, all fields must be repopulated because
+        // convertView isn't guaranteed to be clean - john - just an fyi
+
+        theSwitch.setOnCheckedChangeListener(null);
         rowTextView.setText(lifestyles.get(position).getName());
         theSwitch.setChecked(lifestyles.get(position).isEnabled());
 

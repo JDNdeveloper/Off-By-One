@@ -8,7 +8,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
 /**
@@ -88,15 +90,32 @@ public class SharedStorage {
         }
         return null;
     }
-    public void commitNewLifestyle(Lifestyle lifestyle){
-        if (lifestyle == null) return;
 
-        String key = lifestyle.getKey();
-        String all_lifestyles = getSharedPreferenceKey("all_lifestyles")
-                + "," + key;
-        sharedPreferencePutString("all_lifestyles", all_lifestyles);
+    public boolean commitNewAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
+        if (abstractBaseEvent == null) return false;
 
-        saveAbstractBaseEvent(lifestyle);
+        String key = abstractBaseEvent.getKey();
+
+        if (key == null) return false;
+
+        String keyChain = null;
+
+        if (abstractBaseEvent instanceof Lifestyle)
+            keyChain = "all_lifestyles";
+        if (abstractBaseEvent instanceof Reminder)
+            keyChain = "all_reminders";
+        if (abstractBaseEvent instanceof Notification)
+            keyChain = "all_notifications";
+        if (abstractBaseEvent instanceof Action)
+            keyChain = "all_actions";
+
+        if (keyChain == null) return false;
+
+        String all_keys = getSharedPreferenceKey(keyChain) + "," + key;
+        sharedPreferencePutString(keyChain, all_keys);
+
+        saveAbstractBaseEvent(abstractBaseEvent);
+        return true;
     }
 
     public void saveAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
@@ -115,20 +134,6 @@ public class SharedStorage {
             return ("Reminder_" + key);
         }
         return null;
-    }
-
-    public boolean commitNewReminder(Reminder reminder){
-        if (reminder == null) return false;
-
-        String key = reminder.getKey();
-        String all_reminders = getSharedPreferenceKey("all_reminders")
-                + "," + key;
-        sharedPreferencePutString("all_reminders", all_reminders);
-
-        String gsonString = gsonObject.toJson(reminder);
-        sharedPreferencePutString(key, gsonString);
-
-        return true;
     }
 
     public String getNewNotificationKey(){
