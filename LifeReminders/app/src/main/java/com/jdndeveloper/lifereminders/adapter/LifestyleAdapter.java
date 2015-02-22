@@ -50,6 +50,10 @@ public class LifestyleAdapter extends ArrayAdapter{
         rowTextView.setText(lifestyles.get(position).getName());
         theSwitch.setChecked(lifestyles.get(position).isEnabled());
 
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            theSwitch.setElevation(100);
+        }
+
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //change enabled state of Lifestyle

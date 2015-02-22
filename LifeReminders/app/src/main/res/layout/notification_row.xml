@@ -6,6 +6,7 @@
     android:paddingRight="16dp" >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
@@ -70,6 +71,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/enabledSwitchNotificationRow"
+            android:background="@android:color/transparent"
+            android:focusable="false" />
+
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,13 +94,6 @@
             android:showText="true"
             android:id="@+id/enabledSwitchNotificationRow"
             android:layout_alignParentRight="true" />
-
-        <Button
-            android:layout_width="110dp"
-            android:layout_height="70dp"
-            android:layout_centerVertical="true"
-            android:layout_alignLeft="@+id/enabledSwitchNotificationRow"
-            android:focusable="false" />
 
     </RelativeLayout>
 

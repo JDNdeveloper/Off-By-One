@@ -50,6 +50,10 @@ public class ReminderAdapter extends ArrayAdapter{
         rowTextView.setText(reminders.get(position).getName());
         theSwitch.setChecked(reminders.get(position).isEnabled());
 
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            theSwitch.setElevation(100);
+        }
+
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //change enabled state of Lifestyle
