@@ -18,6 +18,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:thumb="@drawable/switch_thumb"
+        android:track="@drawable/switch_track"
+        android:textOn="I"
+        android:textOff="O"
+        android:switchTextAppearance="@style/SwitchStyle"
+        android:showText="true"
         android:focusable="false"
         android:id="@+id/enabledSwitchLifestyleRow"
         android:layout_alignParentRight="true" />
