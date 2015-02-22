@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.R;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.List;
 
@@ -52,13 +53,17 @@ public class ReminderAdapter extends ArrayAdapter{
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //change enabled state of Lifestyle
-                String text = reminders.get(position).getName();
+                //String text = reminders.get(position).getName();
                 if (isChecked) {
-                    text += " is enabled";
+                    //text += " is enabled";
+                    reminders.get(position).setEnabled(true);
+                    Storage.getInstance().replaceAbstractBaseEvent(reminders.get(position));
                 } else {
-                    text += " is disabled";
+                    //text += " is disabled";
+                    reminders.get(position).setEnabled(false);
+                    Storage.getInstance().replaceAbstractBaseEvent(reminders.get(position));
                 }
-                Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
 
