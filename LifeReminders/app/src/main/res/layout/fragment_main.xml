@@ -25,19 +25,14 @@
 
 
         <ImageButton
-            android:clickable="true"
-            android:id="@+id/tempButton"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="end|bottom"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:tint="@android:color/white"
-            android:src="@android:drawable/ic_input_add"
-
-            android:scaleWidth="120%"
-            android:background="@drawable/oval"
-            tools:ignore="RtLCompat"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageplusbutton"
+            android:layout_gravity="right|bottom"
+            android:src="@drawable/ic_addv"
+            android:background="@android:color/transparent"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp" />
 
     </FrameLayout>
 
