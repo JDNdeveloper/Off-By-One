@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<TextView
-    android:id="@+id/rowTextView"
-    android:padding="10dp"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    />
-</LinearLayout>
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+
+    <TextView
+        android:id="@+id/rowReminderTextView"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/dark_gray"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/enabledSwitchReminderRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:thumb="@drawable/switch_thumb"
+        android:track="@drawable/switch_track"
+        android:textOn="@string/switch_on"
+        android:textOff="@string/switch_off"
+        android:switchTextAppearance="@style/SwitchStyle"
+        android:switchMinWidth="@dimen/switchTrackWidth"
+        android:thumbTextPadding="@dimen/switchThumbWidth"
+        android:showText="true"
+        android:focusable="false"
+        android:id="@+id/enabledSwitchReminderRow"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>
