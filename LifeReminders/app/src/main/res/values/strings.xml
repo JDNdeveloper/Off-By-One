@@ -18,4 +18,7 @@
     <string name="title_activity_reminder">ReminderActivity</string>
     <string name="title_activity_notification">NotificationActivity</string>
 
+    <string name="switch_on">ON</string>
+    <string name="switch_off">OFF</string>
+
 </resources>

@@ -28,7 +28,7 @@
 
     <style name="SwitchStyle" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">bold</item>
+        <!-- <item name="android:textStyle">bold</item> -->
     </style>
 
 </resources>
