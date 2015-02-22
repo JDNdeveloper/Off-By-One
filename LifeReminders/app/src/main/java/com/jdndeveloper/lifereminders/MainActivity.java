@@ -3,6 +3,7 @@ package com.jdndeveloper.lifereminders;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -57,7 +58,7 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
-    Button buttonlistner;
+    ImageButton buttonlistner;
 
     ImageButton tempButtonIB;
     @Override
@@ -113,12 +114,11 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void buttonclick() {
-        buttonlistner = (Button) findViewById(R.id.tempbuttonadd);
+        buttonlistner = (ImageButton) findViewById(R.id.imageplusbutton);
 
         buttonlistner.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Log.v("blah", "blah blah");
                 Toast.makeText(MainActivity.this,
                         "ImageButton is clicked!", Toast.LENGTH_LONG).show();
             }
