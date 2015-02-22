@@ -68,7 +68,7 @@ public class NotificationAdapter extends ArrayAdapter{
         String reminderKey = notifications.get(position).getReminderContainerKey();
 
         containerReminder.setText(Storage.getInstance().getReminder(reminderKey).getName());
-        //containerReminder.setText("TEST 123");
+        //containerReminder.setText("TEST 123 hello HOW IS IT GOING??");
 
         theSwitch.setChecked(notifications.get(position).isEnabled());
 
