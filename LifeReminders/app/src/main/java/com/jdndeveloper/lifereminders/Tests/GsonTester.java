@@ -34,6 +34,7 @@ public class GsonTester {
 
         Lifestyle lifestyle = new Lifestyle();
         Lifestyle lifestyle2 = Storage.getInstance().getNewLifeStyle();
+        Storage.getInstance().commitAbstractBaseEvent(lifestyle2);
 
         Reminder reminder = new Reminder();
 
@@ -44,6 +45,7 @@ public class GsonTester {
         reminder.setNotificationKeys(L);
 
         Reminder reminder2 = Storage.getInstance().getNewReminder();
+        Storage.getInstance().commitAbstractBaseEvent(reminder2);
 
         Notification notification = new Notification();
 
@@ -53,7 +55,7 @@ public class GsonTester {
         notification.setTime(cal);
 
         Notification notification2 = Storage.getInstance().getNewNotification();
-
+        Storage.getInstance().commitAbstractBaseEvent(notification2);
 
         Action action = new Action();
         Action action2 = Storage.getInstance().getNewAction();
@@ -74,7 +76,47 @@ public class GsonTester {
 
         Log.e("GsonTester","onCreate gson test lifestyle [" + lifestyleGson + "]");
         Log.e("GsonTester","onCreate gson test lifestyle2 [" + lifestyle2Gson + "]");
+/*
+        Log.e("GsonTester","onCreate gson test lifestyle1 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Lifestyle_01"))+ "]");
+        Log.e("GsonTester","onCreate gson test lifestyle2 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Lifestyle_02"))+ "]");
+        Log.e("GsonTester","onCreate gson test lifestyle3 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Lifestyle_03"))+ "]");
+        Log.e("GsonTester","onCreate gson test Test_Lifestyle_01 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Test_Lifestyle_01"))+ "]");
+        Log.e("GsonTester","onCreate gson test Failed_Lifestyle_01 [" +
+                gsonObject.toJson(Storage.getInstance().getLifestyle("Failed_Lifestyle_01"))+ "]");
 
+        Log.e("GsonTester","onCreate gson test Reminder_01 [" +
+                gsonObject.toJson(Storage.getInstance().getReminder("Reminder_01"))+ "]");
+        Log.e("GsonTester","onCreate gson test Reminder_02 [" +
+                gsonObject.toJson(Storage.getInstance().getReminder("Reminder_02"))+ "]");
+        Log.e("GsonTester","onCreate gson test Reminder_03 [" +
+                gsonObject.toJson(Storage.getInstance().getReminder("Reminder_03"))+ "]");
+        Log.e("GsonTester","onCreate gson test Reminder_04 [" +
+                gsonObject.toJson(Storage.getInstance().getReminder("Reminder_04"))+ "]");
+        Log.e("GsonTester","onCreate gson test Test_Reminder_01 [" +
+                gsonObject.toJson(Storage.getInstance().getReminder("Test_Reminder_01"))+ "]");
+        Log.e("GsonTester","onCreate gson test Failed_Reminder_01 [" +
+                gsonObject.toJson(Storage.getInstance().getReminder("Failed_Reminder_01"))+ "]");
+
+        Log.e("GsonTester","onCreate gson test Notification_01 [" +
+                gsonObject.toJson(Storage.getInstance().getNotification("Notification_01"))+ "]");
+        Log.e("GsonTester","onCreate gson test Notification_02 [" +
+                gsonObject.toJson(Storage.getInstance().getNotification("Notification_02"))+ "]");
+        Log.e("GsonTester","onCreate gson test Notification_03 [" +
+                gsonObject.toJson(Storage.getInstance().getNotification("Notification_03"))+ "]");
+        Log.e("GsonTester","onCreate gson test Test_Notification_01 [" +
+                gsonObject.toJson(Storage.getInstance().getNotification("Test_Notification_01"))+ "]");
+        Log.e("GsonTester","onCreate gson test Failed_Notification_01 [" +
+                gsonObject.toJson(Storage.getInstance().getNotification("Failed_Notification_01"))+ "]");
+
+        Log.e("GsonTester","onCreate gson test Test_Action_01 [" +
+                gsonObject.toJson(Storage.getInstance().getAction("Test_Action_01"))+ "]");
+        Log.e("GsonTester","onCreate gson test Failed_Action_01 [" +
+                gsonObject.toJson(Storage.getInstance().getAction("Failed_Action_01"))+ "]");
+*/
         Log.e("GsonTester","onCreate gson test reminder [" + reminderGson + "]");
         Log.e("GsonTester","onCreate gson test reminder2 [" + reminder2Gson + "]");
 

@@ -39,6 +39,10 @@
 
     <color name="nav_bar_color">#9e0022</color>
 
+    <color name="accent">#9e0022</color>
+
+    <color name="apptheme_color">#9e0022</color>
+
     <color name="life_action_background">#637075</color>
     <color name="rem_action_background">#3b6a8e</color>
     <color name="notif_action_background">#008080</color>

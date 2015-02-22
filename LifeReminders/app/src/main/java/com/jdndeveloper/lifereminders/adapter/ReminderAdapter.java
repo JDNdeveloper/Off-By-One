@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
@@ -31,12 +34,34 @@ public class ReminderAdapter extends ArrayAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null)
             convertView = inflater.inflate(rowResId, parent, false);
 
-        TextView rowTextView = (TextView) convertView.findViewById(R.id.rowTextView);
+        TextView rowTextView = (TextView) convertView.findViewById(R.id.rowReminderTextView);
+        Switch theSwitch = (Switch) convertView.findViewById(R.id.enabledSwitchReminderRow);
+
+        // You need to null out the listener before you change the state of the checkbox. Otherwise,
+        // the previous listener will be fired off. Likewise, all fields must be repopulated because
+        // convertView isn't guaranteed to be clean - john - just an fyi
+
+        theSwitch.setOnCheckedChangeListener(null);
         rowTextView.setText(reminders.get(position).getName());
+        theSwitch.setChecked(reminders.get(position).isEnabled());
+
+        theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //change enabled state of Lifestyle
+                String text = reminders.get(position).getName();
+                if (isChecked) {
+                    text += " is enabled";
+                } else {
+                    text += " is disabled";
+                }
+                Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return convertView;
     }
     @Override

@@ -1,9 +1,9 @@
 package com.jdndeveloper.lifereminders;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -20,11 +20,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jdndeveloper.lifereminders.EventActivities.LifeStyleActivity;
+import com.jdndeveloper.lifereminders.EventActivities.LifestyleActivity;
+import com.jdndeveloper.lifereminders.EventActivities.NotificationActivity;
+import com.jdndeveloper.lifereminders.EventActivities.ReminderActivity;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
@@ -33,6 +36,7 @@ import com.jdndeveloper.lifereminders.Tests.GsonTester;
 import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
+import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.Calendar;
@@ -54,21 +58,16 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    ImageButton buttonlistner;
+
     ImageButton tempButtonIB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
-
-
-
-
-
-
+        // we initialize shared preferences
+        SharedStorage.initializeInstance(this);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -107,19 +106,23 @@ public class MainActivity extends ActionBarActivity
 
         //End of Sprint 1 Presentation Plan
 
+        buttonclick();
         // execute Gson test
 
+        //GsonTester.test();
 
-        tempButtonIB  = (ImageButton)findViewById(R.id.tempButton);
-        tempButtonIB.setOnClickListener(new View.OnClickListener(){
+    }
+
+    public void buttonclick() {
+        buttonlistner = (ImageButton) findViewById(R.id.imageplusbutton);
+
+        buttonlistner.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v){
-                Toast.makeText(MainActivity.this,"Button Selected",Toast.LENGTH_SHORT).show();
+            public void onClick(View arg0) {
+                Toast.makeText(MainActivity.this,
+                        "ImageButton is clicked!", Toast.LENGTH_LONG).show();
             }
         });
-
-        GsonTester.test();
-
     }
 
     @Override
@@ -134,13 +137,13 @@ public class MainActivity extends ActionBarActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = "Lifestyles";
+                mTitle = "All Lifestyles";
                 break;
             case 2:
-                mTitle = "Reminders";
+                mTitle = "All Reminders";
                 break;
             case 3:
-                mTitle = "Notifications";
+                mTitle = "All Notifications";
                 break;
         }
     }
@@ -263,16 +266,30 @@ public class MainActivity extends ActionBarActivity
                     switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)) {
                         //Go To Lifestyle Activity
                         case 1:
-                            Intent myIntent = new Intent(context, LifeStyleActivity.class);
-                            startActivity(myIntent);
+                            Log.e("Main Activity","newActivity Lifestyle");
+                            Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
+                            Lifestyle lifestyle = (Lifestyle) abstractBaseEvents.get(position);
+                            lifestyleIntent.putExtra("Lifestyle", lifestyle);
+                            startActivity(lifestyleIntent);
                             break;
                         //Go To Reminder Activity
                         case 2:
+                            Log.e("Main Activity","newActivity Reminder");
+                            Intent reminderIntent = new Intent(context, ReminderActivity.class);
+                            Reminder reminder = (Reminder) abstractBaseEvents.get(position);
+                            reminderIntent.putExtra("Reminder", reminder);
+                            startActivity(reminderIntent);
                             break;
                         //Go To Notification Activity
                         case 3:
+                            Log.e("Main Activity","newActivity Notification");
+                            Intent notificationIntent = new Intent(context, NotificationActivity.class);
+                            Notification notification = (Notification) abstractBaseEvents.get(position);
+                            notificationIntent.putExtra("Notification", notification);
+                            startActivity(notificationIntent);
                             break;
                         default:
+                            Log.e("Main Activity","newActivity Failed");
                             break;
                     }
                 }

@@ -4,10 +4,12 @@ package com.jdndeveloper.lifereminders.EventTypes;
  * Created by Jayden Navarro on 1/30/2015.
  */
 
+import java.io.Serializable;
+
 /**
  * This is the base class that Lifestyle, Reminder, and Notification all extend
  */
-public abstract class AbstractBaseEvent {
+public abstract class AbstractBaseEvent implements Serializable {
 
     // these need to be overridden by concrete class and are purposely defined to catch bugs
     private String name = "ABSTRACT NAME"; //notification doesn't use this
