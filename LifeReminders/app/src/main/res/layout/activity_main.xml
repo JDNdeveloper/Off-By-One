@@ -15,12 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageplusbutton"
-            android:layout_gravity="right|bottom"
+            android:layout_gravity="center_horizontal|bottom"
             android:clickable="true"
             android:src="@drawable/ic_addv"
-            android:background="@android:color/transparent"
-            android:paddingBottom="15dp"
-            android:paddingRight="15dp" />
+            android:background="@android:color/transparent" />
     </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
