@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
 
     ImageButton buttonlistner;
-
+    ImageButton settingslistner;
     ImageButton tempButtonIB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,22 +107,105 @@ public class MainActivity extends ActionBarActivity
         //End of Sprint 1 Presentation Plan
 
         buttonclick();
+        settingsbuttonclick();
         // execute Gson test
 
         //GsonTester.test();
 
+        //modifies tester notifications
+        Notification n1 = Storage.getInstance().getNewNotification();
+        Notification n2 = Storage.getInstance().getNewNotification();
+        Notification n3 = Storage.getInstance().getNewNotification();
+
+        Calendar c1 = Calendar.getInstance();
+        c1.set(Calendar.MONTH, 4);
+        c1.set(Calendar.DAY_OF_MONTH, 6);
+        c1.set(Calendar.HOUR_OF_DAY, 8);
+        c1.set(Calendar.MINUTE, 13);
+
+        n1.setTime(c1);
+        n1.setRepeatDaysEnabled(true);
+        n1.setRepeatDay(1, true); // sets repeat on Sunday
+        n1.setRepeatDay(2, true); // sets repeat on Monday
+        n1.setRepeatDay(3, true); // sets repeat on Tuesday
+        n1.setRepeatDay(4, true); // sets repeat on Wednesday
+        n1.setRepeatDay(5, true); // sets repeat on Thursday
+        n1.setRepeatDay(6, true); // sets repeat on Friday
+        n1.setRepeatDay(7, true); // sets repeat on Friday
+
+        Storage.getInstance().commitAbstractBaseEvent(n1);
+
+        Calendar c2 = Calendar.getInstance();
+
+
+
     }
+
+    //Allow the activity to know what fragment it is on.
+    public static int FragmentLocation = 1;
 
     public void buttonclick() {
         buttonlistner = (ImageButton) findViewById(R.id.imageplusbutton);
 
         buttonlistner.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View arg0) {
-                Toast.makeText(MainActivity.this,
-                        "ImageButton is clicked!", Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
+                buttonclickplus(v);
             }
         });
+    }
+
+    public void buttonclickplus(View v) {
+        Toast.makeText(MainActivity.this,
+                "ImageButton is clicked!", Toast.LENGTH_LONG).show();
+        switch (FragmentLocation) {
+            //Go To Lifestyle Activity
+            case 1:
+                Log.e("Main Activity","newLifestyle");
+                Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
+                Lifestyle lifestyle = Storage.getInstance().getNewLifeStyle();
+                lifestyle.setName("");
+                //Storage.getInstance().replaceAbstractBaseEvent(lifestyle);
+                //Storage.getInstance().commitAbstractBaseEvent(lifestyle);
+                lifestyleIntent.putExtra("Lifestyle", lifestyle);
+                startActivity(lifestyleIntent);
+                break;
+            //Go To Reminder Activity
+            case 2:
+                Log.e("Main Activity","newReminder");
+                /*Intent reminderIntent = new Intent(context, ReminderActivity.class);
+                Reminder reminder = (Reminder) abstractBaseEvents.get(position);
+                reminderIntent.putExtra("Reminder", reminder);
+                startActivity(reminderIntent);*/
+                break;
+            //Go To Notification Activity
+            case 3:
+                Log.e("Main Activity","newNotification");
+                /*Intent notificationIntent = new Intent(context, NotificationActivity.class);
+                Notification notification = (Notification) abstractBaseEvents.get(position);
+                notificationIntent.putExtra("Notification", notification);
+                startActivity(notificationIntent);*/
+                break;
+            default:
+                Log.e("Main Activity","newFailed");
+                break;
+        }
+    }
+
+    public void settingsbuttonclick() {
+        settingslistner = (ImageButton) findViewById(R.id.settings);
+
+        settingslistner.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonclicksettings(v);
+            }
+        });
+    }
+
+    public void buttonclicksettings(View v) {
+        Toast.makeText(MainActivity.this,
+                "Settings is clicked!", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -224,12 +307,15 @@ public class MainActivity extends ActionBarActivity
             switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)){
                 case 1:
                     abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                    FragmentLocation = 1;
                     break;
                 case 2:
                     abstractBaseEvents = Storage.getInstance().getAllReminders();
+                    FragmentLocation = 2;
                     break;
                 case 3:
                     abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                    FragmentLocation = 3;
                     break;
                 default:
                     return rootView;

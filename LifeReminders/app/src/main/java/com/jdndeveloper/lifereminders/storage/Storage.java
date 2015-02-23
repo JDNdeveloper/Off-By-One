@@ -141,6 +141,7 @@ public class Storage implements StorageInterface {
         Lifestyle lifestyle = new Lifestyle();
 
         String key = sharedStorageInstance.getNewLifestyleKey();
+        if (key == null) return null;
 
         lifestyle.setName("New " + key);
         lifestyle.setKey(key);
@@ -155,6 +156,7 @@ public class Storage implements StorageInterface {
         Reminder reminder = new Reminder();
 
         String key = sharedStorageInstance.getNewReminderKey();
+        if (key == null) return null;
 
         reminder.setName("New " + key);
         reminder.setKey(key);
@@ -169,6 +171,7 @@ public class Storage implements StorageInterface {
         Notification notification = new Notification();
 
         String key = sharedStorageInstance.getNewNotificationKey();
+        if (key == null) return null;
 
         notification.setName("New " + key);
         notification.setKey(key);
@@ -182,6 +185,7 @@ public class Storage implements StorageInterface {
         Action action = new Action();
 
         String key = sharedStorageInstance.getNewActionKey();
+        if (key == null) return null;
 
         action.setName("New " + key);
         action.setKey(key);

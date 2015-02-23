@@ -25,6 +25,7 @@ public class Notification extends AbstractBaseEvent {
     private String actionKey;
 
     private ArrayList<Integer> repeatDays; //Uses Calendar static day values
+
     private boolean repeatDaysEnabled;
 
     private int repeatEveryBlankDays; //1 means daily, 2 means once every two days, ...
@@ -176,6 +177,22 @@ public class Notification extends AbstractBaseEvent {
 
     public void setReminderContainerKey(String reminderContainerKey) {
         this.reminderContainerKey = reminderContainerKey;
+    }
+
+    public boolean isRepeatEveryBlankDaysEnabled() {
+        return repeatEveryBlankDaysEnabled;
+    }
+
+    public boolean isRepeatDaysEnabled() {
+        return repeatDaysEnabled;
+    }
+
+    public void setRepeatDaysEnabled(boolean repeatDaysEnabled) {
+        this.repeatDaysEnabled = repeatDaysEnabled;
+    }
+
+    public void setRepeatEveryBlankDaysEnabled(boolean repeatEveryBlankDaysEnabled) {
+        this.repeatEveryBlankDaysEnabled = repeatEveryBlankDaysEnabled;
     }
 
 }

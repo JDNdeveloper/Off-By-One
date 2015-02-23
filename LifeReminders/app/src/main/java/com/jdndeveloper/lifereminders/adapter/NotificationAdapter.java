@@ -7,15 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -27,6 +30,9 @@ public class NotificationAdapter extends ArrayAdapter{
     private final LayoutInflater inflater;
     private final List<Notification> notifications;
     private final int rowResId;
+
+    private final String[] DAYS_IN_WEEK = {"", "Sun", "Mon", "Tue",
+            "Wed", "Thu", "Fri", "Sat"};
 
     public NotificationAdapter(Context context, int listTypeResId, int rowResId, List notification) {
         super(context, listTypeResId, rowResId, notification);
@@ -72,23 +78,100 @@ public class NotificationAdapter extends ArrayAdapter{
 
         theSwitch.setChecked(notifications.get(position).isEnabled());
 
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            theSwitch.setElevation(100);
+        }
+
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //change enabled state of Lifestyle
-                String text = notifications.get(position).getName();
+                //String text = notifications.get(position).getName();
                 if (isChecked) {
-                    text += " is enabled";
+                    //text += " is enabled";
+                    notifications.get(position).setEnabled(true);
+                    Storage.getInstance().replaceAbstractBaseEvent(notifications.get(position));
                 } else {
-                    text += " is disabled";
+                    //text += " is disabled";
+                    notifications.get(position).setEnabled(false);
+                    Storage.getInstance().replaceAbstractBaseEvent(notifications.get(position));
                 }
-                Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
+
+        //Lower text
+        TextView repeatText = (TextView) convertView.findViewById(R.id.rowNotificationRepeatText);
+        TextView alarmTypeText = (TextView) convertView.findViewById(R.id.rowNotificationAlarmTypeText);
+
+        //repeatText.setText("repeat test");
+        //alarmTypeText.setText("alarmtype test");
+
+        String textRepeat = getRepeatText(notifications.get(position));
+        if (!textRepeat.equals("")) {
+            repeatText.setText(textRepeat);
+        } else {
+            repeatText.setVisibility(View.INVISIBLE);
+        }
+
+        alarmTypeText.setText(getAlarmTypeText(notifications.get(position)));
 
         return convertView;
     }
     @Override
     public int getCount() {
         return (notifications != null) ? notifications.size() : 0;
+    }
+
+    private String getRepeatText(Notification n) {
+        //if (!n.isRepeating()) return "";
+
+        Calendar c = n.getTime();
+        String text = "";
+
+        if (n.isRepeatDaysEnabled()) {
+            text += getWeekDays(n.getRepeatDays());
+        } else if (n.isRepeatEveryBlankDaysEnabled()) {
+            text += "Repeat every " + n.getRepeatEveryBlankDays() + " days";
+        } else {
+            text += getCalendarDate(c);
+        }
+
+        return text;
+    }
+
+    private String getAlarmTypeText(Notification n) {
+        Action a = Storage.getInstance().getAction(n.getActionKey());
+        String text = "";
+        if (a.isNotificationSound()) {
+            text += "sound";
+        } else if (a.isVibrate()) {
+            text += "vibrate";
+        } else {
+            text += "silent";
+        }
+        return text;
+    }
+
+    private String getCalendarDate(Calendar c) {
+        String text = "Date: ";
+        text += Integer.toString(c.get(Calendar.MONTH));
+        text += "/";
+        text += Integer.toString(c.get(Calendar.DAY_OF_MONTH));
+        return text;
+    }
+
+    private String getWeekDays(ArrayList<Integer> repeatDays) {
+        String text = "";
+        boolean started = false;
+        for (int i = 0; i <= 7; i++) {
+            if (repeatDays.contains(i)) {
+                if (started) {
+                    text += ", ";
+                }
+                text += DAYS_IN_WEEK[i];
+                started = true;
+            }
+        }
+        return text;
     }
 }
