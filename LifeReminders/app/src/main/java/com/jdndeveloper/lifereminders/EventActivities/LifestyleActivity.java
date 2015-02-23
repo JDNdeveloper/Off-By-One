@@ -1,12 +1,16 @@
 package com.jdndeveloper.lifereminders.EventActivities;
 
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +28,8 @@ import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.R;
 
 import com.jdndeveloper.lifereminders.R;
+import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 public class LifestyleActivity extends ActionBarActivity {
 
@@ -40,10 +46,30 @@ public class LifestyleActivity extends ActionBarActivity {
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
         Toast.makeText(this, passedLifestyle.getName(), Toast.LENGTH_SHORT).show();
 
-        EditText editText = (EditText) findViewById(R.id.lifestyleName);
+        final EditText editText = (EditText) findViewById(R.id.lifestyleName);
         editText.setText(passedLifestyle.getName());
+        editText.addTextChangedListener(new TextWatcher(){
+            public void afterTextChanged(Editable s) {
+                //editText.setText(String.valueOf(i) + " / " + String.valueOf(charCounts));
+                Log.e("Lifestyle Activity","Editing lifestyle name to: " + editText.getText().toString());
+                passedLifestyle.setName(editText.getText().toString());
+                Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
     }
 
+    /*    tv = (TextView)findViewById(R.id.charCounts);
+    textMessage = (EditText)findViewById(R.id.textMessage);
+    textMessage.addTextChangedListener(new TextWatcher(){
+        public void afterTextChanged(Editable s) {
+            i++;
+            tv.setText(String.valueOf(i) + " / " + String.valueOf(charCounts));
+        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+        public void onTextChanged(CharSequence s, int start, int before, int count){}
+    }); */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

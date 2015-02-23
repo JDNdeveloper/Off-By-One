@@ -141,6 +141,9 @@ public class MainActivity extends ActionBarActivity
 
     }
 
+    //Allow the activity to know what fragment it is on.
+    public static int FragmentLocation = 1;
+
     public void buttonclick() {
         buttonlistner = (ImageButton) findViewById(R.id.imageplusbutton);
 
@@ -155,6 +158,38 @@ public class MainActivity extends ActionBarActivity
     public void buttonclickplus(View v) {
         Toast.makeText(MainActivity.this,
                 "ImageButton is clicked!", Toast.LENGTH_LONG).show();
+        switch (FragmentLocation) {
+            //Go To Lifestyle Activity
+            case 1:
+                Log.e("Main Activity","newLifestyle");
+                Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
+                Lifestyle lifestyle = Storage.getInstance().getNewLifeStyle();
+                lifestyle.setName("");
+                //Storage.getInstance().replaceAbstractBaseEvent(lifestyle);
+                //Storage.getInstance().commitAbstractBaseEvent(lifestyle);
+                lifestyleIntent.putExtra("Lifestyle", lifestyle);
+                startActivity(lifestyleIntent);
+                break;
+            //Go To Reminder Activity
+            case 2:
+                Log.e("Main Activity","newReminder");
+                /*Intent reminderIntent = new Intent(context, ReminderActivity.class);
+                Reminder reminder = (Reminder) abstractBaseEvents.get(position);
+                reminderIntent.putExtra("Reminder", reminder);
+                startActivity(reminderIntent);*/
+                break;
+            //Go To Notification Activity
+            case 3:
+                Log.e("Main Activity","newNotification");
+                /*Intent notificationIntent = new Intent(context, NotificationActivity.class);
+                Notification notification = (Notification) abstractBaseEvents.get(position);
+                notificationIntent.putExtra("Notification", notification);
+                startActivity(notificationIntent);*/
+                break;
+            default:
+                Log.e("Main Activity","newFailed");
+                break;
+        }
     }
 
     public void settingsbuttonclick() {
@@ -272,12 +307,15 @@ public class MainActivity extends ActionBarActivity
             switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)){
                 case 1:
                     abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                    FragmentLocation = 1;
                     break;
                 case 2:
                     abstractBaseEvents = Storage.getInstance().getAllReminders();
+                    FragmentLocation = 2;
                     break;
                 case 3:
                     abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                    FragmentLocation = 3;
                     break;
                 default:
                     return rootView;
