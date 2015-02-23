@@ -92,14 +92,17 @@ public class SharedStorage {
     }
 
     public boolean commitNewAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
+        // check for null
         if (abstractBaseEvent == null) return false;
-
+        // get key
         String key = abstractBaseEvent.getKey();
-
+        // check for null key
         if (key == null) return false;
-
+        // check to see if key exists
+        if (getSharedPreferenceKey(key) != null) return false;
+        // set up a null keyChain
         String keyChain = null;
-
+        // get a keyChain for the abs of type
         if (abstractBaseEvent instanceof Lifestyle)
             keyChain = "all_lifestyles";
         if (abstractBaseEvent instanceof Reminder)
@@ -108,9 +111,9 @@ public class SharedStorage {
             keyChain = "all_notifications";
         if (abstractBaseEvent instanceof Action)
             keyChain = "all_actions";
-
+        // is the keyChain still null
         if (keyChain == null) return false;
-
+        
         String all_keys = getSharedPreferenceKey(keyChain) + "," + key;
         sharedPreferencePutString(keyChain, all_keys);
 
@@ -168,8 +171,10 @@ public class SharedStorage {
     }
     private void loadPreferences(){
         // for the very first time the app is run and preferences haven't been inited yet.
-        if (sharedPreferences.getInt("actionIndex", -1) == -1 )
+        if (sharedPreferences.getInt("actionIndex", -1) == -1) {
+//            sharedPreferences.getLong();
             initializeFirstRun();
+        }
     }
 
     String All_Lifestyles = "Lifestyle_01,Lifestyle_02,Lifestyle_03,Test_Lifestyle_01,Failed_Lifestyle_01";

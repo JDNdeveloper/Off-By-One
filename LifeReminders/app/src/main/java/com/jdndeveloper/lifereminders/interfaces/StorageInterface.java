@@ -32,6 +32,7 @@ public interface StorageInterface {
     boolean commitAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent);
 
     // single creation - they return an object of said type
+    // these ALL return NULL if there is a problem with creation
     Lifestyle getNewLifeStyle();
     Reminder getNewReminder();
     Notification getNewNotification();
