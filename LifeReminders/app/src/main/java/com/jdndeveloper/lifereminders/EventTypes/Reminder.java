@@ -137,7 +137,13 @@ public class Reminder extends AbstractBaseEvent {
     }
 
 
+    public String getLifestyleContainerKey() {
+        return lifestyleContainerKey;
+    }
 
+    public void setLifestyleContainerKey(String lifestyleContainerKey) {
+        this.lifestyleContainerKey = lifestyleContainerKey;
+    }
 
 
 

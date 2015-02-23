@@ -1,6 +1,7 @@
 package com.jdndeveloper.lifereminders.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.R;
@@ -40,6 +42,8 @@ public class ReminderAdapter extends ArrayAdapter{
             convertView = inflater.inflate(rowResId, parent, false);
 
         TextView rowTextView = (TextView) convertView.findViewById(R.id.rowReminderTextView);
+        TextView rowContainerLifestyleTextView = (TextView)
+                convertView.findViewById(R.id.rowReminderContainerLifestyle);
         Switch theSwitch = (Switch) convertView.findViewById(R.id.enabledSwitchReminderRow);
 
         // You need to null out the listener before you change the state of the checkbox. Otherwise,
@@ -53,6 +57,31 @@ public class ReminderAdapter extends ArrayAdapter{
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             theSwitch.setElevation(100);
         }
+
+
+        //sets lifestyle container name
+        if (Storage.getInstance().
+                getLifestyle(reminders.get(position).getLifestyleContainerKey()) != null) {
+            if (Storage.getInstance().
+                    getLifestyle(reminders.get(position).getLifestyleContainerKey()).getKey()
+                    != Constants.LIFESTYLE_FAILED_KEY) {
+                rowContainerLifestyleTextView.setText(Storage.getInstance().
+                        getLifestyle(reminders.get(position).getLifestyleContainerKey()).getName());
+            } else {
+                //rowContainerLifestyleTextView.setText("FAILED LIFESTYLE");
+                //rowContainerLifestyleTextView.setVisibility(View.GONE);
+                rowContainerLifestyleTextView.setText("Unsorted");
+                //to use R.color.accent (which we want) would need context :/
+                rowContainerLifestyleTextView.setTextColor(Color.parseColor("#808080"));
+            }
+        } else {
+            //rowContainerLifestyleTextView.setText("FAILED LIFESTYLE");
+            //rowContainerLifestyleTextView.setVisibility(View.GONE);
+            rowContainerLifestyleTextView.setText("Unsorted");
+            //to use R.color.accent (which we want) would need context :/
+            rowContainerLifestyleTextView.setTextColor(Color.parseColor("#808080"));
+        }
+
 
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -73,6 +102,7 @@ public class ReminderAdapter extends ArrayAdapter{
 
         return convertView;
     }
+
     @Override
     public int getCount() {
         return (reminders != null) ? reminders.size() : 0;

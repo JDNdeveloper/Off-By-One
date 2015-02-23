@@ -1,6 +1,7 @@
 package com.jdndeveloper.lifereminders.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
@@ -73,8 +75,26 @@ public class NotificationAdapter extends ArrayAdapter{
 
         String reminderKey = notifications.get(position).getReminderContainerKey();
 
-        containerReminder.setText(Storage.getInstance().getReminder(reminderKey).getName());
-        //containerReminder.setText("TEST 123 hello HOW IS IT GOING??");
+
+        if (Storage.getInstance().
+                getReminder(reminderKey) != null) {
+            if (Storage.getInstance().getReminder(reminderKey).getKey()
+                    != Constants.REMINDER_FAILED_KEY
+                    // the following code shouldn't be necessary, but currently storage isn't
+                    // returning failed key object like it should when it isn't found
+                    // remove below code marked REMOVE after John fixes this
+                    && !Storage.getInstance().getReminder(reminderKey).getName() //REMOVE, storage
+                    .equals("Failed Reminder") ) {                               //REMOVE, storage
+                containerReminder.setText(Storage.getInstance().getReminder(reminderKey).getName());
+                //containerReminder.setText("TEST 123 hello HOW IS IT GOING??");
+            }else {
+                containerReminder.setText("Unsorted");
+                containerReminder.setTextColor(Color.parseColor("#808080"));
+            }
+        } else {
+            containerReminder.setText("Unsorted");
+            containerReminder.setTextColor(Color.parseColor("#808080"));
+        }
 
         theSwitch.setChecked(notifications.get(position).isEnabled());
 
@@ -149,6 +169,10 @@ public class NotificationAdapter extends ArrayAdapter{
         } else {
             text += "silent";
         }
+
+        if (a.isNotificationSound() && a.isVibrate())
+            text = "sound/vibrate";
+
         return text;
     }
 

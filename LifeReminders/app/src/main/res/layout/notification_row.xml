@@ -32,7 +32,7 @@
                 android:id="@+id/rowNotificationContainerReminder"
                 android:padding="0dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/gray"
+                android:textColor="@color/accent"
                 android:textStyle="italic"
                 android:singleLine="true"
                 android:layout_centerVertical="true"
