@@ -6,14 +6,16 @@
     android:paddingRight="16dp" >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rowNotifLinLayout"
         android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rowNotifTopTextLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/rowNotificationTextView"
@@ -30,71 +32,66 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/gray"
                 android:textStyle="italic"
+                android:singleLine="true"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/rowNotificationTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <Button
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/enabledSwitchNotificationRow"
+                android:background="@android:color/transparent"
+                android:focusable="false" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:thumb="@drawable/switch_thumb"
+                android:track="@drawable/switch_track"
+                android:textOn="@string/switch_on"
+                android:textOff="@string/switch_off"
+                android:switchTextAppearance="@style/SwitchStyle"
+                android:switchMinWidth="@dimen/switchTrackWidth"
+                android:thumbTextPadding="@dimen/switchThumbWidth"
+                android:focusable="false"
+                android:showText="true"
+                android:id="@+id/enabledSwitchNotificationRow"
+                android:layout_alignParentRight="true" />
+
 
         </RelativeLayout>
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_marginTop="-15dp"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_marginTop="-15dp" >
+
+            <TextView
+                android:id="@+id/rowNotificationAlarmTypeText"
+                android:padding="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/accent"
+                android:layout_alignParentLeft="true"
+                android:singleLine="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/rowNotificationRepeatText"
                 android:padding="10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/dark_gray"
-                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/rowNotificationAlarmTypeText"
-                android:padding="0dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/accent"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/rowNotificationRepeatText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+
 
         </RelativeLayout>
     </LinearLayout>
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <Button
-            android:layout_width="110dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_alignLeft="@+id/enabledSwitchNotificationRow"
-            android:background="@android:color/transparent"
-            android:focusable="false" />
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:thumb="@drawable/switch_thumb"
-            android:track="@drawable/switch_track"
-            android:textOn="@string/switch_on"
-            android:textOff="@string/switch_off"
-            android:switchTextAppearance="@style/SwitchStyle"
-            android:switchMinWidth="@dimen/switchTrackWidth"
-            android:thumbTextPadding="@dimen/switchThumbWidth"
-            android:focusable="false"
-            android:showText="true"
-            android:id="@+id/enabledSwitchNotificationRow"
-            android:layout_alignParentRight="true" />
-
-    </RelativeLayout>
-
 </RelativeLayout>

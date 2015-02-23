@@ -161,7 +161,7 @@ public class NotificationAdapter extends ArrayAdapter{
     }
 
     private String getWeekDays(ArrayList<Integer> repeatDays) {
-        String text = "Repeat ";
+        String text = "";
         boolean started = false;
         for (int i = 0; i <= 7; i++) {
             if (repeatDays.contains(i)) {

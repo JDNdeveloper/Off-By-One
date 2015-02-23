@@ -111,6 +111,33 @@ public class MainActivity extends ActionBarActivity
 
         //GsonTester.test();
 
+        //modifies tester notifications
+        Notification n1 = Storage.getInstance().getNotification("Notification_01");
+        Notification n2 = Storage.getInstance().getNotification("Notification_02");
+        Notification n3 = Storage.getInstance().getNotification("Notification_03");
+
+        Calendar c1 = Calendar.getInstance();
+        c1.set(Calendar.MONTH, 4);
+        c1.set(Calendar.DAY_OF_MONTH, 6);
+        c1.set(Calendar.HOUR_OF_DAY, 8);
+        c1.set(Calendar.MINUTE, 13);
+
+        n1.setTime(c1);
+        n1.setRepeatDaysEnabled(true);
+        n1.setRepeatDay(1, true); // sets repeat on Sunday
+        n1.setRepeatDay(2, true); // sets repeat on Monday
+        n1.setRepeatDay(3, true); // sets repeat on Tuesday
+        n1.setRepeatDay(4, true); // sets repeat on Wednesday
+        n1.setRepeatDay(5, true); // sets repeat on Thursday
+        n1.setRepeatDay(6, true); // sets repeat on Friday
+        n1.setRepeatDay(7, true); // sets repeat on Friday
+
+        Storage.getInstance().replaceAbstractBaseEvent(n1);
+
+        Calendar c2 = Calendar.getInstance();
+
+
+
     }
 
     public void buttonclick() {

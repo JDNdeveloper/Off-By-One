@@ -187,4 +187,12 @@ public class Notification extends AbstractBaseEvent {
         return repeatDaysEnabled;
     }
 
+    public void setRepeatDaysEnabled(boolean repeatDaysEnabled) {
+        this.repeatDaysEnabled = repeatDaysEnabled;
+    }
+
+    public void setRepeatEveryBlankDaysEnabled(boolean repeatEveryBlankDaysEnabled) {
+        this.repeatEveryBlankDaysEnabled = repeatEveryBlankDaysEnabled;
+    }
+
 }
