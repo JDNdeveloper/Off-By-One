@@ -90,13 +90,13 @@ public class Action extends AbstractBaseEvent {
         this.notificationSound = notificationSound;
     }
 
-    public boolean isRingtoneSound() {
-        return ringtoneSound;
-    }
+    //public boolean isRingtoneSound() {
+    //    return ringtoneSound;
+    //}
 
-    public void setRingtoneSound(boolean ringtoneSound) {
-        this.ringtoneSound = ringtoneSound;
-    }
+   // public void setRingtoneSound(boolean ringtoneSound) {
+  //      this.ringtoneSound = ringtoneSound;
+   // }
 
     public boolean isCameraLight() {
         return cameraLight;

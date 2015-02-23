@@ -29,10 +29,13 @@ import com.jdndeveloper.lifereminders.EventActivities.LifestyleActivity;
 import com.jdndeveloper.lifereminders.EventActivities.NotificationActivity;
 import com.jdndeveloper.lifereminders.EventActivities.ReminderActivity;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.Tests.GsonTester;
+import com.jdndeveloper.lifereminders.Tests.NotificationStorageTester;
+import com.jdndeveloper.lifereminders.Tests.NotificationTester;
 import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
@@ -112,32 +115,8 @@ public class MainActivity extends ActionBarActivity
 
         //GsonTester.test();
 
-        //modifies tester notifications
-        Notification n1 = Storage.getInstance().getNewNotification();
-        Notification n2 = Storage.getInstance().getNewNotification();
-        Notification n3 = Storage.getInstance().getNewNotification();
-
-        Calendar c1 = Calendar.getInstance();
-        c1.set(Calendar.MONTH, 4);
-        c1.set(Calendar.DAY_OF_MONTH, 6);
-        c1.set(Calendar.HOUR_OF_DAY, 8);
-        c1.set(Calendar.MINUTE, 13);
-
-        n1.setTime(c1);
-        n1.setRepeatDaysEnabled(true);
-        n1.setRepeatDay(1, true); // sets repeat on Sunday
-        n1.setRepeatDay(2, true); // sets repeat on Monday
-        n1.setRepeatDay(3, true); // sets repeat on Tuesday
-        n1.setRepeatDay(4, true); // sets repeat on Wednesday
-        n1.setRepeatDay(5, true); // sets repeat on Thursday
-        n1.setRepeatDay(6, true); // sets repeat on Friday
-        n1.setRepeatDay(7, true); // sets repeat on Friday
-
-        Storage.getInstance().commitAbstractBaseEvent(n1);
-
-        Calendar c2 = Calendar.getInstance();
-
-
+        //modifies tester notifications by running tests
+        NotificationStorageTester.runTest();
 
     }
 

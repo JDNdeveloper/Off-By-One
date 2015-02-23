@@ -23,6 +23,15 @@ public final class Constants {
 
     public final static String ACTION_TEST_KEY = "Test_Action_01";
 
+
+    public final static String LIFESTYLE_FAILED_KEY = "Failed_Lifestyle_01";
+
+    public final static String NOTIFICATION_FAILED_KEY = "Failed_Notification_01";
+
+    public final static String REMINDER_FAILED_KEY = "Failed_Reminder_01";
+
+    public final static String ACTION_FAILED_KEY = "Failed_Action_01";
+
     // test set for unit tests
     public final static String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
     public final static String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
