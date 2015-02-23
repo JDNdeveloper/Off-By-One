@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
 
     ImageButton buttonlistner;
-
+    ImageButton settingslistner;
     ImageButton tempButtonIB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +107,7 @@ public class MainActivity extends ActionBarActivity
         //End of Sprint 1 Presentation Plan
 
         buttonclick();
+        settingsbuttonclick();
         // execute Gson test
 
         //GsonTester.test();
@@ -154,6 +155,22 @@ public class MainActivity extends ActionBarActivity
     public void buttonclickplus(View v) {
         Toast.makeText(MainActivity.this,
                 "ImageButton is clicked!", Toast.LENGTH_LONG).show();
+    }
+
+    public void settingsbuttonclick() {
+        settingslistner = (ImageButton) findViewById(R.id.settings);
+
+        settingslistner.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonclicksettings(v);
+            }
+        });
+    }
+
+    public void buttonclicksettings(View v) {
+        Toast.makeText(MainActivity.this,
+                "Settings is clicked!", Toast.LENGTH_LONG).show();
     }
 
     @Override
