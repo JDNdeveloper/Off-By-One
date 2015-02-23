@@ -30,11 +30,9 @@
             android:clickable="true"
             android:onClick="buttonclickplus"
             android:id="@+id/imageplusbutton"
-            android:layout_gravity="right|bottom"
+            android:layout_gravity="center_horizontal|bottom"
             android:src="@drawable/ic_addv"
-            android:background="@android:color/transparent"
-            android:paddingBottom="8dp"
-            android:paddingRight="8dp" />
+            android:background="@android:color/transparent" />
 
     </FrameLayout>
 
