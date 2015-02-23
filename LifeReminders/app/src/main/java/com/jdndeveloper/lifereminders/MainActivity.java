@@ -145,11 +145,15 @@ public class MainActivity extends ActionBarActivity
 
         buttonlistner.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View arg0) {
-                Toast.makeText(MainActivity.this,
-                        "ImageButton is clicked!", Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
+                buttonclickplus(v);
             }
         });
+    }
+
+    public void buttonclickplus(View v) {
+        Toast.makeText(MainActivity.this,
+                "ImageButton is clicked!", Toast.LENGTH_LONG).show();
     }
 
     @Override

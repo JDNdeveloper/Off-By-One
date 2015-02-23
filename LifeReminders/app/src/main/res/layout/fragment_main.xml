@@ -27,12 +27,14 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="buttonclickplus"
             android:id="@+id/imageplusbutton"
             android:layout_gravity="right|bottom"
             android:src="@drawable/ic_addv"
             android:background="@android:color/transparent"
-            android:paddingBottom="20dp"
-            android:paddingRight="20dp" />
+            android:paddingBottom="8dp"
+            android:paddingRight="8dp" />
 
     </FrameLayout>
 
