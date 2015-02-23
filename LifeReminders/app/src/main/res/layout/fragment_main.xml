@@ -31,7 +31,7 @@
             android:onClick="buttonclickplus"
             android:id="@+id/imageplusbutton"
             android:layout_gravity="center_horizontal|bottom"
-            android:src="@drawable/ic_addv"
+            android:src="@drawable/plus_selector"
             android:background="@android:color/transparent" />
 
     </FrameLayout>
