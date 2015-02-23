@@ -107,6 +107,8 @@ public class MainActivity extends ActionBarActivity
         testNotif.setTime(cal);
         testNotif.setAlarm(this);
 
+        Storage.getInstance().replaceAbstractBaseEvent(testNotif);
+
         //End of Sprint 1 Presentation Plan
 
         buttonclick();

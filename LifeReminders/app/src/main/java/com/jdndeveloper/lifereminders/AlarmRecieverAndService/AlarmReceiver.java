@@ -31,7 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             Notification n = Storage.getInstance().getNotification(notifKey);
             /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
             const value is called*/
-            if(n.isEnabled() && Constants.Failed_Notification_01 != notifKey) {
+            if(n.isEnabled() && Constants.NOTIFICATION_FAILED_KEY != notifKey) {
                 Log.i("AlarmReceiver", "Valid notification");
                 //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
 

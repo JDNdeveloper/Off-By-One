@@ -14,10 +14,20 @@ import java.util.Calendar;
 public class NotificationStorageTester {
 
     public static void runTest() {
+        testLifestyles();
+
+        testReminders();
+
+        testNotifications();
+    }
+
+    private static void testLifestyles() {
         Lifestyle l1 = Storage.getInstance().getLifestyle("Lifestyle_01");
         l1.setName("Fitness");
         Storage.getInstance().replaceAbstractBaseEvent(l1);
+    }
 
+    private static void testReminders() {
         Reminder r1 = Storage.getInstance().getReminder("Reminder_02");
         r1.setName("Take Vitamins");
         r1.setLifestyleContainerKey("Lifestyle_01");
@@ -32,8 +42,9 @@ public class NotificationStorageTester {
         r3.setName("Take out the trash");
         r3.setLifestyleContainerKey("Lifestyle_03");
         Storage.getInstance().replaceAbstractBaseEvent(r3);
+    }
 
-
+    private static void testNotifications() {
         Notification n1 = Storage.getInstance().getNotification("Notification_01");
         Notification n2 = Storage.getInstance().getNotification("Notification_02");
         Notification n3 = Storage.getInstance().getNotification("Notification_03");
