@@ -19,7 +19,7 @@
 
     <Button
         android:layout_width="110dp"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/button_height"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/enabledSwitchReminderRow"
         android:background="@android:color/transparent"
