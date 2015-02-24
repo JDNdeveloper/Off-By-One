@@ -7,12 +7,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.R;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 public class ReminderActivity extends ActionBarActivity {
 
@@ -35,6 +40,19 @@ public class ReminderActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
         Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
+
+        final EditText editText = (EditText) findViewById(R.id.reminderName);
+        editText.setText(passedReminder.getName());
+        editText.addTextChangedListener(new TextWatcher(){
+            public void afterTextChanged(Editable s) {
+                //editText.setText(String.valueOf(i) + " / " + String.valueOf(charCounts));
+                Log.e("Reminder Activity", "Editing reminder name to: " + editText.getText().toString());
+                passedReminder.setName(editText.getText().toString());
+                Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
     }
 
 
