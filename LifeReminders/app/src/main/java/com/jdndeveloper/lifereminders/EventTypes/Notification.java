@@ -67,6 +67,8 @@ public class Notification extends AbstractBaseEvent {
             } while (!repeatDays.contains(calendar.get(Calendar.DAY_OF_WEEK)));
         } else if (repeatEveryBlankDaysEnabled) {
             calendar.add(Calendar.DAY_OF_WEEK, repeatEveryBlankDays);
+        } else {
+            calendar = null;
         }
 
         return calendar;

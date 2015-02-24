@@ -28,7 +28,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         //Log.i("AlarmReceiver", notifKey);
         if(notifKey == null){
             Log.i("AlarmReceiver", "notifKey is null");
-
         }else{
             Log.i("AlarmReceiver", notifKey);
             Notification n = Storage.getInstance().getNotification(notifKey);
@@ -46,16 +45,16 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Log.i("AlarmReceiver", "Valid notification");
                 //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
 
-                n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
-                n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
-                n.setActionKey(Constants.ACTION_TEST_KEY);
+                //n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+                //n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+                //n.setActionKey(Constants.ACTION_TEST_KEY);
 
                 ///END OF TEMPORARY
 
                 n.sendNotification(context);
 
                 //set next alarm - Uncomment to add set next alarm functionality
-                //n.makeNextNotificationTime();
+                //n.makeNextNotificationTime(); //make sure not null, implies no next time if null
                 //n.setAlarm(context);
 
                 //Uncomment after storage is working - tell storage to save the new notification time
