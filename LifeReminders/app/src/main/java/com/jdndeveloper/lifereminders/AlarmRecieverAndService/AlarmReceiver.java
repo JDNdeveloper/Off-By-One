@@ -10,6 +10,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
 /**
@@ -24,6 +25,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         //context.startService(service);
 
         String notifKey = intent.getStringExtra("NOTIF_KEY");
+
+        SharedStorage.initializeInstance(context);
 
         //Log.i("AlarmReceiver", notifKey);
         if(notifKey == null){
