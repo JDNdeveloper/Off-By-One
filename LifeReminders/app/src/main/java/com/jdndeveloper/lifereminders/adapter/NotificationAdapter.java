@@ -69,8 +69,13 @@ public class NotificationAdapter extends ArrayAdapter{
             amPM = "AM";
         }
 
+        String minutes = Integer.toString(time.get(Calendar.MINUTE));
+        if (minutes.length() == 1) {
+            minutes = "0" + minutes;
+        }
+
         rowTextView.setText(Integer.toString(time.get(Calendar.HOUR))
-                + ":" + Integer.toString(time.get(Calendar.MINUTE))
+                + ":" + minutes
                 + " " + amPM);
 
         String reminderKey = notifications.get(position).getReminderContainerKey();
