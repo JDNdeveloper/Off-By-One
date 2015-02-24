@@ -114,35 +114,36 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void buttonclickplus(View v) {
-        Toast.makeText(MainActivity.this,
-                "ImageButton is clicked!", Toast.LENGTH_LONG).show();
         switch (FragmentLocation) {
             //Go To Lifestyle Activity
             case 1:
                 Log.e("Main Activity","newLifestyle");
                 Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
                 Lifestyle lifestyle = Storage.getInstance().getNewLifeStyle();
-                lifestyle.setName("");
-                //Storage.getInstance().replaceAbstractBaseEvent(lifestyle);
-                //Storage.getInstance().commitAbstractBaseEvent(lifestyle);
+                lifestyle.setName("New Lifestyle");
+                Storage.getInstance().commitAbstractBaseEvent(lifestyle);
                 lifestyleIntent.putExtra("Lifestyle", lifestyle);
                 startActivity(lifestyleIntent);
                 break;
             //Go To Reminder Activity
             case 2:
                 Log.e("Main Activity","newReminder");
-                /*Intent reminderIntent = new Intent(context, ReminderActivity.class);
-                Reminder reminder = (Reminder) abstractBaseEvents.get(position);
+                Intent reminderIntent = new Intent(context, ReminderActivity.class);
+                Reminder reminder = Storage.getInstance().getNewReminder();
+                reminder.setName("New Reminder");
+                Storage.getInstance().commitAbstractBaseEvent(reminder);
                 reminderIntent.putExtra("Reminder", reminder);
-                startActivity(reminderIntent);*/
+                startActivity(reminderIntent);
                 break;
             //Go To Notification Activity
             case 3:
                 Log.e("Main Activity","newNotification");
-                /*Intent notificationIntent = new Intent(context, NotificationActivity.class);
-                Notification notification = (Notification) abstractBaseEvents.get(position);
+                Intent notificationIntent = new Intent(context, NotificationActivity.class);
+                Notification notification = Storage.getInstance().getNewNotification();
+                notification.setName("New Notification");
+                Storage.getInstance().commitAbstractBaseEvent(notification);
                 notificationIntent.putExtra("Notification", notification);
-                startActivity(notificationIntent);*/
+                startActivity(notificationIntent);
                 break;
             default:
                 Log.e("Main Activity","newFailed");
@@ -228,6 +229,13 @@ public class MainActivity extends ActionBarActivity
         }*/
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        FragmentLocation = 1;
     }
 
     /**

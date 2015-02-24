@@ -7,12 +7,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.R;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 public class NotificationActivity extends ActionBarActivity {
 
@@ -35,6 +40,7 @@ public class NotificationActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
         Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
+
     }
 
 

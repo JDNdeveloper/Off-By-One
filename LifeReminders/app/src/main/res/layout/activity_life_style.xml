@@ -2,6 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+
+
+
+
+
+
+
+
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -9,25 +18,49 @@
         android:text="Lifestyle"
         android:textSize="32dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true" />
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enabled"
-        android:id="@+id/enabledSwitch"
-        android:layout_below="@+id/lifestyleName"
-        android:layout_centerHorizontal="true" />
+        android:layout_toLeftOf="@+id/lifestyleEnabled"
+        android:layout_toStartOf="@+id/lifestyleEnabled" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView2"
-        android:layout_toStartOf="@+id/enabledSwitch"
-        android:layout_toLeftOf="@+id/enabledSwitch"
+        android:id="@+id/lifestyleListView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/enabledSwitch" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/lifestyleName" />
+
+
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:thumb="@drawable/switch_thumb"
+        android:track="@drawable/switch_track"
+        android:textOn="@string/switch_on"
+        android:textOff="@string/switch_off"
+        android:switchTextAppearance="@style/SwitchStyle"
+        android:switchMinWidth="@dimen/switchTrackWidth"
+        android:thumbTextPadding="@dimen/switchThumbWidth"
+        android:showText="true"
+        android:focusable="false"
+        android:id="@+id/lifestyleEnabled"
+        android:layout_alignBottom="@+id/lifestyleName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageplusbutton"
+        android:layout_gravity="center_horizontal|bottom"
+        android:clickable="true"
+        android:src="@drawable/plus_selector"
+        android:background="@android:color/transparent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
+
+

@@ -3,6 +3,7 @@ package com.jdndeveloper.lifereminders.EventActivities;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -17,24 +18,36 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.R;
 
 import com.jdndeveloper.lifereminders.R;
+import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.Storage;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+
 
 public class LifestyleActivity extends ActionBarActivity {
 
     private Lifestyle passedLifestyle;
-
+    ImageButton buttonlistner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +59,8 @@ public class LifestyleActivity extends ActionBarActivity {
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
         Toast.makeText(this, passedLifestyle.getName(), Toast.LENGTH_SHORT).show();
 
+
+        //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.lifestyleName);
         editText.setText(passedLifestyle.getName());
         editText.addTextChangedListener(new TextWatcher(){
@@ -58,18 +73,66 @@ public class LifestyleActivity extends ActionBarActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){}
         });
+
+
+        //Create listener for enables/disabled switch
+        Switch theSwitch = (Switch) findViewById(R.id.lifestyleEnabled);
+        theSwitch.setOnCheckedChangeListener(null);
+        theSwitch.setChecked(passedLifestyle.isEnabled());
+
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            theSwitch.setElevation(100);
+        }
+
+        theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //change enabled state of Lifestyle
+                if (isChecked) {
+                    //text += " is enabled";
+                    passedLifestyle.setEnabled(true);
+                    Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+                } else {
+                    //text += " is disabled";
+                    passedLifestyle.setEnabled(false);
+                    Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+                }
+            }
+        });
+
+
+        //Not sure if this works or not need to have some other components before I can test
+        /*ListView listView = (ListView) findViewById(R.id.lifestyleListView);
+        final List<Reminder> reminderArray = new ArrayList<>();
+        //abstractBaseEvents = passedLifestyle.getReminders();
+        //Storage.getInstance().getReminder()
+        for(String r : passedLifestyle.getReminders()){
+            Log.e("Lifestyle Activity",r);
+            reminderArray.add(Storage.getInstance().getReminder(r));
+        }
+        listView.setAdapter(new ReminderAdapter(this,
+                android.R.layout.simple_list_item_2,
+                R.layout.reminder_row, reminderArray
+        ));*/
+        buttonclick();
+
     }
 
-    /*    tv = (TextView)findViewById(R.id.charCounts);
-    textMessage = (EditText)findViewById(R.id.textMessage);
-    textMessage.addTextChangedListener(new TextWatcher(){
-        public void afterTextChanged(Editable s) {
-            i++;
-            tv.setText(String.valueOf(i) + " / " + String.valueOf(charCounts));
-        }
-        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-        public void onTextChanged(CharSequence s, int start, int before, int count){}
-    }); */
+    public void buttonclick() {
+        buttonlistner = (ImageButton) findViewById(R.id.imageplusbutton);
+
+        buttonlistner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonclickplus(v);
+            }
+        });
+    }
+
+
+
+    public void buttonclickplus(View v) {
+        //do action
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
