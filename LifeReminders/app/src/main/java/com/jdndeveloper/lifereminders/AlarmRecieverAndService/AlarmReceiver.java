@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.jdndeveloper.lifereminders.Constants;
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
@@ -35,8 +36,13 @@ public class AlarmReceiver extends BroadcastReceiver {
             const value is called*/
             Lifestyle lifeContainer = Storage.getInstance().getLifestyle(n.getLifestyleContainerKey());
             Reminder reminderContainer = Storage.getInstance().getReminder(n.getReminderContainerKey());
+            Action action = Storage.getInstance().getAction(n.getActionKey());
             if(n.isEnabled() && lifeContainer.isEnabled() && reminderContainer.isEnabled()
-                    && Constants.NOTIFICATION_FAILED_KEY != notifKey) {
+                    && Constants.NOTIFICATION_FAILED_KEY != notifKey
+                    //&& Constants.LIFESTYLE_FAILED_KEY != lifeContainer.getKey()
+                    //&& Constants.REMINDER_FAILED_KEY != reminderContainer.getKey()
+                    && Constants.ACTION_FAILED_KEY != action.getKey()) {
+
                 Log.i("AlarmReceiver", "Valid notification");
                 //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
 
