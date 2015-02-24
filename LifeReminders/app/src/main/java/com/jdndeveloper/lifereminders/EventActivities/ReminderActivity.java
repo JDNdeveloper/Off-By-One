@@ -16,9 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
@@ -52,6 +54,31 @@ public class ReminderActivity extends ActionBarActivity {
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+
+
+        Switch theSwitch = (Switch) findViewById(R.id.reminderEnabled);
+        theSwitch.setOnCheckedChangeListener(null);
+        theSwitch.setChecked(passedReminder.isEnabled());
+
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            theSwitch.setElevation(100);
+        }
+
+        theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //change enabled state of Lifestyle
+                if (isChecked) {
+                    //text += " is enabled";
+                    passedReminder.setEnabled(true);
+                    Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
+                } else {
+                    //text +=AQ " is disabled";
+                    passedReminder.setEnabled(false);
+                    Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
+                }
+            }
         });
     }
 

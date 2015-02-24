@@ -17,11 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
@@ -58,6 +61,34 @@ public class LifestyleActivity extends ActionBarActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){}
         });
+
+
+        Switch theSwitch = (Switch) findViewById(R.id.lifestyleEnabled);
+        theSwitch.setOnCheckedChangeListener(null);
+        theSwitch.setChecked(passedLifestyle.isEnabled());
+
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            theSwitch.setElevation(100);
+        }
+
+        theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //change enabled state of Lifestyle
+                if (isChecked) {
+                    //text += " is enabled";
+                    passedLifestyle.setEnabled(true);
+                    Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+                } else {
+                    //text += " is disabled";
+                    passedLifestyle.setEnabled(false);
+                    Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+                }
+            }
+        });
+
+
+
+
     }
 
     /*    tv = (TextView)findViewById(R.id.charCounts);
