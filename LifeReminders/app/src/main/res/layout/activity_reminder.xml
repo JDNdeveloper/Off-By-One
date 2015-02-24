@@ -2,6 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+
+
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,6 +43,19 @@
         android:layout_alignBottom="@+id/reminderName"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageplusbutton"
+        android:layout_gravity="center_horizontal|bottom"
+        android:clickable="true"
+        android:src="@drawable/plus_selector"
+        android:background="@android:color/transparent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
