@@ -3,6 +3,7 @@ package com.jdndeveloper.lifereminders.EventActivities;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -40,10 +41,13 @@ import com.jdndeveloper.lifereminders.storage.Storage;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 public class LifestyleActivity extends ActionBarActivity {
 
     private Lifestyle passedLifestyle;
-
+    ImageButton buttonlistner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +113,25 @@ public class LifestyleActivity extends ActionBarActivity {
                 android.R.layout.simple_list_item_2,
                 R.layout.reminder_row, reminderArray
         ));*/
+        buttonclick();
 
+    }
+
+    public void buttonclick() {
+        buttonlistner = (ImageButton) findViewById(R.id.imageplusbutton);
+
+        buttonlistner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonclickplus(v);
+            }
+        });
+    }
+
+
+
+    public void buttonclickplus(View v) {
+        //do action
     }
 
     @Override

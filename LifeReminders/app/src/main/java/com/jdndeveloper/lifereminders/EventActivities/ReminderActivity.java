@@ -31,6 +31,7 @@ import com.jdndeveloper.lifereminders.storage.Storage;
 public class ReminderActivity extends ActionBarActivity {
 
     private Reminder passedReminder;
+    ImageButton buttonlistner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +83,29 @@ public class ReminderActivity extends ActionBarActivity {
                 }
             }
         });
+
+        buttonclick();
     }
 
+
+
+    public void buttonclick() {
+        buttonlistner = (ImageButton) findViewById(R.id.imageplusbutton);
+
+        buttonlistner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonclickplus(v);
+            }
+        });
+    }
+
+
+
+    public void buttonclickplus(View v) {
+        //do action
+        Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
+    }
 
 
     @Override
