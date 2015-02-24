@@ -28,7 +28,7 @@ import com.jdndeveloper.lifereminders.interfaces.PhoneInterface;
  * Or:
  *      Phone.getInstance().playDefaultNotificationSound();
  */
-public class Phone implements PhoneInterface{
+public class Phone implements PhoneInterface {
     private static Context context;
 
     private static Vibrator v ;
@@ -103,7 +103,7 @@ public class Phone implements PhoneInterface{
     }
 
     @Override
-    public void sendMessageToNotificationBar(String title, String message) {
+    public void sendMessageToNotificationBar(String title, String message, int requestID) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_action_notificationicon)
@@ -124,7 +124,7 @@ public class Phone implements PhoneInterface{
         PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(
                         context,
-                        0,
+                        requestID,
                         resultIntent,
                         PendingIntent.FLAG_CANCEL_CURRENT //can be changed later
                 );
@@ -133,7 +133,7 @@ public class Phone implements PhoneInterface{
         mBuilder.setContentIntent(resultPendingIntent);
 
         // Sets an ID for the notification
-        int mNotificationId = 001;
+        int mNotificationId = requestID;
         // Gets an instance of the NotificationManager service
         NotificationManager mNotifyMgr =
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);

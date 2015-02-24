@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.jdndeveloper.lifereminders.Constants;
+import com.jdndeveloper.lifereminders.EventTypes.Action;
+import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
 /**
@@ -22,29 +26,38 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         String notifKey = intent.getStringExtra("NOTIF_KEY");
 
+        SharedStorage.initializeInstance(context);
+
         //Log.i("AlarmReceiver", notifKey);
         if(notifKey == null){
             Log.i("AlarmReceiver", "notifKey is null");
-
         }else{
             Log.i("AlarmReceiver", notifKey);
             Notification n = Storage.getInstance().getNotification(notifKey);
             /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
             const value is called*/
-            if(n.isEnabled() && Constants.Failed_Notification_01 != notifKey) {
+            Lifestyle lifeContainer = Storage.getInstance().getLifestyle(n.getLifestyleContainerKey());
+            Reminder reminderContainer = Storage.getInstance().getReminder(n.getReminderContainerKey());
+            Action action = Storage.getInstance().getAction(n.getActionKey());
+            if(n.isEnabled() && lifeContainer.isEnabled() && reminderContainer.isEnabled()
+                    && Constants.NOTIFICATION_FAILED_KEY != notifKey
+                    //&& Constants.LIFESTYLE_FAILED_KEY != lifeContainer.getKey()
+                    //&& Constants.REMINDER_FAILED_KEY != reminderContainer.getKey()
+                    && Constants.ACTION_FAILED_KEY != action.getKey()) {
+
                 Log.i("AlarmReceiver", "Valid notification");
                 //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
 
-                n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
-                n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
-                n.setActionKey(Constants.ACTION_TEST_KEY);
+                //n.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
+                //n.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
+                //n.setActionKey(Constants.ACTION_TEST_KEY);
 
                 ///END OF TEMPORARY
 
                 n.sendNotification(context);
 
                 //set next alarm - Uncomment to add set next alarm functionality
-                //n.makeNextNotificationTime();
+                //n.makeNextNotificationTime(); //make sure not null, implies no next time if null
                 //n.setAlarm(context);
 
                 //Uncomment after storage is working - tell storage to save the new notification time

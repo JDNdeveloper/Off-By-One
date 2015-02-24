@@ -51,7 +51,7 @@
                 android:id="@+id/rowNotificationAlarmTypeText"
                 android:padding="10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/accent"
+                android:textColor="@color/notif_action_background"
                 android:layout_alignParentLeft="true"
                 android:singleLine="true"
                 android:layout_width="wrap_content"

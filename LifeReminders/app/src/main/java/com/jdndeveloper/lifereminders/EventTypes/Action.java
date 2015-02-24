@@ -12,6 +12,8 @@ import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.interfaces.PhoneInterface;
 import com.jdndeveloper.lifereminders.phone.Phone;
 
+import java.util.Scanner;
+
 /**
  * Created by Jayden Navarro on 1/30/2015.
  */
@@ -40,11 +42,12 @@ public class Action extends AbstractBaseEvent {
         cameraLight = false;
     }
 
-    public void sendCorrectNotification(Context context, String title, String text) {
+    public void sendCorrectNotification(Context context, String title, String text, int requestID) {
         PhoneInterface phone = Phone.getInstance(context);
 
+
         if (notificationBar) {
-            phone.sendMessageToNotificationBar(title, text);
+            phone.sendMessageToNotificationBar(title, text, requestID);
         }
 
         if (vibrate) phone.vibratePhone(vibrateDuration);

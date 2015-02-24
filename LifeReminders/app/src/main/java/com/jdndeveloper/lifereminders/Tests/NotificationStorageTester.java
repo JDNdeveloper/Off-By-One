@@ -14,10 +14,20 @@ import java.util.Calendar;
 public class NotificationStorageTester {
 
     public static void runTest() {
+        testLifestyles();
+
+        testReminders();
+
+        testNotifications();
+    }
+
+    private static void testLifestyles() {
         Lifestyle l1 = Storage.getInstance().getLifestyle("Lifestyle_01");
         l1.setName("Fitness");
         Storage.getInstance().replaceAbstractBaseEvent(l1);
+    }
 
+    private static void testReminders() {
         Reminder r1 = Storage.getInstance().getReminder("Reminder_02");
         r1.setName("Take Vitamins");
         r1.setLifestyleContainerKey("Lifestyle_01");
@@ -32,8 +42,9 @@ public class NotificationStorageTester {
         r3.setName("Take out the trash");
         r3.setLifestyleContainerKey("Lifestyle_03");
         Storage.getInstance().replaceAbstractBaseEvent(r3);
+    }
 
-
+    private static void testNotifications() {
         Notification n1 = Storage.getInstance().getNotification("Notification_01");
         Notification n2 = Storage.getInstance().getNotification("Notification_02");
         Notification n3 = Storage.getInstance().getNotification("Notification_03");
@@ -64,7 +75,8 @@ public class NotificationStorageTester {
 
         n1.setReminderContainerKey("Reminder_01");
 
-        n1.setEnabled(false);
+        n1.setLifestyleContainerKey("Lifestyle_01");
+
 
         Storage.getInstance().replaceAbstractBaseEvent(n1);
 
@@ -77,6 +89,7 @@ public class NotificationStorageTester {
         n2.setTime(c2);
 
         n2.setReminderContainerKey("Reminder_04");
+        n2.setLifestyleContainerKey("Lifestyle_02");
 
         Storage.getInstance().replaceAbstractBaseEvent(n2);
 

@@ -8,6 +8,6 @@ public interface PhoneInterface {
     public void vibratePhone(long durationMilli);
     public void playDefaultNotificationSound();
     public void playDefaultRingtoneSound(long durationMilli);
-    public void sendMessageToNotificationBar(String title, String message);
+    public void sendMessageToNotificationBar(String title, String message, int requestID);
     public void flashCameraLight();
 }
