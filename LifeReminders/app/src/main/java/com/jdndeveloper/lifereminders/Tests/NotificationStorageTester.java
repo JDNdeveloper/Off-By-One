@@ -75,7 +75,8 @@ public class NotificationStorageTester {
 
         n1.setReminderContainerKey("Reminder_01");
 
-        n1.setEnabled(false);
+        n1.setLifestyleContainerKey("Lifestyle_01");
+
 
         Storage.getInstance().replaceAbstractBaseEvent(n1);
 
@@ -88,6 +89,7 @@ public class NotificationStorageTester {
         n2.setTime(c2);
 
         n2.setReminderContainerKey("Reminder_04");
+        n2.setLifestyleContainerKey("Lifestyle_02");
 
         Storage.getInstance().replaceAbstractBaseEvent(n2);
 

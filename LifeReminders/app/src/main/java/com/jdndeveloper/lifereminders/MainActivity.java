@@ -36,6 +36,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.Tests.GsonTester;
 import com.jdndeveloper.lifereminders.Tests.NotificationStorageTester;
 import com.jdndeveloper.lifereminders.Tests.NotificationTester;
+import com.jdndeveloper.lifereminders.Tests.SprintPresentationTester;
 import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
@@ -85,31 +86,7 @@ public class MainActivity extends ActionBarActivity
         context = this.getApplicationContext();
 
         //code for the Sprint 1 presentation!
-
-        //what we're going to do is schedule an alarm to go off in 1 minute, and push a notification
-        Notification testNotif = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
-        //Log.e("MainActivity", "onCreate name [" + testNotif.getName() + "]");
-        //Log.e("MainActivity", "onCreate key [" + testNotif.getKey() + "]");
-        testNotif.setLifestyleContainerKey(Constants.LIFESTYLE_TEST_KEY);
-        //Log.e("MainActivity", "onCreate lifestyle container key [" + testNotif.getLifestyleContainerKey() + "]");
-        testNotif.setReminderContainerKey(Constants.REMINDER_TEST_KEY);
-        //Log.e("MainActivity", "onCreate reminder container key [" + testNotif.getReminderContainerKey() + "]");
-        testNotif.setActionKey(Constants.ACTION_TEST_KEY);
-        //Log.e("MainActivity", "onCreate name [" + testNotif.getActionKey() + "]");
-
-        Calendar cal = Calendar.getInstance();
-
-        //cal.add(Calendar.MINUTE, 1);
-        cal.add(Calendar.SECOND, 10);
-        //cal.set(Calendar.SECOND, 0);
-
-
-        testNotif.setTime(cal);
-        testNotif.setAlarm(this);
-
-        Storage.getInstance().replaceAbstractBaseEvent(testNotif);
-
-        //End of Sprint 1 Presentation Plan
+        SprintPresentationTester.runTest(this);
 
         buttonclick();
         settingsbuttonclick();

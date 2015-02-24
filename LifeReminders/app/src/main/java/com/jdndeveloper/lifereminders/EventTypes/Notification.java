@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.jdndeveloper.lifereminders.AlarmRecieverAndService.AlarmReceiver;
 import com.jdndeveloper.lifereminders.Constants;
@@ -11,6 +12,7 @@ import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Scanner;
 
 /**
  * Created by jgemig on 1/27/2015.
@@ -87,9 +89,13 @@ public class Notification extends AbstractBaseEvent {
 
     //Sends a notifications with the given title and text
     public void sendNotification(Context context) {
+        Scanner in = new Scanner(this.getKey()).useDelimiter("[^0-9]+");
+        int requestID = in.nextInt();
+
         Storage.getInstance().getAction(Constants.ACTION_TEST_KEY).sendCorrectNotification(context,
                 Storage.getInstance().getReminder(reminderContainerKey).getName(),
-                Storage.getInstance().getLifestyle(lifestyleContainerKey).getName());
+                Storage.getInstance().getLifestyle(lifestyleContainerKey).getName(),
+                requestID);
     }
 
     //sets an alarm for the current scheduled time of the notification
@@ -99,7 +105,13 @@ public class Notification extends AbstractBaseEvent {
 
         myIntent.putExtra("NOTIF_KEY", this.getKey()); //Josh, use getExtras to retrieve this
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, myIntent,0);
+        Scanner in = new Scanner(this.getKey()).useDelimiter("[^0-9]+");
+        int requestID = in.nextInt();
+        Log.e("Notification", Integer.toString(requestID));
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestID,
+                myIntent, 0);
+
 
         //Create the AlarmManager
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
