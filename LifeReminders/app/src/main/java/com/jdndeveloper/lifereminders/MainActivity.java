@@ -114,15 +114,13 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void buttonclickplus(View v) {
-        Toast.makeText(MainActivity.this,
-                "ImageButton is clicked!", Toast.LENGTH_LONG).show();
         switch (FragmentLocation) {
             //Go To Lifestyle Activity
             case 1:
                 Log.e("Main Activity","newLifestyle");
                 Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
                 Lifestyle lifestyle = Storage.getInstance().getNewLifeStyle();
-                lifestyle.setName("");
+                lifestyle.setName("New Lifestyle");
                 Storage.getInstance().commitAbstractBaseEvent(lifestyle);
                 lifestyleIntent.putExtra("Lifestyle", lifestyle);
                 startActivity(lifestyleIntent);
@@ -132,7 +130,7 @@ public class MainActivity extends ActionBarActivity
                 Log.e("Main Activity","newReminder");
                 Intent reminderIntent = new Intent(context, ReminderActivity.class);
                 Reminder reminder = Storage.getInstance().getNewReminder();
-                reminder.setName("");
+                reminder.setName("New Reminder");
                 Storage.getInstance().commitAbstractBaseEvent(reminder);
                 reminderIntent.putExtra("Reminder", reminder);
                 startActivity(reminderIntent);
@@ -142,7 +140,7 @@ public class MainActivity extends ActionBarActivity
                 Log.e("Main Activity","newNotification");
                 Intent notificationIntent = new Intent(context, NotificationActivity.class);
                 Notification notification = Storage.getInstance().getNewNotification();
-                notification.setName("");
+                notification.setName("New Notification");
                 Storage.getInstance().commitAbstractBaseEvent(notification);
                 notificationIntent.putExtra("Notification", notification);
                 startActivity(notificationIntent);
