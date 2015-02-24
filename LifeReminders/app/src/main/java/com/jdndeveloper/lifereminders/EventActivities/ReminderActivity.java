@@ -43,6 +43,8 @@ public class ReminderActivity extends ActionBarActivity {
         passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
         Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
 
+
+        //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.reminderName);
         editText.setText(passedReminder.getName());
         editText.addTextChangedListener(new TextWatcher(){
@@ -57,7 +59,7 @@ public class ReminderActivity extends ActionBarActivity {
         });
 
 
-
+        //Create listener for enables/disabled switch
         Switch theSwitch = (Switch) findViewById(R.id.reminderEnabled);
         theSwitch.setOnCheckedChangeListener(null);
         theSwitch.setChecked(passedReminder.isEnabled());
