@@ -81,16 +81,13 @@ public class SharedStorage {
         toastSaved("initializedFirstRun");
     }
 
-    public String getNewLifestyleKey(){
-        int key = sharedPreferences.getInt("lifestyleIndex", -1);
-
-        if (key != -1) {
-            sharedPreferencePutInt("lifestyleIndex", ++key);
-            return ("Lifestyle_" + key);
-        }
-        return null;
+    private boolean checkKeyChains(String key){
+        if (getSharedPreferenceKey("all_lifestyles").contains(key)) return true;
+        if (getSharedPreferenceKey("all_reminders").contains(key)) return true;
+        if (getSharedPreferenceKey("all_notifications").contains(key)) return true;
+        if (getSharedPreferenceKey("all_actions").contains(key)) return true;
+        return false;
     }
-
     public boolean commitNewAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
         // check for null
         if (abstractBaseEvent == null) return false;
@@ -100,6 +97,8 @@ public class SharedStorage {
         if (key == null) return false;
         // check to see if key exists
         if (getSharedPreferenceKey(key) != null) return false;
+        // verify key is not already in a keychain
+        if (checkKeyChains(key) == true) return false;
         // set up a null keyChain
         String keyChain = null;
         // get a keyChain for the abs of type
@@ -117,16 +116,32 @@ public class SharedStorage {
         String all_keys = getSharedPreferenceKey(keyChain) + "," + key;
         sharedPreferencePutString(keyChain, all_keys);
 
-        saveAbstractBaseEvent(abstractBaseEvent);
+        return saveAbstractBaseEvent(abstractBaseEvent);
+    }
+
+    public boolean saveAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
+        // check that null wasn't passed
+        if (abstractBaseEvent == null) return false;
+
+        String key = abstractBaseEvent.getKey();
+        // verify the key isn't null
+        if (key == null) return false;
+        // verify the key is in a keychain
+        if (checkKeyChains(key) == false) return false;
+
+        String gsonString = gsonObject.toJson(abstractBaseEvent);
+        sharedPreferencePutString(key, gsonString);
         return true;
     }
 
-    public void saveAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
-        if (abstractBaseEvent == null) return;
+    public String getNewLifestyleKey(){
+        int key = sharedPreferences.getInt("lifestyleIndex", -1);
 
-        String key = abstractBaseEvent.getKey();
-        String gsonString = gsonObject.toJson(abstractBaseEvent);
-        sharedPreferencePutString(key, gsonString);
+        if (key != -1) {
+            sharedPreferencePutInt("lifestyleIndex", ++key);
+            return ("Lifestyle_" + key);
+        }
+        return null;
     }
 
     public String getNewReminderKey(){
