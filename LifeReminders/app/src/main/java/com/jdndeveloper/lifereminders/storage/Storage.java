@@ -89,7 +89,7 @@ public class Storage implements StorageInterface {
         if (notificationGsonString != null)
             return gsonObject.fromJson(notificationGsonString, Notification.class);
 
-        String failedNotificationGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Reminder_01");
+        String failedNotificationGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Notification_01");
         return gsonObject.fromJson(failedNotificationGsonString, Notification.class);
     }
 
@@ -100,7 +100,7 @@ public class Storage implements StorageInterface {
         if (actionGsonString != null)
             return gsonObject.fromJson(actionGsonString, Action.class);
 
-        String failedActionGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Reminder_01");
+        String failedActionGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Action_01");
         return gsonObject.fromJson(failedActionGsonString, Action.class);
     }
 
