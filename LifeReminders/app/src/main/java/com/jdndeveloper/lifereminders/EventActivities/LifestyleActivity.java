@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.R;
 
@@ -114,6 +116,18 @@ public class LifestyleActivity extends ActionBarActivity {
                 R.layout.reminder_row, reminderArray
         ));
         buttonclick();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("LifestyleActivity", "position " + Integer.toString(position));
+                Log.e("LifestyleActivity","newActivity Reminder");
+                Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
+                Reminder reminder = reminderArray.get(position);
+                reminderIntent.putExtra("Reminder", reminder);
+                startActivity(reminderIntent);
+            }
+        });
 
     }
 
