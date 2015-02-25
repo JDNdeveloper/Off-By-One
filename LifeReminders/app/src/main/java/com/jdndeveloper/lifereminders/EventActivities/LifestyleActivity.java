@@ -101,7 +101,7 @@ public class LifestyleActivity extends ActionBarActivity {
 
 
         //Not sure if this works or not need to have some other components before I can test
-        /*ListView listView = (ListView) findViewById(R.id.lifestyleListView);
+        ListView listView = (ListView) findViewById(R.id.lifestyleListView);
         final List<Reminder> reminderArray = new ArrayList<>();
         //abstractBaseEvents = passedLifestyle.getReminders();
         //Storage.getInstance().getReminder()
@@ -112,7 +112,7 @@ public class LifestyleActivity extends ActionBarActivity {
         listView.setAdapter(new ReminderAdapter(this,
                 android.R.layout.simple_list_item_2,
                 R.layout.reminder_row, reminderArray
-        ));*/
+        ));
         buttonclick();
 
     }
