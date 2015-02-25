@@ -123,15 +123,19 @@ public class LifestyleActivity extends ActionBarActivity {
         buttonlistner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonclickplus(v);
+                Log.e("Lifestyle Activity","newReminder");
+                Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
+                Reminder reminder = Storage.getInstance().getNewReminder();
+                reminder.setName("");
+                reminder.setLifestyleContainerKey(passedLifestyle.getKey());
+                passedLifestyle.addReminder(reminder.getKey());
+                Storage.getInstance().commitAbstractBaseEvent(reminder);
+                Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+                reminderIntent.putExtra("Reminder", reminder);
+                startActivity(reminderIntent);
             }
         });
-    }
 
-
-
-    public void buttonclickplus(View v) {
-        //do action
     }
 
     @Override
