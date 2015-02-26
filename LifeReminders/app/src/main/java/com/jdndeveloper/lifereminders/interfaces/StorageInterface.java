@@ -30,6 +30,7 @@ public interface StorageInterface {
     // updater and commit - returns a boolean status
     boolean replaceAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent);
     boolean commitAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent);
+    boolean deleteAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent);
 
     // single creation - they return an object of said type
     // these ALL return NULL if there is a problem with creation
