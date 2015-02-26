@@ -2,6 +2,7 @@ package com.jdndeveloper.lifereminders.EventActivities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -16,17 +17,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
+import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.R;
+import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
+import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
 import com.jdndeveloper.lifereminders.storage.Storage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReminderActivity extends ActionBarActivity {
 
@@ -84,6 +93,31 @@ public class ReminderActivity extends ActionBarActivity {
             }
         });
 
+        ListView listView = (ListView) findViewById(R.id.reminderListView);
+        final List<Notification> notificationArray = new ArrayList<>();
+        //abstractBaseEvents = passedLifestyle.getReminders();
+        //Storage.getInstance().getReminder()
+        for(String r : passedReminder.getNotificationKeys()){
+            Log.e("Reminder Activity",r);
+            notificationArray.add(Storage.getInstance().getNotification(r));
+        }
+        listView.setAdapter(new NotificationAdapter(this,
+                android.R.layout.simple_list_item_2,
+                R.layout.notification_row, notificationArray
+        ));
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("ReminderActivity", "position " + Integer.toString(position));
+                Log.e("ReminderActivity","newActivity Notification");
+                Intent notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
+                Notification notification = notificationArray.get(position);
+                notificationIntent.putExtra("Notification", notification);
+                startActivity(notificationIntent);
+            }
+        });
         buttonclick();
     }
 
@@ -105,6 +139,17 @@ public class ReminderActivity extends ActionBarActivity {
     public void buttonclickplus(View v) {
         //do action
         Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
+        Log.e("Notification Activity","newNotification");
+        Intent notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
+        Notification notification = Storage.getInstance().getNewNotification();
+        notification.setName("");
+        notification.setReminderContainerKey(passedReminder.getKey());
+        notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
+        passedReminder.addNotification(notification.getKey());
+        Storage.getInstance().commitAbstractBaseEvent(notification);
+        Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
+        notificationIntent.putExtra("Notification", notification);
+        startActivity(notificationIntent);
     }
 
 
