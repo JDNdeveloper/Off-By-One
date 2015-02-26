@@ -198,4 +198,9 @@ public class Storage implements StorageInterface {
     public boolean commitAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent) {
         return sharedStorageInstance.commitNewAbstractBaseEvent(abstractBaseEvent);
     }
+
+    @Override
+    public boolean deleteAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent) {
+        return sharedStorageInstance.deleteAbstractBaseEvent(abstractBaseEvent);
+    }
 }

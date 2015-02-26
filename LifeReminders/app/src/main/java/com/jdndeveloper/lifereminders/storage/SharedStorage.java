@@ -133,7 +133,18 @@ public class SharedStorage {
         sharedPreferencePutString(key, gsonString);
         return true;
     }
+    protected boolean deleteAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
+        // check that null wasn't passed
+        if (abstractBaseEvent == null) return false;
 
+        String key = abstractBaseEvent.getKey();
+        // verify the key isn't null
+        if (key == null) return false;
+        // verify the key is in a keychain
+        if (checkKeyChains(key) == false) return false;
+
+        return true;
+    }
     protected String getNewLifestyleKey(){
         int key = sharedPreferences.getInt("lifestyleIndex", -1);
 
