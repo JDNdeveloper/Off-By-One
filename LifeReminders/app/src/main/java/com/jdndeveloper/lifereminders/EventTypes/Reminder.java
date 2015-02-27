@@ -1,5 +1,7 @@
 package com.jdndeveloper.lifereminders.EventTypes;
 
+import com.jdndeveloper.lifereminders.Constants;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,13 +22,13 @@ public class Reminder extends AbstractBaseEvent {
     //default constructor
     public Reminder() {
         super("DEFAULT REMINDER NAME", "DEFAULT_REMINDER_KEY", false);
-        lifestyleContainerKey = "DEFAULT_PARENT_LIFESTYLE_KEY";
+        lifestyleContainerKey = Constants.LIFESTYLE_FAILED_KEY;
         this.notificationKeys = new ArrayList<String>();
     }
     //custom constructor
     public Reminder(String name, String key, boolean enabled) {
         super(name,key,enabled);
-        lifestyleContainerKey = "DEFAULT_PARENT_LIFESTYLE_KEY";
+        lifestyleContainerKey = Constants.LIFESTYLE_FAILED_KEY;
         this.notificationKeys = new ArrayList<String>();
 
     }

@@ -37,9 +37,9 @@ public class Notification extends AbstractBaseEvent {
     public Notification() {
         super("DEFAULT NOTIFICATION NAME", "DEFAULT_NOTIFICATION_KEY", true);
 
-        lifestyleContainerKey = "DEFAULT_PARENT_LIFESTYLE_KEY";
-        reminderContainerKey = "DEFAULT_PARENT_REMINDER_KEY";
-        actionKey = "DEFAULT_CHILD_ACTION_KEY";
+        lifestyleContainerKey = Constants.LIFESTYLE_FAILED_KEY;
+        reminderContainerKey = Constants.REMINDER_FAILED_KEY;
+        actionKey = Constants.ACTION_FAILED_KEY;
 
         repeatDays = new ArrayList<Integer>(7);
         repeatDaysEnabled = false;
