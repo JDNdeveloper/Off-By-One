@@ -1,7 +1,9 @@
 package com.jdndeveloper.lifereminders;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
@@ -346,6 +348,50 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
             });
+
+
+            //long press to delete code
+            final Context c = getActivity();
+
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    final AbstractBaseEvent abe = (AbstractBaseEvent) parent.getAdapter().getItem(position);
+                    String tempType = "";
+                    String tempName = "";
+                    if (abe instanceof Lifestyle) {
+                        tempType = "Lifestyle";
+                        tempName = abe.getName();
+                    }
+                    if (abe instanceof Reminder) {
+                        tempType = "Reminder";
+                        tempName = abe.getName();
+                    }
+                    if (abe instanceof Notification) {
+                        tempType = "Notification";
+                        tempName = " this notification";
+                    }
+                    final String type = tempType;
+                    final String name = tempName;
+                    new AlertDialog.Builder(c)
+                            .setTitle("Delete " + type)
+                            .setMessage("Are you sure you want to delete " + name + "?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Storage.getInstance().deleteAbstractBaseEvent(abe);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .show();
+
+                    return true; //not very descriptive but best I could do currently
+                }
+            });
+
             return rootView;
         }
 
