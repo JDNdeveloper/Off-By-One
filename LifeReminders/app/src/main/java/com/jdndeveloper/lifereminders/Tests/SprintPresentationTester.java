@@ -34,6 +34,7 @@ public class SprintPresentationTester {
 
         testNotif.setTime(cal);
         testNotif.setAlarm(context);
+        //testNotif.removeAlarm(context);
 
         Storage.getInstance().replaceAbstractBaseEvent(testNotif);
 
