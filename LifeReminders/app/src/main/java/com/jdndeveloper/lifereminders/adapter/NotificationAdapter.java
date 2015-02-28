@@ -89,8 +89,10 @@ public class NotificationAdapter extends ArrayAdapter{
             //containerReminder.setText("TEST 123 hello HOW IS IT GOING??");
         }else {
             containerReminder.setText("Unsorted");
-            containerReminder.setTextColor(Color.parseColor("#808080"));
+            containerReminder.setTextColor(Color.parseColor("#008080"));
         }
+
+
 
         theSwitch.setChecked(notifications.get(position).isEnabled());
 
@@ -119,6 +121,7 @@ public class NotificationAdapter extends ArrayAdapter{
         TextView repeatText = (TextView) convertView.findViewById(R.id.rowNotificationRepeatText);
         TextView alarmTypeText = (TextView) convertView.findViewById(R.id.rowNotificationAlarmTypeText);
 
+
         //repeatText.setText("repeat test");
         //alarmTypeText.setText("alarmtype test");
 
@@ -131,8 +134,26 @@ public class NotificationAdapter extends ArrayAdapter{
 
         alarmTypeText.setText(getAlarmTypeText(notifications.get(position)));
 
+        if (!Storage.getInstance().getLifestyle(notifications.get(position)
+                .getLifestyleContainerKey()).isEnabled()
+                || !Storage.getInstance().getReminder(notifications.get(position)
+                .getReminderContainerKey()).isEnabled())
+            setEverythingDisabled(theSwitch, rowTextView, containerReminder
+                    , repeatText, alarmTypeText);
+
         return convertView;
     }
+
+    public void setEverythingDisabled(Switch s, TextView t, TextView r, TextView q, TextView m) {
+        if (android.os.Build.VERSION.SDK_INT >= 16) {
+            s.setThumbResource(R.drawable.apptheme_switch_thumb_disabled_holo_light);
+        }
+        t.setTextColor(Color.parseColor("#808080"));
+        r.setTextColor(Color.parseColor("#808080"));
+        q.setTextColor(Color.parseColor("#808080"));
+        m.setTextColor(Color.parseColor("#808080"));
+    }
+
     @Override
     public int getCount() {
         return (notifications != null) ? notifications.size() : 0;
