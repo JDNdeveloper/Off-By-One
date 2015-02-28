@@ -80,26 +80,19 @@ public class NotificationAdapter extends ArrayAdapter{
 
         String reminderKey = notifications.get(position).getReminderContainerKey();
 
+        Log.i("NotificationAdapter", reminderKey);
 
-        if (Storage.getInstance().
-                getReminder(reminderKey) != null) {
-            if (Storage.getInstance().getReminder(reminderKey).getKey()
-                    != Constants.REMINDER_FAILED_KEY
-                    // the following code shouldn't be necessary, but currently storage isn't
-                    // returning failed key object like it should when it isn't found
-                    // remove below code marked REMOVE after John fixes this
-                    && !Storage.getInstance().getReminder(reminderKey).getName() //REMOVE, storage
-                    .equals("Failed Reminder") ) {                               //REMOVE, storage
-                containerReminder.setText(Storage.getInstance().getReminder(reminderKey).getName());
-                //containerReminder.setText("TEST 123 hello HOW IS IT GOING??");
-            }else {
-                containerReminder.setText("Unsorted");
-                containerReminder.setTextColor(Color.parseColor("#808080"));
-            }
-        } else {
+        if (!Storage.getInstance().getReminder(reminderKey).getKey()
+                .equals(Constants.REMINDER_FAILED_KEY)) {
+            containerReminder.setText(Storage.getInstance().getReminder(reminderKey).getName());
+            Log.i("NotificationAdapter", Storage.getInstance().getReminder(reminderKey).getKey());
+            //containerReminder.setText("TEST 123 hello HOW IS IT GOING??");
+        }else {
             containerReminder.setText("Unsorted");
-            containerReminder.setTextColor(Color.parseColor("#808080"));
+            containerReminder.setTextColor(Color.parseColor("#008080"));
         }
+
+
 
         theSwitch.setChecked(notifications.get(position).isEnabled());
 
@@ -128,6 +121,7 @@ public class NotificationAdapter extends ArrayAdapter{
         TextView repeatText = (TextView) convertView.findViewById(R.id.rowNotificationRepeatText);
         TextView alarmTypeText = (TextView) convertView.findViewById(R.id.rowNotificationAlarmTypeText);
 
+
         //repeatText.setText("repeat test");
         //alarmTypeText.setText("alarmtype test");
 
@@ -140,8 +134,26 @@ public class NotificationAdapter extends ArrayAdapter{
 
         alarmTypeText.setText(getAlarmTypeText(notifications.get(position)));
 
+        if (!Storage.getInstance().getLifestyle(notifications.get(position)
+                .getLifestyleContainerKey()).isEnabled()
+                || !Storage.getInstance().getReminder(notifications.get(position)
+                .getReminderContainerKey()).isEnabled())
+            setEverythingDisabled(theSwitch, rowTextView, containerReminder
+                    , repeatText, alarmTypeText);
+
         return convertView;
     }
+
+    public void setEverythingDisabled(Switch s, TextView t, TextView r, TextView q, TextView m) {
+        if (android.os.Build.VERSION.SDK_INT >= 16) {
+            s.setThumbResource(R.drawable.apptheme_switch_thumb_disabled_holo_light);
+        }
+        t.setTextColor(Color.parseColor("#808080"));
+        r.setTextColor(Color.parseColor("#808080"));
+        q.setTextColor(Color.parseColor("#808080"));
+        m.setTextColor(Color.parseColor("#808080"));
+    }
+
     @Override
     public int getCount() {
         return (notifications != null) ? notifications.size() : 0;

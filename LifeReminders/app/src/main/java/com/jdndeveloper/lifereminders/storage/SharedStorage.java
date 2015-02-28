@@ -133,7 +133,18 @@ public class SharedStorage {
         sharedPreferencePutString(key, gsonString);
         return true;
     }
+    protected boolean deleteAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
+        // check that null wasn't passed
+        if (abstractBaseEvent == null) return false;
 
+        String key = abstractBaseEvent.getKey();
+        // verify the key isn't null
+        if (key == null) return false;
+        // verify the key is in a keychain
+        if (checkKeyChains(key) == false) return false;
+
+        return true;
+    }
     protected String getNewLifestyleKey(){
         int key = sharedPreferences.getInt("lifestyleIndex", -1);
 
@@ -201,13 +212,13 @@ public class SharedStorage {
     private String lifestyle_02 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_02\",\"name\":\"UCSC\",\"enabled\":true}";
     private String lifestyle_03 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_03\",\"name\":\"Vacation\",\"enabled\":true}";
     private String test_Lifestyle_01 = "{\"lifestyleReminders\":[\"Test_Reminder_01\"],\"key\":\"Test_Lifestyle_01\",\"name\":\"Test Lifestyle 01\",\"enabled\":true}";
-    private String failed_Lifestyle_01 = "{\"lifestyleReminders\":[\"Failed_Reminder_01\"],\"key\":\"Failed_Lifestyle_01\",\"name\":\"Failed Lifestyle\",\"enabled\":false}";
+    private String failed_Lifestyle_01 = "{\"lifestyleReminders\":[\"Failed_Reminder_01\"],\"key\":\"Failed_Lifestyle_01\",\"name\":\"Failed Lifestyle\",\"enabled\":true}";
 
     private String reminder_01 = "{\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"notificationKeys\":[\"Notification_01\",\"Notification_02\",\"Notification_03\"],\"key\":\"Reminder_01\",\"name\":\"Scrum Meeting\",\"enabled\":true}";
     private String reminder_02 = "{\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"notificationKeys\":[\"Notification_01\",\"Notification_02\",\"Notification_03\"],\"key\":\"Reminder_02\",\"name\":\"Potty Break\",\"enabled\":true}";
     private String reminder_03 = "{\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"notificationKeys\":[\"Notification_01\",\"Notification_02\",\"Notification_03\"],\"key\":\"Reminder_03\",\"name\":\"Time out\",\"enabled\":true}";
     private String reminder_04 = "{\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"notificationKeys\":[\"Notification_01\",\"Notification_02\",\"Notification_03\"],\"key\":\"Reminder_04\",\"name\":\"Stuff\",\"enabled\":true}";
-    private String failed_reminder_01 = "{\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"notificationKeys\":[\"Failed_Notification_01\"],\"key\":\"Failed_Reminder_01\",\"name\":\"Failed Reminder\",\"enabled\":false}";
+    private String failed_reminder_01 = "{\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"notificationKeys\":[\"Failed_Notification_01\"],\"key\":\"Failed_Reminder_01\",\"name\":\"Failed Reminder\",\"enabled\":true}";
     private String test_reminder_01 = "{\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"notificationKeys\":[\"Test_Notification_01\"],\"key\":\"Test_Reminder_01\",\"name\":\"Test Reminder 01\",\"enabled\":true}";
 
     private String notification_01 = "{\"actionKey\":\"DEFAULT_CHILD_ACTION_KEY\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"reminderContainerKey\":\"DEFAULT_PARENT_REMINDER_KEY\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Notification_01\",\"name\":\"Notification 1\",\"enabled\":true}";

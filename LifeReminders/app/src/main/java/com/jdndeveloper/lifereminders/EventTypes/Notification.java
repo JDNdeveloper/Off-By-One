@@ -37,9 +37,9 @@ public class Notification extends AbstractBaseEvent {
     public Notification() {
         super("DEFAULT NOTIFICATION NAME", "DEFAULT_NOTIFICATION_KEY", true);
 
-        lifestyleContainerKey = "DEFAULT_PARENT_LIFESTYLE_KEY";
-        reminderContainerKey = "DEFAULT_PARENT_REMINDER_KEY";
-        actionKey = "DEFAULT_CHILD_ACTION_KEY";
+        lifestyleContainerKey = Constants.LIFESTYLE_FAILED_KEY;
+        reminderContainerKey = Constants.REMINDER_FAILED_KEY;
+        actionKey = Constants.ACTION_FAILED_KEY;
 
         repeatDays = new ArrayList<Integer>(7);
         repeatDaysEnabled = false;
@@ -87,6 +87,25 @@ public class Notification extends AbstractBaseEvent {
         return calendar;
     }
 
+    //removes alarm from the phone
+    public boolean removeAlarm(Context context) {
+        Intent myIntent = new Intent(context, AlarmReceiver.class);
+
+        myIntent.putExtra("NOTIF_KEY", this.getKey()); //Josh, use getExtras to retrieve this
+
+        Scanner in = new Scanner(this.getKey()).useDelimiter("[^0-9]+");
+        int requestID = in.nextInt();
+        Log.e("Notification", Integer.toString(requestID));
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestID,
+                myIntent, 0);
+
+        //Create the AlarmManager
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+        return true;
+    }
+
     //Sends a notifications with the given title and text
     public void sendNotification(Context context) {
         Scanner in = new Scanner(this.getKey()).useDelimiter("[^0-9]+");
@@ -111,7 +130,6 @@ public class Notification extends AbstractBaseEvent {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestID,
                 myIntent, 0);
-
 
         //Create the AlarmManager
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

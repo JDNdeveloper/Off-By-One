@@ -60,27 +60,25 @@ public class ReminderAdapter extends ArrayAdapter{
 
 
         //sets lifestyle container name
-        if (Storage.getInstance().
-                getLifestyle(reminders.get(position).getLifestyleContainerKey()) != null) {
-            if (Storage.getInstance().
-                    getLifestyle(reminders.get(position).getLifestyleContainerKey()).getKey()
-                    != Constants.LIFESTYLE_FAILED_KEY) {
-                rowContainerLifestyleTextView.setText(Storage.getInstance().
-                        getLifestyle(reminders.get(position).getLifestyleContainerKey()).getName());
-            } else {
-                //rowContainerLifestyleTextView.setText("FAILED LIFESTYLE");
-                //rowContainerLifestyleTextView.setVisibility(View.GONE);
-                rowContainerLifestyleTextView.setText("Unsorted");
-                //to use R.color.accent (which we want) would need context :/
-                rowContainerLifestyleTextView.setTextColor(Color.parseColor("#808080"));
-            }
+        //rowContainerLifestyleTextView.setText("BROKEN!!! BROKEN!!!"); //REMOVE
+        //UNCOMMENT BELOW AFTER STORAGE IS FIXED lines 70-71 in Storage.java are BROKEN
+
+        if (!Storage.getInstance().
+                getLifestyle(reminders.get(position).getLifestyleContainerKey()).getKey()
+                .equals(Constants.LIFESTYLE_FAILED_KEY)) {
+            rowContainerLifestyleTextView.setText(Storage.getInstance().
+                    getLifestyle(reminders.get(position).getLifestyleContainerKey()).getName());
         } else {
             //rowContainerLifestyleTextView.setText("FAILED LIFESTYLE");
             //rowContainerLifestyleTextView.setVisibility(View.GONE);
             rowContainerLifestyleTextView.setText("Unsorted");
-            //to use R.color.accent (which we want) would need context :/
-            rowContainerLifestyleTextView.setTextColor(Color.parseColor("#808080"));
+            //to use R.color.gray (which we want) would need context :/
+            rowContainerLifestyleTextView.setTextColor(Color.parseColor("#3b6a8e"));
         }
+
+        if (!Storage.getInstance().getLifestyle(reminders.get(position)
+                .getLifestyleContainerKey()).isEnabled())
+            setEverythingDisabled(theSwitch, rowTextView, rowContainerLifestyleTextView);
 
 
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -102,6 +100,15 @@ public class ReminderAdapter extends ArrayAdapter{
 
         return convertView;
     }
+
+    public void setEverythingDisabled(Switch s, TextView t, TextView r) {
+        if (android.os.Build.VERSION.SDK_INT >= 16) {
+            s.setThumbResource(R.drawable.apptheme_switch_thumb_disabled_holo_light);
+        }
+        t.setTextColor(Color.parseColor("#808080"));
+        r.setTextColor(Color.parseColor("#808080"));
+    }
+
 
     @Override
     public int getCount() {

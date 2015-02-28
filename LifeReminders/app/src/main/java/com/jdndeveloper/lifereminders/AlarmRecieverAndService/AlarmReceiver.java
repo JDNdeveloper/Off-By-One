@@ -13,6 +13,8 @@ import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
+import java.util.Calendar;
+
 /**
  * Created by Josh Innis on 1/27/2015.
  */
@@ -33,7 +35,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             Log.i("AlarmReceiver", "notifKey is null");
         }else{
             Log.i("AlarmReceiver", notifKey);
+            Calendar rightNow = Calendar.getInstance();
             Notification n = Storage.getInstance().getNotification(notifKey);
+
+
             /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
             const value is called*/
             Lifestyle lifeContainer = Storage.getInstance().getLifestyle(n.getLifestyleContainerKey());
@@ -55,10 +60,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 ///END OF TEMPORARY
 
                 n.sendNotification(context);
-
                 //set next alarm - Uncomment to add set next alarm functionality
-                //n.makeNextNotificationTime(); //make sure not null, implies no next time if null
-                //n.setAlarm(context);
+                if(n.isRepeating()) {
+                    n.makeNextNotificationTime(); //make sure not null, implies no next time if null
+                    n.setAlarm(context);
+                }else{
+                    Storage.getInstance().deleteAbstractBaseEvent(n);
+                }
 
                 //Uncomment after storage is working - tell storage to save the new notification time
                 //Storage.getInstance().replaceNotification(n, n.getKey());

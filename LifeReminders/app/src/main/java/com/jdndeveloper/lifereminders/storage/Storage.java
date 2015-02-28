@@ -68,7 +68,7 @@ public class Storage implements StorageInterface {
             return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
 
         String failedLifestyleGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Lifestyle_01");
-        return gsonObject.fromJson(lifestyleGsonString, Lifestyle.class);
+        return gsonObject.fromJson(failedLifestyleGsonString, Lifestyle.class);
     }
 
     @Override
@@ -197,5 +197,10 @@ public class Storage implements StorageInterface {
     @Override
     public boolean commitAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent) {
         return sharedStorageInstance.commitNewAbstractBaseEvent(abstractBaseEvent);
+    }
+
+    @Override
+    public boolean deleteAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent) {
+        return sharedStorageInstance.deleteAbstractBaseEvent(abstractBaseEvent);
     }
 }

@@ -102,7 +102,7 @@ public class LifestyleActivity extends ActionBarActivity {
         });
 
 
-        //Not sure if this works or not need to have some other components before I can test
+
         ListView listView = (ListView) findViewById(R.id.lifestyleListView);
         final List<Reminder> reminderArray = new ArrayList<>();
         //abstractBaseEvents = passedLifestyle.getReminders();
@@ -214,7 +214,7 @@ public class LifestyleActivity extends ActionBarActivity {
                 final Dialog dialog = new Dialog(c);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.about);
-
+                Log.e("Lifestyle Activity","return to previous activity");
                 dialog.show();
                 return true;
             }
