@@ -42,12 +42,13 @@ public class Action extends AbstractBaseEvent {
         cameraLight = false;
     }
 
-    public void sendCorrectNotification(Context context, String title, String text, int requestID) {
+    public void sendCorrectNotification(Context context, String title, String text, int requestID
+            , String remKey) {
         PhoneInterface phone = Phone.getInstance(context);
 
 
         if (notificationBar) {
-            phone.sendMessageToNotificationBar(title, text, requestID);
+            phone.sendMessageToNotificationBar(title, text, requestID, remKey);
         }
 
         if (vibrate) phone.vibratePhone(vibrateDuration);
