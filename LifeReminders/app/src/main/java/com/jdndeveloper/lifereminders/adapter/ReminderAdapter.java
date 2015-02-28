@@ -60,27 +60,21 @@ public class ReminderAdapter extends ArrayAdapter{
 
 
         //sets lifestyle container name
-        if (Storage.getInstance().
-                getLifestyle(reminders.get(position).getLifestyleContainerKey()) != null) {
-            if (Storage.getInstance().
-                    getLifestyle(reminders.get(position).getLifestyleContainerKey()).getKey()
-                    != Constants.LIFESTYLE_FAILED_KEY) {
-                rowContainerLifestyleTextView.setText(Storage.getInstance().
-                        getLifestyle(reminders.get(position).getLifestyleContainerKey()).getName());
-            } else {
-                //rowContainerLifestyleTextView.setText("FAILED LIFESTYLE");
-                //rowContainerLifestyleTextView.setVisibility(View.GONE);
-                rowContainerLifestyleTextView.setText("Unsorted");
-                //to use R.color.accent (which we want) would need context :/
-                rowContainerLifestyleTextView.setTextColor(Color.parseColor("#808080"));
-            }
+        rowContainerLifestyleTextView.setText("BROKEN!!! BROKEN!!!"); //REMOVE
+        /*
+        if (!Storage.getInstance().
+                getLifestyle(reminders.get(position).getLifestyleContainerKey()).getKey()
+                .equals(Constants.LIFESTYLE_FAILED_KEY)) {
+            rowContainerLifestyleTextView.setText(Storage.getInstance().
+                    getLifestyle(reminders.get(position).getLifestyleContainerKey()).getName());
         } else {
             //rowContainerLifestyleTextView.setText("FAILED LIFESTYLE");
             //rowContainerLifestyleTextView.setVisibility(View.GONE);
             rowContainerLifestyleTextView.setText("Unsorted");
             //to use R.color.accent (which we want) would need context :/
             rowContainerLifestyleTextView.setTextColor(Color.parseColor("#808080"));
-        }
+        } */
+
 
 
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
