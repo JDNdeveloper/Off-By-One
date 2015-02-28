@@ -61,6 +61,7 @@ public class ReminderAdapter extends ArrayAdapter{
 
         //sets lifestyle container name
         rowContainerLifestyleTextView.setText("BROKEN!!! BROKEN!!!"); //REMOVE
+        //UNCOMMENT BELOW AFTER STORAGE IS FIXED lines 70-71 in Storage.java are BROKEN
         /*
         if (!Storage.getInstance().
                 getLifestyle(reminders.get(position).getLifestyleContainerKey()).getKey()
