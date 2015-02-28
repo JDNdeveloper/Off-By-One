@@ -114,7 +114,8 @@ public class Notification extends AbstractBaseEvent {
         Storage.getInstance().getAction(Constants.ACTION_TEST_KEY).sendCorrectNotification(context,
                 Storage.getInstance().getReminder(reminderContainerKey).getName(),
                 Storage.getInstance().getLifestyle(lifestyleContainerKey).getName(),
-                requestID);
+                requestID,
+                reminderContainerKey);
     }
 
     //sets an alarm for the current scheduled time of the notification
@@ -129,7 +130,7 @@ public class Notification extends AbstractBaseEvent {
         Log.e("Notification", Integer.toString(requestID));
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestID,
-                myIntent, 0);
+                myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         //Create the AlarmManager
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
