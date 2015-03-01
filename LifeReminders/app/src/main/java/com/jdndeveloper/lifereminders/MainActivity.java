@@ -147,15 +147,6 @@ public class MainActivity extends ActionBarActivity
         startActivity(reminderIntent);
     }
 
-    public void changeStatusBarColor(int colorID) {
-        if (android.os.Build.VERSION.SDK_INT >= 21) {
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(this.getResources().getColor(colorID));
-        }
-    }
-
     private void loadNotification(Notification notification) {
         FragmentLocation = 3;
         Intent notificationIntent = new Intent(context, NotificationActivity.class);
