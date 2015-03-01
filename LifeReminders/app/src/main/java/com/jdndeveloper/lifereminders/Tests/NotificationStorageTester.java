@@ -65,6 +65,7 @@ public class NotificationStorageTester {
         n1.setRepeatDay(6, true); // sets repeat on Friday
         n1.setRepeatDay(7, true); // sets repeat on Friday
 
+
         Action a1 = Storage.getInstance().getAction("Test_Action_01");
         a1.setNotificationSound(true);
         a1.setVibrate(true);
