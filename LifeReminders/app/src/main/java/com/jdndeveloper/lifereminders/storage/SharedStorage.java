@@ -29,6 +29,8 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
+    private final int SHARED_STORAGE_VERSION = 2;
+
     private SharedStorage(Context context){
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -83,6 +85,8 @@ public class SharedStorage {
         sharedPreferencePutInt("reminderIndex", 10);
         sharedPreferencePutInt("notificationIndex", 10);
         sharedPreferencePutInt("actionIndex", 10);
+
+        sharedPreferencePutInt("version", SHARED_STORAGE_VERSION);
 
         toastSaved("initializedFirstRun");
     }
@@ -307,7 +311,7 @@ public class SharedStorage {
     }
     private void loadPreferences(){
         // for the very first time the app is run and preferences haven't been inited yet.
-        if (sharedPreferences.getInt("actionIndex", -1) == -1) {
+        if (sharedPreferences.getInt("version", -1) != SHARED_STORAGE_VERSION) {
 //            sharedPreferences.getLong();
             initializeFirstRun();
         }
@@ -318,9 +322,12 @@ public class SharedStorage {
     private String All_Notifications = "Notification_01,Notification_02,Notification_03,Test_Notification_01,Failed_Notification_01";
     private String All_Actions = "Test_Action_01,Failed_Action_01";
 
-    private String lifestyle_01 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_01\",\"name\":\"Happy Time\",\"enabled\":false}";
-    private String lifestyle_02 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_02\",\"name\":\"UCSC\",\"enabled\":true}";
-    private String lifestyle_03 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_03\",\"name\":\"Vacation\",\"enabled\":true}";
+//    private String lifestyle_01 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_01\",\"name\":\"Happy Time\",\"enabled\":false}";
+    private String lifestyle_01 = "{\"lifestyleReminders\":[\"Reminder_01\"],\"key\":\"Lifestyle_01\",\"name\":\"Happy Time\",\"enabled\":false}";
+//    private String lifestyle_02 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_02\",\"name\":\"UCSC\",\"enabled\":true}";
+    private String lifestyle_02 = "{\"lifestyleReminders\":[\"Reminder_02\"],\"key\":\"Lifestyle_02\",\"name\":\"UCSC\",\"enabled\":true}";
+//    private String lifestyle_03 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_03\",\"name\":\"Vacation\",\"enabled\":true}";
+    private String lifestyle_03 = "{\"lifestyleReminders\":[\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_03\",\"name\":\"Vacation\",\"enabled\":true}";
     private String test_Lifestyle_01 = "{\"lifestyleReminders\":[\"Test_Reminder_01\"],\"key\":\"Test_Lifestyle_01\",\"name\":\"Test Lifestyle 01\",\"enabled\":true}";
     private String failed_Lifestyle_01 = "{\"lifestyleReminders\":[\"Failed_Reminder_01\"],\"key\":\"Failed_Lifestyle_01\",\"name\":\"Failed Lifestyle\",\"enabled\":true}";
 
