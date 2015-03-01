@@ -56,46 +56,20 @@ public class SettingsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_life_style);
+        setContentView(R.layout.activity_settings);
         setupActionBar();
-        changeStatusBarColor(R.color.life_action_status_bar);
 
+        ListView listView = (ListView) findViewById(R.id.settingsListView);
+        final List<Option> optionArray = new ArrayList<>();
 
-
-
-        //Create listener for name change
-
-
-
-
-
-
-
-        ListView listView = (ListView) findViewById(R.id.lifestyleListView);
-        final List<Option> reminderArray = new ArrayList<>();
-        //abstractBaseEvents = passedLifestyle.getReminders();
-        //Storage.getInstance().getReminder()
         for(int i = 0; i<5; i++){
             Log.e("SettingsActivity","Adding setting option ");
-            reminderArray.add(new Option());
+            optionArray.add(new Option());
         }
         listView.setAdapter(new SettingsAdapter(this,
-                android.R.layout.simple_list_item_2,
-                R.layout.reminder_row, reminderArray
+                android.R.layout.simple_list_item_activated_1,
+                R.layout.lifestyle_row, optionArray
         ));
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("SettingsActivity", "position " + Integer.toString(position));
-                Log.e("SettingsActivity","newActivity Reminder");
-                //Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
-               // Reminder reminder = reminderArray.get(position);
-               // reminderIntent.putExtra("Reminder", reminder);
-               // startActivity(reminderIntent);
-            }
-        });
 
     }
 
@@ -134,7 +108,7 @@ public class SettingsActivity extends ActionBarActivity {
     public void setupActionBar() {
         //Creates ActionBar object
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Lifestyle");
+        actionBar.setTitle("Settings");
         //Places logo in top right of ActionBar
         actionBar.setDisplayOptions(actionBar.getDisplayOptions()
                 | ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -170,7 +144,7 @@ public class SettingsActivity extends ActionBarActivity {
         });
 
         //Sets initial action bar background to Lifestyle Action Bar Background
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.life_action_background)));
-        changeStatusBarColor(R.color.life_action_status_bar);
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.settings_action_background)));
+        changeStatusBarColor(R.color.settings_action_status_bar);
     }
 }

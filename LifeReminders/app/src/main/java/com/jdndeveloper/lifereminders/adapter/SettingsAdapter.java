@@ -40,10 +40,8 @@ public class SettingsAdapter extends ArrayAdapter{
         if (convertView == null)
             convertView = inflater.inflate(rowResId, parent, false);
 
-        TextView rowTextView = (TextView) convertView.findViewById(R.id.rowReminderTextView);
-        TextView rowContainerLifestyleTextView = (TextView)
-                convertView.findViewById(R.id.rowReminderContainerLifestyle);
-        Switch theSwitch = (Switch) convertView.findViewById(R.id.enabledSwitchReminderRow);
+        TextView rowTextView = (TextView) convertView.findViewById(R.id.rowLifestyleTextView);
+        Switch theSwitch = (Switch) convertView.findViewById(R.id.enabledSwitchLifestyleRow);
 
         // You need to null out the listener before you change the state of the checkbox. Otherwise,
         // the previous listener will be fired off. Likewise, all fields must be repopulated because
@@ -57,29 +55,6 @@ public class SettingsAdapter extends ArrayAdapter{
             theSwitch.setElevation(100);
         }
 
-
-        //sets lifestyle container name
-        //rowContainerLifestyleTextView.setText("BROKEN!!! BROKEN!!!"); //REMOVE
-        //UNCOMMENT BELOW AFTER STORAGE IS FIXED lines 70-71 in Storage.java are BROKEN
-/*
-        if (!Storage.getInstance().
-                getLifestyle(options.get(position).getLifestyleContainerKey()).getKey()
-                .equals(Constants.LIFESTYLE_FAILED_KEY)) {
-            rowContainerLifestyleTextView.setText(Storage.getInstance().
-                    getLifestyle(options.get(position).getLifestyleContainerKey()).getName());
-        } else {
-            //rowContainerLifestyleTextView.setText("FAILED LIFESTYLE");
-            //rowContainerLifestyleTextView.setVisibility(View.GONE);
-            rowContainerLifestyleTextView.setText("Unsorted");
-            //to use R.color.gray (which we want) would need context :/
-            rowContainerLifestyleTextView.setTextColor(Color.parseColor("#3b6a8e"));
-        }
-
-        if (!Storage.getInstance().getLifestyle(options.get(position)
-                .getLifestyleContainerKey()).isEnabled())
-            setEverythingDisabled(theSwitch, rowTextView, rowContainerLifestyleTextView);
-
-
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //change enabled state of Lifestyle
@@ -87,16 +62,16 @@ public class SettingsAdapter extends ArrayAdapter{
                 if (isChecked) {
                     //text += " is enabled";
                     options.get(position).setEnabled(true);
-                    Storage.getInstance().replaceAbstractBaseEvent(options.get(position));
+                    //store in storage
                 } else {
                     //text += " is disabled";
                     options.get(position).setEnabled(false);
-                    Storage.getInstance().replaceAbstractBaseEvent(options.get(position));
+                    //store in storage
                 }
                 //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
-*/
+
         return convertView;
     }
 

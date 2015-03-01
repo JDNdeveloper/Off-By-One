@@ -46,10 +46,12 @@
     <color name="life_action_background">#637075</color>
     <color name="rem_action_background">#3b6a8e</color>
     <color name="notif_action_background">#008080</color>
+    <color name="settings_action_background">#446E80</color>
 
     <color name="life_action_status_bar">#4F5A5E</color>
     <color name="rem_action_status_bar">#305675</color>
     <color name="notif_action_status_bar">#016969</color>
+    <color name="settings_action_status_bar">#385C6B</color>
 
     <color name="title_color">#9e0022</color>
 </resources>
