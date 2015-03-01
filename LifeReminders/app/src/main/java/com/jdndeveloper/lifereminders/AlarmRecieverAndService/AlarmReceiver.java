@@ -59,13 +59,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 ///END OF TEMPORARY
 
+
+
+
                 n.sendNotification(context);
                 //set next alarm - Uncomment to add set next alarm functionality
                 if(n.isRepeating()) {
                     n.makeNextNotificationTime(); //make sure not null, implies no next time if null
                     n.setAlarm(context);
                 }else{
-                    Storage.getInstance().deleteAbstractBaseEvent(n);
+                    //COMMENTED OUT DELETE TEST NOTIFICATION CODE
+                    //Storage.getInstance().deleteAbstractBaseEvent(n);
                 }
 
                 //Uncomment after storage is working - tell storage to save the new notification time
