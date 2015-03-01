@@ -78,10 +78,16 @@ public class ReminderActivity extends ActionBarActivity {
             theSwitch.setElevation(100);
         }
 
+
+
+
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                passedReminder.setEnabled(!passedReminder.isEnabled());
+                Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
+                updateListAdapter();
                 //change enabled state of Lifestyle
-                if (isChecked) {
+                /*if (isChecked) {
                     //text += " is enabled";
                     passedReminder.setEnabled(true);
                     Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
@@ -89,11 +95,16 @@ public class ReminderActivity extends ActionBarActivity {
                     //text +=AQ " is disabled";
                     passedReminder.setEnabled(false);
                     Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
-                }
+                }*/
             }
         });
 
-        ListView listView = (ListView) findViewById(R.id.reminderListView);
+        updateListAdapter();
+        buttonclick();
+    }
+
+    public void updateListAdapter(){
+        final ListView listView = (ListView) findViewById(R.id.reminderListView);
         final List<Notification> notificationArray = new ArrayList<>();
         //abstractBaseEvents = passedLifestyle.getReminders();
         //Storage.getInstance().getReminder()
@@ -105,8 +116,6 @@ public class ReminderActivity extends ActionBarActivity {
                 android.R.layout.simple_list_item_2,
                 R.layout.notification_row, notificationArray
         ));
-
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -118,10 +127,7 @@ public class ReminderActivity extends ActionBarActivity {
                 startActivity(notificationIntent);
             }
         });
-        buttonclick();
     }
-
-
 
     public void buttonclick() {
         buttonlistner = (ImageButton) findViewById(R.id.imageplusbutton);
@@ -133,7 +139,6 @@ public class ReminderActivity extends ActionBarActivity {
             }
         });
     }
-
 
 
     public void buttonclickplus(View v) {
@@ -167,6 +172,7 @@ public class ReminderActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //This needs to be changed
         switch (id) {
             case android.R.id.home:
                 finish();
