@@ -99,6 +99,13 @@ public class MainActivity extends ActionBarActivity
         //modifies tester notifications by running tests
         NotificationStorageTester.runTest();
 
+        //goes to correct reminder if launched from a notification
+        Reminder notifReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
+        if (notifReminder != null) {
+            Log.i("MainActivity", notifReminder.getKey());
+            loadReminder(notifReminder);
+        }
+
     }
 
     //Allow the activity to know what fragment it is on.
@@ -115,37 +122,58 @@ public class MainActivity extends ActionBarActivity
         });
     }
 
+    private void loadLifestyle(Lifestyle lifestyle) {
+        FragmentLocation = 1;
+        Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
+        lifestyleIntent.putExtra("Lifestyle", lifestyle);
+        startActivity(lifestyleIntent);
+    }
+
+    private void loadReminder(Reminder reminder) {
+        FragmentLocation = 2;
+        Intent reminderIntent = new Intent(context, ReminderActivity.class);
+        reminderIntent.putExtra("Reminder", reminder);
+        startActivity(reminderIntent);
+    }
+
+    private void loadNotification(Notification notification) {
+        FragmentLocation = 3;
+        Intent notificationIntent = new Intent(context, NotificationActivity.class);
+        notificationIntent.putExtra("Notification", notification);
+        startActivity(notificationIntent);
+    }
+
     public void buttonclickplus(View v) {
         switch (FragmentLocation) {
             //Go To Lifestyle Activity
             case 1:
                 Log.e("Main Activity","newLifestyle");
-                Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
+
                 Lifestyle lifestyle = Storage.getInstance().getNewLifeStyle();
                 lifestyle.setName("");
                 Storage.getInstance().commitAbstractBaseEvent(lifestyle);
-                lifestyleIntent.putExtra("Lifestyle", lifestyle);
-                startActivity(lifestyleIntent);
+                loadLifestyle(lifestyle);
                 break;
             //Go To Reminder Activity
             case 2:
                 Log.e("Main Activity","newReminder");
-                Intent reminderIntent = new Intent(context, ReminderActivity.class);
+
                 Reminder reminder = Storage.getInstance().getNewReminder();
                 reminder.setName("");
                 Storage.getInstance().commitAbstractBaseEvent(reminder);
-                reminderIntent.putExtra("Reminder", reminder);
-                startActivity(reminderIntent);
+                loadReminder(reminder);
                 break;
             //Go To Notification Activity
             case 3:
                 Log.e("Main Activity","newNotification");
-                Intent notificationIntent = new Intent(context, NotificationActivity.class);
+
                 Notification notification = Storage.getInstance().getNewNotification();
                 notification.setName("");
+                Action action = Storage.getInstance().getNewAction();
+                notification.setActionKey(action.getKey());
                 Storage.getInstance().commitAbstractBaseEvent(notification);
-                notificationIntent.putExtra("Notification", notification);
-                startActivity(notificationIntent);
+                Storage.getInstance().commitAbstractBaseEvent(action);
+                loadNotification(notification);
                 break;
             default:
                 Log.e("Main Activity","newFailed");
@@ -165,8 +193,14 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void buttonclicksettings(View v) {
-        Toast.makeText(MainActivity.this,
-                "Settings is clicked!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.this,
+        //        "Settings is clicked!", Toast.LENGTH_LONG).show();
+
+        //ALEX! Uncomment below code to link settings button to open your settings activity
+
+        Intent settingsIntent = new Intent(context, SettingsActivity.class);
+        startActivity(settingsIntent);
+
     }
 
     @Override

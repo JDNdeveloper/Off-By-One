@@ -14,10 +14,12 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.net.Uri;
 
+import com.jdndeveloper.lifereminders.EventActivities.ReminderActivity;
+import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.interfaces.PhoneInterface;
-
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 
 /**
@@ -103,7 +105,7 @@ public class Phone implements PhoneInterface {
     }
 
     @Override
-    public void sendMessageToNotificationBar(String title, String message, int requestID) {
+    public void sendMessageToNotificationBar(String title, String message, int requestID, String remKey) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_action_notificationicon)
@@ -118,7 +120,12 @@ public class Phone implements PhoneInterface {
                 R.drawable.app_logo);
         mBuilder.setLargeIcon(icon);
 
+        Reminder reminder = Storage.getInstance().getReminder(remKey);
+
         Intent resultIntent = new Intent(context, MainActivity.class);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        resultIntent.putExtra("Reminder", reminder);
+
         // Because clicking the notification opens a new ("special") activity, there's
         // no need to create an artificial back stack.
         PendingIntent resultPendingIntent =
@@ -128,7 +135,6 @@ public class Phone implements PhoneInterface {
                         resultIntent,
                         PendingIntent.FLAG_CANCEL_CURRENT //can be changed later
                 );
-
 
         mBuilder.setContentIntent(resultPendingIntent);
 
