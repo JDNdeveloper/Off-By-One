@@ -36,6 +36,11 @@
             android:parentActivityName=".MainActivity" >
         </activity>
         <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_life_style"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
             android:name=".EventActivities.ReminderActivity"
             android:label="@string/title_activity_reminder"
             android:parentActivityName=".MainActivity" >
