@@ -24,16 +24,16 @@
         android:background="@android:color/darker_gray"
         android:layout_below="@+id/reminderName"
         android:layout_alignRight="@+id/reminderEnabled"
-        android:layout_alignEnd="@+id/reminderEnabled" />
+        android:layout_alignEnd="@+id/reminderEnabled"
+        android:id="@+id/view2" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/reminderListView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/reminderName" />
+        android:layout_below="@+id/textNotifications"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Switch
         android:layout_width="wrap_content"
@@ -55,7 +55,14 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/view3"
+        android:layout_alignTop="@+id/reminderListView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -66,6 +73,15 @@
         android:src="@drawable/plus_selector"
         android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Notifications"
+        android:id="@+id/textNotifications"
+        android:layout_below="@+id/view2"
         android:layout_centerHorizontal="true" />
 
 
