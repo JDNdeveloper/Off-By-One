@@ -42,6 +42,7 @@ import com.jdndeveloper.lifereminders.Tests.SprintPresentationTester;
 import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
+import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
@@ -105,7 +106,12 @@ public class MainActivity extends ActionBarActivity
             Log.i("MainActivity", notifReminder.getKey());
             loadReminder(notifReminder);
         }
-
+        // test delete for action
+        //StorageInterface storageInterface = Storage.getInstance();
+        //Action action = storageInterface.getNewAction();
+        //Log.e("MainActivity","onCreate commit new action - " + storageInterface.commitAbstractBaseEvent(action));
+        //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
+        //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
     }
 
     //Allow the activity to know what fragment it is on.
@@ -165,7 +171,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             //Go To Notification Activity
             case 3:
-                Log.e("Main Activity","newNotification");
+                Log.e("Main Activity", "newNotification");
 
                 Notification notification = Storage.getInstance().getNewNotification();
                 notification.setName("");

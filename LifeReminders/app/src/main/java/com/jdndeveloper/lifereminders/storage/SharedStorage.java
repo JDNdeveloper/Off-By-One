@@ -3,15 +3,21 @@ package com.jdndeveloper.lifereminders.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by jgemig on 2/16/2015.
@@ -88,6 +94,52 @@ public class SharedStorage {
         if (getSharedPreferenceKey("all_actions").contains(key)) return true;
         return false;
     }
+    private List<String> toArrayList(String string){
+        return new ArrayList<String>(Arrays.asList(string.split("\\,")));
+    }
+    private boolean addToKeychain(String keyChain, String key){
+        String all_keys = getSharedPreferenceKey(keyChain);
+        if (all_keys == null) return false;
+        if (all_keys.contains(key)) return false;
+
+        all_keys += "," + key;
+        sharedPreferencePutString(keyChain, all_keys);
+        return true;
+    }
+    private boolean deleteFromKeychain(String keyChain, String key){
+        // get the key chain
+        String all_keys = getSharedPreferenceKey(keyChain);
+        // if the key chain is null - something is wrong
+        if (all_keys == null) return false;
+        // if the key chain doesn't contain the key - wrong key
+        if (all_keys.contains(key) == false) return false;
+        // get a list of the keys in the key chain
+        List<String>  keyArray = toArrayList(all_keys);
+        // iterate through and delete the first matching key - there should only be one
+        for (int index = 0; index < keyArray.size(); index++){
+            if (keyArray.get(index).contentEquals(key)) {
+                keyArray.remove(index);
+                break;
+            }
+        }
+        // rebuild the key chain string
+        if (keyArray.size() == 0)
+            all_keys = null;
+        else if (keyArray.size() == 1)
+            all_keys = keyArray.get(0);
+        else {
+            all_keys = keyArray.get(0);
+            for (int index = 1; index < keyArray.size(); index++){
+                all_keys += "," + keyArray.get(index);
+            }
+        }
+        // if it still contains the key - something is wrong
+        if (all_keys != null && all_keys.contains(key)) return false;
+        // otherwise we are good, update the key chain
+        sharedPreferencePutString(keyChain, all_keys);
+        // notify success
+        return true;
+    }
     protected boolean commitNewAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
         // check for null
         if (abstractBaseEvent == null) return false;
@@ -113,8 +165,7 @@ public class SharedStorage {
         // is the keyChain still null
         if (keyChain == null) return false;
 
-        String all_keys = getSharedPreferenceKey(keyChain) + "," + key;
-        sharedPreferencePutString(keyChain, all_keys);
+        if (addToKeychain(keyChain, key) == false) return false;
 
         return saveAbstractBaseEvent(abstractBaseEvent);
     }
@@ -136,12 +187,59 @@ public class SharedStorage {
     protected boolean deleteAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
         // check that null wasn't passed
         if (abstractBaseEvent == null) return false;
-
+        // get the key
         String key = abstractBaseEvent.getKey();
+
+        if (key.contentEquals(Constants.Failed_Lifestyle_01)) return true;
+        if (key.contentEquals(Constants.Failed_Reminder_01)) return true;
+        if (key.contentEquals(Constants.Failed_Notification_01)) return true;
+        if (key.contentEquals(Constants.Failed_Action_01)) return true;
+
+        Log.e("SharedStorage", "deleteAbstractBaseEvent - " + key);
+        Log.e("SharedStorage", "deleteAbstractBaseEvent - " + abstractBaseEvent.getName());
         // verify the key isn't null
         if (key == null) return false;
         // verify the key is in a keychain
         if (checkKeyChains(key) == false) return false;
+
+        if (abstractBaseEvent instanceof Lifestyle){
+
+        }
+        else if (abstractBaseEvent instanceof Reminder){
+
+        }
+        else if (abstractBaseEvent instanceof Notification){
+            // cast to notification
+            Notification notification = (Notification) abstractBaseEvent;
+            // get the parent reminder
+            Reminder reminder = Storage.getInstance().getReminder(notification.getReminderContainerKey());
+            // get the action inside
+            Action action = Storage.getInstance().getAction(notification.getActionKey());
+            // delete the action, bail on fail
+            if (deleteAbstractBaseEvent(action) == false) return false;
+            // delete the notification from the key chain, bail on fail
+            if (deleteFromKeychain("all_notifications", key) == false) return false;
+            // remove the key
+            sharedPreferenceDeleteKey(key);
+            List<String> notificationKeys = reminder.getNotificationKeys();
+            for (int index = 0; index < notificationKeys.size(); index++){
+                if (notificationKeys.get(index).contentEquals(key) == true){
+                    notificationKeys.remove(index);
+                    break;
+                }
+            }
+            // remove the key
+            sharedPreferenceDeleteKey(key);
+            if (saveAbstractBaseEvent(reminder) == false) return false;
+        }
+        else if (abstractBaseEvent instanceof Action) {
+            // delete the action from the key chain, bail on fail
+            if (deleteFromKeychain("all_actions", key) == false) return false;
+            // remove the key
+            sharedPreferenceDeleteKey(key);
+        }
+        else
+            return false;
 
         return true;
     }
@@ -186,6 +284,10 @@ public class SharedStorage {
 
     protected String getSharedPreferenceKey(String key){
         return sharedPreferences.getString(key, null);
+    }
+    private void sharedPreferenceDeleteKey(String key){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(key).commit();
     }
     private void sharedPreferencePutString(String key, String value){
         SharedPreferences.Editor editor = sharedPreferences.edit();
