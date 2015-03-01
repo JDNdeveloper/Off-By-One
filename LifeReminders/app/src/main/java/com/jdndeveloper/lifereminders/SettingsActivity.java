@@ -144,7 +144,7 @@ public class SettingsActivity extends ActionBarActivity {
         });
 
         //Sets initial action bar background to Lifestyle Action Bar Background
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.life_action_background)));
-        changeStatusBarColor(R.color.life_action_status_bar);
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.settings_action_background)));
+        changeStatusBarColor(R.color.settings_action_status_bar);
     }
 }
