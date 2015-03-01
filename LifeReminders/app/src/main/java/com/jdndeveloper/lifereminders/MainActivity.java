@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -59,6 +62,9 @@ public class MainActivity extends ActionBarActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    //Allow the activity to know what fragment it is on.
+    public static int FragmentLocation = 1;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -106,6 +112,8 @@ public class MainActivity extends ActionBarActivity
             Log.i("MainActivity", notifReminder.getKey());
             loadReminder(notifReminder);
         }
+
+
         // test delete for action
         //StorageInterface storageInterface = Storage.getInstance();
         //Action action = storageInterface.getNewAction();
@@ -113,9 +121,6 @@ public class MainActivity extends ActionBarActivity
         //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
         //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
     }
-
-    //Allow the activity to know what fragment it is on.
-    public static int FragmentLocation = 1;
 
     public void buttonclick() {
         buttonlistner = (ImageButton) findViewById(R.id.imageplusbutton);
@@ -140,6 +145,15 @@ public class MainActivity extends ActionBarActivity
         Intent reminderIntent = new Intent(context, ReminderActivity.class);
         reminderIntent.putExtra("Reminder", reminder);
         startActivity(reminderIntent);
+    }
+
+    public void changeStatusBarColor(int colorID) {
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(colorID));
+        }
     }
 
     private void loadNotification(Notification notification) {
