@@ -4,12 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
@@ -70,6 +72,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }else{
                     //COMMENTED OUT DELETE TEST NOTIFICATION CODE
                     //Storage.getInstance().deleteAbstractBaseEvent(n);
+                    // This is the proper way to use delete/commit/replace - please follow this example - john
+                    // and ideally the proper way to use Storage, but Storage is more your own taste
+                    StorageInterface storageInterface = Storage.getInstance();
+                    if (storageInterface.deleteAbstractBaseEvent(n) == false){
+                        Toast.makeText(context, "deletion of " + n.getKey() + " failed.", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 //Uncomment after storage is working - tell storage to save the new notification time

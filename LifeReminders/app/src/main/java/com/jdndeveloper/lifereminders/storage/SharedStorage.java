@@ -102,7 +102,11 @@ public class SharedStorage {
         if (all_keys == null) return false;
         if (all_keys.contains(key)) return false;
 
-        all_keys += "," + key;
+        if (all_keys != "")
+            all_keys += "," + key;
+        else
+            all_keys = key;
+
         sharedPreferencePutString(keyChain, all_keys);
         return true;
     }
@@ -123,8 +127,12 @@ public class SharedStorage {
             }
         }
         // rebuild the key chain string
-        if (keyArray.size() == 0)
-            all_keys = null;
+        // if size is zero, put in a "" for an empty keychain
+        // using a null here will break the app as null means something bad
+        if (keyArray.size() == 0) {
+            Log.e("SharedStorage","deleteFromKeychain from keychain:" + keyChain);
+            all_keys = "";
+        }
         else if (keyArray.size() == 1)
             all_keys = keyArray.get(0);
         else {
@@ -134,7 +142,7 @@ public class SharedStorage {
             }
         }
         // if it still contains the key - something is wrong
-        if (all_keys != null && all_keys.contains(key)) return false;
+        if (all_keys.contains(key)) return false;
         // otherwise we are good, update the key chain
         sharedPreferencePutString(keyChain, all_keys);
         // notify success
@@ -189,12 +197,12 @@ public class SharedStorage {
         if (abstractBaseEvent == null) return false;
         // get the key
         String key = abstractBaseEvent.getKey();
-
-        if (key.contentEquals(Constants.Failed_Lifestyle_01)) return true;
-        if (key.contentEquals(Constants.Failed_Reminder_01)) return true;
-        if (key.contentEquals(Constants.Failed_Notification_01)) return true;
-        if (key.contentEquals(Constants.Failed_Action_01)) return true;
-
+        // protect the failure keys, we don't want to delete these
+        if (key.contentEquals(Constants.LIFESTYLE_FAILED_KEY)) return true;
+        if (key.contentEquals(Constants.REMINDER_FAILED_KEY)) return true;
+        if (key.contentEquals(Constants.NOTIFICATION_FAILED_KEY)) return true;
+        if (key.contentEquals(Constants.ACTION_FAILED_KEY)) return true;
+        // log the deletes - for tracking
         Log.e("SharedStorage", "deleteAbstractBaseEvent - " + key);
         Log.e("SharedStorage", "deleteAbstractBaseEvent - " + abstractBaseEvent.getName());
         // verify the key isn't null

@@ -32,11 +32,12 @@ public final class Constants {
 
     public final static String ACTION_FAILED_KEY = "Failed_Action_01";
 
+    // DO NOT USE THESE - THEY SHOULD BE DELETED - John
     // test set for unit tests
-    public final static String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
-    public final static String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
-    public final static String Failed_Notification_01 = "Failed Notification,false";
-    public final static String Failed_Action_01 = "Failed Action,false";
+//    public final static String Failed_Lifestyle_01 = "Failed Lifestyle,false,Failed_Reminder_01";
+//    public final static String Failed_Reminder_01 = "Failed Reminder,false,Failed_Notification_01";
+//    public final static String Failed_Notification_01 = "Failed Notification,false";
+//    public final static String Failed_Action_01 = "Failed Action,false";
 
 
 
