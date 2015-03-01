@@ -193,8 +193,14 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void buttonclicksettings(View v) {
-        Toast.makeText(MainActivity.this,
-                "Settings is clicked!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.this,
+        //        "Settings is clicked!", Toast.LENGTH_LONG).show();
+
+        //ALEX! Uncomment below code to link settings button to open your settings activity
+        /*
+        Intent settingsIntent = new Intent(context, SettingsActivity.class);
+        startActivity(settingsIntent);
+        */
     }
 
     @Override
