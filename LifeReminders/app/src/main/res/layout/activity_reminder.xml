@@ -18,6 +18,14 @@
         android:layout_toLeftOf="@+id/reminderEnabled"
         android:layout_toStartOf="@+id/reminderEnabled" />
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/reminderName"
+        android:layout_alignRight="@+id/reminderEnabled"
+        android:layout_alignEnd="@+id/reminderEnabled" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
