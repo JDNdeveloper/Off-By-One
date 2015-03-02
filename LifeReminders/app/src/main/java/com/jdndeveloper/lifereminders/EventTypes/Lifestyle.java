@@ -1,5 +1,7 @@
 package com.jdndeveloper.lifereminders.EventTypes;
 
+import android.util.Log;
+
 import java.util.List;
 
 /**
@@ -55,5 +57,11 @@ public class Lifestyle extends AbstractBaseEvent {
             System.err.printf("%d: %s\n", j, lifestyleReminders.get(j));
         }
         return;
+    }
+
+    @Override
+    public void clean() {
+        // fill with whatever needs to be cleaned/removed on object deletion from storage
+        Log.e("Lifestyle", "clean() called");
     }
 }

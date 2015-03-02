@@ -253,6 +253,7 @@ public class SharedStorage {
         else
             return false;
 
+        abstractBaseEvent.clean();
         return true;
     }
     protected String getNewLifestyleKey(){
