@@ -51,6 +51,7 @@ public class LifestyleActivity extends ActionBarActivity {
 
     private Lifestyle passedLifestyle;
     ImageButton buttonlistner;
+    public int startingPoint;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,7 @@ public class LifestyleActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
         Toast.makeText(this, passedLifestyle.getName(), Toast.LENGTH_SHORT).show();
+        startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
 
         //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.lifestyleName);
@@ -135,6 +137,7 @@ public class LifestyleActivity extends ActionBarActivity {
                 Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
                 Reminder reminder = reminderArray.get(position);
                 reminderIntent.putExtra("Reminder", reminder);
+                reminderIntent.putExtra("startingPoint",startingPoint);
                 startActivity(reminderIntent);
             }
         });
@@ -155,10 +158,21 @@ public class LifestyleActivity extends ActionBarActivity {
                 Storage.getInstance().commitAbstractBaseEvent(reminder);
                 Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
                 reminderIntent.putExtra("Reminder", reminder);
+                reminderIntent.putExtra("startingPoint",startingPoint);
                 startActivity(reminderIntent);
             }
         });
 
+    }
+
+    @Override
+    public Intent getSupportParentActivityIntent(){
+        Log.e("Lifestyle Activity","return up");
+        //needs to change
+        Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+        returnMain.putExtra("startingPoint",startingPoint);
+        return returnMain;
+        //return super.getSupportParentActivityIntent();
     }
 
     @Override
@@ -178,7 +192,8 @@ public class LifestyleActivity extends ActionBarActivity {
         //This needs to change, its breaking the enabled switch
         switch (id) {
             case android.R.id.home:
-                super.onBackPressed();
+                finish();
+                return(true);
         }
 
         return super.onOptionsItemSelected(item);
