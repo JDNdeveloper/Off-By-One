@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
@@ -42,6 +44,7 @@ import java.util.Locale;
 public class NotificationActivity extends ActionBarActivity {
 
     private Notification passednotification;
+    public int distanceFromRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class NotificationActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
         Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
-
+        distanceFromRoot = (int) getIntent().getSerializableExtra("distanceFromRoot");
 
 
     }
@@ -106,6 +109,26 @@ public class NotificationActivity extends ActionBarActivity {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
+
+    @Override
+    public Intent getSupportParentActivityIntent(){
+        Log.e("Reminder Activity","return up " + Integer.toString(distanceFromRoot));
+        switch(distanceFromRoot){
+            case 0:
+                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+
+                return returnMain;
+            case 1:
+            case 2:
+                Log.e("Here","Here");
+                Intent returnReminder = new Intent(getApplicationContext(), ReminderActivity.class);
+                returnReminder.putExtra("Reminder",Storage.getInstance().getReminder(passednotification.getReminderContainerKey()));
+                returnReminder.putExtra("distanceFromRoot",distanceFromRoot-1);
+                return returnReminder;
+
+        }
+        return super.getSupportParentActivityIntent();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -120,6 +143,8 @@ public class NotificationActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
+        //This needs to be changed
         switch (id) {
             case android.R.id.home:
                 finish();

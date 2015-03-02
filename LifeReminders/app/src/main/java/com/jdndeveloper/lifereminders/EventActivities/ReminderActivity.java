@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
@@ -41,6 +42,7 @@ public class ReminderActivity extends ActionBarActivity {
 
     private Reminder passedReminder;
     ImageButton buttonlistner;
+    public int distanceFromRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class ReminderActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
         Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
-
+        distanceFromRoot = (int) getIntent().getSerializableExtra("distanceFromRoot");
 
         //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.reminderName);
@@ -124,6 +126,7 @@ public class ReminderActivity extends ActionBarActivity {
                 Intent notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
                 Notification notification = notificationArray.get(position);
                 notificationIntent.putExtra("Notification", notification);
+                notificationIntent.putExtra("distanceFromRoot",distanceFromRoot+1);
                 startActivity(notificationIntent);
             }
         });
@@ -154,9 +157,27 @@ public class ReminderActivity extends ActionBarActivity {
         Storage.getInstance().commitAbstractBaseEvent(notification);
         Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
         notificationIntent.putExtra("Notification", notification);
+        notificationIntent.putExtra("distanceFromRoot",distanceFromRoot+1);
         startActivity(notificationIntent);
     }
 
+    @Override
+    public Intent getSupportParentActivityIntent(){
+        Log.e("Reminder Activity","return up " + Integer.toString(distanceFromRoot));
+        switch(distanceFromRoot){
+            case 0:
+                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+
+                return returnMain;
+            case 1:
+                Intent returnLifestyle = new Intent(getApplicationContext(), LifestyleActivity.class);
+                returnLifestyle.putExtra("Lifestyle",Storage.getInstance().getLifestyle(passedReminder.getLifestyleContainerKey()));
+
+                return returnLifestyle;
+
+        }
+        return super.getSupportParentActivityIntent();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

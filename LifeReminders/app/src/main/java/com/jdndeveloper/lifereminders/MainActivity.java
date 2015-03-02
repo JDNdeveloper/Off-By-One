@@ -369,6 +369,7 @@ public class MainActivity extends ActionBarActivity
                             Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
                             Lifestyle lifestyle = (Lifestyle) abstractBaseEvents.get(position);
                             lifestyleIntent.putExtra("Lifestyle", lifestyle);
+                            lifestyleIntent.putExtra("distanceFromRoot",0);
                             startActivity(lifestyleIntent);
                             break;
                         //Go To Reminder Activity
@@ -377,6 +378,7 @@ public class MainActivity extends ActionBarActivity
                             Intent reminderIntent = new Intent(context, ReminderActivity.class);
                             Reminder reminder = (Reminder) abstractBaseEvents.get(position);
                             reminderIntent.putExtra("Reminder", reminder);
+                            reminderIntent.putExtra("distanceFromRoot",0);
                             startActivity(reminderIntent);
                             break;
                         //Go To Notification Activity
@@ -385,6 +387,7 @@ public class MainActivity extends ActionBarActivity
                             Intent notificationIntent = new Intent(context, NotificationActivity.class);
                             Notification notification = (Notification) abstractBaseEvents.get(position);
                             notificationIntent.putExtra("Notification", notification);
+                            notificationIntent.putExtra("distanceFromRoot",0);
                             startActivity(notificationIntent);
                             break;
                         default:

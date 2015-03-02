@@ -135,6 +135,7 @@ public class LifestyleActivity extends ActionBarActivity {
                 Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
                 Reminder reminder = reminderArray.get(position);
                 reminderIntent.putExtra("Reminder", reminder);
+                reminderIntent.putExtra("distanceFromRoot",1);
                 startActivity(reminderIntent);
             }
         });
@@ -155,10 +156,17 @@ public class LifestyleActivity extends ActionBarActivity {
                 Storage.getInstance().commitAbstractBaseEvent(reminder);
                 Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
                 reminderIntent.putExtra("Reminder", reminder);
+                reminderIntent.putExtra("distanceFromRoot",1);
                 startActivity(reminderIntent);
             }
         });
 
+    }
+
+    @Override
+    public Intent getSupportParentActivityIntent(){
+        Log.e("Lifestyle Activity","return up");
+        return super.getSupportParentActivityIntent();
     }
 
     @Override
