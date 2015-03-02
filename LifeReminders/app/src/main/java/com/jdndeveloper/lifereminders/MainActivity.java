@@ -104,7 +104,7 @@ public class MainActivity extends ActionBarActivity
         //GsonTester.test();
 
         //modifies tester notifications by running tests
-        NotificationStorageTester.runTest();
+//        NotificationStorageTester.runTest();
 
         //goes to correct reminder if launched from a notification
         Reminder notifReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
@@ -137,16 +137,6 @@ public class MainActivity extends ActionBarActivity
             Log.e("Main Activity","not returning from other activity");
         }*/
 
-
-
-
-
-        // test delete for action
-        //StorageInterface storageInterface = Storage.getInstance();
-        //Action action = storageInterface.getNewAction();
-        //Log.e("MainActivity","onCreate commit new action - " + storageInterface.commitAbstractBaseEvent(action));
-        //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
-        //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
     }
 
     //Changes status bar color if using API 21 or above
