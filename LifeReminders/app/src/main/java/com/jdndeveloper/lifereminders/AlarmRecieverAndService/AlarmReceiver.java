@@ -61,10 +61,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 ///END OF TEMPORARY
 
-
-
-
-                n.sendNotification(context);
+                if (rightNow.getTimeInMillis() <= n.getTime().getTimeInMillis())
+                    n.sendNotification(context);
                 //set next alarm - Uncomment to add set next alarm functionality
                 if(n.isRepeating()) {
                     n.makeNextNotificationTime(); //make sure not null, implies no next time if null
