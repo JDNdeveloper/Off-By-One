@@ -1,5 +1,7 @@
 package com.jdndeveloper.lifereminders.EventTypes;
 
+import android.util.Log;
+
 import com.jdndeveloper.lifereminders.Constants;
 
 import java.util.ArrayList;
@@ -148,5 +150,9 @@ public class Reminder extends AbstractBaseEvent {
     }
 
 
-
+    @Override
+    public void clean() {
+        // fill with whatever needs to be cleaned/removed on object deletion from storage
+        Log.e("Reminder", "clean() called");
+    }
 }

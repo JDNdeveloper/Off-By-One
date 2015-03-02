@@ -228,4 +228,9 @@ public class Notification extends AbstractBaseEvent {
         this.repeatEveryBlankDaysEnabled = repeatEveryBlankDaysEnabled;
     }
 
+    @Override
+    public void clean() {
+        // fill with whatever needs to be cleaned/removed on object deletion from storage
+        Log.e("Notification", "clean() called");
+    }
 }
