@@ -133,7 +133,7 @@ public class Phone implements PhoneInterface {
                         context,
                         requestID,
                         resultIntent,
-                        PendingIntent.FLAG_CANCEL_CURRENT //can be changed later
+                        PendingIntent.FLAG_UPDATE_CURRENT //can be changed later
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);

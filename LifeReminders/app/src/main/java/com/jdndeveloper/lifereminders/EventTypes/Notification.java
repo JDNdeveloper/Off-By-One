@@ -22,6 +22,8 @@ public class Notification extends AbstractBaseEvent {
 
     private Calendar calendar;
 
+    private Context mContext;
+
     private String lifestyleContainerKey;
     private String reminderContainerKey;
     private String actionKey;
@@ -89,6 +91,7 @@ public class Notification extends AbstractBaseEvent {
 
     //removes alarm from the phone
     public boolean removeAlarm(Context context) {
+        mContext = context;
         Intent myIntent = new Intent(context, AlarmReceiver.class);
 
         myIntent.putExtra("NOTIF_KEY", this.getKey()); //Josh, use getExtras to retrieve this
@@ -231,6 +234,9 @@ public class Notification extends AbstractBaseEvent {
     @Override
     public void clean() {
         // fill with whatever needs to be cleaned/removed on object deletion from storage
+        if (mContext != null)
+            this.removeAlarm(mContext);
+        calendar = null;
         Log.e("Notification", "clean() called");
     }
 }

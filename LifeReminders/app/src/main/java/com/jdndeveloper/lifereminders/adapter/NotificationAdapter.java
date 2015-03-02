@@ -107,6 +107,7 @@ public class NotificationAdapter extends ArrayAdapter{
                 if (isChecked) {
                     //text += " is enabled";
                     notifications.get(position).setEnabled(true);
+                    notifications.get(position).setAlarm(getContext());
                     Storage.getInstance().replaceAbstractBaseEvent(notifications.get(position));
                 } else {
                     //text += " is disabled";

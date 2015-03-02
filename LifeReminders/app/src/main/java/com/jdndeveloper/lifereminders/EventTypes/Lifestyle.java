@@ -1,6 +1,9 @@
 package com.jdndeveloper.lifereminders.EventTypes;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.List;
 
@@ -63,5 +66,11 @@ public class Lifestyle extends AbstractBaseEvent {
     public void clean() {
         // fill with whatever needs to be cleaned/removed on object deletion from storage
         Log.e("Lifestyle", "clean() called");
+    }
+
+    public void setAlarms(Context theContext) {
+        for (String childReminderKey : lifestyleReminders ) {
+            Storage.getInstance().getReminder(childReminderKey).setAlarms(theContext);
+        }
     }
 }
