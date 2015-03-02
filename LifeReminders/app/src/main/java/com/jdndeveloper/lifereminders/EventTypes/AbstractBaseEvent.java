@@ -42,4 +42,7 @@ public abstract class AbstractBaseEvent implements Serializable {
     public void setEnabled(boolean state) { //true if enabled, false if disabled
         enabled = state;
     }
+
+    // this is needed to allow access to the implementation in the children classes
+    abstract public void clean();
 }
