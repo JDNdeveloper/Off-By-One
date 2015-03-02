@@ -29,7 +29,7 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
-    private final int SHARED_STORAGE_VERSION = 2;
+    private final int SHARED_STORAGE_VERSION = 4;
 
     private SharedStorage(Context context){
         this.context = context;
@@ -231,8 +231,7 @@ public class SharedStorage {
             if (deleteAbstractBaseEvent(action) == false) return false;
             // delete the notification from the key chain, bail on fail
             if (deleteFromKeychain("all_notifications", key) == false) return false;
-            // remove the key
-            sharedPreferenceDeleteKey(key);
+            // get the notification keys and remove the key being deleted
             List<String> notificationKeys = reminder.getNotificationKeys();
             for (int index = 0; index < notificationKeys.size(); index++){
                 if (notificationKeys.get(index).contentEquals(key) == true){
@@ -240,9 +239,12 @@ public class SharedStorage {
                     break;
                 }
             }
+            // save the modified notification keys
+            reminder.setNotificationKeys(notificationKeys);
+            // save to storage, bail on fail
+            if (saveAbstractBaseEvent(reminder) == false) return false;
             // remove the key
             sharedPreferenceDeleteKey(key);
-            if (saveAbstractBaseEvent(reminder) == false) return false;
         }
         else if (abstractBaseEvent instanceof Action) {
             // delete the action from the key chain, bail on fail
