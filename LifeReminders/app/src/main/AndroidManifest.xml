@@ -32,6 +32,7 @@
 
         <activity
             android:name=".EventActivities.LifestyleActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_life_style"
             android:parentActivityName=".MainActivity" >
         </activity>
@@ -42,11 +43,13 @@
         </activity>
         <activity
             android:name=".EventActivities.ReminderActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_reminder"
             android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".EventActivities.NotificationActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_notification"
             android:parentActivityName=".MainActivity" >
         </activity>
