@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     //Allow the activity to know what fragment it is on.
-    public static int FragmentLocation = 1;
+    public static int FragmentLocation;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -114,12 +114,49 @@ public class MainActivity extends ActionBarActivity
         }
 
 
+        /*this is Josh- DO NOT DELETE unless I give you explicit permission to do so*/
+        /*try {
+            FragmentLocation = (int) getIntent().getSerializableExtra("startingPoint");
+            onNavigationDrawerItemSelected(FragmentLocation);
+            Log.e("Main Activity","Fragment Location " + Integer.toString(FragmentLocation));
+            switch (FragmentLocation){
+                case 0:
+                    changeStatusBarColor(R.color.life_action_status_bar);
+                    break;
+                case 1:
+                    changeStatusBarColor(R.color.rem_action_status_bar);
+                    break;
+                case 2:
+                    changeStatusBarColor(R.color.notif_action_status_bar);
+                    break;
+                default:
+                    break;
+            }
+            restoreActionBar();
+        }catch (NullPointerException e){
+            Log.e("Main Activity","not returning from other activity");
+        }*/
+
+
+
+
+
         // test delete for action
         //StorageInterface storageInterface = Storage.getInstance();
         //Action action = storageInterface.getNewAction();
         //Log.e("MainActivity","onCreate commit new action - " + storageInterface.commitAbstractBaseEvent(action));
         //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
         //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
+    }
+
+    //Changes status bar color if using API 21 or above
+    public void changeStatusBarColor(int colorID) {
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(colorID));
+        }
     }
 
     public void buttonclick() {
@@ -370,6 +407,7 @@ public class MainActivity extends ActionBarActivity
                             Lifestyle lifestyle = (Lifestyle) abstractBaseEvents.get(position);
                             lifestyleIntent.putExtra("Lifestyle", lifestyle);
                             lifestyleIntent.putExtra("distanceFromRoot",0);
+                            lifestyleIntent.putExtra("startingPoint",0);
                             startActivity(lifestyleIntent);
                             break;
                         //Go To Reminder Activity
@@ -379,6 +417,7 @@ public class MainActivity extends ActionBarActivity
                             Reminder reminder = (Reminder) abstractBaseEvents.get(position);
                             reminderIntent.putExtra("Reminder", reminder);
                             reminderIntent.putExtra("distanceFromRoot",0);
+                            reminderIntent.putExtra("startingPoint",1);
                             startActivity(reminderIntent);
                             break;
                         //Go To Notification Activity
@@ -388,6 +427,7 @@ public class MainActivity extends ActionBarActivity
                             Notification notification = (Notification) abstractBaseEvents.get(position);
                             notificationIntent.putExtra("Notification", notification);
                             notificationIntent.putExtra("distanceFromRoot",0);
+                            notificationIntent.putExtra("startingPoint",2);
                             startActivity(notificationIntent);
                             break;
                         default:

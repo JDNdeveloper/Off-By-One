@@ -42,7 +42,7 @@ public class ReminderActivity extends ActionBarActivity {
 
     private Reminder passedReminder;
     ImageButton buttonlistner;
-    public int distanceFromRoot;
+    public int startingPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class ReminderActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
         Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
-        distanceFromRoot = (int) getIntent().getSerializableExtra("distanceFromRoot");
+        startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
 
         //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.reminderName);
@@ -126,7 +126,7 @@ public class ReminderActivity extends ActionBarActivity {
                 Intent notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
                 Notification notification = notificationArray.get(position);
                 notificationIntent.putExtra("Notification", notification);
-                notificationIntent.putExtra("distanceFromRoot",distanceFromRoot+1);
+                notificationIntent.putExtra("startingPoint",startingPoint);
                 startActivity(notificationIntent);
             }
         });
@@ -157,23 +157,22 @@ public class ReminderActivity extends ActionBarActivity {
         Storage.getInstance().commitAbstractBaseEvent(notification);
         Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
         notificationIntent.putExtra("Notification", notification);
-        notificationIntent.putExtra("distanceFromRoot",distanceFromRoot+1);
+        notificationIntent.putExtra("startingPoint",startingPoint);
         startActivity(notificationIntent);
     }
 
     @Override
     public Intent getSupportParentActivityIntent(){
-        Log.e("Reminder Activity","return up " + Integer.toString(distanceFromRoot));
-        switch(distanceFromRoot){
+        switch(startingPoint){
             case 0:
-                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
-
-                return returnMain;
-            case 1:
                 Intent returnLifestyle = new Intent(getApplicationContext(), LifestyleActivity.class);
                 returnLifestyle.putExtra("Lifestyle",Storage.getInstance().getLifestyle(passedReminder.getLifestyleContainerKey()));
-
+                returnLifestyle.putExtra("startingPoint",startingPoint);
                 return returnLifestyle;
+            case 1:
+                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+                returnMain.putExtra("startingPoint",startingPoint);
+                return returnMain;
 
         }
         return super.getSupportParentActivityIntent();

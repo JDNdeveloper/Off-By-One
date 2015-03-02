@@ -44,7 +44,7 @@ import java.util.Locale;
 public class NotificationActivity extends ActionBarActivity {
 
     private Notification passednotification;
-    public int distanceFromRoot;
+    public int startingPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +56,7 @@ public class NotificationActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
         Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
-        distanceFromRoot = (int) getIntent().getSerializableExtra("distanceFromRoot");
-
+        startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
 
     }
 
@@ -112,19 +111,18 @@ public class NotificationActivity extends ActionBarActivity {
 
     @Override
     public Intent getSupportParentActivityIntent(){
-        Log.e("Reminder Activity","return up " + Integer.toString(distanceFromRoot));
-        switch(distanceFromRoot){
+        switch(startingPoint){
             case 0:
-                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
-
-                return returnMain;
             case 1:
-            case 2:
-                Log.e("Here","Here");
                 Intent returnReminder = new Intent(getApplicationContext(), ReminderActivity.class);
                 returnReminder.putExtra("Reminder",Storage.getInstance().getReminder(passednotification.getReminderContainerKey()));
-                returnReminder.putExtra("distanceFromRoot",distanceFromRoot-1);
+                returnReminder.putExtra("startingPoint",startingPoint);
                 return returnReminder;
+            case 2:
+                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+                returnMain.putExtra("startingPoint",startingPoint);
+                return returnMain;
+
 
         }
         return super.getSupportParentActivityIntent();

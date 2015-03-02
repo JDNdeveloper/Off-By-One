@@ -33,6 +33,7 @@ import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 
 import com.jdndeveloper.lifereminders.R;
@@ -50,6 +51,7 @@ public class LifestyleActivity extends ActionBarActivity {
 
     private Lifestyle passedLifestyle;
     ImageButton buttonlistner;
+    public int startingPoint;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class LifestyleActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
         Toast.makeText(this, passedLifestyle.getName(), Toast.LENGTH_SHORT).show();
-
+        startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
 
         //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.lifestyleName);
@@ -135,7 +137,7 @@ public class LifestyleActivity extends ActionBarActivity {
                 Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
                 Reminder reminder = reminderArray.get(position);
                 reminderIntent.putExtra("Reminder", reminder);
-                reminderIntent.putExtra("distanceFromRoot",1);
+                reminderIntent.putExtra("startingPoint",startingPoint);
                 startActivity(reminderIntent);
             }
         });
@@ -156,7 +158,7 @@ public class LifestyleActivity extends ActionBarActivity {
                 Storage.getInstance().commitAbstractBaseEvent(reminder);
                 Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
                 reminderIntent.putExtra("Reminder", reminder);
-                reminderIntent.putExtra("distanceFromRoot",1);
+                reminderIntent.putExtra("startingPoint",startingPoint);
                 startActivity(reminderIntent);
             }
         });
@@ -166,7 +168,11 @@ public class LifestyleActivity extends ActionBarActivity {
     @Override
     public Intent getSupportParentActivityIntent(){
         Log.e("Lifestyle Activity","return up");
-        return super.getSupportParentActivityIntent();
+        //needs to change
+        Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+        returnMain.putExtra("startingPoint",startingPoint);
+        return returnMain;
+        //return super.getSupportParentActivityIntent();
     }
 
     @Override
