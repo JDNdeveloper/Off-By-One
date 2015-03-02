@@ -19,7 +19,7 @@ import com.jdndeveloper.lifereminders.storage.Storage;
 import java.util.List;
 
 /**
- * Created by jgemig on 2/5/2015.
+ * Created by agonza26 on 2/27/15.
  */
 public class SettingsAdapter extends ArrayAdapter{
 
@@ -63,10 +63,13 @@ public class SettingsAdapter extends ArrayAdapter{
                     //text += " is enabled";
                     options.get(position).setEnabled(true);
                     //store in storage
+                    //Storage.getInstance().replaceAbstractBaseEvent(options.get(position));
                 } else {
                     //text += " is disabled";
                     options.get(position).setEnabled(false);
                     //store in storage
+                    //Storage.getInstance().replaceAbstractBaseEvent(options.get(position));
+
                 }
                 //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
             }

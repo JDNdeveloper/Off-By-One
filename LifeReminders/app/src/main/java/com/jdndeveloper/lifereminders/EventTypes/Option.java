@@ -21,51 +21,24 @@ public class Option {
     private String key = "ABSTRACT_KEY";
     private boolean enabled = false;
 
+    private static int tempCount = 0;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private int op;
     //default constructor
     public Option() {
-        this.name = "Default Option";
+        this.name = "Default Option" + tempCount;
         this.enabled = true;
+
+        tempCount++;
     }
     //custom constructor
-    public Option(String name, String key, boolean enabled, int op) {
+    public Option(String name, String key, boolean enabled) {
         this.name = name;
         this.key = key;
         this.enabled = enabled;
-        //temporary implementation of options, op specifies which type of option,
-        //until better settings implemetation
-        this.op=op;
+
 
     }
 
-
-    public void doOP() {
-        //does whatever operation we want,
-        switch(this.op){
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-            default:
-                Log.e("Option","options failed");
-                break;
-        }
-    }
 
 
 
