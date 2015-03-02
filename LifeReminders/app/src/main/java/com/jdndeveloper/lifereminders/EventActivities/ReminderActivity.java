@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,7 +55,7 @@ public class ReminderActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
         Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
-        startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
+        //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
 
         //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.reminderName);
@@ -158,8 +159,26 @@ public class ReminderActivity extends ActionBarActivity {
         Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
         notificationIntent.putExtra("Notification", notification);
         notificationIntent.putExtra("startingPoint",startingPoint);
+        //newNotification(v);
         startActivity(notificationIntent);
     }
+
+    public void newNotification(View v){
+        registerForContextMenu(v);
+        openContextMenu(v);
+        unregisterForContextMenu(v);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Select the type of new Notification");
+        menu.add("One Time Alarm");
+        menu.add("Weekly Alarm");
+        menu.add("Repeatable Every X Days");
+    }
+
+
 
     @Override
     public Intent getSupportParentActivityIntent(){
@@ -196,7 +215,6 @@ public class ReminderActivity extends ActionBarActivity {
         switch (id) {
             case android.R.id.home:
                 finish();
-                return(true);
         }
 
         return super.onOptionsItemSelected(item);

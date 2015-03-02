@@ -62,7 +62,7 @@ public class LifestyleActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
         Toast.makeText(this, passedLifestyle.getName(), Toast.LENGTH_SHORT).show();
-        startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
+        //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
 
         //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.lifestyleName);
@@ -193,7 +193,6 @@ public class LifestyleActivity extends ActionBarActivity {
         switch (id) {
             case android.R.id.home:
                 finish();
-                return(true);
         }
 
         return super.onOptionsItemSelected(item);
