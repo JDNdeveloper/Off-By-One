@@ -84,11 +84,11 @@ public class NotificationAdapter extends ArrayAdapter{
 
         if (!Storage.getInstance().getReminder(reminderKey).getKey()
                 .equals(Constants.REMINDER_FAILED_KEY)) {
-            containerReminder.setText(Storage.getInstance().getReminder(reminderKey).getName());
+            containerReminder.setText(Storage.getInstance().getReminder(reminderKey).getName() + " ");
             Log.i("NotificationAdapter", Storage.getInstance().getReminder(reminderKey).getKey());
             //containerReminder.setText("TEST 123 hello HOW IS IT GOING??");
         }else {
-            containerReminder.setText("Unsorted");
+            containerReminder.setText("Unsorted ");
             containerReminder.setTextColor(Color.parseColor("#008080"));
         }
 

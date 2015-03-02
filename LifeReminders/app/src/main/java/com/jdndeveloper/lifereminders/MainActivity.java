@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     //Allow the activity to know what fragment it is on.
-    public static int FragmentLocation;
+    public static int FragmentLocation = 1; //needs to be initialized or app crashes
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -185,7 +185,7 @@ public class MainActivity extends ActionBarActivity
         switch (FragmentLocation) {
             //Go To Lifestyle Activity
             case 1:
-                Log.e("Main Activity","newLifestyle");
+                Log.e("MainActivity","newLifestyle");
 
                 Lifestyle lifestyle = Storage.getInstance().getNewLifeStyle();
                 lifestyle.setName("");
@@ -194,7 +194,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             //Go To Reminder Activity
             case 2:
-                Log.e("Main Activity","newReminder");
+                Log.e("MainActivity","newReminder");
 
                 Reminder reminder = Storage.getInstance().getNewReminder();
                 reminder.setName("");
@@ -203,7 +203,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             //Go To Notification Activity
             case 3:
-                Log.e("Main Activity", "newNotification");
+                Log.e("MainActivity", "newNotification");
 
                 Notification notification = Storage.getInstance().getNewNotification();
                 notification.setName("");
@@ -339,8 +339,8 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            ListView listView = (ListView) rootView.findViewById(R.id.listView);
+            final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            final ListView listView = (ListView) rootView.findViewById(R.id.listView);
 
             final List<? extends AbstractBaseEvent> abstractBaseEvents;
 
@@ -456,7 +456,11 @@ public class MainActivity extends ActionBarActivity
                             .setMessage("Are you sure you want to delete " + name + "?")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Storage.getInstance().deleteAbstractBaseEvent(abe);
+                                    boolean stat = Storage.getInstance().deleteAbstractBaseEvent(abe);
+                                    Log.e("MainActivity", "Deletion: " + stat);
+                                    if (stat) {
+                                        reloadAdapter(listView, rootView);
+                                    }
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -471,6 +475,49 @@ public class MainActivity extends ActionBarActivity
             });
 
             return rootView;
+        }
+
+        private void reloadAdapter(ListView listView, View rootView) {
+            List<? extends AbstractBaseEvent> abstractBaseEvents = null;
+            switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)){
+                case 1:
+                    abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                    FragmentLocation = 1;
+                    break;
+                case 2:
+                    abstractBaseEvents = Storage.getInstance().getAllReminders();
+                    FragmentLocation = 2;
+                    break;
+                case 3:
+                    abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                    FragmentLocation = 3;
+                    break;
+                default:
+                    return;
+            }
+
+            if (abstractBaseEvents.get(0) instanceof Lifestyle) {
+                listView.setAdapter(new LifestyleAdapter(getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.lifestyle_row, abstractBaseEvents
+                ));
+                rootView.setBackgroundColor(getResources().getColor(R.color.life_background));
+            }
+            if (abstractBaseEvents.get(0) instanceof Reminder){
+                listView.setAdapter(new ReminderAdapter(getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.reminder_row, abstractBaseEvents
+                ));
+                rootView.setBackgroundColor(getResources().getColor(R.color.rem_background));
+            }
+
+            if (abstractBaseEvents.get(0) instanceof Notification){
+                listView.setAdapter(new NotificationAdapter(getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.notification_row, abstractBaseEvents
+                ));
+                rootView.setBackgroundColor(getResources().getColor(R.color.notif_background));
+            }
         }
 
         @Override
