@@ -91,7 +91,7 @@ public class SettingsActivity extends ActionBarActivity {
 
         switch (id) {
             case android.R.id.home:
-                finish();
+                super.onBackPressed();
                 return(true);
         }
 

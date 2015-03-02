@@ -44,7 +44,6 @@ import java.util.Locale;
 public class NotificationActivity extends ActionBarActivity {
 
     private Notification passednotification;
-    public int startingPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class NotificationActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
         Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
-        startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
 
     }
 
@@ -109,24 +107,7 @@ public class NotificationActivity extends ActionBarActivity {
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
-    @Override
-    public Intent getSupportParentActivityIntent(){
-        switch(startingPoint){
-            case 0:
-            case 1:
-                Intent returnReminder = new Intent(getApplicationContext(), ReminderActivity.class);
-                returnReminder.putExtra("Reminder",Storage.getInstance().getReminder(passednotification.getReminderContainerKey()));
-                returnReminder.putExtra("startingPoint",startingPoint);
-                return returnReminder;
-            case 2:
-                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
-                returnMain.putExtra("startingPoint",startingPoint);
-                return returnMain;
 
-
-        }
-        return super.getSupportParentActivityIntent();
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -145,8 +126,7 @@ public class NotificationActivity extends ActionBarActivity {
         //This needs to be changed
         switch (id) {
             case android.R.id.home:
-                finish();
-                return(true);
+                super.onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);
