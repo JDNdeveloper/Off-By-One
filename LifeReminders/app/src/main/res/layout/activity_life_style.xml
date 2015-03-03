@@ -12,10 +12,11 @@
         android:paddingRight="3dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:layout_toLeftOf="@+id/lifestyleEnabled"
         android:layout_toStartOf="@+id/lifestyleEnabled"
-        android:layout_marginLeft="16dp" />
+        android:layout_marginLeft="16dp"
+        android:paddingBottom="1dp" />
 
     <View
         android:layout_width="fill_parent"
@@ -60,7 +61,7 @@
         android:id="@+id/lifestyleEnabled"
         android:paddingRight="16dp"
         android:paddingLeft="3dp"
-        android:paddingTop="22dp"
+        android:paddingTop="15dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

@@ -11,13 +11,14 @@
         android:id="@+id/reminderName"
         android:text="Reminder"
         android:textSize="32dp"
-        android:paddingLeft="3dp"
+        android:paddingLeft="4dp"
         android:paddingRight="3dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/reminderEnabled"
         android:layout_toStartOf="@+id/reminderEnabled"
-        android:layout_marginLeft="16dp" />
+        android:layout_marginLeft="16dp"
+        android:paddingBottom="2dp" />
 
     <View
         android:layout_width="fill_parent"
@@ -47,7 +48,7 @@
         android:switchMinWidth="@dimen/switchTrackWidth"
         android:paddingRight="16dp"
         android:paddingLeft="3dp"
-        android:paddingTop="22dp"
+        android:paddingTop="15dp"
         android:thumbTextPadding="@dimen/switchThumbWidth"
         android:showText="true"
         android:focusable="false"
