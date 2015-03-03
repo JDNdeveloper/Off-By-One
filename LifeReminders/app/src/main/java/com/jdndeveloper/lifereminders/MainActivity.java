@@ -158,6 +158,15 @@ public class MainActivity extends ActionBarActivity
         Days[4] = "Thursday";
         Days[5] = "Friday";
         Days[6] = "Saturday";
+
+        // this iterates through all the lifestyles and deletes them all, with the exception of
+        // the failure keys. feel free to un-comment. this shows delete functions properly.
+        // you will need to clear cache after commenting it out and recompiling - john
+//        StorageInterface storageInterface = Storage.getInstance();
+//        List<Lifestyle> lifestyles = storageInterface.getAllLifestyles();
+//        for (Lifestyle lifestyle : lifestyles)
+//            if (storageInterface.deleteAbstractBaseEvent(lifestyle) ==  false)
+//                Log.e("MainActivity", "onCreate delete lifestyle " + lifestyle.getKey() + " failed.");
     }
 
     //Changes status bar color if using API 21 or above

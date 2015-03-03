@@ -30,7 +30,7 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
-    private final int SHARED_STORAGE_VERSION = 11;
+    private final int SHARED_STORAGE_VERSION = 1;
 
     private SharedStorage(Context context){
         this.context = context;
