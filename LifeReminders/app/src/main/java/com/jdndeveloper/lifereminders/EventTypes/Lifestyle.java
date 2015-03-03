@@ -69,8 +69,10 @@ public class Lifestyle extends AbstractBaseEvent {
     }
 
     public void setAlarms(Context theContext) {
-        for (String childReminderKey : lifestyleReminders ) {
-            Storage.getInstance().getReminder(childReminderKey).setAlarms(theContext);
+        if (this.isEnabled()) {
+            for (String childReminderKey : lifestyleReminders) {
+                Storage.getInstance().getReminder(childReminderKey).setAlarms(theContext);
+            }
         }
     }
 }

@@ -123,6 +123,7 @@ public class Notification extends AbstractBaseEvent {
 
     //sets an alarm for the current scheduled time of the notification
     public void setAlarm(Context context) {
+        if (!this.isEnabled()) return;
         //Setup the intent, it must be a pending intent
         Intent myIntent = new Intent(context, AlarmReceiver.class);
 

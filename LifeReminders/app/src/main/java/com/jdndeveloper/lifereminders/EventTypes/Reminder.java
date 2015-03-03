@@ -159,8 +159,10 @@ public class Reminder extends AbstractBaseEvent {
     }
 
     public void setAlarms(Context theContext) {
-        for (String childNotificationKey : notificationKeys ) {
-            Storage.getInstance().getNotification(childNotificationKey).setAlarm(theContext);
+        if (this.isEnabled()) {
+            for (String childNotificationKey : notificationKeys) {
+                Storage.getInstance().getNotification(childNotificationKey).setAlarm(theContext);
+            }
         }
     }
 }
