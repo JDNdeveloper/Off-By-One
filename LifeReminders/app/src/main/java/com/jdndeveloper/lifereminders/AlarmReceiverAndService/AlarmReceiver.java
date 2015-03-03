@@ -31,7 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String notifKey = intent.getStringExtra("NOTIF_KEY");
 
         SharedStorage.initializeInstance(context);
-
+        Log.i("AlarmReceiver", "in Receiver");
         //Log.i("AlarmReceiver", notifKey);
         if(notifKey == null){
             Log.i("AlarmReceiver", "notifKey is null");
@@ -61,7 +61,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 ///END OF TEMPORARY
 
-                if (rightNow.getTimeInMillis() - 60000 <= n.getTime().getTimeInMillis())
+                //if (rightNow.getTimeInMillis() - 60000 <= n.getTime().getTimeInMillis())
                     n.sendNotification(context);
                 //set next alarm - Uncomment to add set next alarm functionality
                 if(n.isRepeating()) {

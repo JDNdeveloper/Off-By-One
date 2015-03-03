@@ -2,6 +2,10 @@ package com.jdndeveloper.lifereminders;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +16,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,10 +30,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventActivities.LifestyleActivity;
@@ -49,6 +58,7 @@ import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -74,6 +84,8 @@ public class MainActivity extends ActionBarActivity
     ImageButton buttonlistner;
     ImageButton settingslistner;
     ImageButton tempButtonIB;
+
+    public static String[] Days;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +149,15 @@ public class MainActivity extends ActionBarActivity
             Log.e("Main Activity","not returning from other activity");
         }*/
 
+        /*needed for adding a new notification*/
+        Days = new String[7];
+        Days[0] = "Sunday";
+        Days[1] = "Monday";
+        Days[2] = "Tuesday";
+        Days[3] = "Wednesday";
+        Days[4] = "Thursday";
+        Days[5] = "Friday";
+        Days[6] = "Saturday";
     }
 
     //Changes status bar color if using API 21 or above
@@ -205,18 +226,38 @@ public class MainActivity extends ActionBarActivity
             case 3:
                 Log.e("MainActivity", "newNotification");
 
-                Notification notification = Storage.getInstance().getNewNotification();
-                notification.setName("");
-                Action action = Storage.getInstance().getNewAction();
-                notification.setActionKey(action.getKey());
-                Storage.getInstance().commitAbstractBaseEvent(notification);
-                Storage.getInstance().commitAbstractBaseEvent(action);
-                loadNotification(notification);
+                createNewNotification(v);
                 break;
             default:
                 Log.e("Main Activity","newFailed");
                 break;
         }
+    }
+    public void createNewNotification(View v){
+        registerForContextMenu(v);
+        openContextMenu(v);
+        unregisterForContextMenu(v);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Select the type of new Notification");
+        menu.add(0, v.getId(),0,"One Time Alarm");
+        menu.add(0, v.getId(),1,"Weekly Alarm");
+        menu.add(0, v.getId(),2,"Repeatable Every X Days");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        if (item.getGroupId() == 0) {
+            typeOfNotification = item.getOrder();
+            DialogFragment newFragment = new TimePickerFragment();
+            newFragment.show(getFragmentManager(),"time picker");
+            return true;
+        }
+        return false;
     }
 
     public void settingsbuttonclick() {
@@ -526,5 +567,234 @@ public class MainActivity extends ActionBarActivity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+
+
+
+    /*This is for adding a new notification*/
+    public static int newMinute;
+    public static int newHour;
+    public static int newDay;
+    public static int newMonth;
+    public static int newYear;
+    public static int typeOfNotification;
+
+    /*Selecting Time*/
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            newMinute = minute;
+            newHour = hourOfDay;
+            switch (typeOfNotification) {
+                case 0:
+                    DialogFragment newFragment = new DatePickerFragment();
+                    newFragment.show(getFragmentManager(), "Date Picker");
+                    break;
+                case 1:
+                    DialogFragment newFragment0 = new DaysOfWeekFragment();
+                    newFragment0.show(getFragmentManager(),"Days of the Week Picker");
+                    break;
+                case 2:
+                    DialogFragment newFragment1 = new EveryXDaysFragment();
+                    newFragment1.show(getFragmentManager(),"Every X Days Picker");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /*Selecting Date*/
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
+            newYear = year;
+            newMonth = month;
+            newDay = day;
+
+            Notification notification = Storage.getInstance().getNewNotification();
+            Calendar c = Calendar.getInstance();
+
+            notification.setRepeatDaysEnabled(false);
+            notification.setRepeatEveryBlankDaysEnabled(false);
+            c.set(newYear, newMonth, newDay, newHour, newMinute);
+
+            notification.setTime(c);
+            notification.setName("");
+
+            Storage.getInstance().commitAbstractBaseEvent(notification);
+
+            Intent notificationIntent = new Intent(context, NotificationActivity.class);
+            notificationIntent.putExtra("Notification", notification);
+
+            startActivity(notificationIntent);
+        }
+    }
+
+    /*Selecting Days of the week*/
+    public static class DaysOfWeekFragment extends DialogFragment{
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final ArrayList mSelectedItems = new ArrayList();  // Where we track the selected items
+            final boolean[] validDays = new boolean[7];
+            for(int i = 0; i < validDays.length;i++){
+                validDays[i] =false;
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            // Set the dialog title
+            builder.setTitle("Pick Days of the Week")
+                    // Specify the list array, the items to be selected by default (null for none),
+                    // and the listener through which to receive callbacks when items are selected
+                    .setMultiChoiceItems(Days, null,
+                            new DialogInterface.OnMultiChoiceClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which,
+                                                    boolean isChecked) {
+                                    if (isChecked) {
+                                        // If the user checked the item, add it to the selected items
+                                        mSelectedItems.add(which);
+                                        validDays[which] = true;
+
+                                    } else if (mSelectedItems.contains(which)) {
+                                        // Else, if the item is already in the array, remove it
+                                        mSelectedItems.remove(Integer.valueOf(which));
+                                    }
+                                }
+                            })
+                            // Set the action buttons
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked OK, so save the mSelectedItems results somewhere
+                            // or return them to the component that opened the dialog
+                            Notification notification = Storage.getInstance().getNewNotification();
+                            Calendar c = Calendar.getInstance();
+                            notification.setRepeatDaysEnabled(true);
+                            notification.setRepeatEveryBlankDaysEnabled(false);
+                            c.set(Calendar.HOUR_OF_DAY, newHour);
+                            c.set(Calendar.MINUTE, newMinute);
+
+                            for (int i = 0; i < validDays.length;i++) {
+                                if(validDays[i]) notification.setRepeatDay(i, true);
+                            }
+
+                            notification.setTime(c);
+
+                            notification.setName("");
+
+                            Storage.getInstance().commitAbstractBaseEvent(notification);
+
+                            Intent notificationIntent = new Intent(context, NotificationActivity.class);
+                            notificationIntent.putExtra("Notification", notification);
+
+                            startActivity(notificationIntent);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //
+                        }
+                    });
+
+            return builder.create();
+        }
+    }
+
+    /*Selecting How often it reoccurs*/
+    public static class EveryXDaysFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setTitle("Select Interval");
+            builder.setMessage("This Notification Will Repeat Every _ Days");
+
+            // Set an EditText view to get user input
+            final EditText input = new EditText(getActivity());
+            builder.setView(input);
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String value = input.getText().toString();
+                    try {
+                        int intDays = Integer.parseInt(value);
+                        if (intDays <= 0) {
+                            //This Toast will stay in final product
+                            Toast.makeText(context,"Invalid Number",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        Notification notification = Storage.getInstance().getNewNotification();
+
+
+                        Calendar c = Calendar.getInstance();
+                        notification.setRepeatDaysEnabled(false);
+                        notification.setRepeatEveryBlankDaysEnabled(true);
+
+                        notification.setRepeatEveryBlankDays(intDays);
+
+
+                        c.set(Calendar.HOUR_OF_DAY, newHour);
+                        c.set(Calendar.MINUTE, newMinute);
+
+                        notification.setTime(c);
+
+                        notification.setName("");
+
+                        Storage.getInstance().commitAbstractBaseEvent(notification);
+
+                        Intent notificationIntent = new Intent(context, NotificationActivity.class);
+                        notificationIntent.putExtra("Notification", notification);
+
+                        startActivity(notificationIntent);
+                    }catch(NumberFormatException e){
+                        //This Toast will stay in final product
+                        Toast.makeText(context,"Not a Number",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Canceled.
+                }
+            });
+
+            //alert.show();
+            return builder.create();
+        }
+
     }
 }
