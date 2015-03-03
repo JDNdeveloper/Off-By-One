@@ -29,7 +29,7 @@ public class BootReceiver extends BroadcastReceiver {
         }
 
         //COMMENT OUT BELOW CODE, JUST FOR TESTING TO SEE IF RECEIVER WORKS
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        context.startActivity(mainIntent);
+        //Intent mainIntent = new Intent(context, MainActivity.class);
+        //context.startActivity(mainIntent);
     }
 }
