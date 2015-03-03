@@ -66,6 +66,14 @@ public class Lifestyle extends AbstractBaseEvent {
     public void clean() {
         // fill with whatever needs to be cleaned/removed on object deletion from storage
         Log.e("Lifestyle", "clean() called");
+        //Run the list of remove reminders
+        if (lifestyleReminders != null) {
+            lifestyleReminders.clear();
+        } else {
+            return;
+        }
+        lifestyleReminders = null;
+        return;
     }
 
     public void setAlarms(Context theContext) {
