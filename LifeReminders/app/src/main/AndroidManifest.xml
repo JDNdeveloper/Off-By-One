@@ -20,18 +20,21 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmRecieverAndService.AlarmReceiver" >
+        <receiver android:name=".AlarmReceiverAndService.AlarmReceiver" />
+
+        <receiver android:name=".AlarmReceiverAndService.BootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 
         <service
-            android:name=".AlarmRecieverAndService.AlarmService"
+            android:name=".AlarmReceiverAndService.AlarmService"
             android:enabled="true" />
 
         <activity
             android:name=".EventActivities.LifestyleActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_life_style"
             android:parentActivityName=".MainActivity" >
         </activity>
@@ -42,11 +45,13 @@
         </activity>
         <activity
             android:name=".EventActivities.ReminderActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_reminder"
             android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".EventActivities.NotificationActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_notification"
             android:parentActivityName=".MainActivity" >
         </activity>

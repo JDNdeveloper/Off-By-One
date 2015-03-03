@@ -33,6 +33,7 @@ import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 
 import com.jdndeveloper.lifereminders.R;
@@ -50,6 +51,7 @@ public class LifestyleActivity extends ActionBarActivity {
 
     private Lifestyle passedLifestyle;
     ImageButton buttonlistner;
+    public int startingPoint;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class LifestyleActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
         Toast.makeText(this, passedLifestyle.getName(), Toast.LENGTH_SHORT).show();
-
+        //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
 
         //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.lifestyleName);
@@ -89,7 +91,10 @@ public class LifestyleActivity extends ActionBarActivity {
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //change enabled state of Lifestyle
-                if (isChecked) {
+                passedLifestyle.setEnabled(!passedLifestyle.isEnabled());
+                Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+                updateListAdapter();
+                /*if (isChecked) {
                     //text += " is enabled";
                     passedLifestyle.setEnabled(true);
                     Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
@@ -97,12 +102,20 @@ public class LifestyleActivity extends ActionBarActivity {
                     //text += " is disabled";
                     passedLifestyle.setEnabled(false);
                     Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
-                }
+                }*/
             }
         });
 
 
+        updateListAdapter();
 
+        buttonclick();
+
+
+
+    }
+
+    public void updateListAdapter(){
         ListView listView = (ListView) findViewById(R.id.lifestyleListView);
         final List<Reminder> reminderArray = new ArrayList<>();
         //abstractBaseEvents = passedLifestyle.getReminders();
@@ -115,7 +128,6 @@ public class LifestyleActivity extends ActionBarActivity {
                 android.R.layout.simple_list_item_2,
                 R.layout.reminder_row, reminderArray
         ));
-        buttonclick();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -125,10 +137,10 @@ public class LifestyleActivity extends ActionBarActivity {
                 Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
                 Reminder reminder = reminderArray.get(position);
                 reminderIntent.putExtra("Reminder", reminder);
+                reminderIntent.putExtra("startingPoint",startingPoint);
                 startActivity(reminderIntent);
             }
         });
-
     }
 
     public void buttonclick() {
@@ -146,10 +158,21 @@ public class LifestyleActivity extends ActionBarActivity {
                 Storage.getInstance().commitAbstractBaseEvent(reminder);
                 Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
                 reminderIntent.putExtra("Reminder", reminder);
+                reminderIntent.putExtra("startingPoint",startingPoint);
                 startActivity(reminderIntent);
             }
         });
 
+    }
+
+    @Override
+    public Intent getSupportParentActivityIntent(){
+        Log.e("Lifestyle Activity","return up");
+        //needs to change
+        Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+        returnMain.putExtra("startingPoint",startingPoint);
+        return returnMain;
+        //return super.getSupportParentActivityIntent();
     }
 
     @Override
@@ -166,10 +189,10 @@ public class LifestyleActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //This needs to change, its breaking the enabled switch
         switch (id) {
             case android.R.id.home:
                 finish();
-                return(true);
         }
 
         return super.onOptionsItemSelected(item);

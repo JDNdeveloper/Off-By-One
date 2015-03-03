@@ -28,19 +28,22 @@ public class NotificationStorageTester {
     }
 
     private static void testReminders() {
-        Reminder r1 = Storage.getInstance().getReminder("Reminder_02");
+//        Reminder r1 = Storage.getInstance().getReminder("Reminder_02");
+        Reminder r1 = Storage.getInstance().getReminder("Reminder_01");
         r1.setName("Take Vitamins");
-        r1.setLifestyleContainerKey("Lifestyle_01");
+//        r1.setLifestyleContainerKey("Lifestyle_01");
         Storage.getInstance().replaceAbstractBaseEvent(r1);
 
-        Reminder r2 = Storage.getInstance().getReminder("Reminder_03");
+        //Reminder r2 = Storage.getInstance().getReminder("Reminder_03");
+        Reminder r2 = Storage.getInstance().getReminder("Reminder_02");
         r2.setName("Pickup kids from school");
-        r2.setLifestyleContainerKey("Lifestyle_02");
+//        r2.setLifestyleContainerKey("Lifestyle_02");
         Storage.getInstance().replaceAbstractBaseEvent(r2);
 
-        Reminder r3 = Storage.getInstance().getReminder("Reminder_04");
+//        Reminder r3 = Storage.getInstance().getReminder("Reminder_04");
+        Reminder r3 = Storage.getInstance().getReminder("Reminder_03");
         r3.setName("Take out the trash");
-        r3.setLifestyleContainerKey("Lifestyle_03");
+//        r3.setLifestyleContainerKey("Lifestyle_03");
         Storage.getInstance().replaceAbstractBaseEvent(r3);
     }
 
@@ -74,9 +77,9 @@ public class NotificationStorageTester {
 
         n1.setActionKey(a1.getKey());
 
-        n1.setReminderContainerKey("Reminder_01");
+//        n1.setReminderContainerKey("Reminder_01");
 
-        n1.setLifestyleContainerKey("Lifestyle_01");
+//        n1.setLifestyleContainerKey("Lifestyle_01");
 
 
         Storage.getInstance().replaceAbstractBaseEvent(n1);

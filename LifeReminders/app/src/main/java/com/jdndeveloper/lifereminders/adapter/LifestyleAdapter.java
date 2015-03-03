@@ -61,6 +61,7 @@ public class LifestyleAdapter extends ArrayAdapter{
                 if (isChecked) {
                     //text += " is enabled";
                     lifestyles.get(position).setEnabled(true);
+                    lifestyles.get(position).setAlarms(getContext());
                     Storage.getInstance().replaceAbstractBaseEvent(lifestyles.get(position));
                 } else {
                     //text += " is disabled";

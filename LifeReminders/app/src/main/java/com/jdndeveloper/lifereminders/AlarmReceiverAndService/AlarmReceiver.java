@@ -1,15 +1,17 @@
-package com.jdndeveloper.lifereminders.AlarmRecieverAndService;
+package com.jdndeveloper.lifereminders.AlarmReceiverAndService;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
@@ -29,7 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String notifKey = intent.getStringExtra("NOTIF_KEY");
 
         SharedStorage.initializeInstance(context);
-
+        Log.i("AlarmReceiver", "in Receiver");
         //Log.i("AlarmReceiver", notifKey);
         if(notifKey == null){
             Log.i("AlarmReceiver", "notifKey is null");
@@ -59,10 +61,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 ///END OF TEMPORARY
 
-
-
-
-                n.sendNotification(context);
+                //if (rightNow.getTimeInMillis() - 60000 <= n.getTime().getTimeInMillis())
+                    n.sendNotification(context);
                 //set next alarm - Uncomment to add set next alarm functionality
                 if(n.isRepeating()) {
                     n.makeNextNotificationTime(); //make sure not null, implies no next time if null
@@ -70,6 +70,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }else{
                     //COMMENTED OUT DELETE TEST NOTIFICATION CODE
                     //Storage.getInstance().deleteAbstractBaseEvent(n);
+                    // This is the proper way to use delete/commit/replace - please follow this example - john
+                    // and ideally the proper way to use Storage, but Storage is more your own taste
+                    StorageInterface storageInterface = Storage.getInstance();
+                    if (storageInterface.deleteAbstractBaseEvent(n) == false){
+                        Toast.makeText(context, "AlarmReceiver deletion of " + n.getKey() + " failed.", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 //Uncomment after storage is working - tell storage to save the new notification time

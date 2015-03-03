@@ -1,4 +1,4 @@
-package com.jdndeveloper.lifereminders.AlarmRecieverAndService;
+package com.jdndeveloper.lifereminders.AlarmReceiverAndService;
 
 import android.app.Notification;
 import android.app.NotificationManager;

@@ -1,6 +1,10 @@
 package com.jdndeveloper.lifereminders.EventTypes;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.jdndeveloper.lifereminders.Constants;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -148,5 +152,17 @@ public class Reminder extends AbstractBaseEvent {
     }
 
 
+    @Override
+    public void clean() {
+        // fill with whatever needs to be cleaned/removed on object deletion from storage
+        Log.e("Reminder", "clean() called");
+    }
 
+    public void setAlarms(Context theContext) {
+        if (this.isEnabled()) {
+            for (String childNotificationKey : notificationKeys) {
+                Storage.getInstance().getNotification(childNotificationKey).setAlarm(theContext);
+            }
+        }
+    }
 }

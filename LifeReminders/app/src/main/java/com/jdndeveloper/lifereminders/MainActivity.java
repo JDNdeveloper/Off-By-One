@@ -2,6 +2,10 @@ package com.jdndeveloper.lifereminders;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +16,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,10 +30,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.EventActivities.LifestyleActivity;
@@ -49,6 +58,7 @@ import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -64,7 +74,7 @@ public class MainActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     //Allow the activity to know what fragment it is on.
-    public static int FragmentLocation = 1;
+    public static int FragmentLocation = 1; //needs to be initialized or app crashes
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -74,6 +84,8 @@ public class MainActivity extends ActionBarActivity
     ImageButton buttonlistner;
     ImageButton settingslistner;
     ImageButton tempButtonIB;
+
+    public static String[] Days;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +116,7 @@ public class MainActivity extends ActionBarActivity
         //GsonTester.test();
 
         //modifies tester notifications by running tests
-        NotificationStorageTester.runTest();
+//        NotificationStorageTester.runTest();
 
         //goes to correct reminder if launched from a notification
         Reminder notifReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
@@ -114,12 +126,57 @@ public class MainActivity extends ActionBarActivity
         }
 
 
-        // test delete for action
-        //StorageInterface storageInterface = Storage.getInstance();
-        //Action action = storageInterface.getNewAction();
-        //Log.e("MainActivity","onCreate commit new action - " + storageInterface.commitAbstractBaseEvent(action));
-        //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
-        //Log.e("MainActivity","onCreate delete new action - " + storageInterface.deleteAbstractBaseEvent(action));
+        /*this is Josh- DO NOT DELETE unless I give you explicit permission to do so*/
+        /*try {
+            FragmentLocation = (int) getIntent().getSerializableExtra("startingPoint");
+            onNavigationDrawerItemSelected(FragmentLocation);
+            Log.e("Main Activity","Fragment Location " + Integer.toString(FragmentLocation));
+            switch (FragmentLocation){
+                case 0:
+                    changeStatusBarColor(R.color.life_action_status_bar);
+                    break;
+                case 1:
+                    changeStatusBarColor(R.color.rem_action_status_bar);
+                    break;
+                case 2:
+                    changeStatusBarColor(R.color.notif_action_status_bar);
+                    break;
+                default:
+                    break;
+            }
+            restoreActionBar();
+        }catch (NullPointerException e){
+            Log.e("Main Activity","not returning from other activity");
+        }*/
+
+        /*needed for adding a new notification*/
+        Days = new String[7];
+        Days[0] = "Sunday";
+        Days[1] = "Monday";
+        Days[2] = "Tuesday";
+        Days[3] = "Wednesday";
+        Days[4] = "Thursday";
+        Days[5] = "Friday";
+        Days[6] = "Saturday";
+
+        // this iterates through all the lifestyles and deletes them all, with the exception of
+        // the failure keys. feel free to un-comment. this shows delete functions properly.
+        // you will need to clear cache after commenting it out and recompiling - john
+//        StorageInterface storageInterface = Storage.getInstance();
+//        List<Lifestyle> lifestyles = storageInterface.getAllLifestyles();
+//        for (Lifestyle lifestyle : lifestyles)
+//            if (storageInterface.deleteAbstractBaseEvent(lifestyle) ==  false)
+//                Log.e("MainActivity", "onCreate delete lifestyle " + lifestyle.getKey() + " failed.");
+    }
+
+    //Changes status bar color if using API 21 or above
+    public void changeStatusBarColor(int colorID) {
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(colorID));
+        }
     }
 
     public void buttonclick() {
@@ -158,7 +215,7 @@ public class MainActivity extends ActionBarActivity
         switch (FragmentLocation) {
             //Go To Lifestyle Activity
             case 1:
-                Log.e("Main Activity","newLifestyle");
+                Log.e("MainActivity","newLifestyle");
 
                 Lifestyle lifestyle = Storage.getInstance().getNewLifeStyle();
                 lifestyle.setName("");
@@ -167,7 +224,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             //Go To Reminder Activity
             case 2:
-                Log.e("Main Activity","newReminder");
+                Log.e("MainActivity","newReminder");
 
                 Reminder reminder = Storage.getInstance().getNewReminder();
                 reminder.setName("");
@@ -176,20 +233,40 @@ public class MainActivity extends ActionBarActivity
                 break;
             //Go To Notification Activity
             case 3:
-                Log.e("Main Activity", "newNotification");
+                Log.e("MainActivity", "newNotification");
 
-                Notification notification = Storage.getInstance().getNewNotification();
-                notification.setName("");
-                Action action = Storage.getInstance().getNewAction();
-                notification.setActionKey(action.getKey());
-                Storage.getInstance().commitAbstractBaseEvent(notification);
-                Storage.getInstance().commitAbstractBaseEvent(action);
-                loadNotification(notification);
+                createNewNotification(v);
                 break;
             default:
                 Log.e("Main Activity","newFailed");
                 break;
         }
+    }
+    public void createNewNotification(View v){
+        registerForContextMenu(v);
+        openContextMenu(v);
+        unregisterForContextMenu(v);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Select the type of new Notification");
+        menu.add(0, v.getId(),0,"One Time Alarm");
+        menu.add(0, v.getId(),1,"Weekly Alarm");
+        menu.add(0, v.getId(),2,"Repeatable Every X Days");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        if (item.getGroupId() == 0) {
+            typeOfNotification = item.getOrder();
+            DialogFragment newFragment = new TimePickerFragment();
+            newFragment.show(getFragmentManager(),"time picker");
+            return true;
+        }
+        return false;
     }
 
     public void settingsbuttonclick() {
@@ -312,8 +389,8 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            ListView listView = (ListView) rootView.findViewById(R.id.listView);
+            final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            final ListView listView = (ListView) rootView.findViewById(R.id.listView);
 
             final List<? extends AbstractBaseEvent> abstractBaseEvents;
 
@@ -369,6 +446,8 @@ public class MainActivity extends ActionBarActivity
                             Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
                             Lifestyle lifestyle = (Lifestyle) abstractBaseEvents.get(position);
                             lifestyleIntent.putExtra("Lifestyle", lifestyle);
+                            lifestyleIntent.putExtra("distanceFromRoot",0);
+                            lifestyleIntent.putExtra("startingPoint",0);
                             startActivity(lifestyleIntent);
                             break;
                         //Go To Reminder Activity
@@ -377,6 +456,8 @@ public class MainActivity extends ActionBarActivity
                             Intent reminderIntent = new Intent(context, ReminderActivity.class);
                             Reminder reminder = (Reminder) abstractBaseEvents.get(position);
                             reminderIntent.putExtra("Reminder", reminder);
+                            reminderIntent.putExtra("distanceFromRoot",0);
+                            reminderIntent.putExtra("startingPoint",1);
                             startActivity(reminderIntent);
                             break;
                         //Go To Notification Activity
@@ -385,6 +466,8 @@ public class MainActivity extends ActionBarActivity
                             Intent notificationIntent = new Intent(context, NotificationActivity.class);
                             Notification notification = (Notification) abstractBaseEvents.get(position);
                             notificationIntent.putExtra("Notification", notification);
+                            notificationIntent.putExtra("distanceFromRoot",0);
+                            notificationIntent.putExtra("startingPoint",2);
                             startActivity(notificationIntent);
                             break;
                         default:
@@ -423,7 +506,11 @@ public class MainActivity extends ActionBarActivity
                             .setMessage("Are you sure you want to delete " + name + "?")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Storage.getInstance().deleteAbstractBaseEvent(abe);
+                                    boolean stat = Storage.getInstance().deleteAbstractBaseEvent(abe);
+                                    Log.e("MainActivity", "Deletion: " + stat);
+                                    if (stat) {
+                                        reloadAdapter(listView, rootView);
+                                    }
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -440,11 +527,283 @@ public class MainActivity extends ActionBarActivity
             return rootView;
         }
 
+        private void reloadAdapter(ListView listView, View rootView) {
+            List<? extends AbstractBaseEvent> abstractBaseEvents = null;
+            switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)){
+                case 1:
+                    abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                    FragmentLocation = 1;
+                    break;
+                case 2:
+                    abstractBaseEvents = Storage.getInstance().getAllReminders();
+                    FragmentLocation = 2;
+                    break;
+                case 3:
+                    abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                    FragmentLocation = 3;
+                    break;
+                default:
+                    return;
+            }
+
+            if (abstractBaseEvents.get(0) instanceof Lifestyle) {
+                listView.setAdapter(new LifestyleAdapter(getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.lifestyle_row, abstractBaseEvents
+                ));
+                rootView.setBackgroundColor(getResources().getColor(R.color.life_background));
+            }
+            if (abstractBaseEvents.get(0) instanceof Reminder){
+                listView.setAdapter(new ReminderAdapter(getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.reminder_row, abstractBaseEvents
+                ));
+                rootView.setBackgroundColor(getResources().getColor(R.color.rem_background));
+            }
+
+            if (abstractBaseEvents.get(0) instanceof Notification){
+                listView.setAdapter(new NotificationAdapter(getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.notification_row, abstractBaseEvents
+                ));
+                rootView.setBackgroundColor(getResources().getColor(R.color.notif_background));
+            }
+        }
+
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+
+
+
+    /*This is for adding a new notification*/
+    public static int newMinute;
+    public static int newHour;
+    public static int newDay;
+    public static int newMonth;
+    public static int newYear;
+    public static int typeOfNotification;
+
+    /*Selecting Time*/
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            newMinute = minute;
+            newHour = hourOfDay;
+            switch (typeOfNotification) {
+                case 0:
+                    DialogFragment newFragment = new DatePickerFragment();
+                    newFragment.show(getFragmentManager(), "Date Picker");
+                    break;
+                case 1:
+                    DialogFragment newFragment0 = new DaysOfWeekFragment();
+                    newFragment0.show(getFragmentManager(),"Days of the Week Picker");
+                    break;
+                case 2:
+                    DialogFragment newFragment1 = new EveryXDaysFragment();
+                    newFragment1.show(getFragmentManager(),"Every X Days Picker");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /*Selecting Date*/
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
+            newYear = year;
+            newMonth = month;
+            newDay = day;
+
+            Notification notification = Storage.getInstance().getNewNotification();
+            Calendar c = Calendar.getInstance();
+
+            notification.setRepeatDaysEnabled(false);
+            notification.setRepeatEveryBlankDaysEnabled(false);
+            c.set(newYear, newMonth, newDay, newHour, newMinute);
+
+            notification.setTime(c);
+            notification.setName("");
+
+            Storage.getInstance().commitAbstractBaseEvent(notification);
+
+            Intent notificationIntent = new Intent(context, NotificationActivity.class);
+            notificationIntent.putExtra("Notification", notification);
+
+            startActivity(notificationIntent);
+        }
+    }
+
+    /*Selecting Days of the week*/
+    public static class DaysOfWeekFragment extends DialogFragment{
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final ArrayList mSelectedItems = new ArrayList();  // Where we track the selected items
+            final boolean[] validDays = new boolean[7];
+            for(int i = 0; i < validDays.length;i++){
+                validDays[i] =false;
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            // Set the dialog title
+            builder.setTitle("Pick Days of the Week")
+                    // Specify the list array, the items to be selected by default (null for none),
+                    // and the listener through which to receive callbacks when items are selected
+                    .setMultiChoiceItems(Days, null,
+                            new DialogInterface.OnMultiChoiceClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which,
+                                                    boolean isChecked) {
+                                    if (isChecked) {
+                                        // If the user checked the item, add it to the selected items
+                                        mSelectedItems.add(which);
+                                        validDays[which] = true;
+
+                                    } else if (mSelectedItems.contains(which)) {
+                                        // Else, if the item is already in the array, remove it
+                                        mSelectedItems.remove(Integer.valueOf(which));
+                                    }
+                                }
+                            })
+                            // Set the action buttons
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked OK, so save the mSelectedItems results somewhere
+                            // or return them to the component that opened the dialog
+                            Notification notification = Storage.getInstance().getNewNotification();
+                            Calendar c = Calendar.getInstance();
+                            notification.setRepeatDaysEnabled(true);
+                            notification.setRepeatEveryBlankDaysEnabled(false);
+                            c.set(Calendar.HOUR_OF_DAY, newHour);
+                            c.set(Calendar.MINUTE, newMinute);
+
+                            for (int i = 0; i < validDays.length;i++) {
+                                if(validDays[i]) notification.setRepeatDay(i, true);
+                            }
+
+                            notification.setTime(c);
+
+                            notification.setName("");
+
+                            Storage.getInstance().commitAbstractBaseEvent(notification);
+
+                            Intent notificationIntent = new Intent(context, NotificationActivity.class);
+                            notificationIntent.putExtra("Notification", notification);
+
+                            startActivity(notificationIntent);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //
+                        }
+                    });
+
+            return builder.create();
+        }
+    }
+
+    /*Selecting How often it reoccurs*/
+    public static class EveryXDaysFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setTitle("Select Interval");
+            builder.setMessage("This Notification Will Repeat Every _ Days");
+
+            // Set an EditText view to get user input
+            final EditText input = new EditText(getActivity());
+            builder.setView(input);
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String value = input.getText().toString();
+                    try {
+                        int intDays = Integer.parseInt(value);
+                        if (intDays <= 0) {
+                            //This Toast will stay in final product
+                            Toast.makeText(context,"Invalid Number",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        Notification notification = Storage.getInstance().getNewNotification();
+
+
+                        Calendar c = Calendar.getInstance();
+                        notification.setRepeatDaysEnabled(false);
+                        notification.setRepeatEveryBlankDaysEnabled(true);
+
+                        notification.setRepeatEveryBlankDays(intDays);
+
+
+                        c.set(Calendar.HOUR_OF_DAY, newHour);
+                        c.set(Calendar.MINUTE, newMinute);
+
+                        notification.setTime(c);
+
+                        notification.setName("");
+
+                        Storage.getInstance().commitAbstractBaseEvent(notification);
+
+                        Intent notificationIntent = new Intent(context, NotificationActivity.class);
+                        notificationIntent.putExtra("Notification", notification);
+
+                        startActivity(notificationIntent);
+                    }catch(NumberFormatException e){
+                        //This Toast will stay in final product
+                        Toast.makeText(context,"Not a Number",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Canceled.
+                }
+            });
+
+            //alert.show();
+            return builder.create();
+        }
+
     }
 }

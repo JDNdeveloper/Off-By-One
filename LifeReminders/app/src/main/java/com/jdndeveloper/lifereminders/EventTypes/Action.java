@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.MainActivity;
@@ -110,4 +111,9 @@ public class Action extends AbstractBaseEvent {
         this.cameraLight = cameraLight;
     }
 
+    @Override
+    public void clean() {
+        // fill with whatever needs to be cleaned/removed on object deletion from storage
+        Log.e("Action", "clean() called");
+    }
 }

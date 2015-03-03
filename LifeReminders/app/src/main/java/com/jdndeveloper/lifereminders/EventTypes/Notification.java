@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.jdndeveloper.lifereminders.AlarmRecieverAndService.AlarmReceiver;
+import com.jdndeveloper.lifereminders.AlarmReceiverAndService.AlarmReceiver;
 import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
@@ -21,6 +21,8 @@ import java.util.Scanner;
 public class Notification extends AbstractBaseEvent {
 
     private Calendar calendar;
+
+    private Context mContext;
 
     private String lifestyleContainerKey;
     private String reminderContainerKey;
@@ -89,6 +91,7 @@ public class Notification extends AbstractBaseEvent {
 
     //removes alarm from the phone
     public boolean removeAlarm(Context context) {
+        mContext = context;
         Intent myIntent = new Intent(context, AlarmReceiver.class);
 
         myIntent.putExtra("NOTIF_KEY", this.getKey()); //Josh, use getExtras to retrieve this
@@ -111,15 +114,27 @@ public class Notification extends AbstractBaseEvent {
         Scanner in = new Scanner(this.getKey()).useDelimiter("[^0-9]+");
         int requestID = in.nextInt();
 
+        String title = Storage.getInstance().getReminder(reminderContainerKey).getName();
+        String subTitle = Storage.getInstance().getLifestyle(lifestyleContainerKey).getName();
+
+        if (Storage.getInstance().getReminder(reminderContainerKey)
+                .getKey().equals(Constants.REMINDER_FAILED_KEY))
+            title = "One time Notification";
+
+        if (Storage.getInstance().getLifestyle(lifestyleContainerKey)
+                .getKey().equals(Constants.LIFESTYLE_FAILED_KEY))
+            subTitle = "";
+
         Storage.getInstance().getAction(Constants.ACTION_TEST_KEY).sendCorrectNotification(context,
-                Storage.getInstance().getReminder(reminderContainerKey).getName(),
-                Storage.getInstance().getLifestyle(lifestyleContainerKey).getName(),
+                title,
+                subTitle,
                 requestID,
                 reminderContainerKey);
     }
 
     //sets an alarm for the current scheduled time of the notification
     public void setAlarm(Context context) {
+        if (!this.isEnabled()) return;
         //Setup the intent, it must be a pending intent
         Intent myIntent = new Intent(context, AlarmReceiver.class);
 
@@ -228,4 +243,12 @@ public class Notification extends AbstractBaseEvent {
         this.repeatEveryBlankDaysEnabled = repeatEveryBlankDaysEnabled;
     }
 
+    @Override
+    public void clean() {
+        // fill with whatever needs to be cleaned/removed on object deletion from storage
+        if (mContext != null)
+            this.removeAlarm(mContext);
+        calendar = null;
+        Log.e("Notification", "clean() called");
+    }
 }

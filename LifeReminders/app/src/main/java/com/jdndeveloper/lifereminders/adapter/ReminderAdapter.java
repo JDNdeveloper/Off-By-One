@@ -88,6 +88,7 @@ public class ReminderAdapter extends ArrayAdapter{
                 if (isChecked) {
                     //text += " is enabled";
                     reminders.get(position).setEnabled(true);
+                    reminders.get(position).setAlarms(getContext());
                     Storage.getInstance().replaceAbstractBaseEvent(reminders.get(position));
                 } else {
                     //text += " is disabled";
