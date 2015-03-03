@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/lifestyleName"
         android:text="Lifestyle"
-        android:textSize="32dp"
+        android:textSize="28dp"
         android:paddingLeft="4dp"
         android:paddingRight="3dp"
         android:layout_alignParentTop="true"
@@ -61,7 +61,7 @@
         android:id="@+id/lifestyleEnabled"
         android:paddingRight="16dp"
         android:paddingLeft="3dp"
-        android:paddingTop="15dp"
+        android:paddingTop="13dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
