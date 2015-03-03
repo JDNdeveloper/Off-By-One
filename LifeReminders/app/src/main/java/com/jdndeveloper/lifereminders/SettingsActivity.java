@@ -63,7 +63,7 @@ public class SettingsActivity extends ActionBarActivity {
         final List<Option> optionArray = new ArrayList<>();
 
         for(int i = 0; i<5; i++){
-            Log.e("SettingsActivity","Adding setting option ");
+            Log.i("SettingsActivity","Adding setting option ");
             optionArray.add(new Option());
         }
         listView.setAdapter(new SettingsAdapter(this,
