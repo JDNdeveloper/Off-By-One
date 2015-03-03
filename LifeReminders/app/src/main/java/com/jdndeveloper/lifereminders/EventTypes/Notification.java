@@ -114,9 +114,20 @@ public class Notification extends AbstractBaseEvent {
         Scanner in = new Scanner(this.getKey()).useDelimiter("[^0-9]+");
         int requestID = in.nextInt();
 
+        String title = Storage.getInstance().getReminder(reminderContainerKey).getName();
+        String subTitle = Storage.getInstance().getLifestyle(lifestyleContainerKey).getName();
+
+        if (Storage.getInstance().getReminder(reminderContainerKey)
+                .getKey().equals(Constants.REMINDER_FAILED_KEY))
+            title = "One time Notification";
+
+        if (Storage.getInstance().getLifestyle(lifestyleContainerKey)
+                .getKey().equals(Constants.LIFESTYLE_FAILED_KEY))
+            subTitle = "";
+
         Storage.getInstance().getAction(Constants.ACTION_TEST_KEY).sendCorrectNotification(context,
-                Storage.getInstance().getReminder(reminderContainerKey).getName(),
-                Storage.getInstance().getLifestyle(lifestyleContainerKey).getName(),
+                title,
+                subTitle,
                 requestID,
                 reminderContainerKey);
     }
