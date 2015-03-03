@@ -20,14 +20,16 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmRecieverAndService.AlarmReceiver" >
+        <receiver android:name=".AlarmReceiverAndService.AlarmReceiver" />
+
+        <receiver android:name=".AlarmReceiverAndService.BootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 
         <service
-            android:name=".AlarmRecieverAndService.AlarmService"
+            android:name=".AlarmReceiverAndService.AlarmService"
             android:enabled="true" />
 
         <activity

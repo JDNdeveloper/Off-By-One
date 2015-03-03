@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.jdndeveloper.lifereminders.AlarmRecieverAndService.AlarmReceiver;
+import com.jdndeveloper.lifereminders.AlarmReceiverAndService.AlarmReceiver;
 import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
