@@ -14,6 +14,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,7 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
-    private final int SHARED_STORAGE_VERSION = 4;
+    private final int SHARED_STORAGE_VERSION = 11;
 
     private SharedStorage(Context context){
         this.context = context;
@@ -98,19 +99,25 @@ public class SharedStorage {
     }
 
     private boolean checkKeyChains(String key){
-        if (getSharedPreferenceKey("all_lifestyles").contains(key)) return true;
-        if (getSharedPreferenceKey("all_reminders").contains(key)) return true;
-        if (getSharedPreferenceKey("all_notifications").contains(key)) return true;
-        if (getSharedPreferenceKey("all_actions").contains(key)) return true;
+        if (contains(getSharedPreferenceKey("all_lifestyles"), key)) return true;
+        if (contains(getSharedPreferenceKey("all_reminders"), key)) return true;
+        if (contains(getSharedPreferenceKey("all_notifications"), key)) return true;
+        if (contains(getSharedPreferenceKey("all_actions"), key)) return true;
         return false;
     }
     private List<String> toArrayList(String string){
         return new ArrayList<String>(Arrays.asList(string.split("\\,")));
     }
+    private boolean contains(String keyChain, String key){
+        List<String> keys = toArrayList(keyChain);
+        for (String someKey : keys)
+            if (someKey.contentEquals(key)) return true;
+        return false;
+    }
     private boolean addToKeychain(String keyChain, String key){
         String all_keys = getSharedPreferenceKey(keyChain);
         if (all_keys == null) return false;
-        if (all_keys.contains(key)) return false;
+        if (contains(all_keys, key)) return false;
 
         if (all_keys != "")
             all_keys += "," + key;
@@ -126,7 +133,7 @@ public class SharedStorage {
         // if the key chain is null - something is wrong
         if (all_keys == null) return false;
         // if the key chain doesn't contain the key - wrong key
-        if (all_keys.contains(key) == false) return false;
+        if (contains(all_keys, key) == false) return false;
         // get a list of the keys in the key chain
         List<String>  keyArray = toArrayList(all_keys);
         // iterate through and delete the first matching key - there should only be one
@@ -152,7 +159,7 @@ public class SharedStorage {
             }
         }
         // if it still contains the key - something is wrong
-        if (all_keys.contains(key)) return false;
+        if (contains(all_keys, key)) return false;
         // otherwise we are good, update the key chain
         sharedPreferencePutString(keyChain, all_keys);
         // notify success
@@ -205,6 +212,7 @@ public class SharedStorage {
     protected boolean deleteAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent){
         // check that null wasn't passed
         if (abstractBaseEvent == null) return false;
+        StorageInterface storageInterface = Storage.getInstance();
         // get the key
         String key = abstractBaseEvent.getKey();
         // protect the failure keys, we don't want to delete these
@@ -223,18 +231,62 @@ public class SharedStorage {
         Log.e("SharedStorage", "deleteAbstractBaseEvent - in keyChain " + abstractBaseEvent.getName());
         if (abstractBaseEvent instanceof Lifestyle){
             Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Lifestyle " + key);
+            // cast to lifestyle
+            Lifestyle lifestyle = (Lifestyle) abstractBaseEvent;
+            // get reminder keys
+            List<String> reminderKeys = lifestyle.getReminders();
+            // remove them all
+            Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Lifestyle remove reminder keys " + key);
+            for (String reminderKey : reminderKeys){
+                if (deleteAbstractBaseEvent(storageInterface.getReminder(reminderKey)) == false)
+                    return false;
+            }
+            Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Lifestyle remove from key chain " + key);
+            // delete from lifestyle key chain
+            if (deleteFromKeychain("all_lifestyles", key) == false) return false;
+            // delete the key
+            sharedPreferenceDeleteKey(key);
         }
         else if (abstractBaseEvent instanceof Reminder){
             Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Reminder " + key);
+            // cast to reminder
+            Reminder reminder = (Reminder) abstractBaseEvent;
+            // get the parent lifestyle
+            Lifestyle lifestyle = storageInterface.getLifestyle(reminder.getLifestyleContainerKey());
+            // get the notification keys
+            List<String> notificationKeys = reminder.getNotificationKeys();
+            // iterate through the keys, deleting each, bailing if there is an error
+            Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Reminder remove notification keys " + key);
+            for (String notificationKey : notificationKeys)
+                if (deleteAbstractBaseEvent(storageInterface.getNotification(notificationKey)) == false)
+                    return false;
+            Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Reminder remove from key chain " + key);
+            if (deleteFromKeychain("all_reminders", key) == false) return false;
+            Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Reminder remove from parent lifestyle " + key);
+            // get the parent lifestyle's list of reminders
+            List<String> lifestyleRemindersKeys = lifestyle.getReminders();
+            for (int index = 0; index < lifestyleRemindersKeys.size(); index++){
+                if (lifestyleRemindersKeys.get(index).contentEquals(key) == true){
+                    lifestyleRemindersKeys.remove(index);
+                    break;
+                }
+            }
+            Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Reminder update parent lifestyle " + key);
+            // set the updated list of reminders
+            lifestyle.setReminders(lifestyleRemindersKeys);
+            // save the lifestyle, bail on fail
+            if (saveAbstractBaseEvent(lifestyle) == false) return false;
+            // remove the key
+            sharedPreferenceDeleteKey(key);
         }
         else if (abstractBaseEvent instanceof Notification){
             Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Notification " + key);
             // cast to notification
             Notification notification = (Notification) abstractBaseEvent;
             // get the parent reminder
-            Reminder reminder = Storage.getInstance().getReminder(notification.getReminderContainerKey());
+            Reminder reminder = storageInterface.getReminder(notification.getReminderContainerKey());
             // get the action inside
-            Action action = Storage.getInstance().getAction(notification.getActionKey());
+            Action action = storageInterface.getAction(notification.getActionKey());
             // delete the action, bail on fail
             Log.e("SharedStorage", "deleteAbstractBaseEvent - instanceof Notification delete action B " + action.getKey());
             if (deleteAbstractBaseEvent(action) == false) return false;
@@ -339,21 +391,14 @@ public class SharedStorage {
     private String All_Notifications = "Notification_01,Notification_02,Notification_03,Notification_04,Notification_05,Test_Notification_01,Failed_Notification_01";
     private String All_Actions = "Test_Action_01,Test_Action_02,Test_Action_03,Test_Action_04,Test_Action_05,Failed_Action_01";
 
-//    private String lifestyle_01 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_01\",\"name\":\"Happy Time\",\"enabled\":false}";
-    private String lifestyle_01 = "{\"lifestyleReminders\":[\"Reminder_01\"],\"key\":\"Lifestyle_01\",\"name\":\"Happy Time\",\"enabled\":false}";
-//    private String lifestyle_02 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_02\",\"name\":\"UCSC\",\"enabled\":true}";
+    private String lifestyle_01 = "{\"lifestyleReminders\":[\"Reminder_01\"],\"key\":\"Lifestyle_01\",\"name\":\"School\",\"enabled\":false}";
     private String lifestyle_02 = "{\"lifestyleReminders\":[\"Reminder_02\"],\"key\":\"Lifestyle_02\",\"name\":\"UCSC\",\"enabled\":true}";
-//    private String lifestyle_03 = "{\"lifestyleReminders\":[\"Reminder_01\",\"Reminder_02\",\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_03\",\"name\":\"Vacation\",\"enabled\":true}";
     private String lifestyle_03 = "{\"lifestyleReminders\":[\"Reminder_03\",\"Reminder_04\"],\"key\":\"Lifestyle_03\",\"name\":\"Vacation\",\"enabled\":true}";
     private String test_Lifestyle_01 = "{\"lifestyleReminders\":[\"Test_Reminder_01\"],\"key\":\"Test_Lifestyle_01\",\"name\":\"Test Lifestyle 01\",\"enabled\":true}";
     private String failed_Lifestyle_01 = "{\"lifestyleReminders\":[\"Failed_Reminder_01\"],\"key\":\"Failed_Lifestyle_01\",\"name\":\"Failed Lifestyle\",\"enabled\":true}";
 
-//    private String reminder_01 = "{\"lifestyleContainerKey\":\"Lifestyle_01\",\"notificationKeys\":[\"Notification_01\",\"Notification_02\",\"Notification_03\"],\"key\":\"Reminder_01\",\"name\":\"Scrum Meeting\",\"enabled\":true}";
-//    private String reminder_02 = "{\"lifestyleContainerKey\":\"Lifestyle_02\",\"notificationKeys\":[\"Notification_01\",\"Notification_02\",\"Notification_03\"],\"key\":\"Reminder_02\",\"name\":\"Potty Break\",\"enabled\":true}";
-//    private String reminder_03 = "{\"lifestyleContainerKey\":\"Lifestyle_03\",\"notificationKeys\":[\"Notification_01\",\"Notification_02\",\"Notification_03\"],\"key\":\"Reminder_03\",\"name\":\"Time out\",\"enabled\":true}";
-//    private String reminder_04 = "{\"lifestyleContainerKey\":\"Lifestyle_03\",\"notificationKeys\":[\"Notification_01\",\"Notification_02\",\"Notification_03\"],\"key\":\"Reminder_04\",\"name\":\"Stuff\",\"enabled\":true}";
     private String reminder_01 = "{\"lifestyleContainerKey\":\"Lifestyle_01\",\"notificationKeys\":[\"Notification_01\"],\"key\":\"Reminder_01\",\"name\":\"Scrum Meeting\",\"enabled\":true}";
-    private String reminder_02 = "{\"lifestyleContainerKey\":\"Lifestyle_02\",\"notificationKeys\":[\"Notification_02\"],\"key\":\"Reminder_02\",\"name\":\"Potty Break\",\"enabled\":true}";
+    private String reminder_02 = "{\"lifestyleContainerKey\":\"Lifestyle_02\",\"notificationKeys\":[\"Notification_02\"],\"key\":\"Reminder_02\",\"name\":\"Brush Teeth\",\"enabled\":true}";
     private String reminder_03 = "{\"lifestyleContainerKey\":\"Lifestyle_03\",\"notificationKeys\":[\"Notification_03\"],\"key\":\"Reminder_03\",\"name\":\"Time out\",\"enabled\":true}";
     private String reminder_04 = "{\"lifestyleContainerKey\":\"Lifestyle_03\",\"notificationKeys\":[\"Notification_04\",\"Notification_05\"],\"key\":\"Reminder_04\",\"name\":\"Stuff\",\"enabled\":true}";
     private String failed_reminder_01 = "{\"lifestyleContainerKey\":\"Failed_Lifestyle_01\",\"notificationKeys\":[\"Failed_Notification_01\"],\"key\":\"Failed_Reminder_01\",\"name\":\"Failed Reminder\",\"enabled\":true}";
