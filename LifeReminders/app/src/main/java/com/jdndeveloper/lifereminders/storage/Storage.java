@@ -8,6 +8,7 @@ import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.EventTypes.Option;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 
@@ -34,6 +35,16 @@ public class Storage implements StorageInterface {
 
     private List<String> toArrayList(String string){
         return new ArrayList<String>(Arrays.asList(string.split("\\,")));
+    }
+
+    @Override
+    public Option getOption(String key) {
+        return sharedStorageInstance.getOption(key);
+    }
+
+    @Override
+    public Boolean saveOption(Option option) {
+        return sharedStorageInstance.saveOption(option);
     }
 
     @Override
