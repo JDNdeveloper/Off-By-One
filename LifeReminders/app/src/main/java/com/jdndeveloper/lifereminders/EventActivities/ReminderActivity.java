@@ -416,6 +416,8 @@ public class ReminderActivity extends ActionBarActivity {
             Intent notificationIntent = new Intent(context, NotificationActivity.class);
             notificationIntent.putExtra("Notification", notification);
 
+            notification.setActionKey(Storage.getInstance().getNewAction().getKey());
+
             startActivity(notificationIntent);
         }
     }
@@ -484,6 +486,8 @@ public class ReminderActivity extends ActionBarActivity {
                             Intent notificationIntent = new Intent(context, NotificationActivity.class);
                             notificationIntent.putExtra("Notification", notification);
 
+                            notification.setActionKey(Storage.getInstance().getNewAction().getKey());
+
                             startActivity(notificationIntent);
                         }
                     })
@@ -550,6 +554,8 @@ public class ReminderActivity extends ActionBarActivity {
 
                         Intent notificationIntent = new Intent(context, NotificationActivity.class);
                         notificationIntent.putExtra("Notification", notification);
+
+                        notification.setActionKey(Storage.getInstance().getNewAction().getKey());
 
                         startActivity(notificationIntent);
                     }catch(NumberFormatException e){
