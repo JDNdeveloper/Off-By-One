@@ -196,7 +196,7 @@ public class NotificationAdapter extends ArrayAdapter{
 
     private String getCalendarDate(Calendar c) {
         String text = "Date: ";
-        text += Integer.toString(c.get(Calendar.MONTH));
+        text += Integer.toString(c.get(Calendar.MONTH) + 1);
         text += "/";
         text += Integer.toString(c.get(Calendar.DAY_OF_MONTH));
         return text;

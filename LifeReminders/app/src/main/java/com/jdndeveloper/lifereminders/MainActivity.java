@@ -579,6 +579,51 @@ public class MainActivity extends ActionBarActivity
     }
 
 
+    public void reloadAdapter(){
+        final ListView listView = (ListView) findViewById(R.id.listView);
+        List<? extends AbstractBaseEvent> abstractBaseEvents = null;
+        switch (FragmentLocation){
+            case 1:
+                abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                break;
+            case 2:
+                abstractBaseEvents = Storage.getInstance().getAllReminders();
+                break;
+            case 3:
+                abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                break;
+            default:
+                return;
+        }
+
+        if (abstractBaseEvents.get(0) instanceof Lifestyle) {
+            listView.setAdapter(new LifestyleAdapter(this,
+                    android.R.layout.simple_list_item_activated_1,
+                    R.layout.lifestyle_row, abstractBaseEvents
+            ));
+        }
+        if (abstractBaseEvents.get(0) instanceof Reminder){
+            listView.setAdapter(new ReminderAdapter(this,
+                    android.R.layout.simple_list_item_activated_1,
+                    R.layout.reminder_row, abstractBaseEvents
+            ));
+        }
+
+        if (abstractBaseEvents.get(0) instanceof Notification){
+            listView.setAdapter(new NotificationAdapter(this,
+                    android.R.layout.simple_list_item_activated_1,
+                    R.layout.notification_row, abstractBaseEvents
+            ));
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.e("Main Activity","onResume");
+
+        reloadAdapter();
+    }
 
     /*This is for adding a new notification*/
     public static int newMinute;
@@ -785,6 +830,8 @@ public class MainActivity extends ActionBarActivity
 
                         Intent notificationIntent = new Intent(context, NotificationActivity.class);
                         notificationIntent.putExtra("Notification", notification);
+
+
 
                         startActivity(notificationIntent);
                     }catch(NumberFormatException e){

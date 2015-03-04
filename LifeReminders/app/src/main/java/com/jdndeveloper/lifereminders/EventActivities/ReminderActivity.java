@@ -35,6 +35,8 @@ import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.jdndeveloper.lifereminders.Constants;
+import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.MainActivity;
@@ -114,7 +116,7 @@ public class ReminderActivity extends ActionBarActivity {
         Days[5] = "Friday";
         Days[6] = "Saturday";
     }
-
+    final Context c = this;
     public void updateListAdapter(){
         final ListView listView = (ListView) findViewById(R.id.reminderListView);
         final List<Notification> notificationArray = new ArrayList<>();
@@ -122,7 +124,7 @@ public class ReminderActivity extends ActionBarActivity {
         //Storage.getInstance().getReminder()
         for(String r : passedReminder.getNotificationKeys()){
             Log.e("Reminder Activity",r);
-            notificationArray.add(Storage.getInstance().getNotification(r));
+            if(!Storage.getInstance().getNotification(r).getKey().equals(Constants.NOTIFICATION_FAILED_KEY)) notificationArray.add(Storage.getInstance().getNotification(r));
         }
         listView.setAdapter(new NotificationAdapter(this,
                 android.R.layout.simple_list_item_2,
@@ -138,6 +140,39 @@ public class ReminderActivity extends ActionBarActivity {
                 notificationIntent.putExtra("Notification", notification);
                 notificationIntent.putExtra("startingPoint",startingPoint);
                 startActivity(notificationIntent);
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final AbstractBaseEvent abe = (AbstractBaseEvent) parent.getAdapter().getItem(position);
+
+
+
+                String type = "Notification";
+                String name = abe.getName();
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(c);
+                alertDialogBuilder.setTitle("Delete " + type);
+                alertDialogBuilder.setMessage("Are you sure you want to delete " + name + "?");
+                alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        boolean stat = Storage.getInstance().deleteAbstractBaseEvent(abe);
+                        Log.e("MainActivity", "Deletion: " + stat);
+                        if (stat) {
+                            updateListAdapter();
+                        }
+                    }
+                });
+                alertDialogBuilder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                });
+                alertDialogBuilder.show();
+
+                return true;
             }
         });
     }
@@ -165,6 +200,11 @@ public class ReminderActivity extends ActionBarActivity {
         unregisterForContextMenu(v);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateListAdapter();
+    }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -225,6 +265,7 @@ public class ReminderActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+
     }
 
     //Changes status bar color if using API 21 or above
@@ -375,6 +416,8 @@ public class ReminderActivity extends ActionBarActivity {
             Intent notificationIntent = new Intent(context, NotificationActivity.class);
             notificationIntent.putExtra("Notification", notification);
 
+            notification.setActionKey(Storage.getInstance().getNewAction().getKey());
+
             startActivity(notificationIntent);
         }
     }
@@ -388,7 +431,7 @@ public class ReminderActivity extends ActionBarActivity {
             for(int i = 0; i < validDays.length;i++){
                 validDays[i] =false;
             }
-
+            final int[] vDays = new int[7];
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setTitle("Pick Days of the Week")
@@ -403,6 +446,7 @@ public class ReminderActivity extends ActionBarActivity {
                                         // If the user checked the item, add it to the selected items
                                         mSelectedItems.add(which);
                                         validDays[which] = true;
+                                        vDays[which] = 1;
 
                                     } else if (mSelectedItems.contains(which)) {
                                         // Else, if the item is already in the array, remove it
@@ -427,6 +471,8 @@ public class ReminderActivity extends ActionBarActivity {
                                 if(validDays[i]) notification.setRepeatDay(i, true);
                             }
 
+
+
                             notification.setTime(c);
 
                             notification.setName("");
@@ -439,6 +485,8 @@ public class ReminderActivity extends ActionBarActivity {
 
                             Intent notificationIntent = new Intent(context, NotificationActivity.class);
                             notificationIntent.putExtra("Notification", notification);
+
+                            notification.setActionKey(Storage.getInstance().getNewAction().getKey());
 
                             startActivity(notificationIntent);
                         }
@@ -492,6 +540,8 @@ public class ReminderActivity extends ActionBarActivity {
                         c.set(Calendar.HOUR_OF_DAY, newHour);
                         c.set(Calendar.MINUTE, newMinute);
                         c.set(Calendar.SECOND,0);
+
+
                         notification.setTime(c);
 
                         notification.setName("");
@@ -504,6 +554,8 @@ public class ReminderActivity extends ActionBarActivity {
 
                         Intent notificationIntent = new Intent(context, NotificationActivity.class);
                         notificationIntent.putExtra("Notification", notification);
+
+                        notification.setActionKey(Storage.getInstance().getNewAction().getKey());
 
                         startActivity(notificationIntent);
                     }catch(NumberFormatException e){
