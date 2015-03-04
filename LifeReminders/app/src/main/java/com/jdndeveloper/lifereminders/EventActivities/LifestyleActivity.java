@@ -1,8 +1,10 @@
 package com.jdndeveloper.lifereminders.EventActivities;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -29,6 +31,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
@@ -113,8 +116,9 @@ public class LifestyleActivity extends ActionBarActivity {
 
 
 
-    }
 
+    }
+    final Context context = this;
     public void updateListAdapter(){
         ListView listView = (ListView) findViewById(R.id.lifestyleListView);
         final List<Reminder> reminderArray = new ArrayList<>();
@@ -122,7 +126,7 @@ public class LifestyleActivity extends ActionBarActivity {
         //Storage.getInstance().getReminder()
         for(String r : passedLifestyle.getReminders()){
             Log.e("Lifestyle Activity",r);
-            reminderArray.add(Storage.getInstance().getReminder(r));
+            if(!Storage.getInstance().getReminder(r).getKey().equals(Constants.REMINDER_FAILED_KEY)) reminderArray.add(Storage.getInstance().getReminder(r));
         }
         listView.setAdapter(new ReminderAdapter(this,
                 android.R.layout.simple_list_item_2,
@@ -139,6 +143,40 @@ public class LifestyleActivity extends ActionBarActivity {
                 reminderIntent.putExtra("Reminder", reminder);
                 reminderIntent.putExtra("startingPoint",startingPoint);
                 startActivity(reminderIntent);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final AbstractBaseEvent abe = (AbstractBaseEvent) parent.getAdapter().getItem(position);
+
+
+
+                String type = "Reminder";
+                String name = abe.getName();
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("Delete " + type);
+                alertDialogBuilder.setMessage("Are you sure you want to delete " + name + "?");
+                alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        boolean stat = Storage.getInstance().deleteAbstractBaseEvent(abe);
+                        Log.e("MainActivity", "Deletion: " + stat);
+                        if (stat) {
+                            updateListAdapter();
+                        }
+                    }
+                });
+                alertDialogBuilder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                });
+                alertDialogBuilder.show();
+
+                return true;
             }
         });
     }
@@ -163,6 +201,12 @@ public class LifestyleActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateListAdapter();
     }
 
     @Override
