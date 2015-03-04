@@ -155,6 +155,9 @@ public class Reminder extends AbstractBaseEvent {
     @Override
     public void clean() {
         // fill with whatever needs to be cleaned/removed on object deletion from storage
+
+        lifestyleContainerKey = null;
+        notificationKeys.clear();
         Log.e("Reminder", "clean() called");
     }
 
