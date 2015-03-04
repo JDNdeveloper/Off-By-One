@@ -13,6 +13,7 @@ import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.EventTypes.Option;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 
@@ -30,7 +31,7 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
-    private final int SHARED_STORAGE_VERSION = 1;
+    private final int SHARED_STORAGE_VERSION = 3;
 
     private SharedStorage(Context context){
         this.context = context;
@@ -93,9 +94,60 @@ public class SharedStorage {
         sharedPreferencePutInt("notificationIndex", 10);
         sharedPreferencePutInt("actionIndex", 10);
 
+        initializeOptionKeys();
+
         sharedPreferencePutInt("version", SHARED_STORAGE_VERSION);
 
         toastSaved("initializedFirstRun");
+    }
+
+    private void initializeOptionKeys(){
+        Option option = new Option();
+
+        option.setKey("Option_01");
+        option.setName("Option 01");
+        option.setEnabled(false);
+        String gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+
+        option.setKey("Option_02");
+        option.setName("Option 02");
+        gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+
+        option.setKey("Option_03");
+        option.setName("Option 03");
+        gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+
+        option.setKey("Option_04");
+        option.setName("Option 04");
+        gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+
+        option.setKey("Option_05");
+        option.setName("Option 05");
+        gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+    }
+
+    protected Option getOption(String key){
+        String optionGsonString = getSharedPreferenceKey(key);
+
+        if (optionGsonString != null)
+            return gsonObject.fromJson(optionGsonString, Option.class);
+        return null;
+    }
+
+    protected boolean saveOption(Option option){
+        if (option == null) return false;
+
+        String key = option.getKey();
+        if (key == null) return false;
+
+        String gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(key, gsonString);
+        return true;
     }
 
     private boolean checkKeyChains(String key){
