@@ -25,10 +25,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -65,6 +67,53 @@ public class NotificationActivity extends ActionBarActivity {
 
 
 
+        TextView tv = (TextView) findViewById(R.id.specificNotificationData);
+        if(passednotification.isRepeatDaysEnabled() == true && passednotification.isRepeatEveryBlankDaysEnabled() == false){
+            Button changeDate = (Button) findViewById(R.id.changeDate);
+            changeDate.setVisibility(View.INVISIBLE);
+            Button repeatXDays = (Button) findViewById(R.id.repeatableXDays);
+            repeatXDays.setVisibility(View.INVISIBLE);
+            TextView textView = (TextView) findViewById(R.id.specificNotificationData);
+
+            String[] Days = {"","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            String text = "Days Alarm Enabled For:";
+            ArrayList list = passednotification.getRepeatDays();
+            //Log.e("Notification Activity",Integer.toString((int)list.get(1)));
+            for(int i = 0; i < list.size(); ++i){
+                text += "\n" + Days[(int)list.get(i)];
+            }
+            tv.setText(text);
+        }else if(passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == true){
+            Button changeDate = (Button) findViewById(R.id.changeDate);
+            changeDate.setVisibility(View.INVISIBLE);
+            Button repeatEveryWeek = (Button) findViewById(R.id.repeatableEveryWeek);
+            repeatEveryWeek.setVisibility(View.INVISIBLE);
+
+            String text = "Alarm set to go off every " + Integer.toString(passednotification.getRepeatEveryBlankDays()) + " days\n";
+            String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            text += "Next Alarm Goes Off On: ";
+            text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+            text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+            text += ", ";
+            text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+            tv.setText(text);
+        }else if(passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == false){
+            Button repeatEveryWeek = (Button) findViewById(R.id.repeatableEveryWeek);
+            repeatEveryWeek.setVisibility(View.INVISIBLE);
+            Button repeatXDays = (Button) findViewById(R.id.repeatableXDays);
+            repeatXDays.setVisibility(View.INVISIBLE);
+            String text = "";
+            String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+            text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+            text += ", ";
+            text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+            tv.setText(text);
+            tv.setGravity(Gravity.CENTER);
+        }else{
+            //Do not remove
+            Toast.makeText(getApplicationContext(),"The Notification Is Not Setup Properly",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
