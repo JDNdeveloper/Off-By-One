@@ -43,7 +43,7 @@ public class Storage implements StorageInterface {
     }
 
     @Override
-    public Boolean saveOption(Option option) {
+    public boolean saveOption(Option option) {
         return sharedStorageInstance.saveOption(option);
     }
 
