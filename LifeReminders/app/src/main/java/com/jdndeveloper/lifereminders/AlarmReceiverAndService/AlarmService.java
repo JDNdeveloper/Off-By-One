@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.MainActivity;
@@ -37,7 +38,8 @@ public class AlarmService extends Service{
     @Override
     public void onStart(Intent intent, int startId){
         /*Make a Notification go off*/
-        Toast.makeText(this.getApplicationContext(), "Alarm Going Off", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this.getApplicationContext(), "Alarm Going Off", Toast.LENGTH_LONG).show();
+        Log.i("AlarmService", "Alarm Going Off");
         super.onStart(intent, startId);
 
         mManager = (NotificationManager) this.getApplicationContext().getSystemService(this.getApplicationContext().NOTIFICATION_SERVICE);

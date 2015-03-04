@@ -74,7 +74,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                     // and ideally the proper way to use Storage, but Storage is more your own taste
                     StorageInterface storageInterface = Storage.getInstance();
                     if (storageInterface.deleteAbstractBaseEvent(n) == false){
-                        Toast.makeText(context, "AlarmReceiver deletion of " + n.getKey() + " failed.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "AlarmReceiver deletion of " + n.getKey() + " failed.", Toast.LENGTH_SHORT).show();
+                        Log.e("AlarmReciever", "AlarmReceiver deletion of " + n.getKey() + " failed.");
                     }
                 }
 

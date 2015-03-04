@@ -59,7 +59,8 @@ public class NotificationActivity extends ActionBarActivity {
 
         // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
-        Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
+        Log.i("NotificationActivity", "Passed Notification: " + passednotification.getName());
         //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
 
 

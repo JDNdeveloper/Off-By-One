@@ -65,7 +65,8 @@ public class ReminderActivity extends ActionBarActivity {
 
         // Josh - below is how to retrieve the passed lifestyle
         passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
-        Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
+        Log.i("ReminderActivity", "Passed Reminder: " + passedReminder.getName());
         //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
         context = getApplicationContext();
         //Create listener for name change
