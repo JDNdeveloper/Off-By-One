@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="Change Date"
         android:onClick="showDatePickerDialog"
-        android:id="@+id/button2"
+        android:id="@+id/changeDate"
         android:layout_below="@+id/view4"
         android:layout_centerHorizontal="true" />
 
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pick Days of the Week"
-        android:id="@+id/button3"
+        android:id="@+id/repeatableEveryWeek"
         android:layout_below="@+id/view4"
         android:layout_centerHorizontal="true" />
 
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pick X Days Repeatable"
-        android:id="@+id/button4"
+        android:id="@+id/repeatableXDays"
         android:layout_below="@+id/view4"
         android:layout_centerHorizontal="true" />
 
@@ -108,17 +108,19 @@
         android:layout_height="2dp"
         android:background="@android:color/darker_gray"
         android:id="@+id/view5"
-        android:layout_below="@+id/textView8"
+        android:layout_below="@+id/specificNotificationData"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Notification Specific Data Goes Here"
-        android:id="@+id/textView8"
-        android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/specificNotificationData"
+        android:layout_below="@+id/changeDate"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -126,7 +128,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Vibration"
         android:id="@+id/textView9"
-        android:layout_below="@+id/textView8"
+        android:layout_below="@+id/view5"
         android:layout_centerHorizontal="true" />
 
     <TextView

@@ -85,7 +85,7 @@ public class MainActivity extends ActionBarActivity
     ImageButton settingslistner;
     ImageButton tempButtonIB;
 
-    public static String[] Days;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,15 +149,7 @@ public class MainActivity extends ActionBarActivity
             Log.e("Main Activity","not returning from other activity");
         }*/
 
-        /*needed for adding a new notification*/
-        Days = new String[7];
-        Days[0] = "Sunday";
-        Days[1] = "Monday";
-        Days[2] = "Tuesday";
-        Days[3] = "Wednesday";
-        Days[4] = "Thursday";
-        Days[5] = "Friday";
-        Days[6] = "Saturday";
+
 
         // this iterates through all the lifestyles and deletes them all, with the exception of
         // the failure keys. feel free to un-comment. this shows delete functions properly.
@@ -722,7 +714,7 @@ public class MainActivity extends ActionBarActivity
             for(int i = 0; i < validDays.length;i++){
                 validDays[i] =false;
             }
-
+            String[] Days = {"","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setTitle("Pick Days of the Week")

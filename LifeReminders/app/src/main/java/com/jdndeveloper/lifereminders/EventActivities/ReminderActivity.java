@@ -54,7 +54,7 @@ public class ReminderActivity extends ActionBarActivity {
     ImageButton buttonlistner;
     public int startingPoint;
     public static Context context;
-    public static String[] Days;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,15 +106,6 @@ public class ReminderActivity extends ActionBarActivity {
         updateListAdapter();
         buttonclick();
 
-        /*needed for adding a new notification*/
-        Days = new String[7];
-        Days[0] = "Sunday";
-        Days[1] = "Monday";
-        Days[2] = "Tuesday";
-        Days[3] = "Wednesday";
-        Days[4] = "Thursday";
-        Days[5] = "Friday";
-        Days[6] = "Saturday";
     }
     final Context c = this;
     public void updateListAdapter(){
@@ -432,6 +423,7 @@ public class ReminderActivity extends ActionBarActivity {
                 validDays[i] =false;
             }
             final int[] vDays = new int[7];
+            String[] Days = {"","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setTitle("Pick Days of the Week")
