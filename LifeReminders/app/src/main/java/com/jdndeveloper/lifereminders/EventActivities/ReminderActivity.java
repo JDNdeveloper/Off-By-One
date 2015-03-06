@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.MainActivity;
@@ -127,8 +128,10 @@ public class ReminderActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("ReminderActivity", "position " + Integer.toString(position));
                 Log.e("ReminderActivity","newActivity Notification");
+
                 Intent notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
                 Notification notification = notificationArray.get(position);
+                Log.e("ReminderActivity","Vibrate: " + Boolean.toString(Storage.getInstance().getAction(notification.getActionKey()).isVibrate()) );
                 notificationIntent.putExtra("Notification", notification);
                 notificationIntent.putExtra("startingPoint",startingPoint);
                 startActivity(notificationIntent);
@@ -401,15 +404,17 @@ public class ReminderActivity extends ActionBarActivity {
             notification.setReminderContainerKey(passedReminder.getKey());
             notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
             passedReminder.addNotification(notification.getKey());
-
+            Action action = Storage.getInstance().getNewAction();
+            notification.setActionKey(action.getKey());
+            Storage.getInstance().commitAbstractBaseEvent(action);
             Storage.getInstance().commitAbstractBaseEvent(notification);
             Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
             notification.setAlarm(context);
             Intent notificationIntent = new Intent(context, NotificationActivity.class);
             notificationIntent.putExtra("Notification", notification);
 
-            notification.setActionKey(Storage.getInstance().getNewAction().getKey());
 
+            notification.setAlarm(context);
             startActivity(notificationIntent);
         }
     }
@@ -424,7 +429,7 @@ public class ReminderActivity extends ActionBarActivity {
                 validDays[i] =false;
             }
             final int[] vDays = new int[7];
-            String[] Days = {"","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            String[] Days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setTitle("Pick Days of the Week")
@@ -439,11 +444,13 @@ public class ReminderActivity extends ActionBarActivity {
                                         // If the user checked the item, add it to the selected items
                                         mSelectedItems.add(which);
                                         validDays[which] = true;
-                                        vDays[which] = 1;
+                                        vDays[which ] = 1;
 
                                     } else if (mSelectedItems.contains(which)) {
                                         // Else, if the item is already in the array, remove it
                                         mSelectedItems.remove(Integer.valueOf(which));
+                                        validDays[which] = false;
+                                        vDays[which ] = 0;
                                     }
                                 }
                             })
@@ -461,26 +468,27 @@ public class ReminderActivity extends ActionBarActivity {
                             c.set(Calendar.MINUTE, newMinute);
                             c.set(Calendar.SECOND,0);
                             for (int i = 0; i < validDays.length;i++) {
-                                if(validDays[i]) notification.setRepeatDay(i, true);
+                                if(validDays[i]) notification.setRepeatDay(i+1, true);
                             }
-
 
 
                             notification.setTime(c);
 
-                            notification.setName("");
+
                             notification.setReminderContainerKey(passedReminder.getKey());
                             notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
                             passedReminder.addNotification(notification.getKey());
-
+                            Action action = Storage.getInstance().getNewAction();
+                            notification.setActionKey(action.getKey());
+                            Storage.getInstance().commitAbstractBaseEvent(action);
                             Storage.getInstance().commitAbstractBaseEvent(notification);
                             Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
 
                             Intent notificationIntent = new Intent(context, NotificationActivity.class);
                             notificationIntent.putExtra("Notification", notification);
 
-                            notification.setActionKey(Storage.getInstance().getNewAction().getKey());
 
+                            notification.setAlarm(context);
                             startActivity(notificationIntent);
                         }
                     })
@@ -542,14 +550,19 @@ public class ReminderActivity extends ActionBarActivity {
                         notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
                         passedReminder.addNotification(notification.getKey());
 
+                        Action action = Storage.getInstance().getNewAction();
+                        notification.setActionKey(action.getKey());
+                        Storage.getInstance().commitAbstractBaseEvent(action);
+
+
                         Storage.getInstance().commitAbstractBaseEvent(notification);
                         Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
 
                         Intent notificationIntent = new Intent(context, NotificationActivity.class);
                         notificationIntent.putExtra("Notification", notification);
 
-                        notification.setActionKey(Storage.getInstance().getNewAction().getKey());
 
+                        notification.setAlarm(context);
                         startActivity(notificationIntent);
                     }catch(NumberFormatException e){
                         //This Toast will stay in final product

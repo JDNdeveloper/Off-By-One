@@ -72,17 +72,32 @@ public class AlarmReceiver extends BroadcastReceiver {
                     //Storage.getInstance().deleteAbstractBaseEvent(n);
                     // This is the proper way to use delete/commit/replace - please follow this example - john
                     // and ideally the proper way to use Storage, but Storage is more your own taste
-                    StorageInterface storageInterface = Storage.getInstance();
+                    /*StorageInterface storageInterface = Storage.getInstance();
                     if (storageInterface.deleteAbstractBaseEvent(n) == false){
                         //Toast.makeText(context, "AlarmReceiver deletion of " + n.getKey() + " failed.", Toast.LENGTH_SHORT).show();
                         Log.e("AlarmReciever", "AlarmReceiver deletion of " + n.getKey() + " failed.");
-                    }
+                    }*/
                 }
 
                 //Uncomment after storage is working - tell storage to save the new notification time
                 //Storage.getInstance().replaceNotification(n, n.getKey());
             }else{
                 Log.i("AlarmReceiver", "Invalid notification");
+                if(!n.isEnabled()){
+                    Log.i("AlarmReceiver", "notification not Enabled");
+                }
+                if(!lifeContainer.isEnabled()){
+                    Log.i("AlarmReceiver", "lifestyle not Enabled");
+                }
+                if(!reminderContainer.isEnabled()){
+                    Log.i("AlarmReceiver", "reminder not Enabled");
+                }
+                if(!(Constants.NOTIFICATION_FAILED_KEY != notifKey)){
+                    Log.i("AlarmReceiver", "Notification key is Failed");
+                }
+                if(!(Constants.ACTION_FAILED_KEY != action.getKey())){
+                    Log.i("AlarmReceiver", "Action Key is Failed");
+                }
             }
         }
 

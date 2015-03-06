@@ -26,14 +26,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.MainActivity;
@@ -49,9 +53,10 @@ import java.util.Locale;
 
 public class NotificationActivity extends ActionBarActivity {
 
-    private Notification passednotification;
+    private static Notification passednotification;
+    public Notification passednotification0;
     public int startingPoint;
-    public static String[] test;
+    public static Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,70 +66,193 @@ public class NotificationActivity extends ActionBarActivity {
 
         // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
+        passednotification0 = (Notification) getIntent().getSerializableExtra("Notification");
         //Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
-        Log.i("NotificationActivity", "Passed Notification: " + passednotification.getName());
+        Log.i("NotificationActivity", "Passed Notification: " + passednotification.getKey());
+        Log.i("NotificationActivity", "Passed Notification: " + passednotification.getActionKey());
         //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
-
-
+        context = getApplicationContext();
 
         TextView tv = (TextView) findViewById(R.id.specificNotificationData);
-        if(passednotification.isRepeatDaysEnabled() == true && passednotification.isRepeatEveryBlankDaysEnabled() == false){
+        if (passednotification.isRepeatDaysEnabled() == true && passednotification.isRepeatEveryBlankDaysEnabled() == false) {
             Button changeDate = (Button) findViewById(R.id.changeDate);
             changeDate.setVisibility(View.INVISIBLE);
             Button repeatXDays = (Button) findViewById(R.id.repeatableXDays);
             repeatXDays.setVisibility(View.INVISIBLE);
-            TextView textView = (TextView) findViewById(R.id.specificNotificationData);
+            Button changeDateEveryXDays = (Button) findViewById(R.id.changeDateEveryXDays);
+            changeDateEveryXDays.setVisibility(View.INVISIBLE);
 
-            String[] Days = {"","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            String[] Days = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
             String text = "Days Alarm Enabled For:";
             ArrayList list = passednotification.getRepeatDays();
             //Log.e("Notification Activity",Integer.toString((int)list.get(1)));
-            for(int i = 0; i < list.size(); ++i){
-                text += "\n" + Days[(int)list.get(i)];
+            for (int i = 0; i < list.size(); ++i) {
+                text += "\n" + Days[(int) list.get(i)];
             }
             tv.setText(text);
-        }else if(passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == true){
+        } else if (passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == true) {
             Button changeDate = (Button) findViewById(R.id.changeDate);
             changeDate.setVisibility(View.INVISIBLE);
             Button repeatEveryWeek = (Button) findViewById(R.id.repeatableEveryWeek);
             repeatEveryWeek.setVisibility(View.INVISIBLE);
 
             String text = "Alarm set to go off every " + Integer.toString(passednotification.getRepeatEveryBlankDays()) + " days\n";
-            String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
             text += "Next Alarm Goes Off On: ";
             text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
             text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
             text += ", ";
             text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
             tv.setText(text);
-        }else if(passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == false){
+        } else if (passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == false) {
             Button repeatEveryWeek = (Button) findViewById(R.id.repeatableEveryWeek);
             repeatEveryWeek.setVisibility(View.INVISIBLE);
             Button repeatXDays = (Button) findViewById(R.id.repeatableXDays);
             repeatXDays.setVisibility(View.INVISIBLE);
+            Button changeDateEveryXDays = (Button) findViewById(R.id.changeDateEveryXDays);
+            changeDateEveryXDays.setVisibility(View.INVISIBLE);
             String text = "";
-            String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
             text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
             text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
             text += ", ";
             text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
             tv.setText(text);
             tv.setGravity(Gravity.CENTER);
-        }else{
+        } else {
             //Do not remove
-            Toast.makeText(getApplicationContext(),"The Notification Is Not Setup Properly",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "The Notification Is Not Setup Properly", Toast.LENGTH_SHORT).show();
         }
+
+
+        changeTime();
+
+
+        //Create listener for enables/disabled switch
+        Switch theSwitch = (Switch) findViewById(R.id.notificationEnabled);
+        theSwitch.setOnCheckedChangeListener(null);
+        theSwitch.setChecked(passednotification0.isEnabled());
+
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            theSwitch.setElevation(100);
+        }
+
+        theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                passednotification0.setEnabled(!passednotification0.isEnabled());
+                Storage.getInstance().replaceAbstractBaseEvent(passednotification0);
+            }
+        });
+
+        Action a = Storage.getInstance().getAction(passednotification0.getActionKey());
+
+        ToggleButton vibration = (ToggleButton) findViewById(R.id.vibrate);
+        vibration.setChecked(a.isVibrate());
+
+        ToggleButton sound = (ToggleButton) findViewById(R.id.sound);
+        sound.setChecked(a.isNotificationSound());
 
     }
 
+    public void changeVibrate(View v){
+        Log.e("NotificationActivity","Action Key: " + passednotification0.getActionKey());
+
+        Action a = Storage.getInstance().getAction(passednotification0.getActionKey());
+        a.setVibrate(!a.isVibrate());
+        if (!Storage.getInstance().replaceAbstractBaseEvent(a)) Log.e("Notification Activity","Save Action Failed");
+
+    }
+
+    public void changeSound(View v){
+        Log.e("NotificationActivity","Action Key: " + passednotification0.getActionKey());
+
+        Action a = Storage.getInstance().getAction(passednotification0.getActionKey());
+        a.setNotificationSound(!a.isNotificationSound());
+        if (!Storage.getInstance().replaceAbstractBaseEvent(a)) Log.e("Notification Activity","Save Action Failed");
+
+    }
+
+        public void changeTime() {
+            TextView timeText = (TextView) findViewById(R.id.notificationTime);
+            Calendar time = passednotification.getTime();
+
+            String amPM = "amPM FAIL";
+
+            if (time.get(Calendar.AM_PM) == 1) {
+                amPM = "PM";
+            } else {
+                amPM = "AM";
+            }
+
+            String minutes = Integer.toString(time.get(Calendar.MINUTE));
+            if (minutes.length() == 1) {
+                minutes = "0" + minutes;
+            }
+
+            timeText.setText(Integer.toString(time.get(Calendar.HOUR))
+                    + ":" + minutes
+                    + " " + amPM);
+        }
+
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = passednotification.getTime().get(Calendar.HOUR_OF_DAY);
+            int minute = passednotification.getTime().get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            TextView timeText = (TextView) getActivity().findViewById(R.id.notificationTime);
+            Calendar time = passednotification.getTime();
+            time.set(Calendar.HOUR_OF_DAY,hourOfDay);
+            time.set(Calendar.MINUTE,minute);
+
+            //passednotification.removeAlarm(context);
+            passednotification.setTime(time);
+            //Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+            passednotification.setAlarm(context);
+            Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+            String amPM = "amPM FAIL";
+
+            if (time.get(Calendar.AM_PM) == 1) {
+                amPM = "PM";
+            } else {
+                amPM = "AM";
+            }
+
+            String minutes = Integer.toString(time.get(Calendar.MINUTE));
+            if (minutes.length() == 1) {
+                minutes = "0" + minutes;
+            }
+
+            timeText.setText(Integer.toString(time.get(Calendar.HOUR))
+                    + ":" + minutes
+                    + " " + amPM);
+        }
+    }
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getFragmentManager(),"time picker");
+    }
+
+    /*Selecting How often it reoccurs*/
     public static class EveryXDaysFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-            builder.setTitle("Title");
-            builder.setMessage("Message");
+            builder.setTitle("Select Interval");
+            builder.setMessage("This Notification Will Repeat Every _ Days");
 
             // Set an EditText view to get user input
             final EditText input = new EditText(getActivity());
@@ -133,7 +261,31 @@ public class NotificationActivity extends ActionBarActivity {
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String value = input.getText().toString();
-                    // Do something with value!
+                    try {
+                        int intDays = Integer.parseInt(value);
+                        if (intDays <= 0) {
+                            //This Toast will stay in final product
+                            Toast.makeText(context,"Invalid Number",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        passednotification.setRepeatEveryBlankDays(intDays);
+                        Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+                        String text = "Alarm set to go off every " + Integer.toString(passednotification.getRepeatEveryBlankDays()) + " days\n";
+                        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                        text += "Next Alarm Goes Off On: ";
+                        text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+                        text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+                        text += ", ";
+                        text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+                        TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+                        tv.setText(text);
+
+                    }catch(NumberFormatException e){
+                        //This Toast will stay in final product
+                        Toast.makeText(context,"Not a Number",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
             });
 
@@ -149,16 +301,36 @@ public class NotificationActivity extends ActionBarActivity {
 
     }
 
+    public void setRepeatableEveryXDays(View v){
+        DialogFragment newFragment = new EveryXDaysFragment();
+        newFragment.show(getFragmentManager(), "Every X Days");
+    }
+
+
+    /*Selecting Days of the week*/
     public static class DaysOfWeekFragment extends DialogFragment{
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final ArrayList mSelectedItems = new ArrayList();  // Where we track the selected items
+            final boolean[] validDays = new boolean[7];
+            for(int i = 0; i < validDays.length;i++){
+                validDays[i] =false;
+            }
+            final int[] vDays = new int[7];
+            String[] Days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+
+            final boolean[] preValidDays = new boolean[7];
+            ArrayList<Integer> repeatDays = passednotification.getRepeatDays();
+            for(int i = 0; i < repeatDays.size(); i++){
+                preValidDays[repeatDays.get(i).intValue() - 1] = true;
+                validDays[repeatDays.get(i).intValue() - 1] = true;
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
-            builder.setTitle("pick toppings")
+            builder.setTitle("Pick Days of the Week")
                     // Specify the list array, the items to be selected by default (null for none),
                     // and the listener through which to receive callbacks when items are selected
-                    .setMultiChoiceItems(test, null,
+                    .setMultiChoiceItems(Days, preValidDays,
                             new DialogInterface.OnMultiChoiceClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which,
@@ -166,9 +338,16 @@ public class NotificationActivity extends ActionBarActivity {
                                     if (isChecked) {
                                         // If the user checked the item, add it to the selected items
                                         mSelectedItems.add(which);
-                                    } else if (mSelectedItems.contains(which)) {
+                                        validDays[which] = true;
+                                        preValidDays[which] = true;
+                                        vDays[which] = 1;
+
+                                    } else {
                                         // Else, if the item is already in the array, remove it
                                         mSelectedItems.remove(Integer.valueOf(which));
+                                        validDays[which] = false;
+                                        preValidDays[which] = false;
+                                        vDays[which] = 0;
                                     }
                                 }
                             })
@@ -179,6 +358,24 @@ public class NotificationActivity extends ActionBarActivity {
                             // User clicked OK, so save the mSelectedItems results somewhere
                             // or return them to the component that opened the dialog
 
+
+                            for(int i = 0; i < validDays.length;i++){
+                                passednotification.setRepeatDay(i+1, false);
+                            }
+                            for (int i = 0; i < validDays.length;i++) {
+                                if(validDays[i]) passednotification.setRepeatDay(i+1, true);
+                            }
+                            Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+                            String[] Days = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                            String text = "Days Alarm Enabled For:";
+                            ArrayList list = passednotification.getRepeatDays();
+                            //Log.e("Notification Activity",Integer.toString((int)list.get(1)));
+                            for (int i = 0; i < list.size(); ++i) {
+                                text += "\n" + Days[(int) list.get(i)];
+                            }
+                            TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+                            tv.setText(text);
+                            passednotification.setAlarm(context);
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -192,29 +389,11 @@ public class NotificationActivity extends ActionBarActivity {
         }
     }
 
-    public static class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            // Do something with the time chosen by the user
-        }
+    public void setRepeatableDays(View v){
+        DialogFragment newFragment = new DaysOfWeekFragment();
+        newFragment.show(getFragmentManager(), "Days Of Week");
     }
-    public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getFragmentManager(),"time picker");
-    }
+
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -222,7 +401,7 @@ public class NotificationActivity extends ActionBarActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
+            final Calendar c = passednotification.getTime();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
@@ -233,14 +412,51 @@ public class NotificationActivity extends ActionBarActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
+            Calendar date = passednotification.getTime();
+            date.set(Calendar.YEAR,year);
+            date.set(Calendar.MONTH,month);
+            date.set(Calendar.DAY_OF_MONTH,day);
+            passednotification.setTime(date);
+
+            passednotification.setAlarm(context);
+            Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+            if(oneTime) {
+                String text = "";
+                String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+                text += ", ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+                TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+                tv.setText(text);
+                tv.setGravity(Gravity.CENTER);
+            }else{
+                String text = "Alarm set to go off every " + Integer.toString(passednotification.getRepeatEveryBlankDays()) + " days\n";
+                String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                text += "Next Alarm Goes Off On: ";
+                text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+                text += ", ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+                TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+                tv.setText(text);
+            }
         }
     }
 
+    public static boolean oneTime;
+
     public void showDatePickerDialog(View v) {
+        oneTime = true;
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
+    public void changeDateEveryXDays(View v) {
+        oneTime = false;
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
     @Override
     public Intent getSupportParentActivityIntent(){
         switch(startingPoint){

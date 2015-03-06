@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:text="Pick Days of the Week"
         android:id="@+id/repeatableEveryWeek"
+        android:onClick="setRepeatableDays"
         android:layout_below="@+id/view4"
         android:layout_centerHorizontal="true" />
 
@@ -55,6 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pick X Days Repeatable"
+        android:onClick="setRepeatableEveryXDays"
         android:id="@+id/repeatableXDays"
         android:layout_below="@+id/view4"
         android:layout_centerHorizontal="true" />
@@ -63,7 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sound"
-        android:id="@+id/toggleButton"
+        android:id="@+id/sound"
+        android:onClick="changeSound"
         android:layout_below="@+id/textView10"
         android:layout_centerHorizontal="true" />
 
@@ -71,7 +74,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vibration"
-        android:id="@+id/toggleButton2"
+        android:id="@+id/vibrate"
+        android:onClick="changeVibrate"
         android:layout_below="@+id/textView9"
         android:layout_centerHorizontal="true" />
 
@@ -137,7 +141,17 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Sound"
         android:id="@+id/textView10"
-        android:layout_below="@+id/toggleButton2"
+        android:layout_below="@+id/vibrate"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Date"
+        android:id="@+id/changeDateEveryXDays"
+        android:onClick="changeDateEveryXDays"
+        android:layout_below="@+id/sound"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
