@@ -54,7 +54,9 @@ public class LifestyleActivity extends ActionBarActivity {
 
     private Lifestyle passedLifestyle;
     ImageButton buttonlistner;
-    public int startingPoint;
+
+    final Context context = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,21 +64,19 @@ public class LifestyleActivity extends ActionBarActivity {
         setupActionBar();
         changeStatusBarColor(R.color.life_action_status_bar);
 
-        // Josh - below is how to retrieve the passed lifestyle
+
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
-        //Toast.makeText(this, passedLifestyle.getName(), Toast.LENGTH_SHORT).show();
-        Log.i("LifestyleActivity", "Passed Lifestyle: " + passedLifestyle.getName());
-        //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
+        Log.i("LifestyleActivity", "Passed Lifestyle: " + passedLifestyle.getKey());
 
         //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.lifestyleName);
         editText.setText(passedLifestyle.getName());
         editText.addTextChangedListener(new TextWatcher(){
             public void afterTextChanged(Editable s) {
-                //editText.setText(String.valueOf(i) + " / " + String.valueOf(charCounts));
-                Log.e("Lifestyle Activity","Editing lifestyle name to: " + editText.getText().toString());
                 passedLifestyle.setName(editText.getText().toString());
-                Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+                if(!Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle)){
+                    Toast.makeText(getApplicationContext(), "Lifestyle Name Was Not Saved Properly", Toast.LENGTH_SHORT).show();
+                }
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -98,15 +98,6 @@ public class LifestyleActivity extends ActionBarActivity {
                 passedLifestyle.setEnabled(!passedLifestyle.isEnabled());
                 Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
                 updateListAdapter();
-                /*if (isChecked) {
-                    //text += " is enabled";
-                    passedLifestyle.setEnabled(true);
-                    Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
-                } else {
-                    //text += " is disabled";
-                    passedLifestyle.setEnabled(false);
-                    Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
-                }*/
             }
         });
 
@@ -119,12 +110,11 @@ public class LifestyleActivity extends ActionBarActivity {
 
 
     }
-    final Context context = this;
+
+
     public void updateListAdapter(){
         ListView listView = (ListView) findViewById(R.id.lifestyleListView);
         final List<Reminder> reminderArray = new ArrayList<>();
-        //abstractBaseEvents = passedLifestyle.getReminders();
-        //Storage.getInstance().getReminder()
         for(String r : passedLifestyle.getReminders()){
             Log.e("Lifestyle Activity",r);
             if(!Storage.getInstance().getReminder(r).getKey().equals(Constants.REMINDER_FAILED_KEY)) reminderArray.add(Storage.getInstance().getReminder(r));
@@ -137,13 +127,15 @@ public class LifestyleActivity extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("LifestyleActivity", "position " + Integer.toString(position));
-                Log.e("LifestyleActivity","newActivity Reminder");
-                Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
-                Reminder reminder = reminderArray.get(position);
-                reminderIntent.putExtra("Reminder", reminder);
-                reminderIntent.putExtra("startingPoint",startingPoint);
-                startActivity(reminderIntent);
+                try {
+                    Log.e("LifestyleActivity", "position " + Integer.toString(position));
+                    Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
+                    Reminder reminder = reminderArray.get(position);
+                    reminderIntent.putExtra("Reminder", reminder);
+                    startActivity(reminderIntent);
+                }catch (IndexOutOfBoundsException e){
+                    Log.e("Lifestyle Activity","IndexOutOfBounds Exception");
+                }
             }
         });
 
@@ -194,10 +186,12 @@ public class LifestyleActivity extends ActionBarActivity {
                 reminder.setName("");
                 reminder.setLifestyleContainerKey(passedLifestyle.getKey());
                 passedLifestyle.addReminder(reminder.getKey());
-                Storage.getInstance().commitAbstractBaseEvent(reminder);
-                Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+                if(!Storage.getInstance().commitAbstractBaseEvent(reminder) ||
+                        !Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle)){
+                    Toast.makeText(getApplicationContext(), "Reminder Was Not Created/Saved Properly", Toast.LENGTH_SHORT).show();
+                    //return;
+                }
                 reminderIntent.putExtra("Reminder", reminder);
-                reminderIntent.putExtra("startingPoint",startingPoint);
                 startActivity(reminderIntent);
             }
         });
@@ -223,8 +217,6 @@ public class LifestyleActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //This needs to change, its breaking the enabled switch
         switch (id) {
             case android.R.id.home:
                 finish();
