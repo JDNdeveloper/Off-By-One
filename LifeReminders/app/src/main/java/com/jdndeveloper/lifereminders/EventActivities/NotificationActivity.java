@@ -57,21 +57,19 @@ public class NotificationActivity extends ActionBarActivity {
     //public Notification passednotification0;
     public int startingPoint;
     public static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
         setupActionBar();
         changeStatusBarColor(R.color.notif_action_status_bar);
+        context = getApplicationContext();
 
-        // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
-        //passednotification0 = (Notification) getIntent().getSerializableExtra("Notification");
-        //Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
+
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getKey());
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getActionKey());
-        //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
-        context = getApplicationContext();
 
         TextView tv = (TextView) findViewById(R.id.specificNotificationData);
         if (passednotification.isRepeatDaysEnabled() == true && passednotification.isRepeatEveryBlankDaysEnabled() == false) {
@@ -85,7 +83,6 @@ public class NotificationActivity extends ActionBarActivity {
             String[] Days = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
             String text = "Days Alarm Enabled For:";
             ArrayList list = passednotification.getRepeatDays();
-            //Log.e("Notification Activity",Integer.toString((int)list.get(1)));
             for (int i = 0; i < list.size(); ++i) {
                 text += "\n" + Days[(int) list.get(i)];
             }
@@ -189,7 +186,12 @@ public class NotificationActivity extends ActionBarActivity {
                 minutes = "0" + minutes;
             }
 
-            timeText.setText(Integer.toString(time.get(Calendar.HOUR))
+            String hour = Integer.toString(time.get(Calendar.HOUR));
+            if (hour.equals("0")) {
+                hour = "12";
+            }
+
+            timeText.setText(hour
                     + ":" + minutes
                     + " " + amPM);
         }
@@ -311,12 +313,10 @@ public class NotificationActivity extends ActionBarActivity {
     public static class DaysOfWeekFragment extends DialogFragment{
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final ArrayList mSelectedItems = new ArrayList();  // Where we track the selected items
             final boolean[] validDays = new boolean[7];
             for(int i = 0; i < validDays.length;i++){
                 validDays[i] =false;
             }
-            final int[] vDays = new int[7];
             String[] Days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 
             final boolean[] preValidDays = new boolean[7];
@@ -337,17 +337,10 @@ public class NotificationActivity extends ActionBarActivity {
                                                     boolean isChecked) {
                                     if (isChecked) {
                                         // If the user checked the item, add it to the selected items
-                                        mSelectedItems.add(which);
                                         validDays[which] = true;
-                                        preValidDays[which] = true;
-                                        vDays[which] = 1;
-
                                     } else {
                                         // Else, if the item is already in the array, remove it
-                                        mSelectedItems.remove(Integer.valueOf(which));
                                         validDays[which] = false;
-                                        preValidDays[which] = false;
-                                        vDays[which] = 0;
                                     }
                                 }
                             })
