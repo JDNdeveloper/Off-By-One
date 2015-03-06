@@ -221,24 +221,6 @@ public class ReminderActivity extends ActionBarActivity {
         return false;
     }
 
-
-    @Override
-    public Intent getSupportParentActivityIntent(){
-        switch(startingPoint){
-            case 0:
-                Intent returnLifestyle = new Intent(getApplicationContext(), LifestyleActivity.class);
-                returnLifestyle.putExtra("Lifestyle",Storage.getInstance().getLifestyle(passedReminder.getLifestyleContainerKey()));
-                returnLifestyle.putExtra("startingPoint",startingPoint);
-                return returnLifestyle;
-            case 1:
-                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
-                returnMain.putExtra("startingPoint",startingPoint);
-                return returnMain;
-
-        }
-        return super.getSupportParentActivityIntent();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

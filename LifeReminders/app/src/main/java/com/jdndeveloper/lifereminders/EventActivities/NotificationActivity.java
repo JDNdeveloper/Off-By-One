@@ -458,24 +458,7 @@ public class NotificationActivity extends ActionBarActivity {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
-    @Override
-    public Intent getSupportParentActivityIntent(){
-        switch(startingPoint){
-            case 0:
-            case 1:
-                Intent returnReminder = new Intent(getApplicationContext(), ReminderActivity.class);
-                returnReminder.putExtra("Reminder",Storage.getInstance().getReminder(passednotification.getReminderContainerKey()));
-                returnReminder.putExtra("startingPoint",startingPoint);
-                return returnReminder;
-            case 2:
-                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
-                returnMain.putExtra("startingPoint",startingPoint);
-                return returnMain;
 
-
-        }
-        return super.getSupportParentActivityIntent();
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

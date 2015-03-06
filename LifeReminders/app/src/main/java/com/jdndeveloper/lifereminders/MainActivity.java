@@ -770,7 +770,7 @@ public class MainActivity extends ActionBarActivity
         notification.setActionKey(action.getKey());
         if(!Storage.getInstance().commitAbstractBaseEvent(action) || !Storage.getInstance().commitAbstractBaseEvent(notification)){
             Toast.makeText(context,"Failed To Properly Save Notification",Toast.LENGTH_SHORT);
-            return;
+            //return;
         }
         Intent notificationIntent = new Intent(context, NotificationActivity.class);
         notificationIntent.putExtra("Notification", notification);
