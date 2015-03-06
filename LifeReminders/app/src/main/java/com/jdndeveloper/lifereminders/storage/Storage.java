@@ -143,8 +143,7 @@ public class Storage implements StorageInterface {
 
     @Override
     public boolean replaceAbstractBaseEvent(AbstractBaseEvent abstractBaseEvent) {
-        sharedStorageInstance.saveAbstractBaseEvent(abstractBaseEvent);
-        return false;
+        return sharedStorageInstance.saveAbstractBaseEvent(abstractBaseEvent);
     }
 
     @Override
