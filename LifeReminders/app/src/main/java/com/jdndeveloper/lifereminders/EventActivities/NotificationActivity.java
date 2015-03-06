@@ -54,7 +54,7 @@ import java.util.Locale;
 public class NotificationActivity extends ActionBarActivity {
 
     private static Notification passednotification;
-    public Notification passednotification0;
+    //public Notification passednotification0;
     public int startingPoint;
     public static Context context;
     @Override
@@ -66,7 +66,7 @@ public class NotificationActivity extends ActionBarActivity {
 
         // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
-        passednotification0 = (Notification) getIntent().getSerializableExtra("Notification");
+        //passednotification0 = (Notification) getIntent().getSerializableExtra("Notification");
         //Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getKey());
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getActionKey());
@@ -131,7 +131,7 @@ public class NotificationActivity extends ActionBarActivity {
         //Create listener for enables/disabled switch
         Switch theSwitch = (Switch) findViewById(R.id.notificationEnabled);
         theSwitch.setOnCheckedChangeListener(null);
-        theSwitch.setChecked(passednotification0.isEnabled());
+        theSwitch.setChecked(passednotification.isEnabled());
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             theSwitch.setElevation(100);
@@ -139,12 +139,12 @@ public class NotificationActivity extends ActionBarActivity {
 
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                passednotification0.setEnabled(!passednotification0.isEnabled());
-                Storage.getInstance().replaceAbstractBaseEvent(passednotification0);
+                passednotification.setEnabled(!passednotification.isEnabled());
+                Storage.getInstance().replaceAbstractBaseEvent(passednotification);
             }
         });
 
-        Action a = Storage.getInstance().getAction(passednotification0.getActionKey());
+        Action a = Storage.getInstance().getAction(passednotification.getActionKey());
 
         ToggleButton vibration = (ToggleButton) findViewById(R.id.vibrate);
         vibration.setChecked(a.isVibrate());
@@ -152,6 +152,7 @@ public class NotificationActivity extends ActionBarActivity {
         ToggleButton sound = (ToggleButton) findViewById(R.id.sound);
         sound.setChecked(a.isNotificationSound());
 
+        passednotification.setAlarm(context);
     }
 
     public void changeVibrate(View v){
@@ -417,8 +418,9 @@ public class NotificationActivity extends ActionBarActivity {
             date.set(Calendar.DAY_OF_MONTH,day);
             passednotification.setTime(date);
 
-            passednotification.setAlarm(context);
+
             Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+            passednotification.setAlarm(context);
             if(oneTime) {
                 String text = "";
                 String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};

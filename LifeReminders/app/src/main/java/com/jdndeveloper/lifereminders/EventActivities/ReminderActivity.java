@@ -396,11 +396,16 @@ public class ReminderActivity extends ActionBarActivity {
 
             notification.setRepeatDaysEnabled(false);
             notification.setRepeatEveryBlankDaysEnabled(false);
+            Log.e("ReminderActivity",Integer.toString(newYear));
+            Log.e("ReminderActivity",Integer.toString(newMonth));
+            Log.e("ReminderActivity",Integer.toString(newDay));
+            Log.e("ReminderActivity",Integer.toString(newHour));
+            Log.e("ReminderActivity",Integer.toString(newMinute));
             c.set(newYear, newMonth, newDay, newHour, newMinute,0);
 
             notification.setTime(c);
 
-            notification.setName("");
+            //notification.setName("");
             notification.setReminderContainerKey(passedReminder.getKey());
             notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
             passedReminder.addNotification(notification.getKey());
@@ -414,7 +419,7 @@ public class ReminderActivity extends ActionBarActivity {
             notificationIntent.putExtra("Notification", notification);
 
 
-            notification.setAlarm(context);
+            //notification.setAlarm(context);
             startActivity(notificationIntent);
         }
     }

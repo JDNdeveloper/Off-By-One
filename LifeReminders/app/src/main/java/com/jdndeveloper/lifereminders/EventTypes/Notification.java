@@ -125,7 +125,7 @@ public class Notification extends AbstractBaseEvent {
                 .getKey().equals(Constants.LIFESTYLE_FAILED_KEY))
             subTitle = "";
 
-        Storage.getInstance().getAction(Constants.ACTION_TEST_KEY).sendCorrectNotification(context,
+        Storage.getInstance().getAction(this.getActionKey()).sendCorrectNotification(context,
                 title,
                 subTitle,
                 requestID,
