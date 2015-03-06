@@ -409,7 +409,7 @@ public class ReminderActivity extends ActionBarActivity {
             notificationIntent.putExtra("Notification", notification);
 
             notification.setActionKey(Storage.getInstance().getNewAction().getKey());
-
+            notification.setAlarm(context);
             startActivity(notificationIntent);
         }
     }
@@ -480,7 +480,7 @@ public class ReminderActivity extends ActionBarActivity {
                             notificationIntent.putExtra("Notification", notification);
 
                             notification.setActionKey(Storage.getInstance().getNewAction().getKey());
-
+                            notification.setAlarm(context);
                             startActivity(notificationIntent);
                         }
                     })
@@ -549,7 +549,7 @@ public class ReminderActivity extends ActionBarActivity {
                         notificationIntent.putExtra("Notification", notification);
 
                         notification.setActionKey(Storage.getInstance().getNewAction().getKey());
-
+                        notification.setAlarm(context);
                         startActivity(notificationIntent);
                     }catch(NumberFormatException e){
                         //This Toast will stay in final product

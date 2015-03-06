@@ -49,9 +49,10 @@ import java.util.Locale;
 
 public class NotificationActivity extends ActionBarActivity {
 
-    private Notification passednotification;
+    private static Notification passednotification;
     public int startingPoint;
     public static String[] test;
+    public static Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,59 +63,133 @@ public class NotificationActivity extends ActionBarActivity {
         // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
         //Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
-        Log.i("NotificationActivity", "Passed Notification: " + passednotification.getName());
+        Log.i("NotificationActivity", "Passed Notification: " + passednotification.getKey());
         //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
-
-
+        context = getApplicationContext();
 
         TextView tv = (TextView) findViewById(R.id.specificNotificationData);
-        if(passednotification.isRepeatDaysEnabled() == true && passednotification.isRepeatEveryBlankDaysEnabled() == false){
+        if (passednotification.isRepeatDaysEnabled() == true && passednotification.isRepeatEveryBlankDaysEnabled() == false) {
             Button changeDate = (Button) findViewById(R.id.changeDate);
             changeDate.setVisibility(View.INVISIBLE);
             Button repeatXDays = (Button) findViewById(R.id.repeatableXDays);
             repeatXDays.setVisibility(View.INVISIBLE);
-            TextView textView = (TextView) findViewById(R.id.specificNotificationData);
 
-            String[] Days = {"","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+
+            String[] Days = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
             String text = "Days Alarm Enabled For:";
             ArrayList list = passednotification.getRepeatDays();
             //Log.e("Notification Activity",Integer.toString((int)list.get(1)));
-            for(int i = 0; i < list.size(); ++i){
-                text += "\n" + Days[(int)list.get(i)];
+            for (int i = 0; i < list.size(); ++i) {
+                text += "\n" + Days[(int) list.get(i)];
             }
             tv.setText(text);
-        }else if(passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == true){
+        } else if (passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == true) {
             Button changeDate = (Button) findViewById(R.id.changeDate);
             changeDate.setVisibility(View.INVISIBLE);
             Button repeatEveryWeek = (Button) findViewById(R.id.repeatableEveryWeek);
             repeatEveryWeek.setVisibility(View.INVISIBLE);
 
             String text = "Alarm set to go off every " + Integer.toString(passednotification.getRepeatEveryBlankDays()) + " days\n";
-            String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
             text += "Next Alarm Goes Off On: ";
             text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
             text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
             text += ", ";
             text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
             tv.setText(text);
-        }else if(passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == false){
+        } else if (passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == false) {
             Button repeatEveryWeek = (Button) findViewById(R.id.repeatableEveryWeek);
             repeatEveryWeek.setVisibility(View.INVISIBLE);
             Button repeatXDays = (Button) findViewById(R.id.repeatableXDays);
             repeatXDays.setVisibility(View.INVISIBLE);
             String text = "";
-            String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
             text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
             text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
             text += ", ";
             text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
             tv.setText(text);
             tv.setGravity(Gravity.CENTER);
-        }else{
+        } else {
             //Do not remove
-            Toast.makeText(getApplicationContext(),"The Notification Is Not Setup Properly",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "The Notification Is Not Setup Properly", Toast.LENGTH_SHORT).show();
         }
 
+
+        changeTime();
+    }
+
+
+        public void changeTime() {
+            TextView timeText = (TextView) findViewById(R.id.notificationTime);
+            Calendar time = passednotification.getTime();
+
+            String amPM = "amPM FAIL";
+
+            if (time.get(Calendar.AM_PM) == 1) {
+                amPM = "PM";
+            } else {
+                amPM = "AM";
+            }
+
+            String minutes = Integer.toString(time.get(Calendar.MINUTE));
+            if (minutes.length() == 1) {
+                minutes = "0" + minutes;
+            }
+
+            timeText.setText(Integer.toString(time.get(Calendar.HOUR))
+                    + ":" + minutes
+                    + " " + amPM);
+        }
+
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = passednotification.getTime().get(Calendar.HOUR_OF_DAY);
+            int minute = passednotification.getTime().get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            TextView timeText = (TextView) getActivity().findViewById(R.id.notificationTime);
+            Calendar time = passednotification.getTime();
+            time.set(Calendar.HOUR_OF_DAY,hourOfDay);
+            time.set(Calendar.MINUTE,minute);
+
+            //passednotification.removeAlarm(context);
+            passednotification.setTime(time);
+            //Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+            passednotification.setAlarm(context);
+            Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+            String amPM = "amPM FAIL";
+
+            if (time.get(Calendar.AM_PM) == 1) {
+                amPM = "PM";
+            } else {
+                amPM = "AM";
+            }
+
+            String minutes = Integer.toString(time.get(Calendar.MINUTE));
+            if (minutes.length() == 1) {
+                minutes = "0" + minutes;
+            }
+
+            timeText.setText(Integer.toString(time.get(Calendar.HOUR))
+                    + ":" + minutes
+                    + " " + amPM);
+        }
+    }
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getFragmentManager(),"time picker");
     }
 
     public static class EveryXDaysFragment extends DialogFragment {
@@ -192,29 +267,7 @@ public class NotificationActivity extends ActionBarActivity {
         }
     }
 
-    public static class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
 
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            // Do something with the time chosen by the user
-        }
-    }
-    public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getFragmentManager(),"time picker");
-    }
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
