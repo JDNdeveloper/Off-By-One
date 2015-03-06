@@ -245,16 +245,30 @@ public class NotificationActivity extends ActionBarActivity {
 
     }
 
+    /*Selecting Days of the week*/
     public static class DaysOfWeekFragment extends DialogFragment{
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final ArrayList mSelectedItems = new ArrayList();  // Where we track the selected items
+            final boolean[] validDays = new boolean[7];
+            for(int i = 0; i < validDays.length;i++){
+                validDays[i] =false;
+            }
+            final int[] vDays = new int[7];
+            String[] Days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+
+            final boolean[] preValidDays = new boolean[7];
+            ArrayList<Integer> repeatDays = passednotification.getRepeatDays();
+            for(int i = 0; i < repeatDays.size(); i++){
+                preValidDays[repeatDays.get(i).intValue() - 1] = true;
+                validDays[repeatDays.get(i).intValue() - 1] = true;
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
-            builder.setTitle("pick toppings")
+            builder.setTitle("Pick Days of the Week")
                     // Specify the list array, the items to be selected by default (null for none),
                     // and the listener through which to receive callbacks when items are selected
-                    .setMultiChoiceItems(test, null,
+                    .setMultiChoiceItems(Days, preValidDays,
                             new DialogInterface.OnMultiChoiceClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which,
@@ -262,9 +276,16 @@ public class NotificationActivity extends ActionBarActivity {
                                     if (isChecked) {
                                         // If the user checked the item, add it to the selected items
                                         mSelectedItems.add(which);
-                                    } else if (mSelectedItems.contains(which)) {
+                                        validDays[which] = true;
+                                        preValidDays[which] = true;
+                                        vDays[which] = 1;
+
+                                    } else {
                                         // Else, if the item is already in the array, remove it
                                         mSelectedItems.remove(Integer.valueOf(which));
+                                        validDays[which] = false;
+                                        preValidDays[which] = false;
+                                        vDays[which] = 0;
                                     }
                                 }
                             })
@@ -274,6 +295,25 @@ public class NotificationActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked OK, so save the mSelectedItems results somewhere
                             // or return them to the component that opened the dialog
+
+                            Calendar c = Calendar.getInstance();
+
+                            for(int i = 0; i < validDays.length;i++){
+                                passednotification.setRepeatDay(i+1, false);
+                            }
+                            for (int i = 0; i < validDays.length;i++) {
+                                if(validDays[i]) passednotification.setRepeatDay(i+1, true);
+                            }
+                            Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+                            String[] Days = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                            String text = "Days Alarm Enabled For:";
+                            ArrayList list = passednotification.getRepeatDays();
+                            //Log.e("Notification Activity",Integer.toString((int)list.get(1)));
+                            for (int i = 0; i < list.size(); ++i) {
+                                text += "\n" + Days[(int) list.get(i)];
+                            }
+                            TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+                            tv.setText(text);
 
                         }
                     })
@@ -288,7 +328,10 @@ public class NotificationActivity extends ActionBarActivity {
         }
     }
 
-
+    public void setRepeatableDays(View v){
+        DialogFragment newFragment = new DaysOfWeekFragment();
+        newFragment.show(getFragmentManager(), "Days Of Week");
+    }
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {

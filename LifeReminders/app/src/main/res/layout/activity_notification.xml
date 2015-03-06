@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:text="Pick Days of the Week"
         android:id="@+id/repeatableEveryWeek"
+        android:onClick="setRepeatableDays"
         android:layout_below="@+id/view4"
         android:layout_centerHorizontal="true" />
 

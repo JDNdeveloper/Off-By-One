@@ -735,6 +735,8 @@ public class MainActivity extends ActionBarActivity
                                     } else if (mSelectedItems.contains(which)) {
                                         // Else, if the item is already in the array, remove it
                                         mSelectedItems.remove(Integer.valueOf(which));
+                                        validDays[which] = false;
+                                        vDays[which] = 0;
                                     }
                                 }
                             })
