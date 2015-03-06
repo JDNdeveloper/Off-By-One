@@ -125,32 +125,6 @@ public class MainActivity extends ActionBarActivity
             loadReminder(notifReminder);
         }
 
-
-        /*this is Josh- DO NOT DELETE unless I give you explicit permission to do so*/
-        /*try {
-            FragmentLocation = (int) getIntent().getSerializableExtra("startingPoint");
-            onNavigationDrawerItemSelected(FragmentLocation);
-            Log.e("Main Activity","Fragment Location " + Integer.toString(FragmentLocation));
-            switch (FragmentLocation){
-                case 0:
-                    changeStatusBarColor(R.color.life_action_status_bar);
-                    break;
-                case 1:
-                    changeStatusBarColor(R.color.rem_action_status_bar);
-                    break;
-                case 2:
-                    changeStatusBarColor(R.color.notif_action_status_bar);
-                    break;
-                default:
-                    break;
-            }
-            restoreActionBar();
-        }catch (NullPointerException e){
-            Log.e("Main Activity","not returning from other activity");
-        }*/
-
-
-
         // this iterates through all the lifestyles and deletes them all, with the exception of
         // the failure keys. feel free to un-comment. this shows delete functions properly.
         // you will need to clear cache after commenting it out and recompiling - john
@@ -194,13 +168,6 @@ public class MainActivity extends ActionBarActivity
         Intent reminderIntent = new Intent(context, ReminderActivity.class);
         reminderIntent.putExtra("Reminder", reminder);
         startActivity(reminderIntent);
-    }
-
-    private void loadNotification(Notification notification) {
-        FragmentLocation = 3;
-        Intent notificationIntent = new Intent(context, NotificationActivity.class);
-        notificationIntent.putExtra("Notification", notification);
-        startActivity(notificationIntent);
     }
 
     public void buttonclickplus(View v) {
@@ -337,12 +304,7 @@ public class MainActivity extends ActionBarActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-            return true;
-        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -429,41 +391,32 @@ public class MainActivity extends ActionBarActivity
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.e("MainActivity", "onCreateView onItem "
+                    Log.e("MainActivity", "Selecting item "
                             + ((AbstractBaseEvent) abstractBaseEvents.get(position)).getKey());
                     switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)) {
                         //Go To Lifestyle Activity
                         case 1:
-                            Log.e("Main Activity","newActivity Lifestyle");
                             Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
                             Lifestyle lifestyle = (Lifestyle) abstractBaseEvents.get(position);
                             lifestyleIntent.putExtra("Lifestyle", lifestyle);
-                            lifestyleIntent.putExtra("distanceFromRoot",0);
-                            lifestyleIntent.putExtra("startingPoint",0);
                             startActivity(lifestyleIntent);
                             break;
                         //Go To Reminder Activity
                         case 2:
-                            Log.e("Main Activity","newActivity Reminder");
                             Intent reminderIntent = new Intent(context, ReminderActivity.class);
                             Reminder reminder = (Reminder) abstractBaseEvents.get(position);
                             reminderIntent.putExtra("Reminder", reminder);
-                            reminderIntent.putExtra("distanceFromRoot",0);
-                            reminderIntent.putExtra("startingPoint",1);
                             startActivity(reminderIntent);
                             break;
                         //Go To Notification Activity
                         case 3:
-                            Log.e("Main Activity","newActivity Notification");
                             Intent notificationIntent = new Intent(context, NotificationActivity.class);
                             Notification notification = (Notification) abstractBaseEvents.get(position);
                             notificationIntent.putExtra("Notification", notification);
-                            notificationIntent.putExtra("distanceFromRoot",0);
-                            notificationIntent.putExtra("startingPoint",2);
                             startActivity(notificationIntent);
                             break;
                         default:
-                            Log.e("Main Activity","newActivity Failed");
+                            Toast.makeText(context,"Not a Proper Type of Abstract BAse Event",Toast.LENGTH_SHORT);
                             break;
                     }
                 }
@@ -696,15 +649,7 @@ public class MainActivity extends ActionBarActivity
 
             notification.setTime(c);
 
-            Action action = Storage.getInstance().getNewAction();
-            notification.setActionKey(action.getKey());
-            Storage.getInstance().commitAbstractBaseEvent(action);
-            Storage.getInstance().commitAbstractBaseEvent(notification);
-
-            Intent notificationIntent = new Intent(context, NotificationActivity.class);
-            notificationIntent.putExtra("Notification", notification);
-
-            startActivity(notificationIntent);
+            finishCreatingNewNotification(notification, getActivity());
         }
     }
 
@@ -712,12 +657,10 @@ public class MainActivity extends ActionBarActivity
     public static class DaysOfWeekFragment extends DialogFragment{
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final ArrayList mSelectedItems = new ArrayList();  // Where we track the selected items
             final boolean[] validDays = new boolean[7];
             for(int i = 0; i < validDays.length;i++){
                 validDays[i] =false;
             }
-            final int[] vDays = new int[7];
             String[] Days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
@@ -731,15 +674,10 @@ public class MainActivity extends ActionBarActivity
                                                     boolean isChecked) {
                                     if (isChecked) {
                                         // If the user checked the item, add it to the selected items
-                                        mSelectedItems.add(which);
                                         validDays[which] = true;
-                                        vDays[which ] = 1;
-
-                                    } else if (mSelectedItems.contains(which)) {
+                                    } else {
                                         // Else, if the item is already in the array, remove it
-                                        mSelectedItems.remove(Integer.valueOf(which));
                                         validDays[which] = false;
-                                        vDays[which] = 0;
                                     }
                                 }
                             })
@@ -759,19 +697,8 @@ public class MainActivity extends ActionBarActivity
                             for (int i = 0; i < validDays.length;i++) {
                                 if(validDays[i]) notification.setRepeatDay(i+1, true);
                             }
-
-
                             notification.setTime(c);
-                            Action action = Storage.getInstance().getNewAction();
-                            notification.setActionKey(action.getKey());
-                            Storage.getInstance().commitAbstractBaseEvent(action);
-
-                            Storage.getInstance().commitAbstractBaseEvent(notification);
-
-                            Intent notificationIntent = new Intent(context, NotificationActivity.class);
-                            notificationIntent.putExtra("Notification", notification);
-
-                            startActivity(notificationIntent);
+                            finishCreatingNewNotification(notification, getActivity());
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -809,34 +736,16 @@ public class MainActivity extends ActionBarActivity
                             Toast.makeText(context,"Invalid Number",Toast.LENGTH_SHORT).show();
                             return;
                         }
-
                         Notification notification = Storage.getInstance().getNewNotification();
-
-
                         Calendar c = Calendar.getInstance();
                         notification.setRepeatDaysEnabled(false);
                         notification.setRepeatEveryBlankDaysEnabled(true);
-
                         notification.setRepeatEveryBlankDays(intDays);
-
-
                         c.set(Calendar.HOUR_OF_DAY, newHour);
                         c.set(Calendar.MINUTE, newMinute);
-
                         notification.setTime(c);
+                        finishCreatingNewNotification(notification, getActivity());
 
-                        Action action = Storage.getInstance().getNewAction();
-                        notification.setActionKey(action.getKey());
-                        Storage.getInstance().commitAbstractBaseEvent(action);
-
-                        Storage.getInstance().commitAbstractBaseEvent(notification);
-
-                        Intent notificationIntent = new Intent(context, NotificationActivity.class);
-                        notificationIntent.putExtra("Notification", notification);
-
-
-
-                        startActivity(notificationIntent);
                     }catch(NumberFormatException e){
                         //This Toast will stay in final product
                         Toast.makeText(context,"Not a Number",Toast.LENGTH_SHORT).show();
@@ -851,24 +760,20 @@ public class MainActivity extends ActionBarActivity
                 }
             });
 
-            //alert.show();
             return builder.create();
         }
 
     }
 
-    public void finishCreatingNewNotification(Notification notification){
+    public static void finishCreatingNewNotification(Notification notification, Activity activity){
         Action action = Storage.getInstance().getNewAction();
         notification.setActionKey(action.getKey());
-        Storage.getInstance().commitAbstractBaseEvent(action);
-
-        Storage.getInstance().commitAbstractBaseEvent(notification);
-
+        if(!Storage.getInstance().commitAbstractBaseEvent(action) || !Storage.getInstance().commitAbstractBaseEvent(notification)){
+            Toast.makeText(context,"Failed To Properly Save Notification",Toast.LENGTH_SHORT);
+            return;
+        }
         Intent notificationIntent = new Intent(context, NotificationActivity.class);
         notificationIntent.putExtra("Notification", notification);
-
-
-
-        startActivity(notificationIntent);
+        activity.startActivity(notificationIntent);
     }
 }
