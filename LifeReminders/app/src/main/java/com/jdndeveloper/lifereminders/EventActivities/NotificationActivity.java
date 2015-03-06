@@ -213,14 +213,15 @@ public class NotificationActivity extends ActionBarActivity {
         newFragment.show(getFragmentManager(),"time picker");
     }
 
+    /*Selecting How often it reoccurs*/
     public static class EveryXDaysFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-            builder.setTitle("Title");
-            builder.setMessage("Message");
+            builder.setTitle("Select Interval");
+            builder.setMessage("This Notification Will Repeat Every _ Days");
 
             // Set an EditText view to get user input
             final EditText input = new EditText(getActivity());
@@ -229,7 +230,31 @@ public class NotificationActivity extends ActionBarActivity {
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String value = input.getText().toString();
-                    // Do something with value!
+                    try {
+                        int intDays = Integer.parseInt(value);
+                        if (intDays <= 0) {
+                            //This Toast will stay in final product
+                            Toast.makeText(context,"Invalid Number",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        passednotification.setRepeatEveryBlankDays(intDays);
+                        Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+                        String text = "Alarm set to go off every " + Integer.toString(passednotification.getRepeatEveryBlankDays()) + " days\n";
+                        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                        text += "Next Alarm Goes Off On: ";
+                        text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+                        text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+                        text += ", ";
+                        text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+                        TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+                        tv.setText(text);
+
+                    }catch(NumberFormatException e){
+                        //This Toast will stay in final product
+                        Toast.makeText(context,"Not a Number",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
             });
 
@@ -244,6 +269,12 @@ public class NotificationActivity extends ActionBarActivity {
         }
 
     }
+
+    public void setRepeatableEveryXDays(View v){
+        DialogFragment newFragment = new EveryXDaysFragment();
+        newFragment.show(getFragmentManager(), "Every X Days");
+    }
+
 
     /*Selecting Days of the week*/
     public static class DaysOfWeekFragment extends DialogFragment{
@@ -296,7 +327,6 @@ public class NotificationActivity extends ActionBarActivity {
                             // User clicked OK, so save the mSelectedItems results somewhere
                             // or return them to the component that opened the dialog
 
-                            Calendar c = Calendar.getInstance();
 
                             for(int i = 0; i < validDays.length;i++){
                                 passednotification.setRepeatDay(i+1, false);
@@ -314,7 +344,7 @@ public class NotificationActivity extends ActionBarActivity {
                             }
                             TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
                             tv.setText(text);
-
+                            passednotification.setAlarm(context);
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -333,13 +363,14 @@ public class NotificationActivity extends ActionBarActivity {
         newFragment.show(getFragmentManager(), "Days Of Week");
     }
 
+
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
+            final Calendar c = passednotification.getTime();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
@@ -350,6 +381,23 @@ public class NotificationActivity extends ActionBarActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
+            Calendar date = passednotification.getTime();
+            date.set(Calendar.YEAR,year);
+            date.set(Calendar.MONTH,month);
+            date.set(Calendar.DAY_OF_MONTH,day);
+            passednotification.setTime(date);
+
+            passednotification.setAlarm(context);
+            Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+            String text = "";
+            String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+            text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+            text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+            text += ", ";
+            text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+            TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+            tv.setText(text);
+            tv.setGravity(Gravity.CENTER);
         }
     }
 
