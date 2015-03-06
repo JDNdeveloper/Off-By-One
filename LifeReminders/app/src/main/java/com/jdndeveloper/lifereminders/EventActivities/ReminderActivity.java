@@ -1,5 +1,6 @@
 package com.jdndeveloper.lifereminders.EventActivities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -387,7 +388,6 @@ public class ReminderActivity extends ActionBarActivity {
 
             notification.setTime(c);
 
-            //notification.setName("");
             notification.setReminderContainerKey(passedReminder.getKey());
             notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
             passedReminder.addNotification(notification.getKey());
@@ -400,10 +400,25 @@ public class ReminderActivity extends ActionBarActivity {
             Intent notificationIntent = new Intent(context, NotificationActivity.class);
             notificationIntent.putExtra("Notification", notification);
 
-
-            //notification.setAlarm(context);
             startActivity(notificationIntent);
         }
+    }
+
+    @Override
+    public Intent getSupportParentActivityIntent(){
+        switch(startingPoint){
+            case 0:
+                Intent returnLifestyle = new Intent(getApplicationContext(), LifestyleActivity.class);
+                returnLifestyle.putExtra("Lifestyle",Storage.getInstance().getLifestyle(passedReminder.getLifestyleContainerKey()));
+                returnLifestyle.putExtra("startingPoint",startingPoint);
+                return returnLifestyle;
+            case 1:
+                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+                returnMain.putExtra("startingPoint",startingPoint);
+                return returnMain;
+
+        }
+        return super.getSupportParentActivityIntent();
     }
 
     /*Selecting Days of the week*/
@@ -461,7 +476,6 @@ public class ReminderActivity extends ActionBarActivity {
 
                             notification.setTime(c);
 
-
                             notification.setReminderContainerKey(passedReminder.getKey());
                             notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
                             passedReminder.addNotification(notification.getKey());
@@ -473,7 +487,6 @@ public class ReminderActivity extends ActionBarActivity {
 
                             Intent notificationIntent = new Intent(context, NotificationActivity.class);
                             notificationIntent.putExtra("Notification", notification);
-
 
                             notification.setAlarm(context);
                             startActivity(notificationIntent);
@@ -531,7 +544,7 @@ public class ReminderActivity extends ActionBarActivity {
 
 
                         notification.setTime(c);
-
+                        notification.setAlarm(context);
                         notification.setName("");
                         notification.setReminderContainerKey(passedReminder.getKey());
                         notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
@@ -549,7 +562,7 @@ public class ReminderActivity extends ActionBarActivity {
                         notificationIntent.putExtra("Notification", notification);
 
 
-                        notification.setAlarm(context);
+
                         startActivity(notificationIntent);
                     }catch(NumberFormatException e){
                         //This Toast will stay in final product
@@ -570,5 +583,4 @@ public class ReminderActivity extends ActionBarActivity {
         }
 
     }
-
 }

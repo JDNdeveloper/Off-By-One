@@ -196,6 +196,25 @@ public class NotificationActivity extends ActionBarActivity {
                     + " " + amPM);
         }
 
+    @Override
+    public Intent getSupportParentActivityIntent(){
+        switch(startingPoint){
+            case 0:
+            case 1:
+                Intent returnReminder = new Intent(getApplicationContext(), ReminderActivity.class);
+                returnReminder.putExtra("Reminder",Storage.getInstance().getReminder(passednotification.getReminderContainerKey()));
+                returnReminder.putExtra("startingPoint",startingPoint);
+                return returnReminder;
+            case 2:
+                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+                returnMain.putExtra("startingPoint",startingPoint);
+                return returnMain;
+
+
+        }
+        return super.getSupportParentActivityIntent();
+    }
+
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
