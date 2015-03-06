@@ -155,21 +155,20 @@ public class NotificationActivity extends ActionBarActivity {
     }
 
     public void changeVibrate(View v){
-        Log.e("NotificationActivity","Action Key: " + passednotification0.getActionKey());
+        Log.e("NotificationActivity","Action Key: " + passednotification.getActionKey());
 
-        Action a = Storage.getInstance().getAction(passednotification0.getActionKey());
+        Action a = Storage.getInstance().getAction(passednotification.getActionKey());
         a.setVibrate(!a.isVibrate());
         if (!Storage.getInstance().replaceAbstractBaseEvent(a)) Log.e("Notification Activity","Save Action Failed");
 
     }
 
     public void changeSound(View v){
-        Log.e("NotificationActivity","Action Key: " + passednotification0.getActionKey());
+        Log.e("NotificationActivity","Action Key: " + passednotification.getActionKey());
 
-        Action a = Storage.getInstance().getAction(passednotification0.getActionKey());
+        Action a = Storage.getInstance().getAction(passednotification.getActionKey());
         a.setNotificationSound(!a.isNotificationSound());
         if (!Storage.getInstance().replaceAbstractBaseEvent(a)) Log.e("Notification Activity","Save Action Failed");
-
     }
 
         public void changeTime() {

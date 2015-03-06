@@ -47,10 +47,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             Reminder reminderContainer = Storage.getInstance().getReminder(n.getReminderContainerKey());
             Action action = Storage.getInstance().getAction(n.getActionKey());
             if(n.isEnabled() && lifeContainer.isEnabled() && reminderContainer.isEnabled()
-                    && Constants.NOTIFICATION_FAILED_KEY.equals(notifKey)
+                    && !Constants.NOTIFICATION_FAILED_KEY.equals(notifKey)
                     //&& Constants.LIFESTYLE_FAILED_KEY != lifeContainer.getKey()
                     //&& Constants.REMINDER_FAILED_KEY != reminderContainer.getKey()
-                    && Constants.ACTION_FAILED_KEY.equals(action.getKey())) {
+                    && !Constants.ACTION_FAILED_KEY.equals(action.getKey())) {
 
                 Log.i("AlarmReceiver", "Valid notification");
                 //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL
@@ -61,7 +61,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 ///END OF TEMPORARY
 
-                if (rightNow.getTimeInMillis() - 60000 <= n.getTime().getTimeInMillis())
+                //if (rightNow.getTimeInMillis() - 60000 <= n.getTime().getTimeInMillis())
+                    //action.setNotificationSound(true);
+                    //Storage.getInstance().replaceAbstractBaseEvent(action);
                     n.sendNotification(context);
                 //set next alarm - Uncomment to add set next alarm functionality
                 if(n.isRepeating()) {
