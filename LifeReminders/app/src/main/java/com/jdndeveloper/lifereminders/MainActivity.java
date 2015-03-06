@@ -226,7 +226,7 @@ public class MainActivity extends ActionBarActivity
             //Go To Notification Activity
             case 3:
                 Log.e("MainActivity", "newNotification");
-
+                FragmentLocation = 3;
                 createNewNotification(v);
                 break;
             default:
@@ -353,7 +353,7 @@ public class MainActivity extends ActionBarActivity
         super.onDestroy();
         FragmentLocation = 1;
     }
-
+    public static List<? extends AbstractBaseEvent> abstractBaseEvents;
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -384,7 +384,7 @@ public class MainActivity extends ActionBarActivity
             final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             final ListView listView = (ListView) rootView.findViewById(R.id.listView);
 
-            final List<? extends AbstractBaseEvent> abstractBaseEvents;
+            //final List<? extends AbstractBaseEvent> abstractBaseEvents;
 
             switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)){
                 case 1:
@@ -573,7 +573,8 @@ public class MainActivity extends ActionBarActivity
 
     public void reloadAdapter(){
         final ListView listView = (ListView) findViewById(R.id.listView);
-        List<? extends AbstractBaseEvent> abstractBaseEvents = null;
+        //List<? extends AbstractBaseEvent> abstractBaseEvents = null;
+        Log.e("MainActivity","ReloadAdapter");
         switch (FragmentLocation){
             case 1:
                 abstractBaseEvents = Storage.getInstance().getAllLifestyles();
@@ -613,7 +614,7 @@ public class MainActivity extends ActionBarActivity
     public void onResume(){
         super.onResume();
         Log.e("Main Activity","onResume");
-
+        //setContentView(R.layout.activity_main);
         reloadAdapter();
     }
 
@@ -854,5 +855,20 @@ public class MainActivity extends ActionBarActivity
             return builder.create();
         }
 
+    }
+
+    public void finishCreatingNewNotification(Notification notification){
+        Action action = Storage.getInstance().getNewAction();
+        notification.setActionKey(action.getKey());
+        Storage.getInstance().commitAbstractBaseEvent(action);
+
+        Storage.getInstance().commitAbstractBaseEvent(notification);
+
+        Intent notificationIntent = new Intent(context, NotificationActivity.class);
+        notificationIntent.putExtra("Notification", notification);
+
+
+
+        startActivity(notificationIntent);
     }
 }
