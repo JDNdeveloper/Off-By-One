@@ -167,6 +167,7 @@ public class MainActivity extends ActionBarActivity
         FragmentLocation = 2;
         Intent reminderIntent = new Intent(context, ReminderActivity.class);
         reminderIntent.putExtra("Reminder", reminder);
+        reminderIntent.putExtra("ReminderKey",reminder.getKey());
         startActivity(reminderIntent);
     }
 
@@ -186,8 +187,11 @@ public class MainActivity extends ActionBarActivity
                 Log.e("MainActivity","newReminder");
 
                 Reminder reminder = Storage.getInstance().getNewReminder();
+                reminder.setLifestyleContainerKey("");
                 reminder.setName("");
-                Storage.getInstance().commitAbstractBaseEvent(reminder);
+                if(!Storage.getInstance().commitAbstractBaseEvent(reminder)){
+                    Toast.makeText(context,"Not Creating Saving Reminder",Toast.LENGTH_SHORT).show();
+                }
                 loadReminder(reminder);
                 break;
             //Go To Notification Activity

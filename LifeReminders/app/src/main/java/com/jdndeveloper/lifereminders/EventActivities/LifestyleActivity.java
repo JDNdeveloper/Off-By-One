@@ -142,6 +142,7 @@ public class LifestyleActivity extends ActionBarActivity {
                 Intent reminderIntent = new Intent(getApplicationContext(), ReminderActivity.class);
                 Reminder reminder = reminderArray.get(position);
                 reminderIntent.putExtra("Reminder", reminder);
+                reminderIntent.putExtra("ReminderKey",reminder.getKey());
                 reminderIntent.putExtra("startingPoint",startingPoint);
                 startActivity(reminderIntent);
             }
@@ -194,10 +195,21 @@ public class LifestyleActivity extends ActionBarActivity {
                 reminder.setName("");
                 reminder.setLifestyleContainerKey(passedLifestyle.getKey());
                 passedLifestyle.addReminder(reminder.getKey());
-                Storage.getInstance().commitAbstractBaseEvent(reminder);
-                Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
+                if(!Storage.getInstance().commitAbstractBaseEvent(reminder) ||
+                        Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle)){
+                    Toast.makeText(context,"Failed To Properly Save Reminder",Toast.LENGTH_SHORT);
+                    return;
+                }
+
+
                 reminderIntent.putExtra("Reminder", reminder);
-                reminderIntent.putExtra("startingPoint",startingPoint);
+                reminderIntent.putExtra("ReminderKey",reminder.getKey());
+                reminderIntent.putExtra("startingPoint",0);
+
+                Bundle extras = reminderIntent.getExtras();
+                extras.getString("ReminderKey");
+
+
                 startActivity(reminderIntent);
             }
         });

@@ -1,5 +1,6 @@
 package com.jdndeveloper.lifereminders.EventActivities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -63,13 +64,12 @@ public class ReminderActivity extends ActionBarActivity {
         setContentView(R.layout.activity_reminder);
         setupActionBar();
         changeStatusBarColor(R.color.rem_action_status_bar);
-
-        // Josh - below is how to retrieve the passed lifestyle
-        passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
-        //Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
-        Log.i("ReminderActivity", "Passed Reminder: " + passedReminder.getName());
-        //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
         context = getApplicationContext();
+
+        passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
+        Log.i("ReminderActivity", "Passed Reminder: " + passedReminder.getKey());
+        //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
+
         //Create listener for name change
         final EditText editText = (EditText) findViewById(R.id.reminderName);
         editText.setText(passedReminder.getName());
@@ -78,7 +78,9 @@ public class ReminderActivity extends ActionBarActivity {
                 //editText.setText(String.valueOf(i) + " / " + String.valueOf(charCounts));
                 Log.e("Reminder Activity", "Editing reminder name to: " + editText.getText().toString());
                 passedReminder.setName(editText.getText().toString());
-                Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
+                if(!Storage.getInstance().replaceAbstractBaseEvent(passedReminder)) {
+                    Toast.makeText(context,"Not Properly Saving New Reminder Name",Toast.LENGTH_SHORT).show();
+                }
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -105,8 +107,9 @@ public class ReminderActivity extends ActionBarActivity {
             }
         });
 
-        updateListAdapter();
+        //updateListAdapter();
         buttonclick();
+
 
     }
     final Context c = this;
@@ -390,32 +393,13 @@ public class ReminderActivity extends ActionBarActivity {
             newYear = year;
             newMonth = month;
             newDay = day;
-
             Notification notification = Storage.getInstance().getNewNotification();
             Calendar c = Calendar.getInstance();
-
             notification.setRepeatDaysEnabled(false);
             notification.setRepeatEveryBlankDaysEnabled(false);
             c.set(newYear, newMonth, newDay, newHour, newMinute,0);
-
             notification.setTime(c);
-
-            notification.setName("");
-            notification.setReminderContainerKey(passedReminder.getKey());
-            notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
-            passedReminder.addNotification(notification.getKey());
-            Action action = Storage.getInstance().getNewAction();
-            notification.setActionKey(action.getKey());
-            Storage.getInstance().commitAbstractBaseEvent(action);
-            Storage.getInstance().commitAbstractBaseEvent(notification);
-            Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
-            notification.setAlarm(context);
-            Intent notificationIntent = new Intent(context, NotificationActivity.class);
-            notificationIntent.putExtra("Notification", notification);
-
-
-            notification.setAlarm(context);
-            startActivity(notificationIntent);
+            finishCreatingNewNotification(notification, getActivity());
         }
     }
 
@@ -470,26 +454,8 @@ public class ReminderActivity extends ActionBarActivity {
                             for (int i = 0; i < validDays.length;i++) {
                                 if(validDays[i]) notification.setRepeatDay(i+1, true);
                             }
-
-
                             notification.setTime(c);
-
-
-                            notification.setReminderContainerKey(passedReminder.getKey());
-                            notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
-                            passedReminder.addNotification(notification.getKey());
-                            Action action = Storage.getInstance().getNewAction();
-                            notification.setActionKey(action.getKey());
-                            Storage.getInstance().commitAbstractBaseEvent(action);
-                            Storage.getInstance().commitAbstractBaseEvent(notification);
-                            Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
-
-                            Intent notificationIntent = new Intent(context, NotificationActivity.class);
-                            notificationIntent.putExtra("Notification", notification);
-
-
-                            notification.setAlarm(context);
-                            startActivity(notificationIntent);
+                            finishCreatingNewNotification(notification, getActivity());
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -527,47 +493,19 @@ public class ReminderActivity extends ActionBarActivity {
                             Toast.makeText(context,"Invalid Number",Toast.LENGTH_SHORT).show();
                             return;
                         }
-
                         Notification notification = Storage.getInstance().getNewNotification();
-
-
                         Calendar c = Calendar.getInstance();
                         notification.setRepeatDaysEnabled(false);
                         notification.setRepeatEveryBlankDaysEnabled(true);
-
                         notification.setRepeatEveryBlankDays(intDays);
-
-
                         c.set(Calendar.HOUR_OF_DAY, newHour);
                         c.set(Calendar.MINUTE, newMinute);
                         c.set(Calendar.SECOND,0);
-
-
                         notification.setTime(c);
-
-                        notification.setName("");
-                        notification.setReminderContainerKey(passedReminder.getKey());
-                        notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
-                        passedReminder.addNotification(notification.getKey());
-
-                        Action action = Storage.getInstance().getNewAction();
-                        notification.setActionKey(action.getKey());
-                        Storage.getInstance().commitAbstractBaseEvent(action);
-
-
-                        Storage.getInstance().commitAbstractBaseEvent(notification);
-                        Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
-
-                        Intent notificationIntent = new Intent(context, NotificationActivity.class);
-                        notificationIntent.putExtra("Notification", notification);
-
-
-                        notification.setAlarm(context);
-                        startActivity(notificationIntent);
+                        finishCreatingNewNotification(notification, getActivity());
                     }catch(NumberFormatException e){
                         //This Toast will stay in final product
                         Toast.makeText(context,"Not a Number",Toast.LENGTH_SHORT).show();
-                        return;
                     }
                 }
             });
@@ -582,6 +520,22 @@ public class ReminderActivity extends ActionBarActivity {
             return builder.create();
         }
 
+    }
+
+    public static void finishCreatingNewNotification(Notification notification, Activity activity){
+        notification.setReminderContainerKey(passedReminder.getKey());
+        notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
+        passedReminder.addNotification(notification.getKey());
+        Action action = Storage.getInstance().getNewAction();
+        notification.setActionKey(action.getKey());
+        if(!Storage.getInstance().commitAbstractBaseEvent(action) || !Storage.getInstance().commitAbstractBaseEvent(notification)
+                || !Storage.getInstance().replaceAbstractBaseEvent(passedReminder)){
+            Toast.makeText(context,"Failed To Properly Save Notification",Toast.LENGTH_SHORT).show();
+            //return;
+        }
+        Intent notificationIntent = new Intent(context, NotificationActivity.class);
+        notificationIntent.putExtra("Notification", notification);
+        activity.startActivity(notificationIntent);
     }
 
 }
