@@ -74,7 +74,12 @@ public class NotificationAdapter extends ArrayAdapter{
             minutes = "0" + minutes;
         }
 
-        rowTextView.setText(Integer.toString(time.get(Calendar.HOUR))
+        String hour = Integer.toString(time.get(Calendar.HOUR));
+        if (hour.equals("0")) {
+            hour = "12";
+        }
+
+        rowTextView.setText(hour
                 + ":" + minutes
                 + " " + amPM);
 
