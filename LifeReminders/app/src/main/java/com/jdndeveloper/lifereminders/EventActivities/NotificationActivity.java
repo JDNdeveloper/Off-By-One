@@ -26,10 +26,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -117,6 +119,25 @@ public class NotificationActivity extends ActionBarActivity {
 
 
         changeTime();
+
+
+        //Create listener for enables/disabled switch
+        Switch theSwitch = (Switch) findViewById(R.id.notificationEnabled);
+        theSwitch.setOnCheckedChangeListener(null);
+        theSwitch.setChecked(passednotification.isEnabled());
+
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            theSwitch.setElevation(100);
+        }
+
+        theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                passednotification.setEnabled(!passednotification.isEnabled());
+                Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+            }
+        });
+
+
     }
 
 

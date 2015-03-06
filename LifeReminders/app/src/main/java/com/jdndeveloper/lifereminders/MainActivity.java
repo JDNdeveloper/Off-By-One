@@ -714,7 +714,8 @@ public class MainActivity extends ActionBarActivity
             for(int i = 0; i < validDays.length;i++){
                 validDays[i] =false;
             }
-            String[] Days = {"","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            final int[] vDays = new int[7];
+            String[] Days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setTitle("Pick Days of the Week")
@@ -729,6 +730,7 @@ public class MainActivity extends ActionBarActivity
                                         // If the user checked the item, add it to the selected items
                                         mSelectedItems.add(which);
                                         validDays[which] = true;
+                                        vDays[which ] = 1;
 
                                     } else if (mSelectedItems.contains(which)) {
                                         // Else, if the item is already in the array, remove it
@@ -748,14 +750,14 @@ public class MainActivity extends ActionBarActivity
                             notification.setRepeatEveryBlankDaysEnabled(false);
                             c.set(Calendar.HOUR_OF_DAY, newHour);
                             c.set(Calendar.MINUTE, newMinute);
-
+                            c.set(Calendar.SECOND,0);
                             for (int i = 0; i < validDays.length;i++) {
-                                if(validDays[i]) notification.setRepeatDay(i, true);
+                                if(validDays[i]) notification.setRepeatDay(i+1, true);
                             }
+
 
                             notification.setTime(c);
 
-                            notification.setName("");
 
                             Storage.getInstance().commitAbstractBaseEvent(notification);
 
