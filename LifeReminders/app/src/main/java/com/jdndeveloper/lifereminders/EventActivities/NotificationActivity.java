@@ -35,7 +35,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.MainActivity;
@@ -52,6 +54,7 @@ import java.util.Locale;
 public class NotificationActivity extends ActionBarActivity {
 
     private static Notification passednotification;
+    public Notification passednotification0;
     public int startingPoint;
     public static Context context;
     @Override
@@ -63,6 +66,7 @@ public class NotificationActivity extends ActionBarActivity {
 
         // Josh - below is how to retrieve the passed lifestyle
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
+        passednotification0 = (Notification) getIntent().getSerializableExtra("Notification");
         //Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getKey());
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getActionKey());
@@ -127,7 +131,7 @@ public class NotificationActivity extends ActionBarActivity {
         //Create listener for enables/disabled switch
         Switch theSwitch = (Switch) findViewById(R.id.notificationEnabled);
         theSwitch.setOnCheckedChangeListener(null);
-        theSwitch.setChecked(passednotification.isEnabled());
+        theSwitch.setChecked(passednotification0.isEnabled());
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             theSwitch.setElevation(100);
@@ -135,14 +139,38 @@ public class NotificationActivity extends ActionBarActivity {
 
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                passednotification.setEnabled(!passednotification.isEnabled());
-                Storage.getInstance().replaceAbstractBaseEvent(passednotification);
+                passednotification0.setEnabled(!passednotification0.isEnabled());
+                Storage.getInstance().replaceAbstractBaseEvent(passednotification0);
             }
         });
 
+        Action a = Storage.getInstance().getAction(passednotification0.getActionKey());
+
+        ToggleButton vibration = (ToggleButton) findViewById(R.id.vibrate);
+        vibration.setChecked(a.isVibrate());
+
+        ToggleButton sound = (ToggleButton) findViewById(R.id.sound);
+        sound.setChecked(a.isNotificationSound());
 
     }
 
+    public void changeVibrate(View v){
+        Log.e("NotificationActivity","Action Key: " + passednotification0.getActionKey());
+
+        Action a = Storage.getInstance().getAction(passednotification0.getActionKey());
+        a.setVibrate(!a.isVibrate());
+        if (!Storage.getInstance().replaceAbstractBaseEvent(a)) Log.e("Notification Activity","Save Action Failed");
+
+    }
+
+    public void changeSound(View v){
+        Log.e("NotificationActivity","Action Key: " + passednotification0.getActionKey());
+
+        Action a = Storage.getInstance().getAction(passednotification0.getActionKey());
+        a.setNotificationSound(!a.isNotificationSound());
+        if (!Storage.getInstance().replaceAbstractBaseEvent(a)) Log.e("Notification Activity","Save Action Failed");
+
+    }
 
         public void changeTime() {
             TextView timeText = (TextView) findViewById(R.id.notificationTime);

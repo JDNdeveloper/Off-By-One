@@ -695,7 +695,9 @@ public class MainActivity extends ActionBarActivity
 
             notification.setTime(c);
 
-            notification.setActionKey(Storage.getInstance().getNewAction().getKey());
+            Action action = Storage.getInstance().getNewAction();
+            notification.setActionKey(action.getKey());
+            Storage.getInstance().commitAbstractBaseEvent(action);
             Storage.getInstance().commitAbstractBaseEvent(notification);
 
             Intent notificationIntent = new Intent(context, NotificationActivity.class);
@@ -759,7 +761,9 @@ public class MainActivity extends ActionBarActivity
 
 
                             notification.setTime(c);
-                            notification.setActionKey(Storage.getInstance().getNewAction().getKey());
+                            Action action = Storage.getInstance().getNewAction();
+                            notification.setActionKey(action.getKey());
+                            Storage.getInstance().commitAbstractBaseEvent(action);
 
                             Storage.getInstance().commitAbstractBaseEvent(notification);
 
@@ -820,8 +824,10 @@ public class MainActivity extends ActionBarActivity
 
                         notification.setTime(c);
 
-                        notification.setName("");
-                        notification.setActionKey(Storage.getInstance().getNewAction().getKey());
+                        Action action = Storage.getInstance().getNewAction();
+                        notification.setActionKey(action.getKey());
+                        Storage.getInstance().commitAbstractBaseEvent(action);
+
                         Storage.getInstance().commitAbstractBaseEvent(notification);
 
                         Intent notificationIntent = new Intent(context, NotificationActivity.class);
