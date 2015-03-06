@@ -53,7 +53,6 @@ public class NotificationActivity extends ActionBarActivity {
 
     private static Notification passednotification;
     public int startingPoint;
-    public static String[] test;
     public static Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,8 @@ public class NotificationActivity extends ActionBarActivity {
             changeDate.setVisibility(View.INVISIBLE);
             Button repeatXDays = (Button) findViewById(R.id.repeatableXDays);
             repeatXDays.setVisibility(View.INVISIBLE);
-
+            Button changeDateEveryXDays = (Button) findViewById(R.id.changeDateEveryXDays);
+            changeDateEveryXDays.setVisibility(View.INVISIBLE);
 
             String[] Days = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
             String text = "Days Alarm Enabled For:";
@@ -105,6 +105,8 @@ public class NotificationActivity extends ActionBarActivity {
             repeatEveryWeek.setVisibility(View.INVISIBLE);
             Button repeatXDays = (Button) findViewById(R.id.repeatableXDays);
             repeatXDays.setVisibility(View.INVISIBLE);
+            Button changeDateEveryXDays = (Button) findViewById(R.id.changeDateEveryXDays);
+            changeDateEveryXDays.setVisibility(View.INVISIBLE);
             String text = "";
             String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
             text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
@@ -390,23 +392,43 @@ public class NotificationActivity extends ActionBarActivity {
 
             passednotification.setAlarm(context);
             Storage.getInstance().replaceAbstractBaseEvent(passednotification);
-            String text = "";
-            String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-            text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
-            text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
-            text += ", ";
-            text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
-            TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
-            tv.setText(text);
-            tv.setGravity(Gravity.CENTER);
+            if(oneTime) {
+                String text = "";
+                String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+                text += ", ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+                TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+                tv.setText(text);
+                tv.setGravity(Gravity.CENTER);
+            }else{
+                String text = "Alarm set to go off every " + Integer.toString(passednotification.getRepeatEveryBlankDays()) + " days\n";
+                String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                text += "Next Alarm Goes Off On: ";
+                text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+                text += ", ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+                TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+                tv.setText(text);
+            }
         }
     }
 
+    public static boolean oneTime;
+
     public void showDatePickerDialog(View v) {
+        oneTime = true;
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
+    public void changeDateEveryXDays(View v) {
+        oneTime = false;
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
     @Override
     public Intent getSupportParentActivityIntent(){
         switch(startingPoint){
