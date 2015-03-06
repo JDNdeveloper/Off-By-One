@@ -66,6 +66,7 @@ public class NotificationActivity extends ActionBarActivity {
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
         //Toast.makeText(this, passednotification.getName(), Toast.LENGTH_SHORT).show();
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getKey());
+        Log.i("NotificationActivity", "Passed Notification: " + passednotification.getActionKey());
         //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
         context = getApplicationContext();
 
