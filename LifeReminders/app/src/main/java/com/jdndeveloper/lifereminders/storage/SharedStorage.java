@@ -31,7 +31,7 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
-    private final int SHARED_STORAGE_VERSION = 3;
+    private final int SHARED_STORAGE_VERSION = 4;
 
     private SharedStorage(Context context){
         this.context = context;
@@ -442,7 +442,7 @@ public class SharedStorage {
     private String All_Lifestyles = "Lifestyle_01,Lifestyle_02,Lifestyle_03,Test_Lifestyle_01,Failed_Lifestyle_01";
     private String All_Reminders = "Reminder_01,Reminder_02,Reminder_03,Reminder_04,Test_Reminder_01,Failed_Reminder_01";
     private String All_Notifications = "Notification_01,Notification_02,Notification_03,Notification_04,Notification_05,Test_Notification_01,Failed_Notification_01";
-    private String All_Actions = "Test_Action_01,Test_Action_02,Test_Action_03,Test_Action_04,Test_Action_05,Failed_Action_01";
+    private String All_Actions = "Test_Action_01,Test_Action_02,Test_Action_03,Test_Action_04,Test_Action_05,Test_Action_06,Failed_Action_01";
 
     private String lifestyle_01 = "{\"lifestyleReminders\":[\"Reminder_01\"],\"key\":\"Lifestyle_01\",\"name\":\"School\",\"enabled\":false}";
     private String lifestyle_02 = "{\"lifestyleReminders\":[\"Reminder_02\"],\"key\":\"Lifestyle_02\",\"name\":\"UCSC\",\"enabled\":true}";
