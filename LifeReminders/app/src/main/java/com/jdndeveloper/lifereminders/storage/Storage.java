@@ -29,9 +29,7 @@ public class Storage implements StorageInterface {
 
     private static SharedStorage sharedStorageInstance = SharedStorage.getInstance();
 
-    private Storage() {
-
-    }
+    private Storage(){}
 
     private List<String> toArrayList(String string){
         return new ArrayList<String>(Arrays.asList(string.split("\\,")));
@@ -51,7 +49,8 @@ public class Storage implements StorageInterface {
     public List<Lifestyle> getAllLifestyles() {
         List<Lifestyle> lifestyles = new ArrayList<Lifestyle>();
         for(String lifestyle : toArrayList(sharedStorageInstance.getSharedPreferenceKey("all_lifestyles")))
-            lifestyles.add(getLifestyle(lifestyle));
+            if (lifestyle.contentEquals(Constants.LIFESTYLE_FAILED_KEY) == false)
+                lifestyles.add(getLifestyle(lifestyle));
         return lifestyles;
     }
 
@@ -59,7 +58,8 @@ public class Storage implements StorageInterface {
     public List<Reminder> getAllReminders() {
         List<Reminder> reminders = new ArrayList<Reminder>();
         for(String reminder : toArrayList(sharedStorageInstance.getSharedPreferenceKey("all_reminders")))
-            reminders.add(getReminder(reminder));
+            if (reminder.contentEquals(Constants.REMINDER_FAILED_KEY) == false)
+                reminders.add(getReminder(reminder));
         return reminders;
     }
 
@@ -67,7 +67,8 @@ public class Storage implements StorageInterface {
     public List<Notification> getAllNotifications() {
         List<Notification> notifications = new ArrayList<Notification>();
         for(String notification : toArrayList(sharedStorageInstance.getSharedPreferenceKey("all_notifications")))
-            notifications.add(getNotification(notification));
+            if (notification.contentEquals(Constants.NOTIFICATION_FAILED_KEY) == false)
+                notifications.add(getNotification(notification));
         return notifications;
     }
 
@@ -113,32 +114,6 @@ public class Storage implements StorageInterface {
 
         String failedActionGsonString = sharedStorageInstance.getSharedPreferenceKey("Failed_Action_01");
         return gsonObject.fromJson(failedActionGsonString, Action.class);
-    }
-
-    @Override
-    public List<String> getCurrentAlarmKeys() {
-        // temporary
-        ArrayList<String> currentAlarmKeys = new ArrayList<String>();
-        currentAlarmKeys.add("notification_11");
-        currentAlarmKeys.add("notification_12");
-        currentAlarmKeys.add("notification_13");
-        currentAlarmKeys.add("notification_14");
-        return currentAlarmKeys;
-    }
-
-    @Override
-    public List<String> getAllKeys() {
-        // temporary
-        ArrayList<String> allKeys = new ArrayList<String>();
-        allKeys.add("notification_01");
-        allKeys.add("notification_02");
-        allKeys.add("notification_03");
-        allKeys.add("notification_04");
-        allKeys.add("notification_11");
-        allKeys.add("notification_12");
-        allKeys.add("notification_13");
-        allKeys.add("notification_14");
-        return allKeys;
     }
 
     @Override

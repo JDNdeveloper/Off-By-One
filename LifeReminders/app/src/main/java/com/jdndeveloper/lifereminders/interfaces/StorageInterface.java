@@ -22,10 +22,6 @@ public interface StorageInterface {
     List<Reminder> getAllReminders();
     // returns a list of Notifications, containing all notifications
     List<Notification> getAllNotifications();
-    // DONT USE - MAY NOT BE NECESSARY
-    List<String> getAllKeys();
-    List<String> getCurrentAlarmKeys();
-
     // single getters
     // return a Lifestyle given a key
     Lifestyle getLifestyle(String key);
