@@ -234,13 +234,13 @@ public class ReminderActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
+        int id = item.getItemId();
 
         //This needs to be changed
         switch (id) {
             case android.R.id.home:
                 finish();
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
 
@@ -408,7 +408,7 @@ public class ReminderActivity extends ActionBarActivity {
         }
     }
 
-    /*@Override
+    @Override
     public Intent getSupportParentActivityIntent(){
         switch(startingPoint){
             case 0:
@@ -423,7 +423,7 @@ public class ReminderActivity extends ActionBarActivity {
 
         }
         return super.getSupportParentActivityIntent();
-    }*?
+    }
 
     /*Selecting Days of the week*/
     public static class DaysOfWeekFragment extends DialogFragment{
