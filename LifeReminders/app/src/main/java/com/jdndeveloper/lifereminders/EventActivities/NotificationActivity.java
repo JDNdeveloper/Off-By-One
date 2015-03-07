@@ -196,7 +196,7 @@ public class NotificationActivity extends ActionBarActivity {
                     + " " + amPM);
         }
 
-    @Override
+    /*@Override
     public Intent getSupportParentActivityIntent(){
         switch(startingPoint){
             case 0:
@@ -213,7 +213,7 @@ public class NotificationActivity extends ActionBarActivity {
 
         }
         return super.getSupportParentActivityIntent();
-    }
+    }*/
 
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
@@ -483,14 +483,14 @@ public class NotificationActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        /*int id = item.getItemId();
 
 
         //This needs to be changed
         switch (id) {
             case android.R.id.home:
                 finish();
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
