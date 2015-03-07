@@ -74,7 +74,12 @@ public class NotificationAdapter extends ArrayAdapter{
             minutes = "0" + minutes;
         }
 
-        rowTextView.setText(Integer.toString(time.get(Calendar.HOUR))
+        String hour = Integer.toString(time.get(Calendar.HOUR));
+        if (hour.equals("0")) {
+            hour = "12";
+        }
+
+        rowTextView.setText(hour
                 + ":" + minutes
                 + " " + amPM);
 
@@ -196,7 +201,7 @@ public class NotificationAdapter extends ArrayAdapter{
 
     private String getCalendarDate(Calendar c) {
         String text = "Date: ";
-        text += Integer.toString(c.get(Calendar.MONTH));
+        text += Integer.toString(c.get(Calendar.MONTH) + 1);
         text += "/";
         text += Integer.toString(c.get(Calendar.DAY_OF_MONTH));
         return text;

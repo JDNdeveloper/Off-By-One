@@ -1,5 +1,6 @@
 package com.jdndeveloper.lifereminders.EventActivities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -35,6 +36,9 @@ import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.jdndeveloper.lifereminders.Constants;
+import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
+import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.MainActivity;
@@ -52,7 +56,7 @@ public class ReminderActivity extends ActionBarActivity {
     ImageButton buttonlistner;
     public int startingPoint;
     public static Context context;
-    public static String[] Days;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +67,8 @@ public class ReminderActivity extends ActionBarActivity {
 
         // Josh - below is how to retrieve the passed lifestyle
         passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
-        Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();
+        Log.i("ReminderActivity", "Passed Reminder: " + passedReminder.getName());
         //startingPoint = (int) getIntent().getSerializableExtra("startingPoint");
         context = getApplicationContext();
         //Create listener for name change
@@ -104,17 +109,8 @@ public class ReminderActivity extends ActionBarActivity {
         updateListAdapter();
         buttonclick();
 
-        /*needed for adding a new notification*/
-        Days = new String[7];
-        Days[0] = "Sunday";
-        Days[1] = "Monday";
-        Days[2] = "Tuesday";
-        Days[3] = "Wednesday";
-        Days[4] = "Thursday";
-        Days[5] = "Friday";
-        Days[6] = "Saturday";
     }
-
+    final Context c = this;
     public void updateListAdapter(){
         final ListView listView = (ListView) findViewById(R.id.reminderListView);
         final List<Notification> notificationArray = new ArrayList<>();
@@ -122,7 +118,7 @@ public class ReminderActivity extends ActionBarActivity {
         //Storage.getInstance().getReminder()
         for(String r : passedReminder.getNotificationKeys()){
             Log.e("Reminder Activity",r);
-            notificationArray.add(Storage.getInstance().getNotification(r));
+            if(!Storage.getInstance().getNotification(r).getKey().equals(Constants.NOTIFICATION_FAILED_KEY)) notificationArray.add(Storage.getInstance().getNotification(r));
         }
         listView.setAdapter(new NotificationAdapter(this,
                 android.R.layout.simple_list_item_2,
@@ -133,11 +129,46 @@ public class ReminderActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("ReminderActivity", "position " + Integer.toString(position));
                 Log.e("ReminderActivity","newActivity Notification");
+
                 Intent notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
                 Notification notification = notificationArray.get(position);
+                Log.e("ReminderActivity","Vibrate: " + Boolean.toString(Storage.getInstance().getAction(notification.getActionKey()).isVibrate()) );
                 notificationIntent.putExtra("Notification", notification);
                 notificationIntent.putExtra("startingPoint",startingPoint);
                 startActivity(notificationIntent);
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final AbstractBaseEvent abe = (AbstractBaseEvent) parent.getAdapter().getItem(position);
+
+
+
+                String type = "Notification";
+                String name = abe.getName();
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(c);
+                alertDialogBuilder.setTitle("Delete " + type);
+                alertDialogBuilder.setMessage("Are you sure you want to delete " + name + "?");
+                alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        boolean stat = Storage.getInstance().deleteAbstractBaseEvent(abe);
+                        Log.e("MainActivity", "Deletion: " + stat);
+                        if (stat) {
+                            updateListAdapter();
+                        }
+                    }
+                });
+                alertDialogBuilder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                });
+                alertDialogBuilder.show();
+
+                return true;
             }
         });
     }
@@ -166,6 +197,11 @@ public class ReminderActivity extends ActionBarActivity {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        updateListAdapter();
+    }
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("Select the type of new Notification");
@@ -186,24 +222,6 @@ public class ReminderActivity extends ActionBarActivity {
         return false;
     }
 
-
-    @Override
-    public Intent getSupportParentActivityIntent(){
-        switch(startingPoint){
-            case 0:
-                Intent returnLifestyle = new Intent(getApplicationContext(), LifestyleActivity.class);
-                returnLifestyle.putExtra("Lifestyle",Storage.getInstance().getLifestyle(passedReminder.getLifestyleContainerKey()));
-                returnLifestyle.putExtra("startingPoint",startingPoint);
-                return returnLifestyle;
-            case 1:
-                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
-                returnMain.putExtra("startingPoint",startingPoint);
-                return returnMain;
-
-        }
-        return super.getSupportParentActivityIntent();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -216,15 +234,16 @@ public class ReminderActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        /*int id = item.getItemId();
 
         //This needs to be changed
         switch (id) {
             case android.R.id.home:
                 finish();
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
+
     }
 
     //Changes status bar color if using API 21 or above
@@ -360,15 +379,21 @@ public class ReminderActivity extends ActionBarActivity {
 
             notification.setRepeatDaysEnabled(false);
             notification.setRepeatEveryBlankDaysEnabled(false);
+            Log.e("ReminderActivity",Integer.toString(newYear));
+            Log.e("ReminderActivity",Integer.toString(newMonth));
+            Log.e("ReminderActivity",Integer.toString(newDay));
+            Log.e("ReminderActivity",Integer.toString(newHour));
+            Log.e("ReminderActivity",Integer.toString(newMinute));
             c.set(newYear, newMonth, newDay, newHour, newMinute,0);
 
             notification.setTime(c);
 
-            notification.setName("");
             notification.setReminderContainerKey(passedReminder.getKey());
             notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
             passedReminder.addNotification(notification.getKey());
-
+            Action action = Storage.getInstance().getNewAction();
+            notification.setActionKey(action.getKey());
+            Storage.getInstance().commitAbstractBaseEvent(action);
             Storage.getInstance().commitAbstractBaseEvent(notification);
             Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
             notification.setAlarm(context);
@@ -379,6 +404,23 @@ public class ReminderActivity extends ActionBarActivity {
         }
     }
 
+    /*@Override
+    public Intent getSupportParentActivityIntent(){
+        switch(startingPoint){
+            case 0:
+                Intent returnLifestyle = new Intent(getApplicationContext(), LifestyleActivity.class);
+                returnLifestyle.putExtra("Lifestyle",Storage.getInstance().getLifestyle(passedReminder.getLifestyleContainerKey()));
+                returnLifestyle.putExtra("startingPoint",startingPoint);
+                return returnLifestyle;
+            case 1:
+                Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+                returnMain.putExtra("startingPoint",startingPoint);
+                return returnMain;
+
+        }
+        return super.getSupportParentActivityIntent();
+    }*?
+
     /*Selecting Days of the week*/
     public static class DaysOfWeekFragment extends DialogFragment{
         @Override
@@ -388,7 +430,8 @@ public class ReminderActivity extends ActionBarActivity {
             for(int i = 0; i < validDays.length;i++){
                 validDays[i] =false;
             }
-
+            final int[] vDays = new int[7];
+            String[] Days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Set the dialog title
             builder.setTitle("Pick Days of the Week")
@@ -403,10 +446,13 @@ public class ReminderActivity extends ActionBarActivity {
                                         // If the user checked the item, add it to the selected items
                                         mSelectedItems.add(which);
                                         validDays[which] = true;
+                                        vDays[which ] = 1;
 
                                     } else if (mSelectedItems.contains(which)) {
                                         // Else, if the item is already in the array, remove it
                                         mSelectedItems.remove(Integer.valueOf(which));
+                                        validDays[which] = false;
+                                        vDays[which ] = 0;
                                     }
                                 }
                             })
@@ -424,22 +470,25 @@ public class ReminderActivity extends ActionBarActivity {
                             c.set(Calendar.MINUTE, newMinute);
                             c.set(Calendar.SECOND,0);
                             for (int i = 0; i < validDays.length;i++) {
-                                if(validDays[i]) notification.setRepeatDay(i, true);
+                                if(validDays[i]) notification.setRepeatDay(i+1, true);
                             }
+
 
                             notification.setTime(c);
 
-                            notification.setName("");
                             notification.setReminderContainerKey(passedReminder.getKey());
                             notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
                             passedReminder.addNotification(notification.getKey());
-
+                            Action action = Storage.getInstance().getNewAction();
+                            notification.setActionKey(action.getKey());
+                            Storage.getInstance().commitAbstractBaseEvent(action);
                             Storage.getInstance().commitAbstractBaseEvent(notification);
                             Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
 
                             Intent notificationIntent = new Intent(context, NotificationActivity.class);
                             notificationIntent.putExtra("Notification", notification);
 
+                            notification.setAlarm(context);
                             startActivity(notificationIntent);
                         }
                     })
@@ -492,18 +541,27 @@ public class ReminderActivity extends ActionBarActivity {
                         c.set(Calendar.HOUR_OF_DAY, newHour);
                         c.set(Calendar.MINUTE, newMinute);
                         c.set(Calendar.SECOND,0);
-                        notification.setTime(c);
 
+
+                        notification.setTime(c);
+                        notification.setAlarm(context);
                         notification.setName("");
                         notification.setReminderContainerKey(passedReminder.getKey());
                         notification.setLifestyleContainerKey(passedReminder.getLifestyleContainerKey());
                         passedReminder.addNotification(notification.getKey());
+
+                        Action action = Storage.getInstance().getNewAction();
+                        notification.setActionKey(action.getKey());
+                        Storage.getInstance().commitAbstractBaseEvent(action);
+
 
                         Storage.getInstance().commitAbstractBaseEvent(notification);
                         Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
 
                         Intent notificationIntent = new Intent(context, NotificationActivity.class);
                         notificationIntent.putExtra("Notification", notification);
+
+
 
                         startActivity(notificationIntent);
                     }catch(NumberFormatException e){
@@ -525,5 +583,4 @@ public class ReminderActivity extends ActionBarActivity {
         }
 
     }
-
 }

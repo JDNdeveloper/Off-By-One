@@ -13,6 +13,7 @@ import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.EventTypes.Option;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 
@@ -30,7 +31,7 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
-    private final int SHARED_STORAGE_VERSION = 1;
+    private final int SHARED_STORAGE_VERSION = 3;
 
     private SharedStorage(Context context){
         this.context = context;
@@ -86,6 +87,7 @@ public class SharedStorage {
         sharedPreferencePutString("Test_Action_03", test_action_03);
         sharedPreferencePutString("Test_Action_04", test_action_04);
         sharedPreferencePutString("Test_Action_05", test_action_05);
+        sharedPreferencePutString("Test_Action_06", test_action_06);
         sharedPreferencePutString("Failed_Action_01", failed_action_01);
 
         sharedPreferencePutInt("lifestyleIndex", 10);
@@ -93,9 +95,60 @@ public class SharedStorage {
         sharedPreferencePutInt("notificationIndex", 10);
         sharedPreferencePutInt("actionIndex", 10);
 
+        initializeOptionKeys();
+
         sharedPreferencePutInt("version", SHARED_STORAGE_VERSION);
 
         toastSaved("initializedFirstRun");
+    }
+
+    private void initializeOptionKeys(){
+        Option option = new Option();
+
+        option.setKey("Option_01");
+        option.setName("Option 01");
+        option.setEnabled(false);
+        String gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+
+        option.setKey("Option_02");
+        option.setName("Option 02");
+        gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+
+        option.setKey("Option_03");
+        option.setName("Option 03");
+        gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+
+        option.setKey("Option_04");
+        option.setName("Option 04");
+        gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+
+        option.setKey("Option_05");
+        option.setName("Option 05");
+        gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(option.getKey(), gsonString);
+    }
+
+    protected Option getOption(String key){
+        String optionGsonString = getSharedPreferenceKey(key);
+
+        if (optionGsonString != null)
+            return gsonObject.fromJson(optionGsonString, Option.class);
+        return null;
+    }
+
+    protected boolean saveOption(Option option){
+        if (option == null) return false;
+
+        String key = option.getKey();
+        if (key == null) return false;
+
+        String gsonString = gsonObject.toJson(option);
+        sharedPreferencePutString(key, gsonString);
+        return true;
     }
 
     private boolean checkKeyChains(String key){
@@ -402,20 +455,21 @@ public class SharedStorage {
     private String reminder_03 = "{\"lifestyleContainerKey\":\"Lifestyle_03\",\"notificationKeys\":[\"Notification_03\"],\"key\":\"Reminder_03\",\"name\":\"Time out\",\"enabled\":true}";
     private String reminder_04 = "{\"lifestyleContainerKey\":\"Lifestyle_03\",\"notificationKeys\":[\"Notification_04\",\"Notification_05\"],\"key\":\"Reminder_04\",\"name\":\"Stuff\",\"enabled\":true}";
     private String failed_reminder_01 = "{\"lifestyleContainerKey\":\"Failed_Lifestyle_01\",\"notificationKeys\":[\"Failed_Notification_01\"],\"key\":\"Failed_Reminder_01\",\"name\":\"Failed Reminder\",\"enabled\":true}";
-    private String test_reminder_01 = "{\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"notificationKeys\":[\"Test_Notification_01\"],\"key\":\"Test_Reminder_01\",\"name\":\"Test Reminder 01\",\"enabled\":true}";
+    private String test_reminder_01 = "{\"lifestyleContainerKey\":\"Test_Lifestyle_01\",\"notificationKeys\":[\"Test_Notification_01\"],\"key\":\"Test_Reminder_01\",\"name\":\"Test Reminder 01\",\"enabled\":true}";
 
     private String notification_01 = "{\"actionKey\":\"Test_Action_01\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"Lifestyle_01\",\"reminderContainerKey\":\"Reminder_01\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Notification_01\",\"name\":\"Notification 1\",\"enabled\":true}";
     private String notification_02 = "{\"actionKey\":\"Test_Action_02\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"Lifestyle_02\",\"reminderContainerKey\":\"Reminder_02\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Notification_02\",\"name\":\"Notification 2\",\"enabled\":true}";
     private String notification_03 = "{\"actionKey\":\"Test_Action_03\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"Lifestyle_03\",\"reminderContainerKey\":\"Reminder_03\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Notification_03\",\"name\":\"Notification 3\",\"enabled\":false}";
     private String notification_04 = "{\"actionKey\":\"Test_Action_04\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"Lifestyle_04\",\"reminderContainerKey\":\"Reminder_04\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Notification_04\",\"name\":\"Notification 4\",\"enabled\":false}";
     private String notification_05 = "{\"actionKey\":\"Test_Action_05\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"Lifestyle_04\",\"reminderContainerKey\":\"Reminder_04\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Notification_05\",\"name\":\"Notification 5\",\"enabled\":true}";
-    private String test_notification_01 = "{\"actionKey\":\"DEFAULT_CHILD_ACTION_KEY\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"reminderContainerKey\":\"DEFAULT_PARENT_REMINDER_KEY\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Test_Notification_01\",\"name\":\"Test Notification\",\"enabled\":true}";
-    private String failed_notification_01 = "{\"actionKey\":\"Failed_Action_01\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"DEFAULT_PARENT_LIFESTYLE_KEY\",\"reminderContainerKey\":\"DEFAULT_PARENT_REMINDER_KEY\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Failed_Notification_01\",\"name\":\"Failed Notification\",\"enabled\":false}";
+    private String test_notification_01 = "{\"actionKey\":\"Test_Action_06\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"Test_Lifestyle_01\",\"reminderContainerKey\":\"Test_Reminder_01\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Test_Notification_01\",\"name\":\"Test Notification\",\"enabled\":true}";
+    private String failed_notification_01 = "{\"actionKey\":\"Failed_Action_01\",\"calendar\":{\"year\":2000,\"month\":1,\"dayOfMonth\":1,\"hourOfDay\":23,\"minute\":59,\"second\":59},\"lifestyleContainerKey\":\"Failed_Lifestyle_01\",\"reminderContainerKey\":\"Failed_Reminder_01\",\"repeatDays\":[],\"repeatDaysEnabled\":false,\"repeatEveryBlankDays\":0,\"repeatEveryBlankDaysEnabled\":false,\"key\":\"Failed_Notification_01\",\"name\":\"Failed Notification\",\"enabled\":false}";
 
     private String test_action_01 = "{\"cameraLight\":false,\"ringtoneDuration\":5000,\"vibrateDuration\":500,\"notificationBar\":true,\"notificationSound\":false,\"ringtoneSound\":false,\"vibrate\":true,\"key\":\"Test_Action_01\",\"name\":\"Test Action 1\",\"enabled\":true}";
     private String test_action_02 = "{\"cameraLight\":false,\"ringtoneDuration\":5000,\"vibrateDuration\":500,\"notificationBar\":true,\"notificationSound\":false,\"ringtoneSound\":false,\"vibrate\":false,\"key\":\"Test_Action_02\",\"name\":\"Test Action 2\",\"enabled\":true}";
     private String test_action_03 = "{\"cameraLight\":false,\"ringtoneDuration\":5000,\"vibrateDuration\":500,\"notificationBar\":true,\"notificationSound\":true,\"ringtoneSound\":true,\"vibrate\":true,\"key\":\"Test_Action_03\",\"name\":\"Test Action 3\",\"enabled\":false}";
     private String test_action_04 = "{\"cameraLight\":false,\"ringtoneDuration\":5000,\"vibrateDuration\":500,\"notificationBar\":true,\"notificationSound\":true,\"ringtoneSound\":true,\"vibrate\":true,\"key\":\"Test_Action_04\",\"name\":\"Test Action 4\",\"enabled\":true}";
     private String test_action_05 = "{\"cameraLight\":false,\"ringtoneDuration\":5000,\"vibrateDuration\":500,\"notificationBar\":true,\"notificationSound\":true,\"ringtoneSound\":true,\"vibrate\":true,\"key\":\"Test_Action_05\",\"name\":\"Test Action 5\",\"enabled\":false}";
+    private String test_action_06 = "{\"cameraLight\":false,\"ringtoneDuration\":5000,\"vibrateDuration\":500,\"notificationBar\":true,\"notificationSound\":true,\"ringtoneSound\":true,\"vibrate\":true,\"key\":\"Test_Action_06\",\"name\":\"Test Action 6\",\"enabled\":false}";
     private String failed_action_01 = "{\"cameraLight\":false,\"ringtoneDuration\":5000,\"vibrateDuration\":500,\"notificationBar\":true,\"notificationSound\":false,\"ringtoneSound\":false,\"vibrate\":false,\"key\":\"Failed_Action_01\",\"name\":\"Failed Action\",\"enabled\":false}";
 }

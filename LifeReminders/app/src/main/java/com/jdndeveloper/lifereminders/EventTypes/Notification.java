@@ -125,7 +125,7 @@ public class Notification extends AbstractBaseEvent {
                 .getKey().equals(Constants.LIFESTYLE_FAILED_KEY))
             subTitle = "";
 
-        Storage.getInstance().getAction(Constants.ACTION_TEST_KEY).sendCorrectNotification(context,
+        Storage.getInstance().getAction(this.getActionKey()).sendCorrectNotification(context,
                 title,
                 subTitle,
                 requestID,
@@ -134,6 +134,8 @@ public class Notification extends AbstractBaseEvent {
 
     //sets an alarm for the current scheduled time of the notification
     public void setAlarm(Context context) {
+        Calendar rightNow = Calendar.getInstance();
+
         if (!this.isEnabled()) return;
         //Setup the intent, it must be a pending intent
         Intent myIntent = new Intent(context, AlarmReceiver.class);
@@ -150,8 +152,24 @@ public class Notification extends AbstractBaseEvent {
         //Create the AlarmManager
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
+        //set proper time for alarm
+        while (calendar.getTimeInMillis() < rightNow.getTimeInMillis()) {
+            if (!this.isRepeatEveryBlankDaysEnabled() && !this.isRepeatDaysEnabled()) {
+                calendar.set(Calendar.YEAR, 2000); //set the time firmly in the past to avoid using it again
+                return;
+            } else {
+                makeNextNotificationTime();
+            }
+        }
+
         //Set the alarm
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+        //cleanup
+
+        if (!this.isRepeatEveryBlankDaysEnabled() && !this.isRepeatDaysEnabled()) {
+            calendar.set(Calendar.YEAR, 2000); //set the time firmly in the past to avoid using it again
+        }
     }
 
     public String getActionKey() {
