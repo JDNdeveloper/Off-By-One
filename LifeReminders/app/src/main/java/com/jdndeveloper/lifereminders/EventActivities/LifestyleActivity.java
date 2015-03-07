@@ -205,6 +205,15 @@ public class LifestyleActivity extends ActionBarActivity {
     }
 
     @Override
+    public Intent getSupportParentActivityIntent(){
+        Log.e("Lifestyle Activity","return up");
+        //needs to change
+        Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+        return returnMain;
+        //return super.getSupportParentActivityIntent();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.menu_life_style, menu);
