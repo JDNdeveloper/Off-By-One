@@ -210,6 +210,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
+        Log.e("MainActivity", "Context Menu");
         menu.setHeaderTitle("Select the type of new Notification");
         menu.add(0, v.getId(),0,"One Time Alarm");
         menu.add(0, v.getId(),1,"Weekly Alarm");
@@ -218,11 +219,13 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
+        Log.e("MainActivity", "Context Item Selected");
         if (item.getGroupId() == 0) {
             typeOfNotification = item.getOrder();
+            Log.e("MainActivity", "Before Time Picker Here");
             DialogFragment newFragment = new TimePickerFragment();
             newFragment.show(getFragmentManager(),"time picker");
+            Log.e("MainActivity", "After Time Picker Here");
             return true;
         }
         return false;
@@ -453,9 +456,9 @@ public class MainActivity extends ActionBarActivity
                                 public void onClick(DialogInterface dialog, int which) {
                                     boolean stat = Storage.getInstance().deleteAbstractBaseEvent(abe);
                                     Log.e("MainActivity", "Deletion: " + stat);
-                                    if (stat) {
+                                    //if (stat) {
                                         reloadAdapter(listView, rootView);
-                                    }
+                                    //}
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -578,7 +581,7 @@ public class MainActivity extends ActionBarActivity
     public static int newMonth;
     public static int newYear;
     public static int typeOfNotification;
-
+    public static int callcount = 0;
     /*Selecting Time*/
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
@@ -590,6 +593,7 @@ public class MainActivity extends ActionBarActivity
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
 
+            Log.e("Main Activity","OnCreateDialog Time");
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute,
                     DateFormat.is24HourFormat(getActivity()));
@@ -597,23 +601,30 @@ public class MainActivity extends ActionBarActivity
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
-            newMinute = minute;
-            newHour = hourOfDay;
-            switch (typeOfNotification) {
-                case 0:
-                    DialogFragment newFragment = new DatePickerFragment();
-                    newFragment.show(getFragmentManager(), "Date Picker");
-                    break;
-                case 1:
-                    DialogFragment newFragment0 = new DaysOfWeekFragment();
-                    newFragment0.show(getFragmentManager(),"Days of the Week Picker");
-                    break;
-                case 2:
-                    DialogFragment newFragment1 = new EveryXDaysFragment();
-                    newFragment1.show(getFragmentManager(),"Every X Days Picker");
-                    break;
-                default:
-                    break;
+            Log.e("Main Activity", "onTimeSet Outside");
+            if(callcount == 0) {
+                callcount++;
+                newMinute = minute;
+                newHour = hourOfDay;
+
+                switch (typeOfNotification) {
+                    case 0:
+                        Log.e("Main Activity", "onTimeSet Inside");
+                        DialogFragment newFragment2 = new DatePickerFragment();
+                        newFragment2.show(getFragmentManager(), "Date Picker");
+                        break;
+                    case 1:
+                        DialogFragment newFragment0 = new DaysOfWeekFragment();
+                        newFragment0.show(getFragmentManager(), "Days of the Week Picker");
+                        break;
+                    case 2:
+
+                        DialogFragment newFragment1 = new EveryXDaysFragment();
+                        newFragment1.show(getFragmentManager(), "Every X Days Picker");
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -625,6 +636,7 @@ public class MainActivity extends ActionBarActivity
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
+            callcount = 0;
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
@@ -657,6 +669,7 @@ public class MainActivity extends ActionBarActivity
     public static class DaysOfWeekFragment extends DialogFragment{
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+            callcount = 0;
             final boolean[] validDays = new boolean[7];
             for(int i = 0; i < validDays.length;i++){
                 validDays[i] =false;
@@ -716,7 +729,7 @@ public class MainActivity extends ActionBarActivity
     public static class EveryXDaysFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+            callcount = 0;
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
             builder.setTitle("Select Interval");
@@ -766,6 +779,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     public static void finishCreatingNewNotification(Notification notification, Activity activity){
+        callcount = 0;
         Action action = Storage.getInstance().getNewAction();
         notification.setActionKey(action.getKey());
         if(!Storage.getInstance().commitAbstractBaseEvent(action) || !Storage.getInstance().commitAbstractBaseEvent(notification)){

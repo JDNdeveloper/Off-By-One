@@ -204,14 +204,14 @@ public class LifestyleActivity extends ActionBarActivity {
         updateListAdapter();
     }
 
-    /*@Override
+    @Override
     public Intent getSupportParentActivityIntent(){
         Log.e("Lifestyle Activity","return up");
         //needs to change
         Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
         return returnMain;
         //return super.getSupportParentActivityIntent();
-    }*/
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -225,11 +225,11 @@ public class LifestyleActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
+        int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
                 finish();
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
     }

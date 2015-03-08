@@ -234,13 +234,13 @@ public class ReminderActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
+        int id = item.getItemId();
 
         //This needs to be changed
         switch (id) {
             case android.R.id.home:
                 finish();
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
 
@@ -311,7 +311,7 @@ public class ReminderActivity extends ActionBarActivity {
     public static int newMonth;
     public static int newYear;
     public static int typeOfNotification;
-
+    public static int callcount = 0;
 
     /*Selecting Time*/
     public static class TimePickerFragment extends DialogFragment
@@ -331,23 +331,26 @@ public class ReminderActivity extends ActionBarActivity {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
-            newMinute = minute;
-            newHour = hourOfDay;
-            switch (typeOfNotification) {
-                case 0:
-                    DialogFragment newFragment = new DatePickerFragment();
-                    newFragment.show(getFragmentManager(), "Date Picker");
-                    break;
-                case 1:
-                    DialogFragment newFragment0 = new DaysOfWeekFragment();
-                    newFragment0.show(getFragmentManager(),"Days of the Week Picker");
-                    break;
-                case 2:
-                    DialogFragment newFragment1 = new EveryXDaysFragment();
-                    newFragment1.show(getFragmentManager(),"Every X Days Picker");
-                    break;
-                default:
-                    break;
+            if(callcount == 0) {
+                callcount++;
+                newMinute = minute;
+                newHour = hourOfDay;
+                switch (typeOfNotification) {
+                    case 0:
+                        DialogFragment newFragment = new DatePickerFragment();
+                        newFragment.show(getFragmentManager(), "Date Picker");
+                        break;
+                    case 1:
+                        DialogFragment newFragment0 = new DaysOfWeekFragment();
+                        newFragment0.show(getFragmentManager(), "Days of the Week Picker");
+                        break;
+                    case 2:
+                        DialogFragment newFragment1 = new EveryXDaysFragment();
+                        newFragment1.show(getFragmentManager(), "Every X Days Picker");
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -359,6 +362,7 @@ public class ReminderActivity extends ActionBarActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
+            callcount = 0;
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
@@ -404,7 +408,7 @@ public class ReminderActivity extends ActionBarActivity {
         }
     }
 
-    /*@Override
+    @Override
     public Intent getSupportParentActivityIntent(){
         switch(startingPoint){
             case 0:
@@ -419,12 +423,13 @@ public class ReminderActivity extends ActionBarActivity {
 
         }
         return super.getSupportParentActivityIntent();
-    }*?
+    }
 
     /*Selecting Days of the week*/
     public static class DaysOfWeekFragment extends DialogFragment{
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+            callcount = 0;
             final ArrayList mSelectedItems = new ArrayList();  // Where we track the selected items
             final boolean[] validDays = new boolean[7];
             for(int i = 0; i < validDays.length;i++){
@@ -505,9 +510,10 @@ public class ReminderActivity extends ActionBarActivity {
 
     /*Selecting How often it reoccurs*/
     public static class EveryXDaysFragment extends DialogFragment {
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+            callcount = 0;
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
             builder.setTitle("Select Interval");
