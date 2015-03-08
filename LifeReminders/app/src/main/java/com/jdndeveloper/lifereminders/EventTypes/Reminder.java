@@ -37,6 +37,15 @@ public class Reminder extends AbstractBaseEvent {
 
     }
 
+    //custom constructor 2
+    public Reminder(String name, String key, String parentKey, boolean enabled) {
+        super(name,key,enabled);
+
+        this.lifestyleContainerKey = parentKey;
+        this.notificationKeys = new ArrayList<String>();
+
+    }
+
 
     //returns list of notification keys
     public List<String> getNotificationKeys() {
@@ -108,6 +117,7 @@ public class Reminder extends AbstractBaseEvent {
     public void removeNotification(String notificationID) {
         if(this.notificationKeys.size()==0){
             System.err.printf("attempted to removeNotification %s on an empty list\n", notificationID);
+
         }
 
         int index = this.notificationKeys.indexOf(notificationID);
