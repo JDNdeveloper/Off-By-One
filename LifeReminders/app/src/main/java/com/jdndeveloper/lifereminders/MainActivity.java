@@ -355,20 +355,36 @@ public class MainActivity extends ActionBarActivity
                 case 1:
                     abstractBaseEvents = Storage.getInstance().getAllLifestyles();
                     FragmentLocation = 1;
+                    listView.setAdapter(new LifestyleAdapter(getActivity(),
+                            android.R.layout.simple_list_item_activated_1,
+                            R.layout.lifestyle_row, abstractBaseEvents
+                    ));
+                    rootView.setBackgroundColor(getResources().getColor(R.color.life_background));
                     break;
                 case 2:
                     abstractBaseEvents = Storage.getInstance().getAllReminders();
                     FragmentLocation = 2;
+                    listView.setAdapter(new ReminderAdapter(getActivity(),
+                            android.R.layout.simple_list_item_activated_1,
+                            R.layout.reminder_row, abstractBaseEvents
+                    ));
+                    rootView.setBackgroundColor(getResources().getColor(R.color.rem_background));
                     break;
                 case 3:
                     abstractBaseEvents = Storage.getInstance().getAllNotifications();
                     FragmentLocation = 3;
+                    listView.setAdapter(new NotificationAdapter(getActivity(),
+                            android.R.layout.simple_list_item_activated_1,
+                            R.layout.notification_row, abstractBaseEvents
+                    ));
+                    rootView.setBackgroundColor(getResources().getColor(R.color.notif_background));
                     break;
                 default:
                     return rootView;
             }
+
             //http://www.colourlovers.com/palette/3643955/Cleaning_In_Sydney
-            if (abstractBaseEvents.get(0) instanceof Lifestyle) {
+/*            if (abstractBaseEvents.get(0) instanceof Lifestyle) {
                 listView.setAdapter(new LifestyleAdapter(getActivity(),
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.lifestyle_row, abstractBaseEvents
@@ -390,7 +406,7 @@ public class MainActivity extends ActionBarActivity
                 ));
                 rootView.setBackgroundColor(getResources().getColor(R.color.notif_background));
             }
-
+*/
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -431,8 +447,9 @@ public class MainActivity extends ActionBarActivity
 
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
                     final AbstractBaseEvent abe = (AbstractBaseEvent) parent.getAdapter().getItem(position);
+
                     String tempType = "";
                     String tempName = "";
                     if (abe instanceof Lifestyle) {
@@ -456,9 +473,19 @@ public class MainActivity extends ActionBarActivity
                                 public void onClick(DialogInterface dialog, int which) {
                                     boolean stat = Storage.getInstance().deleteAbstractBaseEvent(abe);
                                     Log.e("MainActivity", "Deletion: " + stat);
-                                    //if (stat) {
-                                        reloadAdapter(listView, rootView);
-                                    //}
+//                                    //if (stat) {
+//                                        reloadAdapter(listView, rootView);
+//                                    //}
+// THIS IS TEMPORARILY COMMENTED OUT SO THAT EVERYONE CAN SEE THAT IT WORKS. HOWEVER, IT SHOULD NOT BE BECAUSE
+// DELETE CHECKS PARENT CONTAINERS EXISTENCE AND WILL - DOES HERE - FAIL TO DELETE THE ITEM. YOU NEED TO MAKE
+// SURE THE PARENTS OF OBJECTS CREATED ARE LINKED. FX, WHEN YOU CREATE A REMINDER, IT NEEDS TO BE ASSOCIATED WITH
+// A LIFESTYLE. OTHERWISE, DELETE WILL FAIL AND NOT DELETE THE REMINDER - JOHN
+//                                    if (stat){
+                                        // remove item from list that backs array adapter
+                                        abstractBaseEvents.remove(position);
+                                        // tell the array adapter to reload
+                                        ((ArrayAdapter) parent.getAdapter()).notifyDataSetChanged();
+//                                    }
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -475,7 +502,8 @@ public class MainActivity extends ActionBarActivity
             return rootView;
         }
 
-        private void reloadAdapter(ListView listView, View rootView) {
+// Not needed and breaks app - john
+/*        private void reloadAdapter(ListView listView, View rootView) {
             List<? extends AbstractBaseEvent> abstractBaseEvents = null;
             switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)){
                 case 1:
@@ -517,7 +545,7 @@ public class MainActivity extends ActionBarActivity
                 rootView.setBackgroundColor(getResources().getColor(R.color.notif_background));
             }
         }
-
+*/
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
@@ -526,8 +554,8 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-
-    public void reloadAdapter(){
+// Not needed and breaks app - john
+/*    public void reloadAdapter(){
         final ListView listView = (ListView) findViewById(R.id.listView);
         //List<? extends AbstractBaseEvent> abstractBaseEvents = null;
         Log.e("MainActivity","ReloadAdapter");
@@ -565,13 +593,14 @@ public class MainActivity extends ActionBarActivity
             ));
         }
     }
-
+*/
     @Override
     public void onResume(){
         super.onResume();
         Log.e("Main Activity","onResume");
         //setContentView(R.layout.activity_main);
-        reloadAdapter();
+
+//        reloadAdapter();      not needed - john
     }
 
     /*This is for adding a new notification*/
