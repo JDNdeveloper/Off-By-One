@@ -1,5 +1,6 @@
 package com.jdndeveloper.lifereminders;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -55,7 +56,7 @@ public class SettingsActivity extends ActionBarActivity {
 
     //private static View rootView ;
     private static ListView listView;
-    private static  View rootView;
+    //private static  View rootView;
 
     //LayoutInflater inflater,ViewGroup container ,
     @Override
@@ -64,7 +65,7 @@ public class SettingsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_settings);
         setupActionBar();
 
-        //rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        //rootView = (View) findViewById(R.id.settingsView);
         //final ListView listView = (ListView) rootView.findViewById(R.id.listView);
         listView = (ListView) findViewById(R.id.settingsListView);
 
@@ -159,9 +160,9 @@ public class SettingsActivity extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.settings_action_background)));
         changeStatusBarColor(R.color.settings_action_status_bar);
     }
-/*
 
-    public static void reloadAdapter() {
+
+    public static void reloadAdapter(Activity activity) {
         //no getAllOptions() method
 
 
@@ -174,20 +175,23 @@ public class SettingsActivity extends ActionBarActivity {
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY3));
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4));
 
-/*
+
         //complains about getActivity(),
-        listView.setAdapter(new SettingsAdapter(getActivity(),
+        listView.setAdapter(new SettingsAdapter(activity,
                 android.R.layout.simple_list_item_activated_1,
                 R.layout.settings_row, options
         ));
 
 
-//
+
 
     }
 
-*/
+
 
 
 
 }
+
+
+
