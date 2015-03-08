@@ -55,7 +55,7 @@ import static android.app.PendingIntent.getActivity;
 public class SettingsActivity extends ActionBarActivity {
 
     //private static View rootView ;
-    private static ListView listView;
+    private ListView settingsListView;
     //private static  View rootView;
 
     //LayoutInflater inflater,ViewGroup container ,
@@ -67,7 +67,7 @@ public class SettingsActivity extends ActionBarActivity {
 
         //rootView = (View) findViewById(R.id.settingsView);
         //final ListView listView = (ListView) rootView.findViewById(R.id.listView);
-        listView = (ListView) findViewById(R.id.settingsListView);
+        settingsListView = (ListView) findViewById(R.id.settingsListView);
 
         final List<Option> optionArray = new ArrayList<>();
 
@@ -75,7 +75,7 @@ public class SettingsActivity extends ActionBarActivity {
             Log.i("SettingsActivity","Adding setting option ");
             optionArray.add(new Option());
         }
-        listView.setAdapter(new SettingsAdapter(this,
+        settingsListView.setAdapter(new SettingsAdapter(this,
                 android.R.layout.simple_list_item_activated_1,
                 R.layout.lifestyle_row, optionArray
         ));
@@ -162,7 +162,7 @@ public class SettingsActivity extends ActionBarActivity {
     }
 
 
-    public static void reloadAdapter(Activity activity) {
+    public void reloadAdapter(Activity activity) {
         //no getAllOptions() method
 
 
@@ -177,7 +177,7 @@ public class SettingsActivity extends ActionBarActivity {
 
 
         //complains about getActivity(),
-        listView.setAdapter(new SettingsAdapter(activity,
+        settingsListView.setAdapter(new SettingsAdapter(activity,
                 android.R.layout.simple_list_item_activated_1,
                 R.layout.settings_row, options
         ));

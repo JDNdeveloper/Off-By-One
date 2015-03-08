@@ -28,12 +28,18 @@ public class SettingsAdapter extends ArrayAdapter{
     private final List<Option> options;
     private final int rowResId;
 
+    // we need to keep the instance of this adapter
+    private final ArrayAdapter thisAdapter;
+
     public SettingsAdapter(Context context, int listTypeResId, int rowResId, List option) {
         super(context, listTypeResId, rowResId, option);
 
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.options = option;
         this.rowResId = rowResId;
+
+        // save this adapter instance so the switches can access it
+        thisAdapter = this;
     }
 
     @Override
@@ -72,8 +78,14 @@ public class SettingsAdapter extends ArrayAdapter{
                     //Storage.getInstance().replaceAbstractBaseEvent(options.get(position));
 
                 }
-
                 //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+
+                // PUT CODE HERE TO MODIFY THE UNDERLYING ARRAY FOR THE ADAPTER
+                ////////////////////////////////////////////////////////////////
+
+                ////////////////////////////////////////////////////////////////
+                // this will tell the array adapter to refresh - or - at least it should
+                thisAdapter.notifyDataSetChanged();
             }
         });
 
