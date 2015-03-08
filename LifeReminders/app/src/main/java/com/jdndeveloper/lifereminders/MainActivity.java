@@ -456,9 +456,9 @@ public class MainActivity extends ActionBarActivity
                                 public void onClick(DialogInterface dialog, int which) {
                                     boolean stat = Storage.getInstance().deleteAbstractBaseEvent(abe);
                                     Log.e("MainActivity", "Deletion: " + stat);
-                                    if (stat) {
+                                    //if (stat) {
                                         reloadAdapter(listView, rootView);
-                                    }
+                                    //}
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
