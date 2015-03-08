@@ -1,6 +1,7 @@
 package com.jdndeveloper.lifereminders.EventTypes;
 
 import com.jdndeveloper.lifereminders.Constants;
+import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,12 +69,10 @@ public class Option {
         enabled = state;
         if(state == true){
             for(int i = 0; i< relativeOption.size();++i){
-                //go to shared preference and set to false
+                Option o = Storage.getInstance().getOption(this.relativeOption.get(i));
+                o.setEnabled(false);
+                Storage.getInstance().saveOption(o);
             }
         }
     }
-
-
-
-
 }

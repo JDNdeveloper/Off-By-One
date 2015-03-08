@@ -31,11 +31,11 @@ public class SettingsAdapter extends ArrayAdapter{
     // we need to keep the instance of this adapter
     private final ArrayAdapter thisAdapter;
 
-    public SettingsAdapter(Context context, int listTypeResId, int rowResId, List option) {
-        super(context, listTypeResId, rowResId, option);
+    public SettingsAdapter(Context context, int listTypeResId, int rowResId, List options) {
+        super(context, listTypeResId, rowResId, options);
 
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.options = option;
+        this.options = options;
         this.rowResId = rowResId;
 
         // save this adapter instance so the switches can access it
@@ -70,12 +70,12 @@ public class SettingsAdapter extends ArrayAdapter{
                     //text += " is enabled";
                     options.get(position).setEnabled(true);
                     //store in storage
-                    //Storage.getInstance().replaceAbstractBaseEvent(options.get(position));
+                    Storage.getInstance().saveOption(options.get(position));
                 } else {
                     //text += " is disabled";
                     options.get(position).setEnabled(false);
                     //store in storage
-                    //Storage.getInstance().replaceAbstractBaseEvent(options.get(position));
+                    Storage.getInstance().saveOption(options.get(position));
 
                 }
                 //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
