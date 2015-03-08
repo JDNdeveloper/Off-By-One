@@ -13,9 +13,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -46,20 +48,26 @@ import com.jdndeveloper.lifereminders.storage.Storage;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import static android.app.PendingIntent.getActivity;
 
 
 public class SettingsActivity extends ActionBarActivity {
 
+    //private static View rootView ;
+    private static ListView listView;
+    private static  View rootView;
 
-
+    //LayoutInflater inflater,ViewGroup container ,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         setupActionBar();
 
-        ListView listView = (ListView) findViewById(R.id.settingsListView);
+        //rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        //final ListView listView = (ListView) rootView.findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.settingsListView);
+
         final List<Option> optionArray = new ArrayList<>();
 
         for(int i = 0; i<5; i++){
@@ -151,4 +159,35 @@ public class SettingsActivity extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.settings_action_background)));
         changeStatusBarColor(R.color.settings_action_status_bar);
     }
+/*
+
+    public static void reloadAdapter() {
+        //no getAllOptions() method
+
+
+
+        List<Option> options = new ArrayList<Option>();
+
+        options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY0));
+        options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY1));
+        options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY2));
+        options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY3));
+        options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4));
+
+/*
+        //complains about getActivity(),
+        listView.setAdapter(new SettingsAdapter(getActivity(),
+                android.R.layout.simple_list_item_activated_1,
+                R.layout.settings_row, options
+        ));
+
+
+//
+
+    }
+
+*/
+
+
+
 }

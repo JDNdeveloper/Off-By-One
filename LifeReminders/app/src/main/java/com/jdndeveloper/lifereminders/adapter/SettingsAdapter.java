@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -71,12 +72,15 @@ public class SettingsAdapter extends ArrayAdapter{
                     //Storage.getInstance().replaceAbstractBaseEvent(options.get(position));
 
                 }
+
                 //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
 
         return convertView;
     }
+
+
 
     public void setEverythingDisabled(Switch s, TextView t, TextView r) {
         if (android.os.Build.VERSION.SDK_INT >= 16) {
