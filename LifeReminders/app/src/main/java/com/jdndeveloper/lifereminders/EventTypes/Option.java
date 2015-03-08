@@ -20,6 +20,7 @@ public class Option {
     private String name = "ABSTRACT NAME"; //notification doesn't use this
     private String key = "ABSTRACT_KEY";
     private boolean enabled = false;
+    public List<String> relativeOption;
 
     private static int tempCount = 0;
 
@@ -27,7 +28,7 @@ public class Option {
     public Option() {
         this.name = "Default Option" + tempCount;
         this.enabled = true;
-
+        this.relativeOption = new ArrayList<>();
         tempCount++;
     }
     //custom constructor
@@ -43,7 +44,9 @@ public class Option {
 
 
 
-
+    public void addRelative(String key) {
+        relativeOption.add(key);
+    }
     public String getName() { //notification class doesn't use this
         return name;
     }
@@ -63,6 +66,11 @@ public class Option {
     }
     public void setEnabled(boolean state) { //true if enabled, false if disabled
         enabled = state;
+        if(state == true){
+            for(int i = 0; i< relativeOption.size();++i){
+                //go to shared preference and set to false
+            }
+        }
     }
 
 
