@@ -41,7 +41,11 @@ public class Reminder extends AbstractBaseEvent {
     public Reminder(String name, String key, String parentKey, boolean enabled) {
         super(name,key,enabled);
 
-        this.lifestyleContainerKey = parentKey;
+        if(Storage.getInstance().getLifestyle(parentKey).getKey()=="Failed_Lifestyle_01" ||Storage.getInstance().getLifestyle(parentKey)==null){
+            this.lifestyleContainerKey="Failed_Lifestyle_01";
+        }else {
+            this.lifestyleContainerKey = parentKey;
+        }
         this.notificationKeys = new ArrayList<String>();
 
     }
