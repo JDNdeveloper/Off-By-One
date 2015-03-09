@@ -51,8 +51,13 @@ public class ReminderAdapter extends ArrayAdapter{
         // convertView isn't guaranteed to be clean - john - just an fyi
 
         theSwitch.setOnCheckedChangeListener(null);
+
+
+
         rowTextView.setText(reminders.get(position).getName());
         theSwitch.setChecked(reminders.get(position).isEnabled());
+
+        setEverythingEnabled(theSwitch, rowTextView, rowContainerLifestyleTextView);
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             theSwitch.setElevation(100);
@@ -102,9 +107,19 @@ public class ReminderAdapter extends ArrayAdapter{
         return convertView;
     }
 
+    public void setEverythingEnabled(Switch s, TextView t, TextView r) {
+        if (android.os.Build.VERSION.SDK_INT >= 16) {
+            s.setThumbResource(R.drawable.switch_thumb);
+            s.refreshDrawableState();
+        }
+        t.setTextColor(Color.parseColor("#ff202020"));
+        r.setTextColor(Color.parseColor("#9e0022"));
+    }
+
     public void setEverythingDisabled(Switch s, TextView t, TextView r) {
         if (android.os.Build.VERSION.SDK_INT >= 16) {
             s.setThumbResource(R.drawable.apptheme_switch_thumb_disabled_holo_light);
+            s.refreshDrawableState();
         }
         t.setTextColor(Color.parseColor("#808080"));
         r.setTextColor(Color.parseColor("#808080"));

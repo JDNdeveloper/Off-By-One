@@ -53,11 +53,17 @@ public class NotificationAdapter extends ArrayAdapter{
         TextView containerReminder = (TextView) convertView.findViewById(R.id.rowNotificationContainerReminder);
         Switch theSwitch = (Switch) convertView.findViewById(R.id.enabledSwitchNotificationRow);
 
+        //Lower text
+        TextView repeatText = (TextView) convertView.findViewById(R.id.rowNotificationRepeatText);
+        TextView alarmTypeText = (TextView) convertView.findViewById(R.id.rowNotificationAlarmTypeText);
+
         // You need to null out the listener before you change the state of the checkbox. Otherwise,
         // the previous listener will be fired off. Likewise, all fields must be repopulated because
         // convertView isn't guaranteed to be clean - john - just an fyi
 
         theSwitch.setOnCheckedChangeListener(null);
+
+
 
         Calendar time = notifications.get(position).getTime();
 
@@ -101,6 +107,10 @@ public class NotificationAdapter extends ArrayAdapter{
 
         theSwitch.setChecked(notifications.get(position).isEnabled());
 
+        setEverythingEnabled(theSwitch, rowTextView, containerReminder
+                , repeatText, alarmTypeText);
+
+
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             theSwitch.setElevation(100);
         }
@@ -123,9 +133,6 @@ public class NotificationAdapter extends ArrayAdapter{
             }
         });
 
-        //Lower text
-        TextView repeatText = (TextView) convertView.findViewById(R.id.rowNotificationRepeatText);
-        TextView alarmTypeText = (TextView) convertView.findViewById(R.id.rowNotificationAlarmTypeText);
 
 
         //repeatText.setText("repeat test");
@@ -150,9 +157,21 @@ public class NotificationAdapter extends ArrayAdapter{
         return convertView;
     }
 
+    public void setEverythingEnabled(Switch s, TextView t, TextView r, TextView q, TextView m) {
+        if (android.os.Build.VERSION.SDK_INT >= 16) {
+            s.setThumbResource(R.drawable.switch_thumb);
+            s.refreshDrawableState();
+        }
+        t.setTextColor(Color.parseColor("#ff202020"));
+        //r.setTextColor(Color.parseColor("#808080"));
+        q.setTextColor(Color.parseColor("#ff202020"));
+        m.setTextColor(Color.parseColor("#008080"));
+    }
+
     public void setEverythingDisabled(Switch s, TextView t, TextView r, TextView q, TextView m) {
         if (android.os.Build.VERSION.SDK_INT >= 16) {
             s.setThumbResource(R.drawable.apptheme_switch_thumb_disabled_holo_light);
+            s.refreshDrawableState();
         }
         t.setTextColor(Color.parseColor("#808080"));
         r.setTextColor(Color.parseColor("#808080"));
