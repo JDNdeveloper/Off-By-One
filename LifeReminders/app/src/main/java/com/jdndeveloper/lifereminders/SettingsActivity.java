@@ -69,18 +69,7 @@ public class SettingsActivity extends ActionBarActivity {
         //final ListView listView = (ListView) rootView.findViewById(R.id.listView);
         settingsListView = (ListView) findViewById(R.id.settingsListView);
 
-        final List<Option> optionArray = new ArrayList<>();
-
-        optionArray.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY1));
-        optionArray.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY2));
-        optionArray.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY3));
-        optionArray.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4));
-
-
-        settingsListView.setAdapter(new SettingsAdapter(this,
-                android.R.layout.simple_list_item_activated_1,
-                R.layout.lifestyle_row, optionArray
-        ));
+        reloadAdapter(this);
 
     }
 
@@ -171,12 +160,21 @@ public class SettingsActivity extends ActionBarActivity {
 
         List<Option> options = new ArrayList<Option>();
 
-        options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY0));
+        //options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY0));
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY1));
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY2));
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY3));
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4));
 
+
+        options.get(0).addRelative(Constants.OPTION_TEST_KEY2);
+        options.get(0).addRelative(Constants.OPTION_TEST_KEY3);
+
+        options.get(1).addRelative(Constants.OPTION_TEST_KEY1);
+        options.get(1).addRelative(Constants.OPTION_TEST_KEY3);
+
+        options.get(2).addRelative(Constants.OPTION_TEST_KEY1);
+        options.get(2).addRelative(Constants.OPTION_TEST_KEY2);
 
         //complains about getActivity(),
         settingsListView.setAdapter(new SettingsAdapter(activity,
