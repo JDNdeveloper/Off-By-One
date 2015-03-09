@@ -342,12 +342,15 @@ public class MainActivity extends ActionBarActivity
 
         public PlaceholderFragment() {}
 
+        public static ListView adapterListView;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
             final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             final ListView listView = (ListView) rootView.findViewById(R.id.listView);
+            adapterListView = listView;
 
             //final List<? extends AbstractBaseEvent> abstractBaseEvents;
 
@@ -600,7 +603,42 @@ public class MainActivity extends ActionBarActivity
         Log.e("Main Activity","onResume");
         //setContentView(R.layout.activity_main);
 
-//        reloadAdapter();      not needed - john
+
+        //refreshes the adapter after an event is edited
+        refreshAdapter();
+
+    }
+
+    //don't delete this John!! It doesn't break the app and it is necessary
+    private void refreshAdapter() {
+        ListView theView = PlaceholderFragment.adapterListView;
+        if (theView == null) return;
+        switch (FragmentLocation){
+            case 1:
+                abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                theView.setAdapter(new LifestyleAdapter(this,
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.lifestyle_row, abstractBaseEvents
+                ));
+                break;
+            case 2:
+                abstractBaseEvents = Storage.getInstance().getAllReminders();
+                theView.setAdapter(new ReminderAdapter(this,
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.reminder_row, abstractBaseEvents
+                ));
+                break;
+            case 3:
+                abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                theView.setAdapter(new NotificationAdapter(this,
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.notification_row, abstractBaseEvents
+                ));
+                break;
+            default:
+                return;
+        }
+        ((ArrayAdapter) PlaceholderFragment.adapterListView.getAdapter()).notifyDataSetChanged();
     }
 
     /*This is for adding a new notification*/
