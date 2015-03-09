@@ -71,10 +71,12 @@ public class SettingsActivity extends ActionBarActivity {
 
         final List<Option> optionArray = new ArrayList<>();
 
-        for(int i = 0; i<5; i++){
-            Log.i("SettingsActivity","Adding setting option ");
-            optionArray.add(new Option());
-        }
+        optionArray.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY1));
+        optionArray.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY2));
+        optionArray.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY3));
+        optionArray.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4));
+
+
         settingsListView.setAdapter(new SettingsAdapter(this,
                 android.R.layout.simple_list_item_activated_1,
                 R.layout.lifestyle_row, optionArray
