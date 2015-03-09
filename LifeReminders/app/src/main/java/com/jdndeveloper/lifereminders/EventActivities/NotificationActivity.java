@@ -231,6 +231,8 @@ public class NotificationActivity extends ActionBarActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            if (!view.isShown()) return;
+
             // Do something with the time chosen by the user
             TextView timeText = (TextView) getActivity().findViewById(R.id.notificationTime);
             Calendar time = passednotification.getTime();
@@ -423,6 +425,8 @@ public class NotificationActivity extends ActionBarActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
+            if (!view.isShown()) return;
+
             // Do something with the date chosen by the user
             Calendar date = passednotification.getTime();
             date.set(Calendar.YEAR,year);

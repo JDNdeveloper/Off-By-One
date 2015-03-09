@@ -63,17 +63,17 @@ public class Notification extends AbstractBaseEvent {
 
     //returns original calendar if non-repeating, sets calendar to next day that repeats
     //and returns it.
-    public Calendar makeNextNotificationTime() {
+    public Calendar makeNextNotificationTime(Context context) {
 
         if (repeatDaysEnabled) {
             do {
-                calendar.add(Calendar.DAY_OF_WEEK, 1);
+                calendar.add(Calendar.DATE, 1);
             } while (!repeatDays.contains(calendar.get(Calendar.DAY_OF_WEEK)));
         } else if (repeatEveryBlankDaysEnabled) {
-            calendar.add(Calendar.DAY_OF_WEEK, repeatEveryBlankDays);
-        } else {
-            calendar = null;
+            calendar.add(Calendar.DATE, repeatEveryBlankDays);
         }
+
+        this.setAlarm(context);
 
         return calendar;
     }
@@ -146,6 +146,10 @@ public class Notification extends AbstractBaseEvent {
         int requestID = in.nextInt();
         Log.e("Notification", Integer.toString(requestID));
 
+
+        //cancels before setting again
+        //this.removeAlarm(context);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestID,
                 myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -153,23 +157,36 @@ public class Notification extends AbstractBaseEvent {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         //set proper time for alarm
+        long current = calendar.getTimeInMillis();
         while (calendar.getTimeInMillis() < rightNow.getTimeInMillis()) {
-            if (!this.isRepeatEveryBlankDaysEnabled() && !this.isRepeatDaysEnabled()) {
-                calendar.set(Calendar.YEAR, 2000); //set the time firmly in the past to avoid using it again
-                return;
+            if (this.isRepeatEveryBlankDaysEnabled() || this.isRepeatDaysEnabled()) {
+                if (repeatDaysEnabled) {
+                    do {
+                        calendar.add(Calendar.DATE, 1);
+                    } while (!repeatDays.contains(calendar.get(Calendar.DAY_OF_WEEK)));
+                } else if (repeatEveryBlankDaysEnabled) {
+                    calendar.add(Calendar.DATE, repeatEveryBlankDays);
+                }
+
+                if (current == calendar.getTimeInMillis()) // meaning nothing has changed
+                    break;
+
+                current = calendar.getTimeInMillis();
             } else {
-                makeNextNotificationTime();
+                return;
             }
         }
+
+
 
         //Set the alarm
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
         //cleanup
 
-        if (!this.isRepeatEveryBlankDaysEnabled() && !this.isRepeatDaysEnabled()) {
-            calendar.set(Calendar.YEAR, 2000); //set the time firmly in the past to avoid using it again
-        }
+        //if (!this.isRepeatEveryBlankDaysEnabled() && !this.isRepeatDaysEnabled()) {
+            //calendar.set(Calendar.YEAR, 2000); //set the time firmly in the past to avoid using it again
+        //}
     }
 
     public String getActionKey() {
