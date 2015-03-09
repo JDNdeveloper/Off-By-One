@@ -330,6 +330,8 @@ public class ReminderActivity extends ActionBarActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            if (!view.isShown()) return;
+
             // Do something with the time chosen by the user
             if(callcount == 0) {
                 callcount++;
@@ -373,6 +375,8 @@ public class ReminderActivity extends ActionBarActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
+            if (!view.isShown()) return;
+
             // Do something with the date chosen by the user
             newYear = year;
             newMonth = month;

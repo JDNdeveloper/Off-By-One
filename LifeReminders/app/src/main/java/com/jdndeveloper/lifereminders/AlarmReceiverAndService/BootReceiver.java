@@ -30,6 +30,17 @@ public class BootReceiver extends BroadcastReceiver {
 
         SharedStorage.initializeInstance(context);
 
+        List<Notification> notifications = Storage.getInstance().getAllNotifications();
+
+        for (Notification notif : notifications) {
+            Lifestyle parentLifestyle = Storage.getInstance().getLifestyle(notif.getLifestyleContainerKey());
+            Reminder parentReminder = Storage.getInstance().getReminder(notif.getReminderContainerKey());
+
+            if (parentLifestyle.isEnabled() && parentReminder.isEnabled() && notif.isEnabled())
+                notif.setAlarm(context);
+        }
+
+        /*
         List<Lifestyle> lifestyles = Storage.getInstance().getAllLifestyles();
         lifestyles.add(Storage.getInstance().getLifestyle(Constants.LIFESTYLE_FAILED_KEY));
 
@@ -43,7 +54,9 @@ public class BootReceiver extends BroadcastReceiver {
                         for (String notifKey : reminder.getNotificationKeys()) {
                             Notification notif = Storage.getInstance().getNotification(notifKey);
                             //properlySetNotif(notif, context);
-                            notif.setAlarm(context);
+                            if (notif.isEnabled()) {
+                                notif.setAlarm(context);
+                            }
                         }
                     }
                 }
@@ -54,7 +67,9 @@ public class BootReceiver extends BroadcastReceiver {
         for (String unsortedNotifKey : unsortedReminder.getNotificationKeys()) {
             Notification unsortedNotif = Storage.getInstance().getNotification(unsortedNotifKey);
             //properlySetNotif(unsortedNotif, context);
-            unsortedNotif.setAlarm(context);
+            if (unsortedNotif.isEnabled()) {
+                unsortedNotif.setAlarm(context);
+            }
         }
 
         //Phone.getInstance(context).sendMessageToNotificationBar("Hello", "boot-up successful", 234, "Reminder_01");
@@ -62,6 +77,8 @@ public class BootReceiver extends BroadcastReceiver {
         //COMMENT OUT BELOW CODE, JUST FOR TESTING TO SEE IF RECEIVER WORKS
         //Intent mainIntent = new Intent(context, MainActivity.class);
         //context.startActivity(mainIntent);
+
+        */
     }
 
     /*public void properlySetNotif(Notification notif, Context context) {

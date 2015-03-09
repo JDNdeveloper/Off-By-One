@@ -59,6 +59,10 @@ public class Reminder extends AbstractBaseEvent {
 
     //clears previous notification list and populates it with new one
     public void setNotificationKeys(List<String> notificationKey){
+        this.notificationKeys = notificationKey;
+
+        //THE BELOW CODE BREAKS IT
+        /*
         //empties previous list
         this.notificationKeys.clear();
 
@@ -71,6 +75,7 @@ public class Reminder extends AbstractBaseEvent {
             //List passed through as parameter is too large to copy
             System.err.printf("cannot add new notificationKey List due to being bigger than maxSize");
         }
+        */
 
     }
 

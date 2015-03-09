@@ -342,12 +342,15 @@ public class MainActivity extends ActionBarActivity
 
         public PlaceholderFragment() {}
 
+        public static ListView adapterListView;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
             final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             final ListView listView = (ListView) rootView.findViewById(R.id.listView);
+            adapterListView = listView;
 
             //final List<? extends AbstractBaseEvent> abstractBaseEvents;
 
@@ -482,9 +485,10 @@ public class MainActivity extends ActionBarActivity
 // A LIFESTYLE. OTHERWISE, DELETE WILL FAIL AND NOT DELETE THE REMINDER - JOHN
 //                                    if (stat){
                                         // remove item from list that backs array adapter
-                                        abstractBaseEvents.remove(position);
+                                        //abstractBaseEvents.remove(position);
                                         // tell the array adapter to reload
-                                        ((ArrayAdapter) parent.getAdapter()).notifyDataSetChanged();
+                                        //((ArrayAdapter) parent.getAdapter()).notifyDataSetChanged();
+                                        refreshAdapter();
 //                                    }
                                 }
                             })
@@ -500,6 +504,38 @@ public class MainActivity extends ActionBarActivity
             });
 
             return rootView;
+        }
+
+        //don't delete this John!! It doesn't break the app and it is necessary
+        private void refreshAdapter() {
+            ListView theView = PlaceholderFragment.adapterListView;
+            if (theView == null) return;
+            switch (FragmentLocation){
+                case 1:
+                    abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                    theView.setAdapter(new LifestyleAdapter(getActivity(),
+                            android.R.layout.simple_list_item_activated_1,
+                            R.layout.lifestyle_row, abstractBaseEvents
+                    ));
+                    break;
+                case 2:
+                    abstractBaseEvents = Storage.getInstance().getAllReminders();
+                    theView.setAdapter(new ReminderAdapter(getActivity(),
+                            android.R.layout.simple_list_item_activated_1,
+                            R.layout.reminder_row, abstractBaseEvents
+                    ));
+                    break;
+                case 3:
+                    abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                    theView.setAdapter(new NotificationAdapter(getActivity(),
+                            android.R.layout.simple_list_item_activated_1,
+                            R.layout.notification_row, abstractBaseEvents
+                    ));
+                    break;
+                default:
+                    return;
+            }
+            ((ArrayAdapter) PlaceholderFragment.adapterListView.getAdapter()).notifyDataSetChanged();
         }
 
 // Not needed and breaks app - john
@@ -600,7 +636,42 @@ public class MainActivity extends ActionBarActivity
         Log.e("Main Activity","onResume");
         //setContentView(R.layout.activity_main);
 
-//        reloadAdapter();      not needed - john
+
+        //refreshes the adapter after an event is edited
+        refreshAdapter();
+
+    }
+
+    //don't delete this John!! It doesn't break the app and it is necessary
+    private void refreshAdapter() {
+        ListView theView = PlaceholderFragment.adapterListView;
+        if (theView == null) return;
+        switch (FragmentLocation){
+            case 1:
+                abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                theView.setAdapter(new LifestyleAdapter(this,
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.lifestyle_row, abstractBaseEvents
+                ));
+                break;
+            case 2:
+                abstractBaseEvents = Storage.getInstance().getAllReminders();
+                theView.setAdapter(new ReminderAdapter(this,
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.reminder_row, abstractBaseEvents
+                ));
+                break;
+            case 3:
+                abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                theView.setAdapter(new NotificationAdapter(this,
+                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.notification_row, abstractBaseEvents
+                ));
+                break;
+            default:
+                return;
+        }
+        ((ArrayAdapter) PlaceholderFragment.adapterListView.getAdapter()).notifyDataSetChanged();
     }
 
     /*This is for adding a new notification*/
@@ -618,9 +689,11 @@ public class MainActivity extends ActionBarActivity
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
+            //callcount = 0; Josh, should this be here? - jayden
             final Calendar c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
+
 
             Log.e("Main Activity","OnCreateDialog Time");
             // Create a new instance of TimePickerDialog and return it
@@ -629,6 +702,8 @@ public class MainActivity extends ActionBarActivity
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            if (!view.isShown()) return;
+
             // Do something with the time chosen by the user
             Log.e("Main Activity", "onTimeSet Outside");
             if(callcount == 0) {
@@ -647,7 +722,6 @@ public class MainActivity extends ActionBarActivity
                         newFragment0.show(getFragmentManager(), "Days of the Week Picker");
                         break;
                     case 2:
-
                         DialogFragment newFragment1 = new EveryXDaysFragment();
                         newFragment1.show(getFragmentManager(), "Every X Days Picker");
                         break;
@@ -676,6 +750,8 @@ public class MainActivity extends ActionBarActivity
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
+            if (!view.isShown()) return;
+
             // Do something with the date chosen by the user
             newYear = year;
             newMonth = month;
@@ -816,6 +892,7 @@ public class MainActivity extends ActionBarActivity
             //return;
         }
         Intent notificationIntent = new Intent(context, NotificationActivity.class);
+        //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationIntent.putExtra("Notification", notification);
         activity.startActivity(notificationIntent);
     }

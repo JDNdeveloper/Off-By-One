@@ -20,13 +20,13 @@ public class NotificationTester {
 
         //Arbitrary change
 
-        //runDaysOfTheWeekTest(notification);
-        //runEveryBlankDaysTest(notification);
+        //runDaysOfTheWeekTest(notification, context);
+        //runEveryBlankDaysTest(notification, context);
         //runNotificationTest(context, notification);
         //alarmTester(context, notification);
     }
 
-    private void runDaysOfTheWeekTest(Notification notification) {
+    private void runDaysOfTheWeekTest(Notification notification, Context context) {
 
         notification.setRepeatDay(Calendar.MONDAY, true);
         notification.setRepeatDay(Calendar.FRIDAY, true);
@@ -42,29 +42,29 @@ public class NotificationTester {
 
         Log.i("NotifTest", Integer.toString(notification.getTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
     }
 
-    private void runEveryBlankDaysTest(Notification notification) {
+    private void runEveryBlankDaysTest(Notification notification, Context context) {
         notification.setRepeatEveryBlankDays(3);
 
         Log.i("NotifTest", "Testing Every Blank Days: 3");
 
         Log.i("NotifTest", Integer.toString(notification.getTime().get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
 
-        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime().get(Calendar.DAY_OF_WEEK)));
+        Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
     }
 
     private void runNotificationTest(Context context, Notification notification) {
