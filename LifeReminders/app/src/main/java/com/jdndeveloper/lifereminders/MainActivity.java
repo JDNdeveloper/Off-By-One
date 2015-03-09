@@ -656,9 +656,11 @@ public class MainActivity extends ActionBarActivity
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
+            //callcount = 0; Josh, should this be here? - jayden
             final Calendar c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
+
 
             Log.e("Main Activity","OnCreateDialog Time");
             // Create a new instance of TimePickerDialog and return it
@@ -667,6 +669,8 @@ public class MainActivity extends ActionBarActivity
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            if (!view.isShown()) return;
+
             // Do something with the time chosen by the user
             Log.e("Main Activity", "onTimeSet Outside");
             if(callcount == 0) {
@@ -685,7 +689,6 @@ public class MainActivity extends ActionBarActivity
                         newFragment0.show(getFragmentManager(), "Days of the Week Picker");
                         break;
                     case 2:
-
                         DialogFragment newFragment1 = new EveryXDaysFragment();
                         newFragment1.show(getFragmentManager(), "Every X Days Picker");
                         break;
@@ -714,6 +717,8 @@ public class MainActivity extends ActionBarActivity
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
+            if (!view.isShown()) return;
+
             // Do something with the date chosen by the user
             newYear = year;
             newMonth = month;
@@ -854,6 +859,7 @@ public class MainActivity extends ActionBarActivity
             //return;
         }
         Intent notificationIntent = new Intent(context, NotificationActivity.class);
+        //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationIntent.putExtra("Notification", notification);
         activity.startActivity(notificationIntent);
     }

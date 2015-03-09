@@ -63,10 +63,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 if (rightNow.getTimeInMillis() - 60000 <= n.getTime().getTimeInMillis())
                     n.sendNotification(context);
                 //set next alarm - Uncomment to add set next alarm functionality
-                if(n.isRepeating()) {
-                    n.makeNextNotificationTime(); //make sure not null, implies no next time if null
-                    n.setAlarm(context);
-                }else{
+                n.setAlarm(context);
                     //COMMENTED OUT DELETE TEST NOTIFICATION CODE
                     //Storage.getInstance().deleteAbstractBaseEvent(n);
                     // This is the proper way to use delete/commit/replace - please follow this example - john
@@ -76,7 +73,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         //Toast.makeText(context, "AlarmReceiver deletion of " + n.getKey() + " failed.", Toast.LENGTH_SHORT).show();
                         Log.e("AlarmReciever", "AlarmReceiver deletion of " + n.getKey() + " failed.");
                     }*/
-                }
+
 
                 //Uncomment after storage is working - tell storage to save the new notification time
                 //Storage.getInstance().replaceNotification(n, n.getKey());
