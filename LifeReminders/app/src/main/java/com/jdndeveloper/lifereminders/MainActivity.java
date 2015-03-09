@@ -485,9 +485,10 @@ public class MainActivity extends ActionBarActivity
 // A LIFESTYLE. OTHERWISE, DELETE WILL FAIL AND NOT DELETE THE REMINDER - JOHN
 //                                    if (stat){
                                         // remove item from list that backs array adapter
-                                        abstractBaseEvents.remove(position);
+                                        //abstractBaseEvents.remove(position);
                                         // tell the array adapter to reload
-                                        ((ArrayAdapter) parent.getAdapter()).notifyDataSetChanged();
+                                        //((ArrayAdapter) parent.getAdapter()).notifyDataSetChanged();
+                                        refreshAdapter();
 //                                    }
                                 }
                             })
@@ -503,6 +504,38 @@ public class MainActivity extends ActionBarActivity
             });
 
             return rootView;
+        }
+
+        //don't delete this John!! It doesn't break the app and it is necessary
+        private void refreshAdapter() {
+            ListView theView = PlaceholderFragment.adapterListView;
+            if (theView == null) return;
+            switch (FragmentLocation){
+                case 1:
+                    abstractBaseEvents = Storage.getInstance().getAllLifestyles();
+                    theView.setAdapter(new LifestyleAdapter(getActivity(),
+                            android.R.layout.simple_list_item_activated_1,
+                            R.layout.lifestyle_row, abstractBaseEvents
+                    ));
+                    break;
+                case 2:
+                    abstractBaseEvents = Storage.getInstance().getAllReminders();
+                    theView.setAdapter(new ReminderAdapter(getActivity(),
+                            android.R.layout.simple_list_item_activated_1,
+                            R.layout.reminder_row, abstractBaseEvents
+                    ));
+                    break;
+                case 3:
+                    abstractBaseEvents = Storage.getInstance().getAllNotifications();
+                    theView.setAdapter(new NotificationAdapter(getActivity(),
+                            android.R.layout.simple_list_item_activated_1,
+                            R.layout.notification_row, abstractBaseEvents
+                    ));
+                    break;
+                default:
+                    return;
+            }
+            ((ArrayAdapter) PlaceholderFragment.adapterListView.getAdapter()).notifyDataSetChanged();
         }
 
 // Not needed and breaks app - john
