@@ -87,7 +87,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     //If main is open we will relaunch to ensure that notification is removed
                     if (MainActivity.activityIsVisible()) {
                         Intent mainIntent = new Intent(context, MainActivity.class);
-                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(mainIntent);
                     }
 

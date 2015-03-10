@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -971,4 +972,19 @@ public class MainActivity extends ActionBarActivity
     public static boolean activityIsVisible() {
        return isInFront;
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+        }
+        return true;
+    }
+
+
 }
