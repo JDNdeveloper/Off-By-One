@@ -77,7 +77,7 @@ public class MainActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     //Allow the activity to know what fragment it is on.
-    public static int FragmentLocation = 1; //needs to be initialized or app crashes
+    public static int FragmentLocation = -1; //needs to be initialized or app crashes
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -97,7 +97,8 @@ public class MainActivity extends ActionBarActivity
         // we initialize shared preferences
         SharedStorage.initializeInstance(this);
 
-        FragmentLocation = getProperFragmentLocation();
+        if (FragmentLocation == -1)
+            FragmentLocation = getProperFragmentLocation();
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);

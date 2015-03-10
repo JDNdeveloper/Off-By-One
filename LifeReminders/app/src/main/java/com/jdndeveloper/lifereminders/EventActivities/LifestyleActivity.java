@@ -226,8 +226,11 @@ public class LifestyleActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+
         switch (id) {
             case android.R.id.home:
+                MainActivity.FragmentLocation = 1;
                 finish();
         }
 
