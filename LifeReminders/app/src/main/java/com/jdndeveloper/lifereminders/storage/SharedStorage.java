@@ -31,7 +31,7 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
-    private final int SHARED_STORAGE_VERSION = 9;
+    private final int SHARED_STORAGE_VERSION = 11;
 
     private SharedStorage(Context context){
         this.context = context;
@@ -258,10 +258,10 @@ public class SharedStorage {
         // verify the key is in a keychain
         if (checkKeyChains(key) == false) return false;
 
-        if (key.contentEquals(Constants.LIFESTYLE_FAILED_KEY)) return false;
-        if (key.contentEquals(Constants.REMINDER_FAILED_KEY)) return false;
-        if (key.contentEquals(Constants.NOTIFICATION_FAILED_KEY)) return false;
-        if (key.contentEquals(Constants.ACTION_FAILED_KEY)) return false;
+        if (key.contentEquals(Constants.LIFESTYLE_FAILED_KEY)) return true;
+        if (key.contentEquals(Constants.REMINDER_FAILED_KEY)) return true;
+        if (key.contentEquals(Constants.NOTIFICATION_FAILED_KEY)) return true;
+        if (key.contentEquals(Constants.ACTION_FAILED_KEY)) return true;
 
         String gsonString = gsonObject.toJson(abstractBaseEvent);
         sharedPreferencePutString(key, gsonString);
