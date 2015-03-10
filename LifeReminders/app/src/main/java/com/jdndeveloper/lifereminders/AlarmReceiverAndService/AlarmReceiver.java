@@ -1,6 +1,8 @@
 package com.jdndeveloper.lifereminders.AlarmReceiverAndService;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -11,6 +13,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
+import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
@@ -80,6 +83,14 @@ public class AlarmReceiver extends BroadcastReceiver {
                 if (Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4).isEnabled()
                         && (!n.isRepeatDaysEnabled() && !n.isRepeatEveryBlankDaysEnabled())) {
                     Storage.getInstance().deleteAbstractBaseEvent(n);
+
+                    //If main is open we will relaunch to ensure that notification is removed
+                    if (MainActivity.activityIsVisible()) {
+                        Intent mainIntent = new Intent(context, MainActivity.class);
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        context.startActivity(mainIntent);
+                    }
+
                 }
                     //COMMENTED OUT DELETE TEST NOTIFICATION CODE
                     //Storage.getInstance().deleteAbstractBaseEvent(n);

@@ -129,7 +129,8 @@ public class MainActivity extends ActionBarActivity
         Reminder notifReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
         if (notifReminder != null) {
             Log.i("MainActivity", notifReminder.getKey());
-            loadReminder(notifReminder);
+            if (!notifReminder.getKey().equals(Constants.REMINDER_FAILED_KEY))
+                loadReminder(notifReminder);
         }
 
         // this iterates through all the lifestyles and deletes them all, with the exception of
@@ -548,7 +549,7 @@ public class MainActivity extends ActionBarActivity
                                         //abstractBaseEvents.remove(position);
                                         // tell the array adapter to reload
                                         //((ArrayAdapter) parent.getAdapter()).notifyDataSetChanged();
-                                        refreshAdapter();
+                                        MainActivity.refreshAdapter(getActivity());
                                     }
                                 }
                             })
@@ -566,7 +567,7 @@ public class MainActivity extends ActionBarActivity
             return rootView;
         }
 
-        //don't delete this John!! It doesn't break the app and it is necessary
+        /*
         private void refreshAdapter() {
             ListView theView = PlaceholderFragment.adapterListView;
             if (theView == null) return;
@@ -596,7 +597,7 @@ public class MainActivity extends ActionBarActivity
                     return;
             }
             ((ArrayAdapter) PlaceholderFragment.adapterListView.getAdapter()).notifyDataSetChanged();
-        }
+        }*/
 
 // Not needed and breaks app - john
 /*        private void reloadAdapter(ListView listView, View rootView) {
@@ -694,36 +695,38 @@ public class MainActivity extends ActionBarActivity
     public void onResume(){
         super.onResume();
         Log.e("Main Activity","onResume");
+        isInFront = true;
+
         //setContentView(R.layout.activity_main);
 
 
         //refreshes the adapter after an event is edited
-        refreshAdapter();
+        refreshAdapter(this);
 
     }
 
     //don't delete this John!! It doesn't break the app and it is necessary
-    private void refreshAdapter() {
+    public static  void refreshAdapter(Activity activity) {
         ListView theView = PlaceholderFragment.adapterListView;
         if (theView == null) return;
         switch (FragmentLocation){
             case 1:
                 abstractBaseEvents = Storage.getInstance().getAllLifestyles();
-                theView.setAdapter(new LifestyleAdapter(this,
+                theView.setAdapter(new LifestyleAdapter(activity,
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.lifestyle_row, abstractBaseEvents
                 ));
                 break;
             case 2:
                 abstractBaseEvents = Storage.getInstance().getAllReminders();
-                theView.setAdapter(new ReminderAdapter(this,
+                theView.setAdapter(new ReminderAdapter(activity,
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.reminder_row, abstractBaseEvents
                 ));
                 break;
             case 3:
                 abstractBaseEvents = Storage.getInstance().getAllNotifications();
-                theView.setAdapter(new NotificationAdapter(this,
+                theView.setAdapter(new NotificationAdapter(activity,
                         android.R.layout.simple_list_item_activated_1,
                         R.layout.notification_row, abstractBaseEvents
                 ));
@@ -955,5 +958,17 @@ public class MainActivity extends ActionBarActivity
         //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationIntent.putExtra("Notification", notification);
         activity.startActivity(notificationIntent);
+    }
+
+    private static boolean isInFront;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isInFront = false;
+    }
+
+    public static boolean activityIsVisible() {
+       return isInFront;
     }
 }
