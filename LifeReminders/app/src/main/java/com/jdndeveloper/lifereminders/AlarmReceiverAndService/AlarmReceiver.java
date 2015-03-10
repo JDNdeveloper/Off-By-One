@@ -64,6 +64,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                     n.sendNotification(context);
                 //set next alarm - Uncomment to add set next alarm functionality
                 n.makeNextNotificationTime(context);
+
+                //delete notification if it is one time and the setting is enabled for that
+                if (Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4).isEnabled()
+                        && (!n.isRepeatDaysEnabled() && !n.isRepeatEveryBlankDaysEnabled())) {
+                    Storage.getInstance().deleteAbstractBaseEvent(n);
+                }
                     //COMMENTED OUT DELETE TEST NOTIFICATION CODE
                     //Storage.getInstance().deleteAbstractBaseEvent(n);
                     // This is the proper way to use delete/commit/replace - please follow this example - john

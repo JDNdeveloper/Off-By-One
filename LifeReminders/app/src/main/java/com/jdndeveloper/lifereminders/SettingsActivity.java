@@ -169,12 +169,26 @@ public class SettingsActivity extends ActionBarActivity {
 
         options.get(0).addRelative(Constants.OPTION_TEST_KEY2);
         options.get(0).addRelative(Constants.OPTION_TEST_KEY3);
+        options.get(0).setName("Default to All Lifestyles");
+        if(!options.get(0).isEnabled()&&!options.get(1).isEnabled()&&!options.get(2).isEnabled()){
+            options.get(0).setEnabled(true);
+        }
 
         options.get(1).addRelative(Constants.OPTION_TEST_KEY1);
         options.get(1).addRelative(Constants.OPTION_TEST_KEY3);
+        options.get(1).setName("Default to All Reminders");
 
         options.get(2).addRelative(Constants.OPTION_TEST_KEY1);
         options.get(2).addRelative(Constants.OPTION_TEST_KEY2);
+        options.get(2).setName("Default to All Notifications");
+
+        options.get(3).setName("Delete One Time Notifications");
+
+        Storage.getInstance().saveOption(options.get(0));
+        Storage.getInstance().saveOption(options.get(1));
+        Storage.getInstance().saveOption(options.get(2));
+        Storage.getInstance().saveOption(options.get(3));
+
 
         //complains about getActivity(),
         settingsListView.setAdapter(new SettingsAdapter(activity,
