@@ -16,6 +16,7 @@ import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Josh Innis on 1/27/2015.
@@ -39,6 +40,15 @@ public class AlarmReceiver extends BroadcastReceiver {
             Calendar rightNow = Calendar.getInstance();
             Notification n = Storage.getInstance().getNotification(notifKey);
 
+            //TEMPORARY - makes sure that the notification is in the keychain
+            boolean isInKeychain = false;
+            List<Notification> notifications = Storage.getInstance().getAllNotifications();
+            for (Notification notif : notifications) {
+                if (notif.getKey().equals(n.getKey())) {
+                    isInKeychain = true;
+                    break;
+                }
+            }
 
             /*Check if n is enabled, still does not check if actionkey is valid, need to know what the
             const value is called*/
@@ -49,7 +59,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                     && !Constants.NOTIFICATION_FAILED_KEY.equals(notifKey)
                     //&& Constants.LIFESTYLE_FAILED_KEY != lifeContainer.getKey()
                     //&& Constants.REMINDER_FAILED_KEY != reminderContainer.getKey()
-                    && !Constants.ACTION_FAILED_KEY.equals(action.getKey())) {
+                    && !Constants.ACTION_FAILED_KEY.equals(action.getKey())
+                    && isInKeychain) {
 
                 Log.i("AlarmReceiver", "Valid notification");
                 //TEMPORARY - Sprint 1 Presentation - REMOVE AFTER STORAGE IS FUNCTIONAL

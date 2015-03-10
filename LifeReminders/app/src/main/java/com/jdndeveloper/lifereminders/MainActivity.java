@@ -526,6 +526,16 @@ public class MainActivity extends ActionBarActivity
                                 public void onClick(DialogInterface dialog, int which) {
                                     boolean stat = Storage.getInstance().deleteAbstractBaseEvent(abe);
                                     Log.e("MainActivity", "Deletion: " + stat);
+                                    Log.e("MainActivity", "Being Deleted: " + abe.getKey());
+                                    if (abe instanceof Reminder) {
+                                        Log.e("MainActivity", "Reminder's parent lifestyle: "
+                                                + ((Reminder) abe).getLifestyleContainerKey());
+                                    } else if (abe instanceof Notification) {
+                                        Log.e("MainActivity", "Notification's parent lifestyle: "
+                                                + ((Notification) abe).getReminderContainerKey());
+                                    } else {
+                                        Log.e("MainActivity", "Lifestyle has not container");
+                                    }
 //                                    //if (stat) {
 //                                        reloadAdapter(listView, rootView);
 //                                    //}
@@ -533,13 +543,13 @@ public class MainActivity extends ActionBarActivity
 // DELETE CHECKS PARENT CONTAINERS EXISTENCE AND WILL - DOES HERE - FAIL TO DELETE THE ITEM. YOU NEED TO MAKE
 // SURE THE PARENTS OF OBJECTS CREATED ARE LINKED. FX, WHEN YOU CREATE A REMINDER, IT NEEDS TO BE ASSOCIATED WITH
 // A LIFESTYLE. OTHERWISE, DELETE WILL FAIL AND NOT DELETE THE REMINDER - JOHN
-//                                    if (stat){
+                                    if (stat) {
                                         // remove item from list that backs array adapter
                                         //abstractBaseEvents.remove(position);
                                         // tell the array adapter to reload
                                         //((ArrayAdapter) parent.getAdapter()).notifyDataSetChanged();
                                         refreshAdapter();
-//                                    }
+                                    }
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
