@@ -516,7 +516,12 @@ public class MainActivity extends ActionBarActivity
 
                             //Printout GSON string of the reminder
                             String notificationGson = gsonObject.toJson(notification);
-                            Log.e("GSONCollector", "Reminder GSON: [" + notificationGson + "]");
+                            Log.e("GSONCollector", "Notification GSON: [" + notificationGson + "]");
+
+                            //Printout GSON string of the action
+                            Action action = Storage.getInstance().getAction(notification.getActionKey());
+                            String actionGson = gsonObject.toJson(action);
+                            Log.e("GSONCollector", "Action GSON: [" + actionGson + "]");
 
                             notificationIntent.putExtra("Notification", notification);
                             startActivity(notificationIntent);
