@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.jdndeveloper.lifereminders.EventActivities.LifestyleActivity;
 import com.jdndeveloper.lifereminders.EventActivities.NotificationActivity;
 import com.jdndeveloper.lifereminders.EventActivities.ReminderActivity;
@@ -482,11 +483,17 @@ public class MainActivity extends ActionBarActivity
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Log.e("MainActivity", "Selecting item "
                             + ((AbstractBaseEvent) abstractBaseEvents.get(position)).getKey());
+                    Gson gsonObject = new Gson();
                     switch (getArguments().getInt(ARG_SECTION_NUMBER, -1)) {
                         //Go To Lifestyle Activity
                         case 1:
                             Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
                             Lifestyle lifestyle = (Lifestyle) abstractBaseEvents.get(position);
+
+                            //Printout GSON string of the lifestyle
+                            String lifestyleGson = gsonObject.toJson(lifestyle);
+                            Log.e("GSONCollector", "Lifestyle GSON: [" + lifestyleGson + "]");
+
                             lifestyleIntent.putExtra("Lifestyle", lifestyle);
                             startActivity(lifestyleIntent);
                             break;
@@ -494,6 +501,11 @@ public class MainActivity extends ActionBarActivity
                         case 2:
                             Intent reminderIntent = new Intent(context, ReminderActivity.class);
                             Reminder reminder = (Reminder) abstractBaseEvents.get(position);
+
+                            //Printout GSON string of the reminder
+                            String reminderGson = gsonObject.toJson(reminder);
+                            Log.e("GSONCollector", "Reminder GSON: [" + reminderGson + "]");
+
                             reminderIntent.putExtra("Reminder", reminder);
                             startActivity(reminderIntent);
                             break;
@@ -501,6 +513,11 @@ public class MainActivity extends ActionBarActivity
                         case 3:
                             Intent notificationIntent = new Intent(context, NotificationActivity.class);
                             Notification notification = (Notification) abstractBaseEvents.get(position);
+
+                            //Printout GSON string of the reminder
+                            String notificationGson = gsonObject.toJson(notification);
+                            Log.e("GSONCollector", "Reminder GSON: [" + notificationGson + "]");
+
                             notificationIntent.putExtra("Notification", notification);
                             startActivity(notificationIntent);
                             break;
