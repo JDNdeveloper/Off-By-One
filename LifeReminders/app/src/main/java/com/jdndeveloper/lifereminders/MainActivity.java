@@ -46,6 +46,7 @@ import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
+import com.jdndeveloper.lifereminders.EventTypes.Option;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.Tests.GsonTester;
 import com.jdndeveloper.lifereminders.Tests.NotificationStorageTester;
@@ -94,14 +95,20 @@ public class MainActivity extends ActionBarActivity
         // we initialize shared preferences
         SharedStorage.initializeInstance(this);
 
+        FragmentLocation = getProperFragmentLocation();
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
+
+        mNavigationDrawerFragment.selectItem(FragmentLocation-1);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        onNavigationDrawerItemSelected(FragmentLocation-1);
 
         //Needed to go to other Activities from a static context
         context = this.getApplicationContext();
@@ -133,6 +140,21 @@ public class MainActivity extends ActionBarActivity
 //        for (Lifestyle lifestyle : lifestyles)
 //            if (storageInterface.deleteAbstractBaseEvent(lifestyle) ==  false)
 //                Log.e("MainActivity", "onCreate delete lifestyle " + lifestyle.getKey() + " failed.");
+    }
+
+    public int getProperFragmentLocation() {
+        Option option1 = Storage.getInstance().getOption(Constants.OPTION_TEST_KEY1);
+        Option option2 = Storage.getInstance().getOption(Constants.OPTION_TEST_KEY2);
+        Option option3 = Storage.getInstance().getOption(Constants.OPTION_TEST_KEY3);
+
+
+        int properFragmentLocation = 1;
+
+        if (option1.isEnabled()) properFragmentLocation = 1;
+        else if (option2.isEnabled()) properFragmentLocation = 2;
+        else if (option3.isEnabled()) properFragmentLocation = 3;
+
+        return properFragmentLocation;
     }
 
     //Changes status bar color if using API 21 or above
@@ -260,6 +282,34 @@ public class MainActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
+
+        ActionBar bar = getSupportActionBar();
+
+        //sets Action Bar and Nav Bar background color based on what is selected in nav bar
+        if (position == 0) {
+            bar.setBackgroundDrawable(new ColorDrawable(
+                    getResources().getColor(R.color.life_action_background)));
+            //Change status bar color
+            changeStatusBarColor(R.color.life_action_status_bar);
+            //navBarLayout.setBackgroundColor(
+            //        getResources().getColor(R.color.life_action_background));
+        } else if (position == 1) {
+            bar.setBackgroundDrawable(new ColorDrawable(
+                    getResources().getColor(R.color.rem_action_background)));
+            //Change status bar color
+            changeStatusBarColor(R.color.rem_action_status_bar);
+            //navBarLayout.setBackgroundColor(
+            //        getResources().getColor(R.color.rem_action_background));
+        } else if (position == 2) {
+            bar.setBackgroundDrawable(new ColorDrawable(
+                    getResources().getColor(R.color.notif_action_background)));
+            //Change status bar color
+            changeStatusBarColor(R.color.notif_action_status_bar);
+            //navBarLayout.setBackgroundColor(
+            //        getResources().getColor(R.color.notif_action_background));
+            //End of background setting
+        }
+
     }
 
     public void onSectionAttached(int number) {

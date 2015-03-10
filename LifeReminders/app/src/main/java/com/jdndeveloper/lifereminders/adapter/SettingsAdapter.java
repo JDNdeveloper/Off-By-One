@@ -88,6 +88,12 @@ public class SettingsAdapter extends ArrayAdapter{
 
                 ////////////////////////////////////////////////////////////////
                 // this will tell the array adapter to refresh - or - at least it should
+                options.clear();
+                options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY1));
+                options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY2));
+                options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY3));
+                options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4));
+
                 thisAdapter.notifyDataSetChanged();
             }
         });
