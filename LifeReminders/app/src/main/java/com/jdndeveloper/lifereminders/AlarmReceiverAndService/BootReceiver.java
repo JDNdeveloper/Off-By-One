@@ -36,8 +36,10 @@ public class BootReceiver extends BroadcastReceiver {
             Lifestyle parentLifestyle = Storage.getInstance().getLifestyle(notif.getLifestyleContainerKey());
             Reminder parentReminder = Storage.getInstance().getReminder(notif.getReminderContainerKey());
 
-            if (parentLifestyle.isEnabled() && parentReminder.isEnabled() && notif.isEnabled())
+            if (parentLifestyle.isEnabled() && parentReminder.isEnabled() && notif.isEnabled()) {
                 notif.setAlarm(context);
+                Storage.getInstance().replaceAbstractBaseEvent(notif);
+            }
 
             //delete notification if it is one time and the setting is enabled for that
             if (Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4).isEnabled()

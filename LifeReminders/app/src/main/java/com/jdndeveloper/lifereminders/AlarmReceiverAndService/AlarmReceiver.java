@@ -78,6 +78,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     n.sendNotification(context);
                 //set next alarm - Uncomment to add set next alarm functionality
                 n.makeNextNotificationTime(context);
+                Storage.getInstance().replaceAbstractBaseEvent(n);
 
                 //delete notification if it is one time and the setting is enabled for that
                 if (Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4).isEnabled()
