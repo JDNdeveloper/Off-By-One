@@ -163,7 +163,7 @@ public class NotificationAdapter extends ArrayAdapter{
             s.refreshDrawableState();
         }
         t.setTextColor(Color.parseColor("#ff202020"));
-        //r.setTextColor(Color.parseColor("#808080"));
+        r.setTextColor(Color.parseColor("#9e0022"));
         q.setTextColor(Color.parseColor("#ff202020"));
         m.setTextColor(Color.parseColor("#008080"));
     }
