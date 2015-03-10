@@ -167,6 +167,8 @@ public class NavigationDrawerFragment extends Fragment {
                             getResources().getColor(R.color.life_action_background)));
                     //Change status bar color
                     changeStatusBarColor(R.color.life_action_status_bar);
+
+                    MainActivity.FragmentLocation = 1;
                     //navBarLayout.setBackgroundColor(
                     //        getResources().getColor(R.color.life_action_background));
                 } else if (id == 1) {
@@ -174,6 +176,8 @@ public class NavigationDrawerFragment extends Fragment {
                             getResources().getColor(R.color.rem_action_background)));
                     //Change status bar color
                     changeStatusBarColor(R.color.rem_action_status_bar);
+
+                    MainActivity.FragmentLocation = 2;
                     //navBarLayout.setBackgroundColor(
                     //        getResources().getColor(R.color.rem_action_background));
                 } else if (id == 2) {
@@ -181,6 +185,8 @@ public class NavigationDrawerFragment extends Fragment {
                             getResources().getColor(R.color.notif_action_background)));
                     //Change status bar color
                     changeStatusBarColor(R.color.notif_action_status_bar);
+
+                    MainActivity.FragmentLocation = 3;
                     //navBarLayout.setBackgroundColor(
                     //        getResources().getColor(R.color.notif_action_background));
                     //End of background setting

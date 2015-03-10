@@ -117,19 +117,86 @@ public class Notification extends AbstractBaseEvent {
         String title = Storage.getInstance().getReminder(reminderContainerKey).getName();
         String subTitle = Storage.getInstance().getLifestyle(lifestyleContainerKey).getName();
 
-        if (Storage.getInstance().getReminder(reminderContainerKey)
-                .getKey().equals(Constants.REMINDER_FAILED_KEY))
-            title = "One time Notification";
-
         if (Storage.getInstance().getLifestyle(lifestyleContainerKey)
                 .getKey().equals(Constants.LIFESTYLE_FAILED_KEY))
             subTitle = "";
+        else
+            subTitle = getRepeatText();
+
+        if (Storage.getInstance().getReminder(reminderContainerKey)
+                .getKey().equals(Constants.REMINDER_FAILED_KEY)) {
+            if (!isRepeatDaysEnabled() && !isRepeatEveryBlankDaysEnabled()) {
+                title = "One time Notification";
+                subTitle = getAlarmTypeText();
+            } else {
+                title = getRepeatText();
+                subTitle = getAlarmTypeText();
+            }
+        }
 
         Storage.getInstance().getAction(this.getActionKey()).sendCorrectNotification(context,
                 title,
                 subTitle,
                 requestID,
                 reminderContainerKey);
+    }
+
+    private String getRepeatText() {
+        //if (!n.isRepeating()) return "";
+        String text = "";
+
+        if (this.isRepeatDaysEnabled()) {
+            text += getWeekDays(this.getRepeatDays());
+        } else if (this.isRepeatEveryBlankDaysEnabled()) {
+            text += "Repeat every " + this.getRepeatEveryBlankDays() + " days";
+        } else {
+            text += getCalendarDate(calendar);
+        }
+
+        return text;
+    }
+
+    private String getCalendarDate(Calendar c) {
+        String text = "Date: ";
+        text += Integer.toString(c.get(Calendar.MONTH) + 1);
+        text += "/";
+        text += Integer.toString(c.get(Calendar.DAY_OF_MONTH));
+        return text;
+    }
+
+    private String getAlarmTypeText() {
+        Action a = Storage.getInstance().getAction(this.getActionKey());
+        String text = "";
+        if (a.isNotificationSound()) {
+            text += "sound";
+        } else if (a.isVibrate()) {
+            text += "vibrate";
+        } else {
+            text += "silent";
+        }
+
+        if (a.isNotificationSound() && a.isVibrate())
+            text = "sound/vibrate";
+
+        return text;
+    }
+
+    private String getWeekDays(ArrayList<Integer> repeatDays) {
+        final String[] DAYS_IN_WEEK = {"", "Sun", "Mon", "Tue",
+                "Wed", "Thu", "Fri", "Sat"};
+
+        String text = "";
+        boolean started = false;
+        for (int i = 0; i <= 7; i++) {
+            if (repeatDays.contains(i)) {
+                if (started) {
+                    text += ", ";
+                }
+                text += DAYS_IN_WEEK[i];
+                started = true;
+            }
+        }
+        return text;
     }
 
     //sets an alarm for the current scheduled time of the notification

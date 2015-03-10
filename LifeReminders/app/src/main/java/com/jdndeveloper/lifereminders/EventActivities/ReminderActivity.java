@@ -65,6 +65,9 @@ public class ReminderActivity extends ActionBarActivity {
         setupActionBar();
         changeStatusBarColor(R.color.rem_action_status_bar);
 
+
+        MainActivity.FragmentLocation = 2;
+
         // Josh - below is how to retrieve the passed lifestyle
         passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
         //Toast.makeText(this, passedReminder.getName(), Toast.LENGTH_SHORT).show();

@@ -132,7 +132,8 @@ public class MainActivity extends ActionBarActivity
         Reminder notifReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
         if (notifReminder != null) {
             Log.i("MainActivity", notifReminder.getKey());
-            if (!notifReminder.getKey().equals(Constants.REMINDER_FAILED_KEY))
+            if (!notifReminder.getKey().equals(Constants.REMINDER_FAILED_KEY)
+                    && isValidReminder(notifReminder))
                 loadReminder(notifReminder);
         }
 
@@ -144,6 +145,15 @@ public class MainActivity extends ActionBarActivity
 //        for (Lifestyle lifestyle : lifestyles)
 //            if (storageInterface.deleteAbstractBaseEvent(lifestyle) ==  false)
 //                Log.e("MainActivity", "onCreate delete lifestyle " + lifestyle.getKey() + " failed.");
+    }
+
+    public boolean isValidReminder(Reminder rem) {
+        List<Reminder> allReminders = Storage.getInstance().getAllReminders();
+        for (Reminder iteratorRem : allReminders) {
+            if (iteratorRem.getKey().equals(rem.getKey()))
+                return true;
+        }
+        return false;
     }
 
     public int getProperFragmentLocation() {
@@ -197,8 +207,11 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void buttonclickplus(View v) {
+        Log.e("MainActivity", Integer.toString(FragmentLocation));
+
         switch (FragmentLocation) {
             //Go To Lifestyle Activity
+
             case 1:
                 Log.e("MainActivity","newLifestyle");
 
@@ -219,11 +232,11 @@ public class MainActivity extends ActionBarActivity
             //Go To Notification Activity
             case 3:
                 Log.e("MainActivity", "newNotification");
-                FragmentLocation = 3;
+                //FragmentLocation = 3; redundant
                 createNewNotification(v);
                 break;
             default:
-                Log.e("Main Activity","newFailed");
+                Log.e("MainActivity","newFailed");
                 break;
         }
     }
@@ -370,7 +383,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onDestroy(){
         super.onDestroy();
-        FragmentLocation = 1;
+        //FragmentLocation = -1; does very bad things!!
     }
     public static List<? extends AbstractBaseEvent> abstractBaseEvents;
     /**

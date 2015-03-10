@@ -64,6 +64,7 @@ public class LifestyleActivity extends ActionBarActivity {
         setupActionBar();
         changeStatusBarColor(R.color.life_action_status_bar);
 
+        MainActivity.FragmentLocation = 1;
 
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
         Log.i("LifestyleActivity", "Passed Lifestyle: " + passedLifestyle.getKey());
@@ -230,7 +231,6 @@ public class LifestyleActivity extends ActionBarActivity {
 
         switch (id) {
             case android.R.id.home:
-                MainActivity.FragmentLocation = 1;
                 finish();
         }
 

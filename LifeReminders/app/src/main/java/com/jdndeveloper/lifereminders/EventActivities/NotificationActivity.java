@@ -66,6 +66,8 @@ public class NotificationActivity extends ActionBarActivity {
         changeStatusBarColor(R.color.notif_action_status_bar);
         context = getApplicationContext();
 
+        MainActivity.FragmentLocation = 3;
+
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
 
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getKey());
