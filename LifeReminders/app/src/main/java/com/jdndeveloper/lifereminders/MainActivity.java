@@ -971,4 +971,11 @@ public class MainActivity extends ActionBarActivity
     public static boolean activityIsVisible() {
        return isInFront;
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+
 }
