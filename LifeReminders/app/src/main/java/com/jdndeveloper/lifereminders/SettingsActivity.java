@@ -69,16 +69,7 @@ public class SettingsActivity extends ActionBarActivity {
         //final ListView listView = (ListView) rootView.findViewById(R.id.listView);
         settingsListView = (ListView) findViewById(R.id.settingsListView);
 
-        final List<Option> optionArray = new ArrayList<>();
-
-        for(int i = 0; i<5; i++){
-            Log.i("SettingsActivity","Adding setting option ");
-            optionArray.add(new Option());
-        }
-        settingsListView.setAdapter(new SettingsAdapter(this,
-                android.R.layout.simple_list_item_activated_1,
-                R.layout.lifestyle_row, optionArray
-        ));
+        reloadAdapter(this);
 
     }
 
@@ -169,11 +160,34 @@ public class SettingsActivity extends ActionBarActivity {
 
         List<Option> options = new ArrayList<Option>();
 
-        options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY0));
+        //options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY0));
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY1));
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY2));
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY3));
         options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4));
+
+
+        options.get(0).addRelative(Constants.OPTION_TEST_KEY2);
+        options.get(0).addRelative(Constants.OPTION_TEST_KEY3);
+        options.get(0).setName("Default to All Lifestyles");
+        if(!options.get(0).isEnabled()&&!options.get(1).isEnabled()&&!options.get(2).isEnabled()){
+            options.get(0).setEnabled(true);
+        }
+
+        options.get(1).addRelative(Constants.OPTION_TEST_KEY1);
+        options.get(1).addRelative(Constants.OPTION_TEST_KEY3);
+        options.get(1).setName("Default to All Reminders");
+
+        options.get(2).addRelative(Constants.OPTION_TEST_KEY1);
+        options.get(2).addRelative(Constants.OPTION_TEST_KEY2);
+        options.get(2).setName("Default to All Notifications");
+
+        options.get(3).setName("Delete One Time Notifications");
+
+        Storage.getInstance().saveOption(options.get(0));
+        Storage.getInstance().saveOption(options.get(1));
+        Storage.getInstance().saveOption(options.get(2));
+        Storage.getInstance().saveOption(options.get(3));
 
 
         //complains about getActivity(),

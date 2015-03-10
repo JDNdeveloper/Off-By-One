@@ -26,11 +26,11 @@ public final class Constants {
 
 
 
-    public final static String OPTION_TEST_KEY0 ="Test_Option_00";
-    public final static String OPTION_TEST_KEY1 ="Test_Option_01";
-    public final static String OPTION_TEST_KEY2 ="Test_Option_02";
-    public final static String OPTION_TEST_KEY3 ="Test_Option_03";
-    public final static String OPTION_TEST_KEY4 ="Test_Option_04";
+    public final static String OPTION_TEST_KEY0 ="Option_00";
+    public final static String OPTION_TEST_KEY1 ="Option_01";
+    public final static String OPTION_TEST_KEY2 ="Option_02";
+    public final static String OPTION_TEST_KEY3 ="Option_03";
+    public final static String OPTION_TEST_KEY4 ="Option_04";
 
 
 

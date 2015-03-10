@@ -73,9 +73,12 @@ public class SettingsAdapter extends ArrayAdapter{
                     Storage.getInstance().saveOption(options.get(position));
                 } else {
                     //text += " is disabled";
-                    options.get(position).setEnabled(false);
+                    if (options.get(position).getKey().equals(Constants.OPTION_TEST_KEY4)) {
+                        options.get(position).setEnabled(false);
+                        Storage.getInstance().saveOption(options.get(position));
+                    }
                     //store in storage
-                    Storage.getInstance().saveOption(options.get(position));
+
 
                 }
                 //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
@@ -85,6 +88,12 @@ public class SettingsAdapter extends ArrayAdapter{
 
                 ////////////////////////////////////////////////////////////////
                 // this will tell the array adapter to refresh - or - at least it should
+                options.clear();
+                options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY1));
+                options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY2));
+                options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY3));
+                options.add(Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4));
+
                 thisAdapter.notifyDataSetChanged();
             }
         });

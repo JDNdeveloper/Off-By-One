@@ -65,12 +65,17 @@ public class Option {
     public boolean isEnabled() { //true if enabled, false if disabled
         return enabled;
     }
+
+
     public void setEnabled(boolean state) { //true if enabled, false if disabled
         enabled = state;
         if(state == true){
             for(int i = 0; i< relativeOption.size();++i){
+
                 Option o = Storage.getInstance().getOption(this.relativeOption.get(i));
+
                 o.setEnabled(false);
+                
                 Storage.getInstance().saveOption(o);
             }
         }
