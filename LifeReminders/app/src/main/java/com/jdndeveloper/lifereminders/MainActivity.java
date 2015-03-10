@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -975,6 +976,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        Log.e("MainActivity", "Got to onKeyDown");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
         }
