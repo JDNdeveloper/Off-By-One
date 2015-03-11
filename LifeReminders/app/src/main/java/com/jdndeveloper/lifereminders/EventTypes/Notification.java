@@ -83,7 +83,7 @@ public class Notification extends AbstractBaseEvent {
         if (!repeatDaysEnabled) return null;
 
         while (!repeatDays.contains(calendar.get(Calendar.DAY_OF_WEEK))) {
-            calendar.add(Calendar.DAY_OF_WEEK, 1);
+            calendar.add(Calendar.DATE, 1);
         }
 
         return calendar;
@@ -225,6 +225,15 @@ public class Notification extends AbstractBaseEvent {
 
         //set proper time for alarm
         long current = calendar.getTimeInMillis();
+
+        if (this.isRepeatDaysEnabled()) {
+            calendar.set(Calendar.DATE, rightNow.get(Calendar.DATE) - 1);
+        } else if (this.isRepeatEveryBlankDaysEnabled()) {
+            while (calendar.getTimeInMillis() > rightNow.getTimeInMillis()) {
+                calendar.add(Calendar.DATE, -getRepeatEveryBlankDays());
+            }
+        }
+
         while (calendar.getTimeInMillis() < rightNow.getTimeInMillis()) {
             if (this.isRepeatEveryBlankDaysEnabled() || this.isRepeatDaysEnabled()) {
                 if (repeatDaysEnabled) {

@@ -123,7 +123,7 @@ public class Phone implements PhoneInterface {
         Reminder reminder = Storage.getInstance().getReminder(remKey);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         resultIntent.putExtra("Reminder", reminder);
 
         // Because clicking the notification opens a new ("special") activity, there's

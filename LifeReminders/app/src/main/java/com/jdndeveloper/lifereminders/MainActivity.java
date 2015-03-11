@@ -988,6 +988,7 @@ public class MainActivity extends ActionBarActivity
         callcount = 0;
         Action action = Storage.getInstance().getNewAction();
         notification.setActionKey(action.getKey());
+        notification.setAlarm(context);
         if(!Storage.getInstance().commitAbstractBaseEvent(action) || !Storage.getInstance().commitAbstractBaseEvent(notification)){
             Toast.makeText(context,"Failed To Properly Save Notification",Toast.LENGTH_SHORT);
             //return;
@@ -1014,6 +1015,7 @@ public class MainActivity extends ActionBarActivity
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
         Log.e("MainActivity", "Got to onKeyDown");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+
             finish();
         } else {
             return super.onKeyDown(keyCode, event);
