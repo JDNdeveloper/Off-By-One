@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -52,11 +53,25 @@ public class Action extends AbstractBaseEvent {
             phone.sendMessageToNotificationBar(title, text, requestID, remKey);
         }
 
-        if (vibrate) phone.vibratePhone(vibrateDuration);
+        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
-        if (notificationSound) phone.playDefaultNotificationSound();
-
-        if (ringtoneSound) phone.playDefaultRingtoneSound(ringtoneDuration);
+        switch (am.getRingerMode()) {
+            case AudioManager.RINGER_MODE_SILENT:
+                Log.i("Action","Silent mode");
+                break;
+            case AudioManager.RINGER_MODE_VIBRATE:
+                Log.i("Action","Vibrate mode");
+                if (vibrate || notificationSound || ringtoneSound) {
+                    phone.vibratePhone(vibrateDuration);
+                }
+                break;
+            case AudioManager.RINGER_MODE_NORMAL:
+                Log.i("Action","Normal mode");
+                if (vibrate) phone.vibratePhone(vibrateDuration);
+                if (notificationSound) phone.playDefaultNotificationSound();
+                if (ringtoneSound) phone.playDefaultRingtoneSound(ringtoneDuration);
+                break;
+        }
 
         if (cameraLight) phone.flashCameraLight();
     }
