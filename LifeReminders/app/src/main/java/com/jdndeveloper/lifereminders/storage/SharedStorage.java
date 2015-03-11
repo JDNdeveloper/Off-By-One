@@ -31,7 +31,7 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
-    private final int SHARED_STORAGE_VERSION = 12;
+    private final int SHARED_STORAGE_VERSION = 14;
 
     private SharedStorage(Context context){
         this.context = context;
@@ -69,7 +69,7 @@ public class SharedStorage {
         sharedPreferencePutString("Preset_Lifestyle_02", Presets.Preset_Lifestyle_02);
         sharedPreferencePutString("Preset_Lifestyle_03", Presets.Preset_Lifestyle_03);
 
-        sharedPreferencePutString("Test_Lifestyle_01", test_Lifestyle_01);
+//        sharedPreferencePutString("Test_Lifestyle_01", test_Lifestyle_01);
         sharedPreferencePutString("Failed_Lifestyle_01", failed_Lifestyle_01);
 
 //        sharedPreferencePutString("Reminder_01", reminder_01);
@@ -85,7 +85,7 @@ public class SharedStorage {
         sharedPreferencePutString("Preset_Reminder_06", Presets.Preset_Reminder_06);
         sharedPreferencePutString("Preset_Reminder_07", Presets.Preset_Reminder_07);
 
-        sharedPreferencePutString("Test_Reminder_01", test_reminder_01);
+//        sharedPreferencePutString("Test_Reminder_01", test_reminder_01);
         sharedPreferencePutString("Failed_Reminder_01", failed_reminder_01);
 
 //        sharedPreferencePutString("Notification_01", notification_01);
@@ -104,7 +104,7 @@ public class SharedStorage {
         sharedPreferencePutString("Preset_Notification_08", Presets.Preset_Notification_08);
         sharedPreferencePutString("Preset_Notification_09", Presets.Preset_Notification_09);
 
-        sharedPreferencePutString("Test_Notification_01", test_notification_01);
+//        sharedPreferencePutString("Test_Notification_01", test_notification_01);
         sharedPreferencePutString("Failed_Notification_01", failed_notification_01);
 
 //        sharedPreferencePutString("Test_Action_01", test_action_01);
@@ -123,7 +123,6 @@ public class SharedStorage {
         sharedPreferencePutString("Preset_Action_07", Presets.Preset_Action_01);
         sharedPreferencePutString("Preset_Action_08", Presets.Preset_Action_01);
         sharedPreferencePutString("Preset_Action_09", Presets.Preset_Action_01);
-
         sharedPreferencePutString("Failed_Action_01", failed_action_01);
 
         sharedPreferencePutInt("lifestyleIndex", 10);
@@ -135,7 +134,7 @@ public class SharedStorage {
 
         sharedPreferencePutInt("version", SHARED_STORAGE_VERSION);
 
-        toastSaved("Initialized First Run");
+        toastSaved("Initializing first run of the app,...");
     }
 
     private void initializeOptionKeys(){
@@ -159,11 +158,6 @@ public class SharedStorage {
 
         option.setKey("Option_04");
         option.setName("Option 04");
-        gsonString = gsonObject.toJson(option);
-        sharedPreferencePutString(option.getKey(), gsonString);
-
-        option.setKey("Option_05");
-        option.setName("Option 05");
         gsonString = gsonObject.toJson(option);
         sharedPreferencePutString(option.getKey(), gsonString);
     }
