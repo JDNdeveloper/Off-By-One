@@ -101,6 +101,11 @@ public class MainActivity extends ActionBarActivity
         if (FragmentLocation == -1)
             FragmentLocation = getProperFragmentLocation();
 
+        Reminder notifReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
+
+        if (notifReminder != null)
+            FragmentLocation = 2; //if coming from a notification, go to the all reminders page
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -130,13 +135,14 @@ public class MainActivity extends ActionBarActivity
 //        NotificationStorageTester.runTest();
 
         //goes to correct reminder if launched from a notification
-        Reminder notifReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
         if (notifReminder != null) {
             Log.i("MainActivity", notifReminder.getKey());
             if (!notifReminder.getKey().equals(Constants.REMINDER_FAILED_KEY)
                     && isValidReminder(notifReminder))
                 loadReminder(notifReminder);
         }
+
+        NotificationTester.runTest(this); //runs Notification unit test
 
         // this iterates through all the lifestyles and deletes them all, with the exception of
         // the failure keys. feel free to un-comment. this shows delete functions properly.

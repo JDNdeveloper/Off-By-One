@@ -14,7 +14,7 @@ import java.util.Calendar;
  */
 public class NotificationTester {
 
-    public void runTest(Context context) {
+    public static void runTest(Context context) {
         Notification notification = Storage.getInstance().getNotification(Constants.NOTIFICATION_TEST_KEY);
         notification.setActionKey(Constants.ACTION_TEST_KEY);
 
@@ -26,7 +26,7 @@ public class NotificationTester {
         //alarmTester(context, notification);
     }
 
-    private void runDaysOfTheWeekTest(Notification notification, Context context) {
+    private static void runDaysOfTheWeekTest(Notification notification, Context context) {
 
         notification.setRepeatDay(Calendar.MONDAY, true);
         notification.setRepeatDay(Calendar.FRIDAY, true);
@@ -51,7 +51,7 @@ public class NotificationTester {
         Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
     }
 
-    private void runEveryBlankDaysTest(Notification notification, Context context) {
+    private static void runEveryBlankDaysTest(Notification notification, Context context) {
         notification.setRepeatEveryBlankDays(3);
 
         Log.i("NotifTest", "Testing Every Blank Days: 3");
@@ -67,11 +67,11 @@ public class NotificationTester {
         Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
     }
 
-    private void runNotificationTest(Context context, Notification notification) {
+    private static void runNotificationTest(Context context, Notification notification) {
         notification.sendNotification(context);
     }
 
-    private void alarmTester(Context context, Notification notification) {
+    private static void alarmTester(Context context, Notification notification) {
         Calendar newCalendar = Calendar.getInstance();
         newCalendar.add(Calendar.MINUTE, 1);
         newCalendar.set(Calendar.SECOND, 00);
