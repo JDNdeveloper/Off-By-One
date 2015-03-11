@@ -1015,6 +1015,8 @@ public class MainActivity extends ActionBarActivity
         Log.e("MainActivity", "Got to onKeyDown");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
         return true;
     }

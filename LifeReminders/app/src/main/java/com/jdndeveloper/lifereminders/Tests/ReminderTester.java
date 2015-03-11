@@ -32,15 +32,11 @@ public class ReminderTester {
         reminder1.setNotificationKeys(notificationTest);
         Log.d("RemTest", "After Individual Addition: \n" + reminder1.toString());
 
-        notificationTest.clear();
 
-        //attempt to add list with less than 10 "keys"
-        tempString = "";
+        reminder1.clean();
 
-        for(int i =0; i<10;i++){
-            tempString += i;
-            reminder1.addNotification(tempString);
-        }
+        Log.d("RemTest", "After called .clean() \n" + reminder1.toString());
+        
 
 
     }
@@ -56,7 +52,12 @@ public class ReminderTester {
             notificationTest.add(tempString);
         }
         //should return with error
+        Log.d("RemTest", "Should return with error \n" + reminder2.toString());
         reminder2.setNotificationKeys(notificationTest);
+        
+
+
+
 
     }
 

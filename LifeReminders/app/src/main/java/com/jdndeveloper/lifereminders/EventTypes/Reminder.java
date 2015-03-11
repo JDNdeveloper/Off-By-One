@@ -149,7 +149,7 @@ public class Reminder extends AbstractBaseEvent {
     //tostring that returns a string with content in reminder
     public String toString(){
         String obString = "Reminder name: " + this.getName() +"\nkey: "
-                + this.getKey() +"\nenabled: " + this.isEnabled();
+                + this.getKey() +"\nenabled: " + this.isEnabled() +"\nparent: " + this.lifestyleContainerKey;
 
         obString += "\nNotification List Size :" + this.notificationKeys.size();
 
