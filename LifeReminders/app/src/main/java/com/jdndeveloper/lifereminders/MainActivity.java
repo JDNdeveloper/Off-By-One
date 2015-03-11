@@ -80,6 +80,8 @@ public class MainActivity extends ActionBarActivity
     //Allow the activity to know what fragment it is on.
     public static int FragmentLocation = -1; //needs to be initialized or app crashes
 
+    //private boolean reminderCalled = false;
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -103,8 +105,11 @@ public class MainActivity extends ActionBarActivity
 
         Reminder notifReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
 
-        if (notifReminder != null)
+        if (notifReminder != null) {
             FragmentLocation = 2; //if coming from a notification, go to the all reminders page
+            getIntent().removeExtra("Reminder");
+            setIntent(getIntent());
+        }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -137,9 +142,11 @@ public class MainActivity extends ActionBarActivity
         //goes to correct reminder if launched from a notification
         if (notifReminder != null) {
             Log.i("MainActivity", notifReminder.getKey());
+            //reminderCalled = true;
             if (!notifReminder.getKey().equals(Constants.REMINDER_FAILED_KEY)
-                    && isValidReminder(notifReminder))
+                    && isValidReminder(notifReminder)) {
                 loadReminder(notifReminder);
+            }
         }
 
         NotificationTester.runTest(this); //runs Notification unit test
@@ -1021,7 +1028,6 @@ public class MainActivity extends ActionBarActivity
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
         Log.e("MainActivity", "Got to onKeyDown");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-
             finish();
         } else {
             return super.onKeyDown(keyCode, event);

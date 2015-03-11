@@ -20,8 +20,8 @@ public class NotificationTester {
 
         //Arbitrary change
 
-        //runDaysOfTheWeekTest(notification, context);
-        //runEveryBlankDaysTest(notification, context);
+        runDaysOfTheWeekTest(notification, context);
+        runEveryBlankDaysTest(notification, context);
         //runNotificationTest(context, notification);
         //alarmTester(context, notification);
     }
