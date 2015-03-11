@@ -42,6 +42,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
+import com.jdndeveloper.lifereminders.VisibilityManager;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.text.SimpleDateFormat;
@@ -416,6 +417,18 @@ public class NotificationActivity extends ActionBarActivity {
         newFragment.show(getFragmentManager(), "Days Of Week");
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        VisibilityManager.setIsVisible(false);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        VisibilityManager.setIsVisible(true);
+    }
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {

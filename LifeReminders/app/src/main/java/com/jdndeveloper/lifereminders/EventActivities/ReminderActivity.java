@@ -43,6 +43,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
+import com.jdndeveloper.lifereminders.VisibilityManager;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
@@ -209,6 +210,7 @@ public class ReminderActivity extends ActionBarActivity {
     @Override
     public void onResume(){
         super.onResume();
+        VisibilityManager.setIsVisible(true);
         updateListAdapter();
     }
     @Override
@@ -237,6 +239,12 @@ public class ReminderActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.menu_life_style, menu);
         return true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        VisibilityManager.setIsVisible(false);
     }
 
     @Override

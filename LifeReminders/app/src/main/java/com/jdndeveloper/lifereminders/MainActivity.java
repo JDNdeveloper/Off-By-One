@@ -100,6 +100,15 @@ public class MainActivity extends ActionBarActivity
         // we initialize shared preferences
         SharedStorage.initializeInstance(this);
 
+        int flags = getIntent().getFlags();
+        if ((flags & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
+            // The activity was launched from history
+            // remove extras here so reminder isn't triggered
+            Intent newIntent = getIntent();
+            newIntent.removeExtra("Reminder");
+            setIntent(newIntent);
+        }
+
         if (FragmentLocation == -1)
             FragmentLocation = getProperFragmentLocation();
 
@@ -107,8 +116,8 @@ public class MainActivity extends ActionBarActivity
 
         if (notifReminder != null) {
             FragmentLocation = 2; //if coming from a notification, go to the all reminders page
-            getIntent().removeExtra("Reminder");
-            setIntent(getIntent());
+            //getIntent().removeExtra("Reminder");
+            //setIntent(getIntent());
         }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -261,6 +270,12 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         Log.e("MainActivity", "Context Menu");
@@ -397,6 +412,10 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onDestroy(){
         super.onDestroy();
+
+        Intent newIntent = getIntent();
+        newIntent.removeExtra("Reminder");
+        setIntent(newIntent);
         //FragmentLocation = -1; does very bad things!!
     }
     public static List<? extends AbstractBaseEvent> abstractBaseEvents;
@@ -746,7 +765,7 @@ public class MainActivity extends ActionBarActivity
     public void onResume(){
         super.onResume();
         Log.e("Main Activity","onResume");
-        isInFront = true;
+        VisibilityManager.setIsVisible(true);
 
         //setContentView(R.layout.activity_main);
 
@@ -1017,12 +1036,10 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onPause() {
         super.onPause();
-        isInFront = false;
+        VisibilityManager.setIsVisible(false);
     }
 
-    public static boolean activityIsVisible() {
-       return isInFront;
-    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {

@@ -40,6 +40,7 @@ import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 
 import com.jdndeveloper.lifereminders.R;
+import com.jdndeveloper.lifereminders.VisibilityManager;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.Storage;
@@ -117,6 +118,12 @@ public class LifestyleActivity extends ActionBarActivity {
     public void onDestroy() {
         super.onDestroy();
         //MainActivity.FragmentLocation = 1;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        VisibilityManager.setIsVisible(false);
     }
 
     public void updateListAdapter(){
@@ -208,6 +215,7 @@ public class LifestyleActivity extends ActionBarActivity {
     @Override
     public void onResume(){
         super.onResume();
+        VisibilityManager.setIsVisible(true);
         updateListAdapter();
     }
 

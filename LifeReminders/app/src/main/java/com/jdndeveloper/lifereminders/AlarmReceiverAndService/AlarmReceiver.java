@@ -14,6 +14,7 @@ import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.MainActivity;
+import com.jdndeveloper.lifereminders.VisibilityManager;
 import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
@@ -86,7 +87,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     Storage.getInstance().deleteAbstractBaseEvent(n);
 
                     //If main is open we will relaunch to ensure that notification is removed
-                    if (MainActivity.activityIsVisible()) {
+                    if (VisibilityManager.getIsVisible()) {
                         Intent mainIntent = new Intent(context, MainActivity.class);
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(mainIntent);
