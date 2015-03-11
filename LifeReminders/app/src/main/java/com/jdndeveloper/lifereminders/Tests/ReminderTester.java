@@ -33,9 +33,9 @@ public class ReminderTester {
         Log.d("RemTest", "After Individual Addition: \n" + reminder1.toString());
 
 
-        reminder2.clean();
+        reminder1.clean();
 
-        Log.d("RemTest", "After called .clean() \n" + reminder2.toString());
+        Log.d("RemTest", "After called .clean() \n" + reminder1.toString());
         
 
 
