@@ -105,6 +105,7 @@ public class ReminderActivity extends ActionBarActivity {
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 passedReminder.setEnabled(!passedReminder.isEnabled());
+                if(passedReminder.isEnabled()) passedReminder.setAlarms(getApplicationContext());
                 Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
                 updateListAdapter();
             }

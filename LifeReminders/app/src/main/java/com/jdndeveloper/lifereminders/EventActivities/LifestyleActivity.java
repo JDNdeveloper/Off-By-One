@@ -98,6 +98,7 @@ public class LifestyleActivity extends ActionBarActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //change enabled state of Lifestyle
                 passedLifestyle.setEnabled(!passedLifestyle.isEnabled());
+                if(passedLifestyle.isEnabled()) passedLifestyle.setAlarms(getApplicationContext());
                 Storage.getInstance().replaceAbstractBaseEvent(passedLifestyle);
                 updateListAdapter();
             }
