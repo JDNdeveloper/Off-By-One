@@ -137,6 +137,19 @@ public class NotificationActivity extends ActionBarActivity {
             theSwitch.setElevation(100);
         }
 
+        if(Storage.getInstance().getLifestyle(passednotification.getLifestyleContainerKey()).isEnabled() &&
+                Storage.getInstance().getReminder(passednotification.getReminderContainerKey()).isEnabled() ){
+            if (android.os.Build.VERSION.SDK_INT >= 16) {
+                theSwitch.setThumbResource(R.drawable.switch_thumb);
+                theSwitch.refreshDrawableState();
+            }
+        }else {
+            if (android.os.Build.VERSION.SDK_INT >= 16) {
+                theSwitch.setThumbResource(R.drawable.apptheme_switch_thumb_disabled_holo_light);
+                theSwitch.refreshDrawableState();
+            }
+        }
+
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 passednotification.setEnabled(!passednotification.isEnabled());

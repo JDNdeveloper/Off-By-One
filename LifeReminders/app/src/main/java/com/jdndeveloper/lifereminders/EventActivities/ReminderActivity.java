@@ -99,13 +99,26 @@ public class ReminderActivity extends ActionBarActivity {
             theSwitch.setElevation(100);
         }
 
+        if(Storage.getInstance().getLifestyle(passedReminder.getLifestyleContainerKey()).isEnabled()){
+            if (android.os.Build.VERSION.SDK_INT >= 16) {
+                theSwitch.setThumbResource(R.drawable.switch_thumb);
+                theSwitch.refreshDrawableState();
+            }
+        }else {
+            if (android.os.Build.VERSION.SDK_INT >= 16) {
+                theSwitch.setThumbResource(R.drawable.apptheme_switch_thumb_disabled_holo_light);
+                theSwitch.refreshDrawableState();
+            }
+        }
 
 
 
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 passedReminder.setEnabled(!passedReminder.isEnabled());
-                if(passedReminder.isEnabled()) passedReminder.setAlarms(getApplicationContext());
+                if(passedReminder.isEnabled()){
+                    passedReminder.setAlarms(getApplicationContext());
+                }
                 Storage.getInstance().replaceAbstractBaseEvent(passedReminder);
                 updateListAdapter();
             }
