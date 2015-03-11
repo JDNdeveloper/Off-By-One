@@ -66,7 +66,7 @@ public class ReminderActivity extends ActionBarActivity {
         changeStatusBarColor(R.color.rem_action_status_bar);
 
 
-        MainActivity.FragmentLocation = 2;
+        //MainActivity.FragmentLocation = 2;
 
         // Josh - below is how to retrieve the passed lifestyle
         passedReminder = (Reminder) getIntent().getSerializableExtra("Reminder");
@@ -113,6 +113,13 @@ public class ReminderActivity extends ActionBarActivity {
         buttonclick();
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //MainActivity.FragmentLocation = 2;
+    }
+
     final Context c = this;
     public void updateListAdapter(){
         final ListView listView = (ListView) findViewById(R.id.reminderListView);

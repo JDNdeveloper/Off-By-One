@@ -66,7 +66,7 @@ public class NotificationActivity extends ActionBarActivity {
         changeStatusBarColor(R.color.notif_action_status_bar);
         context = getApplicationContext();
 
-        MainActivity.FragmentLocation = 3;
+        //MainActivity.FragmentLocation = 3;
 
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
 
@@ -152,6 +152,12 @@ public class NotificationActivity extends ActionBarActivity {
         sound.setChecked(a.isNotificationSound());
 
         passednotification.setAlarm(context);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //MainActivity.FragmentLocation = 3;
     }
 
     public void changeVibrate(View v){

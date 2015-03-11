@@ -64,7 +64,7 @@ public class LifestyleActivity extends ActionBarActivity {
         setupActionBar();
         changeStatusBarColor(R.color.life_action_status_bar);
 
-        MainActivity.FragmentLocation = 1;
+        //MainActivity.FragmentLocation = 1;
 
         passedLifestyle = (Lifestyle) getIntent().getSerializableExtra("Lifestyle");
         Log.i("LifestyleActivity", "Passed Lifestyle: " + passedLifestyle.getKey());
@@ -112,6 +112,12 @@ public class LifestyleActivity extends ActionBarActivity {
 
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //MainActivity.FragmentLocation = 1;
+    }
 
     public void updateListAdapter(){
         ListView listView = (ListView) findViewById(R.id.lifestyleListView);
