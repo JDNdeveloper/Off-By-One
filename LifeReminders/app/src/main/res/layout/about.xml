@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="265dp"
-    android:layout_height="300dp"
+    android:layout_height="330dp"
     android:layout_gravity="top|center_vertical"
     android:background="@android:color/white"
     android:orientation="vertical">
@@ -92,6 +92,17 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Alex Gonzalez"
             android:id="@+id/textView6" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:paddingTop="5dp"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            android:text="@string/app_version_name"
+            android:id="@+id/textView7" />
 
     </LinearLayout>
 

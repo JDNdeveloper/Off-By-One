@@ -49,6 +49,7 @@ public class NotificationTester {
         Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
 
         Log.i("NotifTest", Integer.toString(notification.makeNextNotificationTime(context).get(Calendar.DAY_OF_WEEK)));
+
     }
 
     private static void runEveryBlankDaysTest(Notification notification, Context context) {
