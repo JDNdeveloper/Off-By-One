@@ -73,6 +73,9 @@ public class NotificationActivity extends ActionBarActivity {
 
         passednotification = (Notification) getIntent().getSerializableExtra("Notification");
 
+        //grabs the most recent version of the notification from storage
+        passednotification = Storage.getInstance().getNotification(passednotification.getKey());
+
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getKey());
         Log.i("NotificationActivity", "Passed Notification: " + passednotification.getActionKey());
 

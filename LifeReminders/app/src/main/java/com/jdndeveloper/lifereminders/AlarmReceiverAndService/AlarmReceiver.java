@@ -77,6 +77,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 if (rightNow.getTimeInMillis() - 60000 <= n.getTime().getTimeInMillis())
                     n.sendNotification(context);
+
                 //set next alarm - Uncomment to add set next alarm functionality
                 n.makeNextNotificationTime(context);
                 Storage.getInstance().replaceAbstractBaseEvent(n);
