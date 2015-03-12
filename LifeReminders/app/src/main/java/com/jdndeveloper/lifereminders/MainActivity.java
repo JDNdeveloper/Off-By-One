@@ -212,7 +212,8 @@ public class MainActivity extends ActionBarActivity
         Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
         lifestyleIntent.putExtra("Lifestyle", lifestyle);
         startActivity(lifestyleIntent);
-        //overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+        if (Constants.ANIMATION_ENABLED)
+            overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
     }
 
     private void loadReminder(Reminder reminder) {
@@ -220,7 +221,8 @@ public class MainActivity extends ActionBarActivity
         Intent reminderIntent = new Intent(context, ReminderActivity.class);
         reminderIntent.putExtra("Reminder", reminder);
         startActivity(reminderIntent);
-        //overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+        if (Constants.ANIMATION_ENABLED)
+            overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
     }
 
     public void buttonclickplus(View v) {
@@ -522,7 +524,8 @@ public class MainActivity extends ActionBarActivity
 
                             lifestyleIntent.putExtra("Lifestyle", lifestyle);
                             startActivity(lifestyleIntent);
-                            //getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+                            if (Constants.ANIMATION_ENABLED)
+                                getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                             break;
                         //Go To Reminder Activity
                         case 2:
@@ -535,7 +538,8 @@ public class MainActivity extends ActionBarActivity
 
                             reminderIntent.putExtra("Reminder", reminder);
                             startActivity(reminderIntent);
-                            //getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+                            if (Constants.ANIMATION_ENABLED)
+                                getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                             break;
                         //Go To Notification Activity
                         case 3:
@@ -553,7 +557,8 @@ public class MainActivity extends ActionBarActivity
 
                             notificationIntent.putExtra("Notification", notification);
                             startActivity(notificationIntent);
-                            //getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+                            if (Constants.ANIMATION_ENABLED)
+                                getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                             break;
                         default:
                             Toast.makeText(context,"Not a Proper Type of Abstract BAse Event",Toast.LENGTH_SHORT);
@@ -1026,7 +1031,8 @@ public class MainActivity extends ActionBarActivity
         //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationIntent.putExtra("Notification", notification);
         activity.startActivity(notificationIntent);
-        //activity.overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+        if (Constants.ANIMATION_ENABLED)
+            activity.overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
     }
 
     private static boolean isInFront;

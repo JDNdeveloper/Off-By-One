@@ -143,7 +143,8 @@ public class LifestyleActivity extends ActionBarActivity {
                     Reminder reminder = reminderArray.get(position);
                     reminderIntent.putExtra("Reminder", reminder);
                     startActivity(reminderIntent);
-                    //overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+                    if (Constants.ANIMATION_ENABLED)
+                        overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                 }catch (IndexOutOfBoundsException e){
                     Log.e("Lifestyle Activity","IndexOutOfBounds Exception");
                 }
@@ -204,7 +205,8 @@ public class LifestyleActivity extends ActionBarActivity {
                 }
                 reminderIntent.putExtra("Reminder", reminder);
                 startActivity(reminderIntent);
-                //overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+                if (Constants.ANIMATION_ENABLED)
+                    overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
             }
         });
 
@@ -244,7 +246,8 @@ public class LifestyleActivity extends ActionBarActivity {
         switch (id) {
             case android.R.id.home:
                 finish();
-                //overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+                if (Constants.ANIMATION_ENABLED)
+                    overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         }
 
         return super.onOptionsItemSelected(item);
@@ -255,7 +258,8 @@ public class LifestyleActivity extends ActionBarActivity {
         Log.e("LifestyleActivity", "Got to onKeyDown");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
-            //overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+            if (Constants.ANIMATION_ENABLED)
+                overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         } else {
             return super.onKeyDown(keyCode, event);
         }

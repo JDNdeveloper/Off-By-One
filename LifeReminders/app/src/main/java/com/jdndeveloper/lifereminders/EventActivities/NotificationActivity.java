@@ -38,6 +38,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.Action;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
@@ -166,7 +167,8 @@ public class NotificationActivity extends ActionBarActivity {
         ToggleButton sound = (ToggleButton) findViewById(R.id.sound);
         sound.setChecked(a.isNotificationSound());
 
-        passednotification.setAlarm(context);
+        //passednotification.setAlarm(context);
+        //Storage.getInstance().replaceAbstractBaseEvent(passednotification);
     }
 
     @Override
@@ -617,7 +619,8 @@ public class NotificationActivity extends ActionBarActivity {
         switch (id) {
             case android.R.id.home:
                 finish();
-                //overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+                if (Constants.ANIMATION_ENABLED)
+                    overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         }
 
         return super.onOptionsItemSelected(item);
@@ -628,7 +631,8 @@ public class NotificationActivity extends ActionBarActivity {
         Log.e("NotificationActivity", "Got to onKeyDown");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
-            //overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+            if (Constants.ANIMATION_ENABLED)
+                overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         } else {
             return super.onKeyDown(keyCode, event);
         }
