@@ -31,9 +31,10 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/reminderListView"
         android:layout_below="@+id/textNotifications"
+        android:fadingEdge="horizontal"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

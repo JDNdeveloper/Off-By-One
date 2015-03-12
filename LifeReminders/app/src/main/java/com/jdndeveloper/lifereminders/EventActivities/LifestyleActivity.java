@@ -136,7 +136,7 @@ public class LifestyleActivity extends ActionBarActivity {
         }
         listView.setAdapter(new ReminderAdapter(this,
                 android.R.layout.simple_list_item_2,
-                R.layout.reminder_row, reminderArray
+                R.layout.reminder_row, reminderArray, false
         ));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -32,16 +32,18 @@ public class NotificationAdapter extends ArrayAdapter{
     private final LayoutInflater inflater;
     private final List<Notification> notifications;
     private final int rowResId;
+    private boolean displayContainer;
 
     private final String[] DAYS_IN_WEEK = {"", "Sun", "Mon", "Tue",
             "Wed", "Thu", "Fri", "Sat"};
 
-    public NotificationAdapter(Context context, int listTypeResId, int rowResId, List notification) {
+    public NotificationAdapter(Context context, int listTypeResId, int rowResId, List notification, boolean tempDisplayContainer) {
         super(context, listTypeResId, rowResId, notification);
 
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.notifications = notification;
         this.rowResId = rowResId;
+        this.displayContainer = tempDisplayContainer;
     }
 
     @Override
@@ -62,6 +64,8 @@ public class NotificationAdapter extends ArrayAdapter{
         // convertView isn't guaranteed to be clean - john - just an fyi
 
         theSwitch.setOnCheckedChangeListener(null);
+
+        containerReminder.setVisibility(View.VISIBLE);
 
         setEverythingEnabled(theSwitch, rowTextView, containerReminder
                 , repeatText, alarmTypeText);
@@ -92,6 +96,9 @@ public class NotificationAdapter extends ArrayAdapter{
                 + " " + amPM);
 
         String reminderKey = notifications.get(position).getReminderContainerKey();
+
+        if (!displayContainer)
+            containerReminder.setVisibility(View.INVISIBLE);
 
         Log.i("NotificationAdapter", reminderKey);
 

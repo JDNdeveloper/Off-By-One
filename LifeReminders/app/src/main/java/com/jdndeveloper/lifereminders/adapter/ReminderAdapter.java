@@ -27,13 +27,15 @@ public class ReminderAdapter extends ArrayAdapter{
     private final LayoutInflater inflater;
     private final List<Reminder> reminders;
     private final int rowResId;
+    private boolean displayContainer;
 
-    public ReminderAdapter(Context context, int listTypeResId, int rowResId, List reminder) {
+    public ReminderAdapter(Context context, int listTypeResId, int rowResId, List reminder, boolean tempDisplayContainer) {
         super(context, listTypeResId, rowResId, reminder);
 
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.reminders = reminder;
         this.rowResId = rowResId;
+        this.displayContainer = tempDisplayContainer;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class ReminderAdapter extends ArrayAdapter{
 
         theSwitch.setOnCheckedChangeListener(null);
 
-
+        rowContainerLifestyleTextView.setVisibility(View.VISIBLE);
 
         rowTextView.setText(reminders.get(position).getName());
         theSwitch.setChecked(reminders.get(position).isEnabled());
@@ -85,6 +87,9 @@ public class ReminderAdapter extends ArrayAdapter{
                 .getLifestyleContainerKey()).isEnabled())
             setEverythingDisabled(theSwitch, rowTextView, rowContainerLifestyleTextView);
 
+
+        if (!displayContainer)
+            rowContainerLifestyleTextView.setVisibility(View.GONE);
 
         theSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -469,7 +469,7 @@ public class MainActivity extends ActionBarActivity
                     FragmentLocation = 2;
                     listView.setAdapter(new ReminderAdapter(getActivity(),
                             android.R.layout.simple_list_item_activated_1,
-                            R.layout.reminder_row, abstractBaseEvents
+                            R.layout.reminder_row, abstractBaseEvents, true
                     ));
                     rootView.setBackgroundColor(getResources().getColor(R.color.rem_background));
                     break;
@@ -478,7 +478,7 @@ public class MainActivity extends ActionBarActivity
                     FragmentLocation = 3;
                     listView.setAdapter(new NotificationAdapter(getActivity(),
                             android.R.layout.simple_list_item_activated_1,
-                            R.layout.notification_row, abstractBaseEvents
+                            R.layout.notification_row, abstractBaseEvents, true
                     ));
                     rootView.setBackgroundColor(getResources().getColor(R.color.notif_background));
                     break;
@@ -791,14 +791,14 @@ public class MainActivity extends ActionBarActivity
                 abstractBaseEvents = Storage.getInstance().getAllReminders();
                 theView.setAdapter(new ReminderAdapter(activity,
                         android.R.layout.simple_list_item_activated_1,
-                        R.layout.reminder_row, abstractBaseEvents
+                        R.layout.reminder_row, abstractBaseEvents, true
                 ));
                 break;
             case 3:
                 abstractBaseEvents = Storage.getInstance().getAllNotifications();
                 theView.setAdapter(new NotificationAdapter(activity,
                         android.R.layout.simple_list_item_activated_1,
-                        R.layout.notification_row, abstractBaseEvents
+                        R.layout.notification_row, abstractBaseEvents, true
                 ));
                 break;
             default:

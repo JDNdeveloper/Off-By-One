@@ -147,7 +147,7 @@ public class ReminderActivity extends ActionBarActivity {
         }
         listView.setAdapter(new NotificationAdapter(this,
                 android.R.layout.simple_list_item_2,
-                R.layout.notification_row, notificationArray
+                R.layout.notification_row, notificationArray, false
         ));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
