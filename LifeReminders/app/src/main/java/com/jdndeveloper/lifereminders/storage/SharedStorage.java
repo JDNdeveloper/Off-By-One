@@ -31,7 +31,7 @@ public class SharedStorage {
     private final SharedPreferences sharedPreferences;
     private final Gson gsonObject = new Gson();
 
-    private final int SHARED_STORAGE_VERSION = 14;
+    private final int SHARED_STORAGE_VERSION = 15;
 
     private SharedStorage(Context context){
         this.context = context;
@@ -115,14 +115,14 @@ public class SharedStorage {
 //        sharedPreferencePutString("Test_Action_06", test_action_06);
 
         sharedPreferencePutString("Preset_Action_01", Presets.Preset_Action_01);
-        sharedPreferencePutString("Preset_Action_02", Presets.Preset_Action_01);
-        sharedPreferencePutString("Preset_Action_03", Presets.Preset_Action_01);
-        sharedPreferencePutString("Preset_Action_04", Presets.Preset_Action_01);
-        sharedPreferencePutString("Preset_Action_05", Presets.Preset_Action_01);
-        sharedPreferencePutString("Preset_Action_06", Presets.Preset_Action_01);
-        sharedPreferencePutString("Preset_Action_07", Presets.Preset_Action_01);
-        sharedPreferencePutString("Preset_Action_08", Presets.Preset_Action_01);
-        sharedPreferencePutString("Preset_Action_09", Presets.Preset_Action_01);
+        sharedPreferencePutString("Preset_Action_02", Presets.Preset_Action_02);
+        sharedPreferencePutString("Preset_Action_03", Presets.Preset_Action_03);
+        sharedPreferencePutString("Preset_Action_04", Presets.Preset_Action_04);
+        sharedPreferencePutString("Preset_Action_05", Presets.Preset_Action_05);
+        sharedPreferencePutString("Preset_Action_06", Presets.Preset_Action_06);
+        sharedPreferencePutString("Preset_Action_07", Presets.Preset_Action_07);
+        sharedPreferencePutString("Preset_Action_08", Presets.Preset_Action_08);
+        sharedPreferencePutString("Preset_Action_09", Presets.Preset_Action_09);
         sharedPreferencePutString("Failed_Action_01", failed_action_01);
 
         sharedPreferencePutInt("lifestyleIndex", 10);
