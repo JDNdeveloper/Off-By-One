@@ -282,6 +282,36 @@ public class NotificationActivity extends ActionBarActivity {
             timeText.setText(Integer.toString(time.get(Calendar.HOUR))
                     + ":" + minutes
                     + " " + amPM);
+
+            TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
+            if (passednotification.isRepeatDaysEnabled() == true && passednotification.isRepeatEveryBlankDaysEnabled() == false) {
+                String[] Days = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                String text = "Days Alarm Enabled For:";
+                ArrayList list = passednotification.getRepeatDays();
+                for (int i = 0; i < list.size(); ++i) {
+                    text += "\n" + Days[(int) list.get(i)];
+                }
+                tv.setText(text);
+            } else if (passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == true) {
+                String text = "Alarm set to go off every " + Integer.toString(passednotification.getRepeatEveryBlankDays()) + " days\n";
+                String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                text += "Next Alarm Goes Off On: ";
+                text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+                text += ", ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+                tv.setText(text);
+            } else if (passednotification.isRepeatDaysEnabled() == false && passednotification.isRepeatEveryBlankDaysEnabled() == false) {
+                String text = "";
+                String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                text += months[(passednotification.getTime().get(Calendar.MONTH))] + " ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.DAY_OF_MONTH));
+                text += ", ";
+                text += Integer.toString(passednotification.getTime().get(Calendar.YEAR));
+                tv.setText(text);
+                tv.setGravity(Gravity.CENTER);
+            }
+
         }
     }
     public void showTimePickerDialog(View v) {
@@ -326,6 +356,24 @@ public class NotificationActivity extends ActionBarActivity {
                         TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
                         tv.setText(text);
 
+                        TextView timeText = (TextView) getActivity().findViewById(R.id.notificationTime);
+                        Calendar time = passednotification.getTime();
+                        String amPM = "amPM FAIL";
+
+                        if (time.get(Calendar.AM_PM) == 1) {
+                            amPM = "PM";
+                        } else {
+                            amPM = "AM";
+                        }
+
+                        String minutes = Integer.toString(time.get(Calendar.MINUTE));
+                        if (minutes.length() == 1) {
+                            minutes = "0" + minutes;
+                        }
+
+                        timeText.setText(Integer.toString(time.get(Calendar.HOUR))
+                                + ":" + minutes
+                                + " " + amPM);
                     }catch(NumberFormatException e){
                         //This Toast will stay in final product
                         Toast.makeText(context,"Not a Number",Toast.LENGTH_SHORT).show();
@@ -411,7 +459,26 @@ public class NotificationActivity extends ActionBarActivity {
                             }
                             TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
                             tv.setText(text);
+
                             passednotification.setAlarm(context);
+                            TextView timeText = (TextView) getActivity().findViewById(R.id.notificationTime);
+                            Calendar time = passednotification.getTime();
+                            String amPM = "amPM FAIL";
+
+                            if (time.get(Calendar.AM_PM) == 1) {
+                                amPM = "PM";
+                            } else {
+                                amPM = "AM";
+                            }
+
+                            String minutes = Integer.toString(time.get(Calendar.MINUTE));
+                            if (minutes.length() == 1) {
+                                minutes = "0" + minutes;
+                            }
+
+                            timeText.setText(Integer.toString(time.get(Calendar.HOUR))
+                                    + ":" + minutes
+                                    + " " + amPM);
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -492,6 +559,25 @@ public class NotificationActivity extends ActionBarActivity {
                 TextView tv = (TextView) getActivity().findViewById(R.id.specificNotificationData);
                 tv.setText(text);
             }
+            
+            TextView timeText = (TextView) getActivity().findViewById(R.id.notificationTime);
+            Calendar time = passednotification.getTime();
+            String amPM = "amPM FAIL";
+
+            if (time.get(Calendar.AM_PM) == 1) {
+                amPM = "PM";
+            } else {
+                amPM = "AM";
+            }
+
+            String minutes = Integer.toString(time.get(Calendar.MINUTE));
+            if (minutes.length() == 1) {
+                minutes = "0" + minutes;
+            }
+
+            timeText.setText(Integer.toString(time.get(Calendar.HOUR))
+                    + ":" + minutes
+                    + " " + amPM);
         }
     }
 
@@ -586,4 +672,5 @@ public class NotificationActivity extends ActionBarActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.notif_action_background)));
         changeStatusBarColor(R.color.notif_action_background);
     }
+
 }
