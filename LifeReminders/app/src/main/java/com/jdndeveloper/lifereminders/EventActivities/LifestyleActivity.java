@@ -2,7 +2,6 @@ package com.jdndeveloper.lifereminders.EventActivities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,23 +26,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jdndeveloper.lifereminders.Constants;
 import com.jdndeveloper.lifereminders.EventTypes.AbstractBaseEvent;
 import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
-import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
 import com.jdndeveloper.lifereminders.MainActivity;
 import com.jdndeveloper.lifereminders.R;
 
-import com.jdndeveloper.lifereminders.R;
 import com.jdndeveloper.lifereminders.VisibilityManager;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
-import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
 import java.util.ArrayList;
@@ -148,6 +143,7 @@ public class LifestyleActivity extends ActionBarActivity {
                     Reminder reminder = reminderArray.get(position);
                     reminderIntent.putExtra("Reminder", reminder);
                     startActivity(reminderIntent);
+                    overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                 }catch (IndexOutOfBoundsException e){
                     Log.e("Lifestyle Activity","IndexOutOfBounds Exception");
                 }
@@ -208,6 +204,7 @@ public class LifestyleActivity extends ActionBarActivity {
                 }
                 reminderIntent.putExtra("Reminder", reminder);
                 startActivity(reminderIntent);
+                overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
             }
         });
 
@@ -247,9 +244,22 @@ public class LifestyleActivity extends ActionBarActivity {
         switch (id) {
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        Log.e("LifestyleActivity", "Got to onKeyDown");
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+        return true;
     }
 
     //Changes status bar color if using API 21 or above

@@ -7,7 +7,12 @@
         <item name="android:actionBarStyle">@style/AppTheme.MyActionBar</item>
         <item name="actionBarStyle">@style/AppTheme.MyActionBar</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <item name="android:windowAnimationStyle">@null</item>
+        <!-- item name="android:windowAnimationStyle">@style/AppTheme.MyWindow</item> -->
+    </style>
+
+    <style name="AppTheme.MyWindow" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/finish_enter_animation</item>
+        <item name="android:windowExitAnimation">@anim/finish_exit_animation</item>
     </style>
 
     <style name="AppTheme.MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">

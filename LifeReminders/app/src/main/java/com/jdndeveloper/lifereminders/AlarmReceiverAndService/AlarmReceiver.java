@@ -82,18 +82,21 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Storage.getInstance().replaceAbstractBaseEvent(n);
 
                 //delete notification if it is one time and the setting is enabled for that
-                if (Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4).isEnabled()
-                        && (!n.isRepeatDaysEnabled() && !n.isRepeatEveryBlankDaysEnabled())) {
+                if ((Storage.getInstance().getOption(Constants.OPTION_TEST_KEY4).isEnabled()
+                        && (!n.isRepeatDaysEnabled() && !n.isRepeatEveryBlankDaysEnabled()))) {
+
                     Storage.getInstance().deleteAbstractBaseEvent(n);
 
                     //If main is open we will relaunch to ensure that notification is removed
                     if (VisibilityManager.getIsVisible()) {
-                        Intent mainIntent = new Intent(context, MainActivity.class);
-                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(mainIntent);
+                        launchMain(context);
                     }
 
+                } else if (VisibilityManager.getIsNotificationActivityVisible()) {
+                    //if notification is being viewed, refresh in case something has changed
+                    launchMain(context);
                 }
+
                     //COMMENTED OUT DELETE TEST NOTIFICATION CODE
                     //Storage.getInstance().deleteAbstractBaseEvent(n);
                     // This is the proper way to use delete/commit/replace - please follow this example - john
@@ -128,5 +131,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
 
+    }
+
+    private void launchMain(Context context) {
+        Intent mainIntent = new Intent(context, MainActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(mainIntent);
     }
 }

@@ -5,13 +5,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -35,9 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -51,18 +47,14 @@ import com.jdndeveloper.lifereminders.EventTypes.Lifestyle;
 import com.jdndeveloper.lifereminders.EventTypes.Notification;
 import com.jdndeveloper.lifereminders.EventTypes.Option;
 import com.jdndeveloper.lifereminders.EventTypes.Reminder;
-import com.jdndeveloper.lifereminders.Tests.GsonTester;
-import com.jdndeveloper.lifereminders.Tests.NotificationStorageTester;
 import com.jdndeveloper.lifereminders.Tests.NotificationTester;
 import com.jdndeveloper.lifereminders.Tests.SprintPresentationTester;
 import com.jdndeveloper.lifereminders.adapter.LifestyleAdapter;
 import com.jdndeveloper.lifereminders.adapter.NotificationAdapter;
 import com.jdndeveloper.lifereminders.adapter.ReminderAdapter;
-import com.jdndeveloper.lifereminders.interfaces.StorageInterface;
 import com.jdndeveloper.lifereminders.storage.SharedStorage;
 import com.jdndeveloper.lifereminders.storage.Storage;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -220,6 +212,7 @@ public class MainActivity extends ActionBarActivity
         Intent lifestyleIntent = new Intent(context, LifestyleActivity.class);
         lifestyleIntent.putExtra("Lifestyle", lifestyle);
         startActivity(lifestyleIntent);
+        overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
     }
 
     private void loadReminder(Reminder reminder) {
@@ -227,6 +220,7 @@ public class MainActivity extends ActionBarActivity
         Intent reminderIntent = new Intent(context, ReminderActivity.class);
         reminderIntent.putExtra("Reminder", reminder);
         startActivity(reminderIntent);
+        overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
     }
 
     public void buttonclickplus(View v) {
@@ -528,6 +522,7 @@ public class MainActivity extends ActionBarActivity
 
                             lifestyleIntent.putExtra("Lifestyle", lifestyle);
                             startActivity(lifestyleIntent);
+                            getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                             break;
                         //Go To Reminder Activity
                         case 2:
@@ -540,6 +535,7 @@ public class MainActivity extends ActionBarActivity
 
                             reminderIntent.putExtra("Reminder", reminder);
                             startActivity(reminderIntent);
+                            getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                             break;
                         //Go To Notification Activity
                         case 3:
@@ -557,6 +553,7 @@ public class MainActivity extends ActionBarActivity
 
                             notificationIntent.putExtra("Notification", notification);
                             startActivity(notificationIntent);
+                            getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                             break;
                         default:
                             Toast.makeText(context,"Not a Proper Type of Abstract BAse Event",Toast.LENGTH_SHORT);
@@ -1029,6 +1026,7 @@ public class MainActivity extends ActionBarActivity
         //notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationIntent.putExtra("Notification", notification);
         activity.startActivity(notificationIntent);
+        activity.overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
     }
 
     private static boolean isInFront;

@@ -19,6 +19,7 @@ import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -502,12 +503,14 @@ public class NotificationActivity extends ActionBarActivity {
     public void onPause() {
         super.onPause();
         VisibilityManager.setIsVisible(false);
+        VisibilityManager.setIsNotificationActivityVisible(false);
     }
 
     @Override
     public void onResume(){
         super.onResume();
         VisibilityManager.setIsVisible(true);
+        VisibilityManager.setIsNotificationActivityVisible(true);
     }
 
     public static class DatePickerFragment extends DialogFragment
@@ -614,9 +617,22 @@ public class NotificationActivity extends ActionBarActivity {
         switch (id) {
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        Log.e("NotificationActivity", "Got to onKeyDown");
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+        return true;
     }
 
     //Changes status bar color if using API 21 or above
