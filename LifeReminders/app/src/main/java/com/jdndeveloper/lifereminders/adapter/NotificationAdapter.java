@@ -63,6 +63,8 @@ public class NotificationAdapter extends ArrayAdapter{
 
         theSwitch.setOnCheckedChangeListener(null);
 
+        setEverythingEnabled(theSwitch, rowTextView, containerReminder
+                , repeatText, alarmTypeText);
 
 
         Calendar time = notifications.get(position).getTime();
@@ -107,8 +109,6 @@ public class NotificationAdapter extends ArrayAdapter{
 
         theSwitch.setChecked(notifications.get(position).isEnabled());
 
-        setEverythingEnabled(theSwitch, rowTextView, containerReminder
-                , repeatText, alarmTypeText);
 
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
