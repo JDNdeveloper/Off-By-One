@@ -162,7 +162,7 @@ public class ReminderActivity extends ActionBarActivity {
                 notificationIntent.putExtra("Notification", notification);
                 notificationIntent.putExtra("startingPoint",startingPoint);
                 startActivity(notificationIntent);
-                overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+                //overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
             }
         });
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -274,7 +274,7 @@ public class ReminderActivity extends ActionBarActivity {
         switch (id) {
             case android.R.id.home:
                 finish();
-                overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+                //overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         }
 
         return super.onOptionsItemSelected(item);
@@ -286,7 +286,7 @@ public class ReminderActivity extends ActionBarActivity {
         Log.e("ReminderActivity", "Got to onKeyDown");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
-            overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+            //overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         } else {
             return super.onKeyDown(keyCode, event);
         }
@@ -456,7 +456,7 @@ public class ReminderActivity extends ActionBarActivity {
             notificationIntent.putExtra("Notification", notification);
 
             startActivity(notificationIntent);
-            getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+            //getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
         }
     }
 
@@ -547,7 +547,7 @@ public class ReminderActivity extends ActionBarActivity {
 
                             notification.setAlarm(context);
                             startActivity(notificationIntent);
-                            getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+                            //getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -623,7 +623,7 @@ public class ReminderActivity extends ActionBarActivity {
 
 
                         startActivity(notificationIntent);
-                        getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
+                        //getActivity().overridePendingTransition(R.anim.start_enter_animation, R.anim.start_exit_animation);
                     }catch(NumberFormatException e){
                         //This Toast will stay in final product
                         Toast.makeText(context,"Not a Number",Toast.LENGTH_SHORT).show();

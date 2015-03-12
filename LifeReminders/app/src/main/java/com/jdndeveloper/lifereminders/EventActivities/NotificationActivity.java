@@ -617,7 +617,7 @@ public class NotificationActivity extends ActionBarActivity {
         switch (id) {
             case android.R.id.home:
                 finish();
-                overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+                //overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         }
 
         return super.onOptionsItemSelected(item);
@@ -628,7 +628,7 @@ public class NotificationActivity extends ActionBarActivity {
         Log.e("NotificationActivity", "Got to onKeyDown");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
-            overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
+            //overridePendingTransition(R.anim.finish_enter_animation, R.anim.finish_exit_animation);
         } else {
             return super.onKeyDown(keyCode, event);
         }
