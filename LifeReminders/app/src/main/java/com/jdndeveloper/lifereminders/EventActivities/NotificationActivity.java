@@ -285,7 +285,13 @@ public class NotificationActivity extends ActionBarActivity {
                 minutes = "0" + minutes;
             }
 
-            timeText.setText(Integer.toString(time.get(Calendar.HOUR))
+            String hour = Integer.toString(time.get(Calendar.HOUR));
+
+            if (hour.equals("0")) {
+                hour = "12";
+            }
+
+            timeText.setText(hour
                     + ":" + minutes
                     + " " + amPM);
 

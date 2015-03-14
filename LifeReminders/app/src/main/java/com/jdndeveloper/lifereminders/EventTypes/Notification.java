@@ -66,11 +66,11 @@ public class Notification extends AbstractBaseEvent {
     public Calendar makeNextNotificationTime(Context context) {
 
         if (repeatDaysEnabled) {
-            do {
-                calendar.add(Calendar.DATE, 1);
-            } while (!repeatDays.contains(calendar.get(Calendar.DAY_OF_WEEK)));
+            makeNextRepeatDays();
         } else if (repeatEveryBlankDaysEnabled) {
-            calendar.add(Calendar.DATE, repeatEveryBlankDays);
+            makeNextRepeatEveryBlankDays();
+        } else {
+            return calendar;
         }
 
         this.setAlarm(context);
@@ -224,30 +224,20 @@ public class Notification extends AbstractBaseEvent {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         //set proper time for alarm
-        long current = calendar.getTimeInMillis();
+        //long current = calendar.getTimeInMillis();
 
         if (this.isRepeatDaysEnabled()) {
-            calendar.set(Calendar.DATE, rightNow.get(Calendar.DATE) - 1);
+            setupRepeatDays(rightNow);
+
         } else if (this.isRepeatEveryBlankDaysEnabled()) {
-            while (calendar.getTimeInMillis() > rightNow.getTimeInMillis()) {
-                calendar.add(Calendar.DATE, -getRepeatEveryBlankDays());
-            }
+            setupRepeatEveryBlankDays(rightNow);
         }
 
         while (calendar.getTimeInMillis() < rightNow.getTimeInMillis()) {
-            if (this.isRepeatEveryBlankDaysEnabled() || this.isRepeatDaysEnabled()) {
-                if (repeatDaysEnabled) {
-                    do {
-                        calendar.add(Calendar.DATE, 1);
-                    } while (!repeatDays.contains(calendar.get(Calendar.DAY_OF_WEEK)));
-                } else if (repeatEveryBlankDaysEnabled) {
-                    calendar.add(Calendar.DATE, repeatEveryBlankDays);
-                }
-
-                if (current == calendar.getTimeInMillis()) // meaning nothing has changed
-                    break;
-
-                current = calendar.getTimeInMillis();
+            if (repeatDaysEnabled) {
+                makeNextRepeatDays();
+            } else if (repeatEveryBlankDaysEnabled) {
+                makeNextRepeatEveryBlankDays();
             } else {
                 return;
             }
@@ -265,6 +255,39 @@ public class Notification extends AbstractBaseEvent {
         //if (!this.isRepeatEveryBlankDaysEnabled() && !this.isRepeatDaysEnabled()) {
             //calendar.set(Calendar.YEAR, 2000); //set the time firmly in the past to avoid using it again
         //}
+    }
+
+    private void setupRepeatEveryBlankDays(Calendar rightNow) {
+        while (calendar.getTimeInMillis() > rightNow.getTimeInMillis()) {
+            //subtracts in one day increments
+            for (int i = 0; i < repeatEveryBlankDays; i++) {
+                calendar.add(Calendar.DATE, -1); //sets one day back
+            }
+        }
+    }
+
+    private void setupRepeatDays(Calendar rightNow) {
+
+        Calendar newCalendar = (Calendar) rightNow.clone();
+
+        newCalendar.add(Calendar.DATE, -1); // sets one day back
+
+        newCalendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+        newCalendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+        calendar = (Calendar) newCalendar.clone();
+    }
+
+    private void makeNextRepeatDays() {
+        do {
+            calendar.add(Calendar.DATE, 1);
+        } while (!repeatDays.contains(calendar.get(Calendar.DAY_OF_WEEK)));
+    }
+
+    private void makeNextRepeatEveryBlankDays() {
+        for (int i = 0; i < repeatEveryBlankDays; i++) {
+            calendar.add(Calendar.DATE, 1);
+        }
     }
 
     public String getActionKey() {
