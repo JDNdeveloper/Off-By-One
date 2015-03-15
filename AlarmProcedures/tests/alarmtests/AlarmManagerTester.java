@@ -51,14 +51,14 @@ public class AlarmManagerTester {
     @Test
     //still needs to be implemented
     public void setupRepeatDays() {
-        System.out.println(TAG + "testing makeNextRepeatDays()");
-
+        AlarmManager alarmManager = new AlarmManager();
         Calendar rightNow = Calendar.getInstance();
         Calendar correctCalendar = Calendar.getInstance();
+        ArrayList<Integer> repeatDays = new ArrayList<Integer>();
 
-        AlarmManager alarmManager = new AlarmManager();
+        runRepeatDaysSetup(alarmManager, rightNow, correctCalendar, repeatDays);
 
-
+        simulateDays(NUMBER_OF_DAYS, Procedure.SETUP_REPEAT_DAYS, alarmManager, rightNow, correctCalendar);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class AlarmManagerTester {
 
                 break;
             case SETUP_REPEAT_DAYS:
-                //not yet implemented
+                setupDayRepeatDays(alarmManager, randomDayOffsetCalendar);
 
                 break;
             case SETUP_REPEAT_BLANK:
@@ -212,14 +212,15 @@ public class AlarmManagerTester {
 
         switch (correctProcedure) {
             case SETUP_REPEAT_DAYS:
-                //not yet implemented
+                assertTrue(correctProcedure.name() + buildCalendarString(correctCalendar, alarmManager.getCalendar()),
+                        correctCalendar.getTimeInMillis() > alarmManager.getCalendar().getTimeInMillis());
                 break;
             case SETUP_REPEAT_BLANK:
-                assertTrue(correctProcedure.name() + "\n\n" + buildCalendarString(correctCalendar, alarmManager.getCalendar()),
+                assertTrue(correctProcedure.name() + buildCalendarString(correctCalendar, alarmManager.getCalendar()),
                         correctCalendar.getTimeInMillis() > alarmManager.getCalendar().getTimeInMillis());
                 break;
             default:
-                assertEquals(correctProcedure.name() + "\n\n" + buildCalendarString(correctCalendar, alarmManager.getCalendar()),
+                assertEquals(correctProcedure.name() + buildCalendarString(correctCalendar, alarmManager.getCalendar()),
                         correctCalendar, alarmManager.getCalendar());
         }
 
@@ -241,7 +242,7 @@ public class AlarmManagerTester {
 
                 break;
             case SETUP_REPEAT_DAYS:
-                //not yet implemented
+                finishDayRepeatDays(currentDayOfWeek, correctCalendar);
 
                 break;
             case SETUP_REPEAT_BLANK:
