@@ -3,7 +3,6 @@ Off-By-One: Life Reminders Android App
 
 **Authors:** Jayden Navarro, John Gemignani, Josh Innis, Kevin Cheng, Alexander Gonzalez
 
-=============
 
 ## Description:
 An Android reminders app with a unique design. There are Lifestyles which are a collection of reminders. 
