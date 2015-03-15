@@ -95,6 +95,8 @@ public class AlarmManagerTester {
         simulateSevenDays(alarmManager, Procedure.MAKE_REPEAT_BLANK, rightNow, correctCalendar);
     }
 
+    //START of setup code, this code sets up the variables before the day simulations
+
     public void runRepeatDaysSetup(AlarmManager alarmManager, Calendar rightNow, Calendar correctCalendar,
                                    ArrayList<Integer> repeatDays) {
 
@@ -113,6 +115,8 @@ public class AlarmManagerTester {
 
         alarmManager.setRepeatEveryBlankDaysEnabled(true);
     }
+
+    //END of setup code
 
     //START of Seven Day Simulation for Repeat Blank
 
