@@ -265,6 +265,7 @@ public class AlarmManagerTester {
     }
 
     public void finishDayRepeatBlank(int day, AlarmManager alarmManager, Calendar correctCalendar) {
+        //if the current day is when the alarm is supposed to go off, set correct day to the next proper day
         if ((day-1) % alarmManager.getRepeatEveryBlankDays() == 0) {
             addDaysToCalendar(correctCalendar, alarmManager.getRepeatEveryBlankDays());
         }
