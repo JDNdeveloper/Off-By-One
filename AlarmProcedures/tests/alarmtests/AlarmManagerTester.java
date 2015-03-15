@@ -14,6 +14,10 @@ public class AlarmManagerTester {
 
     private final static String TAG = "AlarmManagerTester: ";
 
+    private final int NUMBER_OF_DAYS = 10000;
+    private final int LOWER_OFFSET = -50;
+    private final int UPPER_OFFSET = 50;
+
     private final Random random = new Random();
 
     private enum Procedure {SET_REPEAT_DAYS, SET_REPEAT_BLANK, SETUP_REPEAT_DAYS, SETUP_REPEAT_BLANK, MAKE_REPEAT_DAYS, MAKE_REPEAT_BLANK}
@@ -22,104 +26,30 @@ public class AlarmManagerTester {
 
     @Test
     public void setAlarmRepeatDays() {
-        System.out.println(TAG + "testing setAlarm()");
-
+        AlarmManager alarmManager = new AlarmManager();
         Calendar rightNow = Calendar.getInstance();
         Calendar correctCalendar = Calendar.getInstance();
+        ArrayList<Integer> repeatDays = new ArrayList<Integer>();
 
-        AlarmManager alarmManager = new AlarmManager();
+        runRepeatDaysSetup(alarmManager, rightNow, correctCalendar, repeatDays);
 
-        //Mon Tue Fri testing
-        ArrayList<Integer> repeatDays = new ArrayList<Integer>(Arrays.asList(Calendar.MONDAY, Calendar.TUESDAY, Calendar.FRIDAY));
-
-        alarmManager.setRepeatDays(repeatDays);
-        alarmManager.setRepeatDaysEnabled(true);
-
-        correctCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        alarmManager.setCalendar((Calendar) correctCalendar.clone());
-
-        rightNow.setTimeInMillis(correctCalendar.getTimeInMillis());
-
-        rightNow.set(Calendar.HOUR_OF_DAY, 3);
-        rightNow.set(Calendar.MINUTE, 20);
-
-        //correctCalendar.set(Calendar.HOUR_OF_DAY, 3);
-        //correctCalendar.set(Calendar.MINUTE, 20);
-
-        for (int day = 0; day < 10000; day++) {
-            //alarmManager.setCalendar(correctCalendar);
-
-            Calendar randomDayOffsetCalendar = getOffsetCalendar(alarmManager.getCalendar(), -5000, 5000, 1);
-
-            alarmManager.setCalendar(randomDayOffsetCalendar);
-
-            //rightNow.setTimeInMillis(correctCalendar.getTimeInMillis());
-
-            alarmManager.setAlarm(rightNow);
-
-            assertEquals(buildCalendarString(correctCalendar, alarmManager.getCalendar()), correctCalendar, alarmManager.getCalendar());
-
-            int currentDayOfWeek = rightNow.get(Calendar.DAY_OF_WEEK);
-            if (currentDayOfWeek == Calendar.MONDAY || currentDayOfWeek == Calendar.TUESDAY || currentDayOfWeek == Calendar.FRIDAY)
-                assertTrue(TAG + "set to incorrect date", setToProperDay(correctCalendar));
-
-            addDaysToCalendar(rightNow, 1);
-        }
-        //alarmManager.setAlarm();
-
-        //assertTrue(TAG + "set alarm failed", alarmManager.getCalendar().getTimeInMillis() == correctCalendar.getTimeInMillis());
+        simulateDays(NUMBER_OF_DAYS, Procedure.SET_REPEAT_DAYS, alarmManager, rightNow, correctCalendar);
     }
 
     @Test
     public void setAlarmRepeatEveryBlankDays() {
+        AlarmManager alarmManager = new AlarmManager();
         Calendar rightNow = Calendar.getInstance();
         Calendar correctCalendar = Calendar.getInstance();
 
-        AlarmManager alarmManager = new AlarmManager();
+        runRepeatBlankSetup(alarmManager, rightNow, correctCalendar);
 
-        //repeat every 1, 2, 3, 4, 5, 6, 7 days testing
-        alarmManager = new AlarmManager();
-
-        alarmManager.setRepeatEveryBlankDaysEnabled(true);
-
-
-        for (int repeatInterval = 1; repeatInterval <= 7; repeatInterval++) {
-            alarmManager.setRepeatEveryBlankDays(repeatInterval);
-
-            correctCalendar = Calendar.getInstance();
-            alarmManager.setCalendar((Calendar) correctCalendar.clone());
-
-            String initialDates = "\n\n";
-
-            initialDates += "Expected First Date: " + correctCalendar.get(Calendar.DAY_OF_YEAR);
-            initialDates += "\nActual First Date: " + alarmManager.getCalendar().get(Calendar.DAY_OF_YEAR);
-
-            //initialDates += "\n\n";
-
-            for (int day = 0; day < 10000; day++) {
-                Calendar randomDayOffsetCalendar = getOffsetCalendar(alarmManager.getCalendar(), -50, 50, alarmManager.getRepeatEveryBlankDays());
-
-                alarmManager.setCalendar(randomDayOffsetCalendar);
-
-                rightNow.setTimeInMillis(correctCalendar.getTimeInMillis());
-
-                rightNow.set(Calendar.HOUR_OF_DAY, 3);
-                rightNow.set(Calendar.MINUTE, 20);
-
-                alarmManager.setAlarm(rightNow);
-
-                assertEquals(initialDates + "\n\nRepeat every: " + alarmManager.getRepeatEveryBlankDays() + "\nDay: " + day +
-                        buildCalendarString(correctCalendar, alarmManager.getCalendar()), correctCalendar, alarmManager.getCalendar());
-
-                addDaysToCalendar(correctCalendar, alarmManager.getRepeatEveryBlankDays());
-            }
-        }
-
-
-
+        simulateSevenDays(alarmManager, Procedure.SET_REPEAT_BLANK, rightNow, correctCalendar);
     }
 
+
     @Test
+    //still needs to be implemented
     public void setupRepeatDays() {
         System.out.println(TAG + "testing makeNextRepeatDays()");
 
@@ -133,88 +63,42 @@ public class AlarmManagerTester {
 
     @Test
     public void setupRepeatEveryBlankDays() {
-        System.out.println(TAG + "testing makeNextRepeatDays()");
-
+        AlarmManager alarmManager = new AlarmManager();
         Calendar rightNow = Calendar.getInstance();
         Calendar correctCalendar = Calendar.getInstance();
 
-        AlarmManager alarmManager = new AlarmManager();
+        runRepeatBlankSetup(alarmManager, rightNow, correctCalendar);
 
-        alarmManager.setRepeatEveryBlankDaysEnabled(true);
-
-
-
-        for (int repeatInterval = 1; repeatInterval <= 7; repeatInterval++) {
-            alarmManager.setRepeatEveryBlankDays(repeatInterval);
-
-            correctCalendar = Calendar.getInstance();
-            alarmManager.setCalendar((Calendar) correctCalendar.clone());
-
-            for (int day = 0; day < 10000; day++) {
-                Calendar randomDayOffsetCalendar = getOffsetCalendar(alarmManager.getCalendar(), -50, 50, alarmManager.getRepeatEveryBlankDays());
-
-                alarmManager.setCalendar(randomDayOffsetCalendar);
-
-                rightNow.setTimeInMillis(correctCalendar.getTimeInMillis());
-
-                rightNow.set(Calendar.HOUR_OF_DAY, 3);
-                rightNow.set(Calendar.MINUTE, 20);
-
-                alarmManager.setupRepeatEveryBlankDays(rightNow);
-
-                assertTrue("\n\nRepeat every: " + alarmManager.getRepeatEveryBlankDays() + "\nDay: " + day +
-                        buildCalendarString(correctCalendar, alarmManager.getCalendar()), correctCalendar.getTimeInMillis() > alarmManager.getCalendar().getTimeInMillis());
-
-                addDaysToCalendar(correctCalendar, alarmManager.getRepeatEveryBlankDays());
-            }
-        }
-
-
-
-        /*
-        alarmManager.setRepeatEveryBlankDays(3);
-
-        correctCalendar = Calendar.getInstance();
-        alarmManager.setCalendar((Calendar) correctCalendar.clone());
-
-        Calendar randomDayOffsetCalendar = (Calendar) alarmManager.getCalendar().clone();
-
-        //sets day to plus or minus 20
-        int randomDayOffset = randInt(-5000, 5000);
-
-        addDaysToCalendar(randomDayOffsetCalendar, randomDayOffset);
-
-        alarmManager.setCalendar(randomDayOffsetCalendar);
-
-        //addDaysToCalendar(correctCalendar, alarmManager.getRepeatEveryBlankDays());
-
-        rightNow.setTimeInMillis(correctCalendar.getTimeInMillis());
-
-        rightNow.set(Calendar.HOUR_OF_DAY, 3);
-        rightNow.set(Calendar.MINUTE, 20);
-
-        alarmManager.setupRepeatEveryBlankDays(rightNow);
-
-        System.out.println(buildCalendarString(rightNow, alarmManager.getCalendar()));
-
-        correctCalendar.set(Calendar.DATE, 11);
-
-        assertEquals(buildCalendarString(correctCalendar, alarmManager.getCalendar()),
-                correctCalendar, alarmManager.getCalendar());
-        */
+        simulateSevenDays(alarmManager, Procedure.SETUP_REPEAT_BLANK, rightNow, correctCalendar);
     }
 
     @Test
     public void makeNextRepeatDays() {
-        System.out.println(TAG + "testing makeNextRepeatDays()");
+        AlarmManager alarmManager = new AlarmManager();
+        Calendar rightNow = Calendar.getInstance();
+        Calendar correctCalendar = Calendar.getInstance();
+        ArrayList<Integer> repeatDays = new ArrayList<Integer>();
 
+        runRepeatDaysSetup(alarmManager, rightNow, correctCalendar, repeatDays);
+
+        simulateDays(NUMBER_OF_DAYS, Procedure.MAKE_REPEAT_DAYS, alarmManager, rightNow, correctCalendar);
+    }
+
+    @Test
+    public void makeNextRepeatEveryBlankDays() {
+        AlarmManager alarmManager = new AlarmManager();
         Calendar rightNow = Calendar.getInstance();
         Calendar correctCalendar = Calendar.getInstance();
 
-        AlarmManager alarmManager = new AlarmManager();
+        runRepeatBlankSetup(alarmManager, rightNow, correctCalendar);
 
-        //Mon Tue Fri testing
-        ArrayList<Integer> repeatDays = new ArrayList<Integer>(Arrays.asList(Calendar.MONDAY, Calendar.TUESDAY, Calendar.FRIDAY));
+        simulateSevenDays(alarmManager, Procedure.MAKE_REPEAT_BLANK, rightNow, correctCalendar);
+    }
+
+    public void runRepeatDaysSetup(AlarmManager alarmManager, Calendar rightNow, Calendar correctCalendar,
+                                   ArrayList<Integer> repeatDays) {
+
+        repeatDays = new ArrayList<Integer>(Arrays.asList(Calendar.MONDAY, Calendar.TUESDAY, Calendar.FRIDAY));
 
         alarmManager.setRepeatDays(repeatDays);
         alarmManager.setRepeatDaysEnabled(true);
@@ -222,58 +106,200 @@ public class AlarmManagerTester {
         correctCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         alarmManager.setCalendar((Calendar) correctCalendar.clone());
 
-        for (int day = 0; day < 10000; day++) {
-
-            assertTrue(TAG + "set to incorrect date", setToProperDay(correctCalendar));
-
-            rightNow.setTimeInMillis(correctCalendar.getTimeInMillis());
-
-            rightNow.set(Calendar.HOUR_OF_DAY, 3);
-            rightNow.set(Calendar.MINUTE, 20);
-
-            alarmManager.makeNextNotificationTime(rightNow);
-
-            assertEquals(buildCalendarString(correctCalendar, alarmManager.getCalendar()), correctCalendar, alarmManager.getCalendar());
-        }
+        rightNow.setTimeInMillis(correctCalendar.getTimeInMillis());
     }
 
-    @Test
-    public void makeNextRepeatEveryBlankDays() {
-        System.out.println(TAG + "testing makeNextRepeatEveryBlankDays()");
-
-        Calendar rightNow = Calendar.getInstance();
-        Calendar correctCalendar = Calendar.getInstance();
-
-        AlarmManager alarmManager = new AlarmManager();
-
-        //repeat every 1, 2, 3, 4, 5, 6, 7 days testing
-        alarmManager = new AlarmManager();
+    public void runRepeatBlankSetup(AlarmManager alarmManager, Calendar rightNow, Calendar correctCalendar) {
 
         alarmManager.setRepeatEveryBlankDaysEnabled(true);
+    }
 
-        correctCalendar = Calendar.getInstance();
-        alarmManager.setCalendar((Calendar) correctCalendar.clone());
+    //START of Seven Day Simulation for Repeat Blank
 
-        for (int dayOfWeek = 1; dayOfWeek <= 7; dayOfWeek++) {
-            alarmManager.setRepeatEveryBlankDays(dayOfWeek);
-            for (int day = 0; day < 10000; day++) {
+    public void simulateSevenDays(AlarmManager alarmManager, Procedure correctProcedure, Calendar rightNow, Calendar correctCalendar) {
 
-                for (int i = 0; i < alarmManager.getRepeatEveryBlankDays(); i++) {
-                    correctCalendar.add(Calendar.DATE, 1);
-                }
+        for (int repeatInterval = 1; repeatInterval <= 7; repeatInterval++) {
+            alarmManager.setRepeatEveryBlankDays(repeatInterval);
 
+            correctCalendar = Calendar.getInstance();
+            rightNow = Calendar.getInstance();
+            alarmManager.setCalendar((Calendar) correctCalendar.clone());
 
-                rightNow.setTimeInMillis(correctCalendar.getTimeInMillis());
-
-                rightNow.set(Calendar.HOUR_OF_DAY, 3);
-                rightNow.set(Calendar.MINUTE, 20);
-
-                alarmManager.makeNextNotificationTime(rightNow);
-
-                assertEquals(buildCalendarString(correctCalendar, alarmManager.getCalendar()), correctCalendar, alarmManager.getCalendar());
-            }
+            simulateDays(NUMBER_OF_DAYS, correctProcedure, alarmManager, rightNow, correctCalendar);
         }
     }
+
+    //END of Seven Day Simulation for Repeat Blank
+
+
+    //START of day simulation methods
+
+    public boolean simulateDays(int numberOfDays, Procedure correctProcedure, AlarmManager alarmManager,
+                                Calendar rightNow, Calendar correctCalendar) {
+
+        //sets up the rightNow hour and minute
+        rightNow.set(Calendar.HOUR_OF_DAY, 3);
+        rightNow.set(Calendar.MINUTE, 20);
+
+        Calendar randomDayOffsetCalendar = null;
+
+        for (int day = 1; day <= numberOfDays; day++) {
+            assertTrue("setupDay: " + day, setupDay(correctProcedure, alarmManager, randomDayOffsetCalendar)); //setup offset and other things
+
+            assertTrue("runDay: " + day, runDay(correctProcedure, alarmManager, rightNow, correctCalendar)); //run procedure and check to see if it matches the correctCalendar
+
+            assertTrue("finishDay: " + day, finishDay(correctProcedure, alarmManager, rightNow, correctCalendar, day)); //increment the day (rightNow) and also move correctCalendar to next correct day
+        }
+
+        return true;
+    }
+
+    //start of setup day code
+
+    public boolean setupDay(Procedure correctProcedure, AlarmManager alarmManager, Calendar randomDayOffsetCalendar) {
+        switch(correctProcedure) {
+            case SET_REPEAT_DAYS:
+                setupDayRepeatDays(alarmManager, randomDayOffsetCalendar);
+
+                break;
+            case SET_REPEAT_BLANK:
+                setupDayRepeatBlank(alarmManager, randomDayOffsetCalendar);
+
+                break;
+            case SETUP_REPEAT_DAYS:
+                //not yet implemented
+
+                break;
+            case SETUP_REPEAT_BLANK:
+                setupDayRepeatBlank(alarmManager, randomDayOffsetCalendar);
+
+                break;
+            case MAKE_REPEAT_DAYS:
+                //no setup required
+
+                break;
+            case MAKE_REPEAT_BLANK:
+                //no setup required
+
+                break;
+            default:
+                return false;
+        }
+
+        return true;
+    }
+
+    public void setupDayRepeatDays(AlarmManager alarmManager, Calendar randomDayOffsetCalendar) {
+        randomDayOffsetCalendar = getOffsetCalendar(alarmManager.getCalendar(), LOWER_OFFSET, UPPER_OFFSET, 1);
+
+        alarmManager.setCalendar(randomDayOffsetCalendar);
+    }
+
+    public void setupDayRepeatBlank(AlarmManager alarmManager, Calendar randomDayOffsetCalendar) {
+        randomDayOffsetCalendar = getOffsetCalendar(alarmManager.getCalendar(), LOWER_OFFSET, UPPER_OFFSET, alarmManager.getRepeatEveryBlankDays());
+
+        alarmManager.setCalendar(randomDayOffsetCalendar);
+    }
+
+    //end of setup day code
+
+    public boolean runDay(Procedure correctProcedure, AlarmManager alarmManager, Calendar rightNow, Calendar correctCalendar) {
+        runCorrectProcedure(correctProcedure, alarmManager, rightNow);
+
+        switch (correctProcedure) {
+            case SETUP_REPEAT_DAYS:
+                //not yet implemented
+                break;
+            case SETUP_REPEAT_BLANK:
+                assertTrue(correctProcedure.name() + "\n\n" + buildCalendarString(correctCalendar, alarmManager.getCalendar()),
+                        correctCalendar.getTimeInMillis() > alarmManager.getCalendar().getTimeInMillis());
+                break;
+            default:
+                assertEquals(correctProcedure.name() + "\n\n" + buildCalendarString(correctCalendar, alarmManager.getCalendar()),
+                        correctCalendar, alarmManager.getCalendar());
+        }
+
+        return true;
+    }
+
+    //start of finish day code
+
+    public boolean finishDay(Procedure correctProcedure, AlarmManager alarmManager, Calendar rightNow, Calendar correctCalendar, int day) {
+        int currentDayOfWeek = rightNow.get(Calendar.DAY_OF_WEEK);
+
+        switch (correctProcedure) {
+            case SET_REPEAT_DAYS:
+                finishDayRepeatDays(currentDayOfWeek, correctCalendar);
+
+                break;
+            case SET_REPEAT_BLANK:
+                finishDayRepeatBlank(day, alarmManager, correctCalendar);
+
+                break;
+            case SETUP_REPEAT_DAYS:
+                //not yet implemented
+
+                break;
+            case SETUP_REPEAT_BLANK:
+                finishDayRepeatBlank(day, alarmManager, correctCalendar);
+
+                break;
+            case MAKE_REPEAT_DAYS:
+                finishDayRepeatDays(currentDayOfWeek, correctCalendar);
+
+                break;
+            case MAKE_REPEAT_BLANK:
+                finishDayRepeatBlank(day, alarmManager, correctCalendar);
+
+                break;
+        }
+
+        addDaysToCalendar(rightNow, 1);
+
+        return true;
+    }
+
+    public void finishDayRepeatDays(int currentDayOfWeek, Calendar correctCalendar) {
+        if (currentDayOfWeek == Calendar.MONDAY || currentDayOfWeek == Calendar.TUESDAY || currentDayOfWeek == Calendar.FRIDAY)
+            assertTrue(TAG + "set to incorrect date", setToProperDay(correctCalendar));
+    }
+
+    public void finishDayRepeatBlank(int day, AlarmManager alarmManager, Calendar correctCalendar) {
+        if ((day-1) % alarmManager.getRepeatEveryBlankDays() == 0) {
+            addDaysToCalendar(correctCalendar, alarmManager.getRepeatEveryBlankDays());
+        }
+    }
+
+    //end of finish day code
+
+    public boolean runCorrectProcedure(Procedure correctProcedure, AlarmManager alarmManager, Calendar rightNow) {
+        switch (correctProcedure) {
+            case SET_REPEAT_DAYS:
+                alarmManager.setAlarm(rightNow);
+                break;
+            case SET_REPEAT_BLANK:
+                alarmManager.setAlarm(rightNow);
+                break;
+            case SETUP_REPEAT_DAYS:
+                alarmManager.setupRepeatDays(rightNow);
+                break;
+            case SETUP_REPEAT_BLANK:
+                alarmManager.setupRepeatEveryBlankDays(rightNow);
+                break;
+            case MAKE_REPEAT_DAYS:
+                alarmManager.makeNextNotificationTime(rightNow);
+                break;
+            case MAKE_REPEAT_BLANK:
+                alarmManager.makeNextNotificationTime(rightNow);
+                break;
+            default:
+                return false;
+        }
+
+        return true;
+    }
+
+    //END of day simulation methods
 
     @Test
     public void calendarTester() {
@@ -333,38 +359,6 @@ public class AlarmManagerTester {
             default:
                 return -1;
         }
-    }
-
-
-    public void simulateDays(int numberOfDays, Procedure correctProcedure, AlarmManager alarmManager) {
-        //make Procedure enum type
-    }
-
-    public boolean runCorrectProcedure(Procedure correctProcedure, AlarmManager alarmManager, Calendar rightNow) {
-        switch (correctProcedure) {
-            case SET_REPEAT_DAYS:
-                alarmManager.setAlarm(rightNow);
-                break;
-            case SET_REPEAT_BLANK:
-
-                break;
-            case SETUP_REPEAT_DAYS:
-
-                break;
-            case SETUP_REPEAT_BLANK:
-
-                break;
-            case MAKE_REPEAT_DAYS:
-
-                break;
-            case MAKE_REPEAT_BLANK:
-
-                break;
-            default:
-                return false;
-        }
-
-        return true;
     }
 
 
