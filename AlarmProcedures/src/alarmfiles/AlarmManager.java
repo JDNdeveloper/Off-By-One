@@ -117,7 +117,7 @@ public class AlarmManager {
             return;
         }
 
-        setAlarm(rightNow);
+        //setAlarm(rightNow);
     }
 
 

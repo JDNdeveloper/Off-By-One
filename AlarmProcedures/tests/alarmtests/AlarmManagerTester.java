@@ -251,11 +251,14 @@ public class AlarmManagerTester {
                 break;
             case MAKE_REPEAT_DAYS:
                 finishDayRepeatDays(currentDayOfWeek, correctCalendar);
-
+                if (currentDayOfWeek == Calendar.MONDAY || currentDayOfWeek == Calendar.TUESDAY || currentDayOfWeek == Calendar.FRIDAY)
+                    alarmManager.makeNextNotificationTime(rightNow);
                 break;
             case MAKE_REPEAT_BLANK:
                 finishDayRepeatBlank(day, alarmManager, correctCalendar);
-
+                if ((day-1) % alarmManager.getRepeatEveryBlankDays() == 0) {
+                    alarmManager.makeNextNotificationTime(rightNow);
+                }
                 break;
         }
 
@@ -279,6 +282,8 @@ public class AlarmManagerTester {
     //end of finish day code
 
     public boolean runCorrectProcedure(Procedure correctProcedure, AlarmManager alarmManager, Calendar rightNow) {
+        int currentDayOfWeek = rightNow.get(Calendar.DAY_OF_WEEK);
+
         switch (correctProcedure) {
             case SET_REPEAT_DAYS:
                 alarmManager.setAlarm(rightNow);
@@ -293,10 +298,12 @@ public class AlarmManagerTester {
                 alarmManager.setupRepeatEveryBlankDays(rightNow);
                 break;
             case MAKE_REPEAT_DAYS:
-                alarmManager.makeNextNotificationTime(rightNow);
+                //procedure is run in finish to set to next correct day
+                //alarmManager.makeNextNotificationTime(rightNow);
                 break;
             case MAKE_REPEAT_BLANK:
-                alarmManager.makeNextNotificationTime(rightNow);
+                //procedure is run in finish to set to next correct day
+                //alarmManager.makeNextNotificationTime(rightNow);
                 break;
             default:
                 return false;

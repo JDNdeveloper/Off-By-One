@@ -65,6 +65,8 @@ public class Notification extends AbstractBaseEvent {
     //and returns it.
     public Calendar makeNextNotificationTime(Context context) {
 
+        if (!this.isEnabled()) return calendar;
+
         if (repeatDaysEnabled) {
             makeNextRepeatDays();
         } else if (repeatEveryBlankDaysEnabled) {
@@ -73,7 +75,7 @@ public class Notification extends AbstractBaseEvent {
             return calendar;
         }
 
-        this.setAlarm(context);
+        this.setAndroidAlarm(context);
 
         return calendar;
     }
@@ -204,27 +206,7 @@ public class Notification extends AbstractBaseEvent {
         Calendar rightNow = Calendar.getInstance();
 
         if (!this.isEnabled()) return;
-        //Setup the intent, it must be a pending intent
-        Intent myIntent = new Intent(context, AlarmReceiver.class);
 
-        myIntent.putExtra("NOTIF_KEY", this.getKey()); //Josh, use getExtras to retrieve this
-
-        Scanner in = new Scanner(this.getKey()).useDelimiter("[^0-9]+");
-        int requestID = in.nextInt();
-        Log.e("Notification", Integer.toString(requestID));
-
-
-        //cancels before setting again
-        //this.removeAlarm(context);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestID,
-                myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        //Create the AlarmManager
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        //set proper time for alarm
-        //long current = calendar.getTimeInMillis();
 
         if (this.isRepeatDaysEnabled()) {
             setupRepeatDays(rightNow);
@@ -244,17 +226,40 @@ public class Notification extends AbstractBaseEvent {
         }
 
 
-        //print the time that the alarm is schedule for
-        Log.i("Notification", "NotifKey: " + this.getKey() + " Time Alarm is set for: " + calendar.toString());
-
-        //Set the alarm
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        this.setAndroidAlarm(context);
 
         //cleanup
 
         //if (!this.isRepeatEveryBlankDaysEnabled() && !this.isRepeatDaysEnabled()) {
             //calendar.set(Calendar.YEAR, 2000); //set the time firmly in the past to avoid using it again
         //}
+    }
+
+    private void setAndroidAlarm(Context context) {
+        //Setup the intent, it must be a pending intent
+        Intent myIntent = new Intent(context, AlarmReceiver.class);
+
+        myIntent.putExtra("NOTIF_KEY", this.getKey()); //Josh, use getExtras to retrieve this
+
+        Scanner in = new Scanner(this.getKey()).useDelimiter("[^0-9]+");
+        int requestID = in.nextInt();
+        Log.e("Notification", Integer.toString(requestID));
+
+
+        //cancels before setting again
+        //this.removeAlarm(context);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestID,
+                myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        //Create the AlarmManager
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        //print the time that the alarm is schedule for
+        Log.i("Notification", "NotifKey: " + this.getKey() + " Time Alarm is set for: " + calendar.toString());
+
+        //Set the alarm
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     private void setupRepeatEveryBlankDays(Calendar rightNow) {
