@@ -210,6 +210,8 @@ public class AlarmManagerTester {
     public boolean runDay(Procedure correctProcedure, AlarmManager alarmManager, Calendar rightNow, Calendar correctCalendar) {
         runCorrectProcedure(correctProcedure, alarmManager, rightNow);
 
+        correctCalendar.set(Calendar.SECOND, 0);
+
         switch (correctProcedure) {
             case SETUP_REPEAT_DAYS:
                 assertTrue(correctProcedure.name() + buildCalendarString(correctCalendar, alarmManager.getCalendar()),
@@ -284,6 +286,8 @@ public class AlarmManagerTester {
     public boolean runCorrectProcedure(Procedure correctProcedure, AlarmManager alarmManager, Calendar rightNow) {
         int currentDayOfWeek = rightNow.get(Calendar.DAY_OF_WEEK);
 
+        Calendar tempCal = alarmManager.getCalendar();
+
         switch (correctProcedure) {
             case SET_REPEAT_DAYS:
                 alarmManager.setAlarm(rightNow);
@@ -298,10 +302,16 @@ public class AlarmManagerTester {
                 alarmManager.setupRepeatEveryBlankDays(rightNow);
                 break;
             case MAKE_REPEAT_DAYS:
+                //seconds are manually set since function isn't called
+                tempCal.set(Calendar.SECOND, 0);
+                alarmManager.setCalendar(tempCal);
                 //procedure is run in finish to set to next correct day
                 //alarmManager.makeNextNotificationTime(rightNow);
                 break;
             case MAKE_REPEAT_BLANK:
+                //seconds are manually set since function isn't called
+                tempCal.set(Calendar.SECOND, 0);
+                alarmManager.setCalendar(tempCal);
                 //procedure is run in finish to set to next correct day
                 //alarmManager.makeNextNotificationTime(rightNow);
                 break;
@@ -438,6 +448,11 @@ public class AlarmManagerTester {
 
         calendarString += "Expected Minute: " + expectedCalendar.get(Calendar.MINUTE) + "\n";
         calendarString += "Actual Minute: " + actualCalendar.get(Calendar.MINUTE) + "\n";
+
+        calendarString += "\n";
+
+        calendarString += "Expected Second: " + expectedCalendar.get(Calendar.SECOND) + "\n";
+        calendarString += "Actual Second: " + actualCalendar.get(Calendar.SECOND) + "\n";
 
         calendarString += "\n";
 

@@ -102,6 +102,8 @@ public class AlarmManager {
                 return;
             }
         }
+
+        setAndroidAlarm();
     }
 
 
@@ -117,6 +119,8 @@ public class AlarmManager {
             return;
         }
 
+
+        setAndroidAlarm();
         //setAlarm(rightNow);
     }
 
@@ -156,7 +160,9 @@ public class AlarmManager {
     }
 
 
-
+    private void setAndroidAlarm() {
+        calendar.set(Calendar.SECOND, 0);
+    }
 
     public Calendar getCalendar() {
         return calendar;
