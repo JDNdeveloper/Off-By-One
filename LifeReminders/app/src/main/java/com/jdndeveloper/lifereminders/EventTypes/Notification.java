@@ -258,6 +258,9 @@ public class Notification extends AbstractBaseEvent {
         //print the time that the alarm is schedule for
         Log.i("Notification", "NotifKey: " + this.getKey() + " Time Alarm is set for: " + calendar.toString());
 
+        //sets the seconds to 0 so alarm goes off as soon as the minute switches over
+        calendar.set(Calendar.SECOND, 0);
+
         //Set the alarm
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
