@@ -116,25 +116,8 @@ public class Notification extends AbstractBaseEvent {
         Scanner in = new Scanner(this.getKey()).useDelimiter("[^0-9]+");
         int requestID = in.nextInt();
 
-        String title = Storage.getInstance().getReminder(reminderContainerKey).getName();
-        String subTitle = Storage.getInstance().getLifestyle(lifestyleContainerKey).getName();
-
-        if (Storage.getInstance().getLifestyle(lifestyleContainerKey)
-                .getKey().equals(Constants.LIFESTYLE_FAILED_KEY))
-            subTitle = "";
-        else
-            subTitle = getRepeatText();
-
-        if (Storage.getInstance().getReminder(reminderContainerKey)
-                .getKey().equals(Constants.REMINDER_FAILED_KEY)) {
-            if (!isRepeatDaysEnabled() && !isRepeatEveryBlankDaysEnabled()) {
-                title = "One time Notification";
-                subTitle = getAlarmTypeText();
-            } else {
-                title = getRepeatText();
-                subTitle = getAlarmTypeText();
-            }
-        }
+        String title = buildTitle();
+        String subTitle = buildSubTitle();
 
         Storage.getInstance().getAction(this.getActionKey()).sendCorrectNotification(context,
                 title,
@@ -143,11 +126,62 @@ public class Notification extends AbstractBaseEvent {
                 reminderContainerKey);
     }
 
+    private String buildTitle() {
+        String title = Storage.getInstance().getReminder(reminderContainerKey).getName();
+
+        if (Storage.getInstance().getReminder(reminderContainerKey)
+                .getKey().equals(Constants.REMINDER_FAILED_KEY)) {
+            if (!isRepeatDaysEnabled() && !isRepeatEveryBlankDaysEnabled()) {
+                title = "One time Notification";
+            } else {
+                title = getRepeatText();
+            }
+        }
+
+        return title;
+    }
+
+    private String buildSubTitle() {
+        String subTitle = Storage.getInstance().getLifestyle(lifestyleContainerKey).getName();
+
+        if (Storage.getInstance().getReminder(reminderContainerKey)
+                .getKey().equals(Constants.REMINDER_FAILED_KEY)) {
+            if (!isRepeatDaysEnabled() && !isRepeatEveryBlankDaysEnabled()) {
+                subTitle = getRepeatText();
+            } else {
+                subTitle = getAlarmTypeText();
+            }
+        } else if (Storage.getInstance().getLifestyle(lifestyleContainerKey)
+                .getKey().equals(Constants.LIFESTYLE_FAILED_KEY)) {
+            subTitle = getRepeatText();
+        }
+
+        return subTitle;
+    }
+
+    private boolean isRepeatDaily() {
+        if (isRepeatEveryBlankDaysEnabled()) {
+            if (repeatEveryBlankDays == 1) return true;
+        } else if (isRepeatDaysEnabled()) {
+            if (repeatDays.contains(Calendar.MONDAY)
+                    && repeatDays.contains(Calendar.TUESDAY)
+                    && repeatDays.contains(Calendar.WEDNESDAY)
+                    && repeatDays.contains(Calendar.THURSDAY)
+                    && repeatDays.contains(Calendar.FRIDAY)
+                    && repeatDays.contains(Calendar.SATURDAY)
+                    && repeatDays.contains(Calendar.SUNDAY))
+                return true;
+        }
+
+        return false;
+    }
+
     private String getRepeatText() {
         //if (!n.isRepeating()) return "";
         String text = "";
-
-        if (this.isRepeatDaysEnabled()) {
+        if (this.isRepeatDaily()) {
+            text = "Repeat daily";
+        } else if (this.isRepeatDaysEnabled()) {
             text += getWeekDays(this.getRepeatDays());
         } else if (this.isRepeatEveryBlankDaysEnabled()) {
             text += "Repeat every " + this.getRepeatEveryBlankDays() + " days";

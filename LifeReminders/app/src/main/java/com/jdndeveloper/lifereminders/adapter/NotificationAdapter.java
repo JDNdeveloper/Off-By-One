@@ -197,7 +197,9 @@ public class NotificationAdapter extends ArrayAdapter{
         Calendar c = n.getTime();
         String text = "";
 
-        if (n.isRepeatDaysEnabled()) {
+        if (this.isRepeatDaily(n)) {
+            text = "Repeat daily";
+        } else if (n.isRepeatDaysEnabled()) {
             text += getWeekDays(n.getRepeatDays());
         } else if (n.isRepeatEveryBlankDaysEnabled()) {
             text += "Repeat every " + n.getRepeatEveryBlankDays() + " days";
@@ -206,6 +208,23 @@ public class NotificationAdapter extends ArrayAdapter{
         }
 
         return text;
+    }
+
+    private boolean isRepeatDaily(Notification n) {
+        if (n.isRepeatEveryBlankDaysEnabled()) {
+            if (n.getRepeatEveryBlankDays() == 1) return true;
+        } else if (n.isRepeatDaysEnabled()) {
+            if (n.getRepeatDays().contains(Calendar.MONDAY)
+                    && n.getRepeatDays().contains(Calendar.TUESDAY)
+                    && n.getRepeatDays().contains(Calendar.WEDNESDAY)
+                    && n.getRepeatDays().contains(Calendar.THURSDAY)
+                    && n.getRepeatDays().contains(Calendar.FRIDAY)
+                    && n.getRepeatDays().contains(Calendar.SATURDAY)
+                    && n.getRepeatDays().contains(Calendar.SUNDAY))
+                return true;
+        }
+
+        return false;
     }
 
     private String getAlarmTypeText(Notification n) {
